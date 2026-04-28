@@ -1,0 +1,35 @@
+﻿@model ModuloSST_HSLV.Models.PausaActiva
+@{ ViewBag.Title = "Detalle Pausa Activa"; }
+<h2 class="text-primary">Detalle — Pausa Activa</h2>
+<hr />
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title">Datos del Empleado</h3></div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-2"><strong>Cédula:</strong><br />@Model.Cedula</div>
+            <div class="col-md-4"><strong>Apellidos y Nombre:</strong><br />@Model.NombreCompleto</div>
+            <div class="col-md-2"><strong>Género:</strong><br />@Model.Genero</div>
+            <div class="col-md-2"><strong>Edad:</strong><br />@Model.Edad años</div>
+            <div class="col-md-2"><strong>Fecha Pausa:</strong><br />@Model.Fecha.ToString("dd/MM/yyyy")</div>
+        </div>
+        <div class="row" style="margin-top:10px">
+            <div class="col-md-4"><strong>Cargo:</strong><br />@Model.Cargo</div>
+            <div class="col-md-4"><strong>Contratista:</strong><br />@Model.Contratista</div>
+            <div class="col-md-4"><strong>Tiempo de Prestación (meses):</strong><br />@Model.TiempoPrestacion</div>
+        </div>
+        <div class="row" style="margin-top:10px">
+            <div class="col-md-6">
+                <strong>Proceso:</strong><br />
+                @(Model.Proceso != null ? Model.Proceso.NombreProceso : Model.IdProceso.ToString())
+            </div>
+            <div class="col-md-6">
+                <strong>Subproceso:</strong><br />
+                @(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : Model.IdSubproceso.ToString())
+            </div>
+        </div>
+    </div>
+</div>
+<a href="@Url.Action("Index", "PausaActiva")"
+   class="btn btn-default" style="border:2px solid #aaa; background:transparent;">
+    Ver listado
+</a>

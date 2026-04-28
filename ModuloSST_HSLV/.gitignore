@@ -1,0 +1,20 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Compilación
+bin/
+obj/
+
+# Paquetes NuGet (se restauran solos)
+packages/
+
+# Configuración de usuario local
+*.user
+*.userprefs
+
+# Uploads — PDFs del hospital (datos sensibles)
+Uploads/

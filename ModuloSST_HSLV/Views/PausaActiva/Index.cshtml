@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ModuloSST_HSLV.Models.PausaActiva>
+@{ ViewBag.Title = "Pausas Activas"; }
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="text-primary">Pausas Activas</h2>
+        <hr />
+        <p>
+            @Html.ActionLink("+ Registrar pausa activa", "Registrar", "PausaActiva",
+                null, new { @class = "btn btn-primary" })
+        </p>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr class="active">
+                        <th>#</th>
+                        <th>Cédula</th>
+                        <th>Apellidos y Nombre</th>
+                        <th>Cargo</th>
+                        <th>Proceso</th>
+                        <th>Fecha Pausa</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr><td colspan="7" class="text-center text-muted">No hay registros de pausas activas.</td></tr>
+                    }
+                    else
+                    {
+                        int i = 1;
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.Cedula</td>
+                                <td>@item.NombreCompleto</td>
+                                <td>@item.Cargo</td>
+                                <td>@(item.Proceso != null ? item.Proceso.NombreProceso : item.IdProceso.ToString())</td>
+                                <td>@item.Fecha.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    <a href="@Url.Action("Detalle", "PausaActiva", new { id = item.IdPausaActiva })"
+                                       class="btn btn-sm btn-success">Ver</a>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

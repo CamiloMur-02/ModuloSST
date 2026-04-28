@@ -1,0 +1,61 @@
+﻿@model IEnumerable<ModuloSST_HSLV.Models.InspeccionBioseguridad>
+@{ ViewBag.Title = "Inspecciones de Bioseguridad"; }
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="text-primary">Inspecciones de Bioseguridad</h2>
+        <hr />
+        <p>
+            @Html.ActionLink("+ Registrar inspección", "Registrar", "InspeccionBioseguridad",
+                null, new { @class = "btn btn-primary" })
+        </p>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr class="active">
+                        <th>#</th>
+                        <th>Cédula</th>
+                        <th>Apellidos y Nombres</th>
+                        <th>Cargo</th>
+                        <th>Proceso</th>
+                        <th>Subproceso</th>
+                        <th>Fecha</th>
+                        <th>C</th>
+                        <th>NC</th>
+                        <th>NA</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr><td colspan="11" class="text-center text-muted">No hay inspecciones registradas.</td></tr>
+                    }
+                    else
+                    {
+                        int i = 1;
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.Cedula</td>
+                                <td>@item.NombreCompleto</td>
+                                <td>@item.Cargo</td>
+                                <td>@(item.Proceso != null ? item.Proceso.NombreProceso : item.IdProceso.ToString())</td>
+                                <td>@(item.Subproceso != null ? item.Subproceso.NombreSubproceso : item.IdSubproceso.ToString())</td>
+                                <td>@item.FechaInspeccion.ToString("dd/MM/yyyy")</td>
+                                <td class="text-center">@item.TotalCumple</td>
+                                <td class="text-center">@item.TotalNoCumple</td>
+                                <td class="text-center">@item.TotalNoAplica</td>
+                                <td>
+                                    <a href="@Url.Action("Detalle", "InspeccionBioseguridad", new { id = item.IdInspeccionBioseguridad })"
+                                       class="btn btn-sm btn-success">Ver</a>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,129 @@
+﻿@model ModuloSST_HSLV.Models.PausaActiva
+@{
+    ViewBag.Title = "Registrar Pausa Activa";
+    var procesos = ViewBag.Procesos as List<ModuloSST_HSLV.Models.Proceso>;
+    var subprocesos = ViewBag.Subprocesos as List<ModuloSST_HSLV.Models.Subproceso>;
+}
+<h2 class="text-primary">Registrar Pausa Activa</h2>
+<hr />
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <strong>Corrija los siguientes errores antes de guardar:</strong>
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+@using (Html.BeginForm("Registrar", "PausaActiva", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.IdEmpleado)
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Datos del Empleado</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Cedula)
+                        @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Cedula, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.NombreCompleto)
+                        @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.NombreCompleto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Genero)
+                        <select name="Genero" class="form-control">
+                            <option value="">-- Género --</option>
+                            @foreach (var g in ViewBag.Generos as string[])
+                            {
+                                <option value="@g">@g</option>
+                            }
+                        </select>
+                        @Html.ValidationMessageFor(m => m.Genero, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Edad)
+                        @Html.TextBoxFor(m => m.Edad, new { @class = "form-control", type = "number", min = "0" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Fecha)
+                        @Html.TextBoxFor(m => m.Fecha, "{0:yyyy-MM-dd}",
+                            new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(m => m.Fecha, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Cargo)
+                        @Html.TextBoxFor(m => m.Cargo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Cargo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Contratista)
+                        @Html.TextBoxFor(m => m.Contratista, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Contratista, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.TiempoPrestacion)
+                        @Html.TextBoxFor(m => m.TiempoPrestacion, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.TiempoPrestacion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Proceso</label>
+                        <select name="IdProceso" class="form-control">
+                            <option value="">-- Seleccionar proceso --</option>
+                            @foreach (var p in procesos)
+                            {
+                                <option value="@p.IdProceso">@p.NombreProceso</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Subproceso / Servicio / Área</label>
+                        <select name="IdSubproceso" class="form-control">
+                            <option value="">-- Seleccionar subproceso --</option>
+                            @foreach (var s in subprocesos)
+                            {
+                                <option value="@s.IdSubproceso">@s.NombreSubproceso</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="@Url.Action("Index", "PausaActiva")"
+       class="btn btn-default" style="border:2px solid #aaa; background:transparent;">
+        Ver listado
+    </a>
+}

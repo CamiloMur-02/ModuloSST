@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ModuloSST_HSLV.Models.CatalogoEpp>
+@{ ViewBag.Title = "Catálogo de EPP"; }
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="text-primary">Catálogo de EPP</h2>
+        <hr />
+        <p>
+            @Html.ActionLink("+ Agregar tipo de EPP", "Crear", "CatalogoEpp",
+                null, new { @class = "btn btn-primary" })
+            <a href="@Url.Action("Index", "MatrizEpp")"
+               class="btn btn-default" style="border:2px solid #aaa; background:transparent;">
+                Volver a Matriz EPP
+            </a>
+        </p>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr class="active">
+                        <th>#</th>
+                        <th>Nombre EPP</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr><td colspan="4" class="text-center text-muted">No hay tipos de EPP registrados.</td></tr>
+                    }
+                    else
+                    {
+                        int i = 1;
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.NombreEPP</td>
+                                <td class="text-center">
+                                    @(item.Estado ? "Activo" : "Inactivo")
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Editar", "Editar", "CatalogoEpp",
+                                        new { id = item.IdCatalogoEPP },
+                                        new { @class = "btn btn-sm btn-warning" })
+                                    @using (Html.BeginForm("CambiarEstado", "CatalogoEpp",
+                                        new { id = item.IdCatalogoEPP }, FormMethod.Post,
+                                        new { style = "display:inline" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit"
+                                                class="btn btn-sm @(item.Estado ? "btn-danger" : "btn-success")">
+                                            @(item.Estado ? "Desactivar" : "Activar")
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

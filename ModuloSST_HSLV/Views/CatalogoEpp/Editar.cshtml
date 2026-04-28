@@ -1,0 +1,34 @@
+﻿@model ModuloSST_HSLV.Models.CatalogoEpp
+@{ ViewBag.Title = "Editar tipo de EPP"; }
+<h2 class="text-primary">Editar tipo de EPP</h2>
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.IdCatalogoEPP)
+    @Html.HiddenFor(m => m.FechaCreacion)
+    if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            <strong>Corrija los siguientes errores:</strong>
+            @Html.ValidationSummary(false, "", new { @class = "mb-0" })
+        </div>
+    }
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-group">
+                @Html.LabelFor(m => m.NombreEPP)
+                @Html.TextBoxFor(m => m.NombreEPP, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.NombreEPP, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>@Html.CheckBoxFor(m => m.Estado) Activo</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-warning">Actualizar</button>
+            @Html.ActionLink("Cancelar", "Index", "CatalogoEpp",
+                null, new { @class = "btn btn-default" })
+        </div>
+    </div>
+}

@@ -1,0 +1,902 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|c:\\users\\camil\\onedrive\\desktop\\proyecto de practica hslv\\modulosst_hslv\\modulosst_hslv\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\reporteincidente\\registrar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\reporteincidente\\registrar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\reporteincidente\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\reporteincidente\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\reporteincidente\\editar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\reporteincidente\\editar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\reporteincidente\\detalle.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\reporteincidente\\detalle.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\models\\reporteincidente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\models\\reporteincidente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\controllers\\reporteincidentecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\controllers\\reporteincidentecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\controllers\\reporteenfermedadlaboralcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\controllers\\reporteenfermedadlaboralcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\controllers\\inspeccionbioseguridadcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\controllers\\inspeccionbioseguridadcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\inspeccionbioseguridad\\detalle.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\inspeccionbioseguridad\\detalle.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\inspeccionbioseguridad\\registrar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\inspeccionbioseguridad\\registrar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\inspeccionbioseguridad\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\inspeccionbioseguridad\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\models\\inspeccionbioseguridad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\models\\inspeccionbioseguridad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\models\\evaluacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\models\\evaluacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\models\\catalogoepp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\models\\catalogoepp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\reporteenfermedadlaboral\\registrar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\reporteenfermedadlaboral\\registrar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\reporteenfermedadlaboral\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\reporteenfermedadlaboral\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\reporteenfermedadlaboral\\editar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\reporteenfermedadlaboral\\editar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\reporteenfermedadlaboral\\detalle.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\reporteenfermedadlaboral\\detalle.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\reporteaccidentetrabajo\\registrar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\reporteaccidentetrabajo\\registrar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\reporteaccidentetrabajo\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\reporteaccidentetrabajo\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\reporteaccidentetrabajo\\detalle.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\reporteaccidentetrabajo\\detalle.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\reporteaccidentetrabajo\\editar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\reporteaccidentetrabajo\\editar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\pausaactiva\\registrar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\pausaactiva\\registrar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\pausaactiva\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\pausaactiva\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\pausaactiva\\detalle.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\pausaactiva\\detalle.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\matrizepp\\registrar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\matrizepp\\registrar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\matrizepp\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\matrizepp\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\matrizepp\\editar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\matrizepp\\editar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\catalogoepp\\crear.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\catalogoepp\\crear.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\catalogoepp\\editar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\catalogoepp\\editar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\catalogoepp\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\catalogoepp\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\evaluacion\\crear.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\evaluacion\\crear.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\evaluacion\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\evaluacion\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\models\\elementoepp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\models\\elementoepp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\models\\matrizepp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\models\\matrizepp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\models\\pausaactiva.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\models\\pausaactiva.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\models\\reporteenfermedadlaboral.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\models\\reporteenfermedadlaboral.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\models\\proceso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\models\\proceso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\controllers\\pausaactivacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\controllers\\pausaactivacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\controllers\\matrizeppcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\controllers\\matrizeppcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\controllers\\catalogoeppcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\controllers\\catalogoeppcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\controllers\\evaluacioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\controllers\\evaluacioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\helpers\\causahelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\helpers\\causahelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\home\\about.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\home\\about.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\app_start\\bundleconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\app_start\\bundleconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\models\\subproceso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\models\\subproceso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\content\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\content\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\dal\\sstcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\dal\\sstcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\modulosst_hslv\\app_start\\routeconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3542937E-6996-4D36-97CD-5C77B9F24294}|ModuloSST_HSLV\\ModuloSST_HSLV.csproj|solutionrelative:modulosst_hslv\\app_start\\routeconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": ".gitignore",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\.gitignore",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\.gitignore",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\.gitignore",
+              "RelativeToolTip": "ModuloSST_HSLV\\.gitignore",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-04-28T00:58:51.185Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Detalle.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteIncidente\\Detalle.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\ReporteIncidente\\Detalle.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteIncidente\\Detalle.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\ReporteIncidente\\Detalle.cshtml",
+              "ViewState": "AgIAAHsAAAAAAAAAAAAAAI4AAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-17T02:18:21.818Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Editar.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteIncidente\\Editar.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\ReporteIncidente\\Editar.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteIncidente\\Editar.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\ReporteIncidente\\Editar.cshtml",
+              "ViewState": "AgIAAI8BAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-17T02:18:04.417Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteIncidente\\Index.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\ReporteIncidente\\Index.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteIncidente\\Index.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\ReporteIncidente\\Index.cshtml",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAADgAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-17T02:16:58.83Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Registrar.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteIncidente\\Registrar.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\ReporteIncidente\\Registrar.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteIncidente\\Registrar.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\ReporteIncidente\\Registrar.cshtml",
+              "ViewState": "AgIAAEQBAAAAAAAAAAAAABoAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-17T02:17:20.315Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ReporteIncidente.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\ReporteIncidente.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Models\\ReporteIncidente.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\ReporteIncidente.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\Models\\ReporteIncidente.cs",
+              "ViewState": "AgIAAAwBAAAAAAAAAADwv1YAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-17T02:12:48.477Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ReporteIncidenteController.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Controllers\\ReporteIncidenteController.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Controllers\\ReporteIncidenteController.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Controllers\\ReporteIncidenteController.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\Controllers\\ReporteIncidenteController.cs",
+              "ViewState": "AgIAAGABAAAAAAAAAAAcwM0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-17T02:14:49.798Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ReporteEnfermedadLaboralController.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Controllers\\ReporteEnfermedadLaboralController.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Controllers\\ReporteEnfermedadLaboralController.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Controllers\\ReporteEnfermedadLaboralController.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\Controllers\\ReporteEnfermedadLaboralController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-15T20:51:12.411Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "InspeccionBioseguridad.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\InspeccionBioseguridad.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Models\\InspeccionBioseguridad.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\InspeccionBioseguridad.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\Models\\InspeccionBioseguridad.cs",
+              "ViewState": "AgIAAPEAAAAAAAAAAAAcwAYBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-10T20:14:44.17Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\InspeccionBioseguridad\\Index.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\InspeccionBioseguridad\\Index.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\InspeccionBioseguridad\\Index.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\InspeccionBioseguridad\\Index.cshtml",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAADwAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-10T20:39:46.041Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Registrar.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\InspeccionBioseguridad\\Registrar.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\InspeccionBioseguridad\\Registrar.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\InspeccionBioseguridad\\Registrar.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\InspeccionBioseguridad\\Registrar.cshtml",
+              "ViewState": "AgIAAKsAAAAAAAAAAAAAAJ0AAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-10T20:40:52.84Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Evaluacion.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\Evaluacion.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Models\\Evaluacion.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\Evaluacion.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\Models\\Evaluacion.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAFoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-16T22:57:32.601Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "InspeccionBioseguridadController.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Controllers\\InspeccionBioseguridadController.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Controllers\\InspeccionBioseguridadController.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Controllers\\InspeccionBioseguridadController.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\Controllers\\InspeccionBioseguridadController.cs",
+              "ViewState": "AgIAAJMAAAAAAAAAAAAowBcAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-10T20:37:52.648Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Detalle.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\InspeccionBioseguridad\\Detalle.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\InspeccionBioseguridad\\Detalle.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\InspeccionBioseguridad\\Detalle.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\InspeccionBioseguridad\\Detalle.cshtml",
+              "ViewState": "AgIAADMAAAAAAAAAAAAAAEQAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-10T20:43:05.776Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "CatalogoEpp.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\CatalogoEpp.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Models\\CatalogoEpp.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\CatalogoEpp.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\Models\\CatalogoEpp.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-08T19:04:28.685Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteEnfermedadLaboral\\Index.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\ReporteEnfermedadLaboral\\Index.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteEnfermedadLaboral\\Index.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\ReporteEnfermedadLaboral\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADgAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-15T20:54:36.682Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Registrar.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteEnfermedadLaboral\\Registrar.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\ReporteEnfermedadLaboral\\Registrar.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteEnfermedadLaboral\\Registrar.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\ReporteEnfermedadLaboral\\Registrar.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-15T20:55:04.866Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC4AAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-07T21:34:07.527Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Editar.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteEnfermedadLaboral\\Editar.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\ReporteEnfermedadLaboral\\Editar.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteEnfermedadLaboral\\Editar.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\ReporteEnfermedadLaboral\\Editar.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-15T20:58:08.42Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Detalle.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteEnfermedadLaboral\\Detalle.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\ReporteEnfermedadLaboral\\Detalle.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteEnfermedadLaboral\\Detalle.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\ReporteEnfermedadLaboral\\Detalle.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIQAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-15T20:58:22.752Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Registrar.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteAccidenteTrabajo\\Registrar.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\ReporteAccidenteTrabajo\\Registrar.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteAccidenteTrabajo\\Registrar.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\ReporteAccidenteTrabajo\\Registrar.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-14T18:55:35.463Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteAccidenteTrabajo\\Index.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\ReporteAccidenteTrabajo\\Index.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteAccidenteTrabajo\\Index.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\ReporteAccidenteTrabajo\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADwAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-14T18:54:55.56Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Detalle.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteAccidenteTrabajo\\Detalle.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\ReporteAccidenteTrabajo\\Detalle.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteAccidenteTrabajo\\Detalle.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\ReporteAccidenteTrabajo\\Detalle.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJoAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-14T18:56:57.132Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Editar.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteAccidenteTrabajo\\Editar.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\ReporteAccidenteTrabajo\\Editar.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\ReporteAccidenteTrabajo\\Editar.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\ReporteAccidenteTrabajo\\Editar.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-14T19:05:39.695Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Registrar.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\PausaActiva\\Registrar.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\PausaActiva\\Registrar.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\PausaActiva\\Registrar.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\PausaActiva\\Registrar.cshtml",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAAAIAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-17T19:33:19.276Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\PausaActiva\\Index.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\PausaActiva\\Index.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\PausaActiva\\Index.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\PausaActiva\\Index.cshtml",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAADQAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-17T19:32:55.709Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Detalle.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\PausaActiva\\Detalle.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\PausaActiva\\Detalle.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\PausaActiva\\Detalle.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\PausaActiva\\Detalle.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-17T19:33:45.61Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Registrar.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\MatrizEpp\\Registrar.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\MatrizEpp\\Registrar.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\MatrizEpp\\Registrar.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\MatrizEpp\\Registrar.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIEAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-08T19:21:14.905Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\MatrizEpp\\Index.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\MatrizEpp\\Index.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\MatrizEpp\\Index.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\MatrizEpp\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEYAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-08T19:20:26.903Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "Editar.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\MatrizEpp\\Editar.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\MatrizEpp\\Editar.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\MatrizEpp\\Editar.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\MatrizEpp\\Editar.cshtml",
+              "ViewState": "AgIAAKUAAAAAAAAAAAAAAK0AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-08T19:22:09.206Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "Crear.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\CatalogoEpp\\Crear.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\CatalogoEpp\\Crear.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\CatalogoEpp\\Crear.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\CatalogoEpp\\Crear.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-08T19:15:27.348Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "Editar.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\CatalogoEpp\\Editar.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\CatalogoEpp\\Editar.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\CatalogoEpp\\Editar.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\CatalogoEpp\\Editar.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-08T19:17:00.572Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\CatalogoEpp\\Index.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\CatalogoEpp\\Index.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\CatalogoEpp\\Index.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\CatalogoEpp\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD8AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-08T19:11:02.085Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "Crear.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\Evaluacion\\Crear.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\Evaluacion\\Crear.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\Evaluacion\\Crear.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\Evaluacion\\Crear.cshtml",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAABUAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-08T21:30:02.766Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\Evaluacion\\Index.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\Evaluacion\\Index.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\Evaluacion\\Index.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\Evaluacion\\Index.cshtml",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAADQAAABbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-12T00:27:43.703Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "ElementoEpp.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\ElementoEpp.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Models\\ElementoEpp.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\ElementoEpp.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\Models\\ElementoEpp.cs",
+              "ViewState": "AgIAAFUAAAAAAAAAAAAwwG8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-17T17:51:06.424Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "MatrizEpp.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\MatrizEpp.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Models\\MatrizEpp.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\MatrizEpp.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\Models\\MatrizEpp.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-10T20:51:17.836Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "PausaActiva.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\PausaActiva.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Models\\PausaActiva.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\PausaActiva.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\Models\\PausaActiva.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAKEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-17T19:31:24.348Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "Proceso.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\Proceso.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Models\\Proceso.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\Proceso.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\Models\\Proceso.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-10T20:32:00.961Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "ReporteEnfermedadLaboral.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\ReporteEnfermedadLaboral.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Models\\ReporteEnfermedadLaboral.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\ReporteEnfermedadLaboral.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\Models\\ReporteEnfermedadLaboral.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAADoBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-15T20:47:19.95Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "PausaActivaController.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Controllers\\PausaActivaController.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Controllers\\PausaActivaController.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Controllers\\PausaActivaController.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\Controllers\\PausaActivaController.cs",
+              "ViewState": "AgIAAGcAAAAAAAAAAAAkwAkAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-17T19:32:27.628Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "MatrizEppController.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Controllers\\MatrizEppController.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Controllers\\MatrizEppController.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Controllers\\MatrizEppController.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\Controllers\\MatrizEppController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEUBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-08T19:18:59.521Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "CatalogoEppController.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Controllers\\CatalogoEppController.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Controllers\\CatalogoEppController.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Controllers\\CatalogoEppController.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\Controllers\\CatalogoEppController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-08T19:08:51.752Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "EvaluacionController.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Controllers\\EvaluacionController.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Controllers\\EvaluacionController.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Controllers\\EvaluacionController.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\Controllers\\EvaluacionController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-16T01:26:45.383Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-19T20:59:04.251Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "CausaHelper.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Helpers\\CausaHelper.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Helpers\\CausaHelper.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Helpers\\CausaHelper.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\Helpers\\CausaHelper.cs",
+              "ViewState": "AgIAADQAAAAAAAAAAAAQwAYAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-19T20:56:40.618Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "BundleConfig.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\App_Start\\BundleConfig.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\App_Start\\BundleConfig.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\App_Start\\BundleConfig.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\App_Start\\BundleConfig.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-20T13:10:44.002Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvw4AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-19T21:28:47.437Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "About.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\Home\\About.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\Home\\About.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\Home\\About.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\Home\\About.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-20T19:22:10.652Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "Subproceso.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\Subproceso.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Models\\Subproceso.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Models\\Subproceso.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\Models\\Subproceso.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-10T20:32:34.927Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "Site.css",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Content\\Site.css",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Content\\Site.css",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Content\\Site.css",
+              "RelativeToolTip": "ModuloSST_HSLV\\Content\\Site.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-04-19T21:35:59.334Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Views\\_ViewStart.cshtml",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Views\\_ViewStart.cshtml",
+              "RelativeToolTip": "ModuloSST_HSLV\\Views\\_ViewStart.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-19T22:00:42.832Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "SSTContext.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\DAL\\SSTContext.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\DAL\\SSTContext.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\DAL\\SSTContext.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\DAL\\SSTContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-08T19:05:24.533Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "Web.config",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Web.config",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\Web.config",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\Web.config",
+              "RelativeToolTip": "ModuloSST_HSLV\\Web.config",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAAAAcAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2026-04-15T19:13:50.928Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 54,
+              "Title": "RouteConfig.cs",
+              "DocumentMoniker": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\App_Start\\RouteConfig.cs",
+              "RelativeDocumentMoniker": "ModuloSST_HSLV\\App_Start\\RouteConfig.cs",
+              "ToolTip": "C:\\Users\\camil\\OneDrive\\Desktop\\Proyecto de Practica HSLV\\ModuloSST_HSLV\\ModuloSST_HSLV\\App_Start\\RouteConfig.cs",
+              "RelativeToolTip": "ModuloSST_HSLV\\App_Start\\RouteConfig.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-08T19:52:54.659Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

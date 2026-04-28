@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ModuloSST_HSLV.Models.ReporteIncidente>
+@{ ViewBag.Title = "Reportes de Incidente"; }
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="text-primary">Reportes de Incidente</h2>
+        <hr />
+        <p>
+            @Html.ActionLink("+ Registrar incidente", "Registrar", "ReporteIncidente",
+                null, new { @class = "btn btn-primary" })
+        </p>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr class="active">
+                        <th>#</th>
+                        <th>Cédula</th>
+                        <th>Apellidos y Nombre</th>
+                        <th>Cargo</th>
+                        <th>Proceso</th>
+                        <th>Fecha Incidente</th>
+                        <th>Tipo Peligro</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr><td colspan="8" class="text-center text-muted">No hay reportes de incidentes registrados.</td></tr>
+                    }
+                    else
+                    {
+                        int i = 1;
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.Cedula</td>
+                                <td>@item.NombreCompleto</td>
+                                <td>@item.Cargo</td>
+                                <td>@(item.Proceso != null ? item.Proceso.NombreProceso : item.IdProceso.ToString())</td>
+                                <td>@item.FechaIncidente.ToString("dd/MM/yyyy")</td>
+                                <td>@item.TipoPeligro</td>
+                                <td>
+                                    <a href="@Url.Action("Detalle", "ReporteIncidente", new { id = item.IdReporteIncidente })"
+                                       class="btn btn-sm btn-success">Ver</a>
+                                    <a href="@Url.Action("Editar", "ReporteIncidente", new { id = item.IdReporteIncidente })"
+                                       class="btn btn-sm btn-warning">Editar</a>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

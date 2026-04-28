@@ -1,0 +1,198 @@
+﻿@model ModuloSST_HSLV.Models.MatrizEpp
+@{
+    ViewBag.Title = "Editar Entrega de EPP";
+    var catalogo = ViewBag.CatalogoEPP as List<ModuloSST_HSLV.Models.CatalogoEpp>;
+}
+<h2 class="text-primary">Editar Entrega de EPP</h2>
+<hr />
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title">Datos del Colaborador</h3></div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-2"><strong>Cédula:</strong><br />@Model.Cedula</div>
+            <div class="col-md-4"><strong>Apellidos y Nombres:</strong><br />@Model.NombreCompleto</div>
+            <div class="col-md-2"><strong>Género:</strong><br />@Model.Genero</div>
+            <div class="col-md-2"><strong>Edad:</strong><br />@Model.Edad años</div>
+            <div class="col-md-2"><strong>Fecha Registro:</strong><br />@Model.FechaRegistro.ToString("dd/MM/yyyy")</div>
+        </div>
+        <div class="row" style="margin-top:10px">
+            <div class="col-md-4"><strong>Cargo:</strong><br />@Model.Cargo</div>
+            <div class="col-md-4"><strong>Contratista:</strong><br />@Model.Contratista</div>
+            <div class="col-md-4"><strong>Tiempo de Prestación:</strong><br />@Model.TiempoPrestacion</div>
+        </div>
+        <div class="row" style="margin-top:10px">
+            <div class="col-md-6">
+                <strong>Proceso:</strong><br />
+                @(Model.Proceso != null ? Model.Proceso.NombreProceso : Model.IdProceso.ToString())
+            </div>
+            <div class="col-md-6">
+                <strong>Subproceso:</strong><br />
+                @(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : Model.IdSubproceso.ToString())
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title">Elementos entregados</h3></div>
+    <div class="panel-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr class="active">
+                    <th>EPP</th>
+                    <th>Fecha Entrega</th>
+                    <th>Tiempo Alerta</th>
+                    <th>Fecha Estimada Cambio</th>
+                    <th>Tiempo Restante</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var elem in Model.Elementos.Where(e => e.Activo))
+                {
+                    double dias = elem.FechaEntrega.HasValue ? (DateTime.Today - elem.FechaEntrega.Value).TotalDays : 0;
+                    decimal restante = elem.FechaEntrega.HasValue ? (decimal)(elem.TiempoAlerta - (dias / 30)) : 0;
+                    DateTime? estimada = elem.FechaEntrega.HasValue
+                        ? elem.FechaEntrega.Value.AddMonths(elem.TiempoAlerta) : (DateTime?)null;
+                    <tr>
+                        <td>@elem.CatalogoEpp.NombreEPP</td>
+                        <td>@(elem.FechaEntrega.HasValue ? elem.FechaEntrega.Value.ToString("dd/MM/yyyy") : "—")</td>
+                        <td class="text-center">@elem.TiempoAlerta meses</td>
+                        <td class="text-center">
+                            @if (estimada.HasValue)
+                            {
+                                @estimada.Value.ToString("dd/MM/yyyy")
+                            }
+                            else
+                            {
+                                <span>—</span>
+                            }
+                        </td>
+                        <td class="text-center">
+                            @if (!elem.FechaEntrega.HasValue)
+                            {
+                                <span>—</span>
+                            }
+                            else if (restante <= 0)
+                            {
+                                <span>Vencido</span>
+                            }
+                            else
+                            {
+                                <span>@restante.ToString("0.0") meses</span>
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("ExcluirElemento", "MatrizEpp",
+                                FormMethod.Post, new { style = "display:inline" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="idElemento" value="@elem.IdElementoEPP" />
+                                <input type="hidden" name="idMatriz" value="@Model.IdMatrizEPP" />
+                                <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title">Agregar elemento de EPP</h3></div>
+    <div class="panel-body">
+        @using (Html.BeginForm("AgregarElemento", "MatrizEpp", FormMethod.Post,
+            new { onsubmit = "return validarAgregar()" }))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="idMatriz" value="@Model.IdMatrizEPP" />
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Tipo de EPP</label>
+                        <select name="idCatalogo" class="form-control">
+                            @if (catalogo != null)
+                            {
+                                foreach (var epp in catalogo)
+                                {
+                                    <option value="@epp.IdCatalogoEPP">@epp.NombreEPP</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Fecha de Entrega <span class="text-danger">*</span></label>
+                        <input type="date" name="fechaEntrega" id="fechaAgregar"
+                               class="form-control" onchange="calcularEstimadoAgregar()" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Tiempo Alerta (meses) <span class="text-danger">*</span></label>
+                        <input type="number" name="tiempoAlerta" id="alertaAgregar"
+                               class="form-control" value="12" min="1"
+                               onchange="calcularEstimadoAgregar()" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Fecha Estimada Cambio</label>
+                        <p class="form-control-static" id="estimadoAgregar">—</p>
+                    </div>
+                </div>
+                <div class="col-md-2" style="padding-top:25px">
+                    <button type="submit" class="btn btn-primary">Agregar</button>
+                    <a href="@Url.Action("Index", "MatrizEpp")"
+                       class="btn btn-default" style="border:2px solid #aaa;background:transparent;">
+                        Listado
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title">Observaciones Finales</h3></div>
+    <div class="panel-body">
+        @using (Html.BeginForm("GuardarObservaciones", "MatrizEpp", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="idMatriz" value="@Model.IdMatrizEPP" />
+            <div class="form-group">
+                @Html.LabelFor(m => m.ObservacionesFinales)
+                @Html.TextAreaFor(m => m.ObservacionesFinales,
+                    new
+                         {
+                             @class = "form-control",
+                             rows = "3",
+                         })
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Observaciones</button>
+        }
+    </div>
+</div>
+@section Scripts {
+    <script>
+        function calcularEstimadoAgregar() {
+            var fecha = document.getElementById('fechaAgregar').value;
+            var alerta = parseInt(document.getElementById('alertaAgregar').value);
+            var celda = document.getElementById('estimadoAgregar');
+            if (fecha && alerta) {
+                var f = new Date(fecha);
+                f.setMonth(f.getMonth() + alerta);
+                var d = String(f.getDate()).padStart(2, '0');
+                var m = String(f.getMonth() + 1).padStart(2, '0');
+                celda.innerHTML = d + '/' + m + '/' + f.getFullYear();
+            } else {
+                celda.innerHTML = '—';
+            }
+        }
+        function validarAgregar() {
+            if (!document.getElementById('fechaAgregar').value) {
+                alert('Debe ingresar la fecha de entrega.'); return false;
+            }
+            return true;
+        }
+    </script>
+}

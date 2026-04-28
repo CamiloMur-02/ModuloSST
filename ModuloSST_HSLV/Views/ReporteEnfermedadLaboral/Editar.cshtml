@@ -1,0 +1,331 @@
+﻿@model ModuloSST_HSLV.Models.ReporteEnfermedadLaboral
+@{
+    ViewBag.Title = "Editar Reporte de Enfermedad";
+    var procesos = ViewBag.Procesos as List<ModuloSST_HSLV.Models.Proceso>;
+    var subprocesos = ViewBag.Subprocesos as List<ModuloSST_HSLV.Models.Subproceso>;
+    bool esLaboral = Model.TipoEnfermedad == "Enfermedad Laboral";
+}
+<h2 class="text-primary">
+    <i class="glyphicon glyphicon-pencil"></i> Editar Reporte de Enfermedad
+</h2>
+<hr />
+@if (TempData["Exito"] != null)
+{<div class="alert alert-success"><strong><i class="glyphicon glyphicon-ok"></i></strong> @TempData["Exito"]</div>}
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <strong><i class="glyphicon glyphicon-exclamation-sign"></i> Corrija los siguientes errores:</strong>
+        <ul>
+            @foreach (var e in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@e.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+@using (Html.BeginForm("Editar", "ReporteEnfermedadLaboral",
+    FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.IdReporteEnfermedadLaboral)
+    @Html.HiddenFor(m => m.FechaCreacion)
+    @Html.HiddenFor(m => m.IdEmpleado)
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><i class="glyphicon glyphicon-user"></i> Datos del Empleado</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Cedula)
+                        @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Cedula, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.NombreCompleto)
+                        @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.NombreCompleto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Genero)
+                        <select name="Genero" class="form-control">
+                            <option value="">-- Género --</option>
+                            @foreach (var g in ViewBag.Generos as string[])
+                            {
+                                <option value="@g" @(Model.Genero == g ? "selected" : "")>@g</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Edad)
+                        @Html.TextBoxFor(m => m.Edad, new { @class = "form-control", type = "number", min = "0" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Cargo)
+                        @Html.TextBoxFor(m => m.Cargo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Cargo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Contratista)
+                        @Html.TextBoxFor(m => m.Contratista, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Contratista, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.TiempoPrestacion)
+                        @Html.TextBoxFor(m => m.TiempoPrestacion, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.TiempoPrestacion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Proceso</label>
+                        <select name="IdProceso" class="form-control">
+                            <option value="">-- Seleccionar proceso --</option>
+                            @foreach (var p in procesos)
+                            {
+                                <option value="@p.IdProceso" @(Model.IdProceso == p.IdProceso ? "selected" : "")>@p.NombreProceso</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Subproceso / Servicio / Área</label>
+                        <select name="IdSubproceso" class="form-control">
+                            <option value="">-- Seleccionar subproceso --</option>
+                            @foreach (var s in subprocesos)
+                            {
+                                <option value="@s.IdSubproceso" @(Model.IdSubproceso == s.IdSubproceso ? "selected" : "")>@s.NombreSubproceso</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><i class="glyphicon glyphicon-heart-empty"></i> Diagnóstico</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.TipoEnfermedad)
+                        <select name="TipoEnfermedad" id="tipoEnfermedad" class="form-control">
+                            <option value="">-- Seleccionar tipo --</option>
+                            @foreach (var t in ViewBag.TiposEnfermedad as string[])
+                            {
+                                <option value="@t" @(Model.TipoEnfermedad == t ? "selected" : "")>@t</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.FechaDiagnostico)
+                        @Html.TextBoxFor(m => m.FechaDiagnostico, "{0:yyyy-MM-dd}",
+                            new { @class = "form-control", type = "date" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Codigo)
+                        @Html.TextBoxFor(m => m.Codigo, new { @class = "form-control", placeholder = "Ej: J06" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.DiasIncapacidad)
+                        @Html.TextBoxFor(m => m.DiasIncapacidad, new { @class = "form-control", type = "number", min = "0" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.FechaInicioIncapacidad)
+                        @Html.TextBoxFor(m => m.FechaInicioIncapacidad, "{0:yyyy-MM-dd}",
+                            new { @class = "form-control", type = "date" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.FechaFinalIncapacidad)
+                        @Html.TextBoxFor(m => m.FechaFinalIncapacidad, "{0:yyyy-MM-dd}",
+                            new { @class = "form-control", type = "date" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.DetallesDiagnostico)
+                        @Html.TextBoxFor(m => m.DetallesDiagnostico, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.DetallesDiagnostico, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>PDF Plan de Mejora (si aplica)</label>
+                        @if (!string.IsNullOrEmpty(Model.NombreArchivoPlan))
+                        {
+                            <p>
+                                <a href="@Url.Action("Descargar", "ReporteEnfermedadLaboral",
+                            new { ruta=Model.RutaArchivoPlan, nombre=Model.NombreArchivoPlan })"
+                                   class="btn btn-sm btn-success">
+                                    <i class="glyphicon glyphicon-download-alt"></i> @Model.NombreArchivoPlan
+                                </a>
+                            </p>
+                        }
+                        <input type="file" name="archivoPlan" accept=".pdf" class="form-control" />
+                        <span class="help-block text-muted">
+                            @(string.IsNullOrEmpty(Model.NombreArchivoPlan) ? "Sin archivo." : "Sube PDF nuevo para reemplazar.")
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default" id="panelInvestigacion"
+         style="display:@(esLaboral ? "block" : "none")">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <i class="glyphicon glyphicon-search"></i>
+                Investigación y Plan de Acción (Enfermedad Laboral)
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.FechaInvestigacion)
+                        @Html.TextBoxFor(m => m.FechaInvestigacion, "{0:yyyy-MM-dd}",
+                            new { @class = "form-control", type = "date" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.DiasInvestigacion)
+                        @Html.TextBoxFor(m => m.DiasInvestigacion, new { @class = "form-control", type = "number" })
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Causa)
+                        @Html.TextBoxFor(m => m.Causa, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>PDF Seguimiento</label>
+                        @if (!string.IsNullOrEmpty(Model.NombreArchivoSeguimiento))
+                        {
+                            <p>
+                                <a href="@Url.Action("Descargar", "ReporteEnfermedadLaboral",
+                            new { ruta=Model.RutaArchivoSeguimiento, nombre=Model.NombreArchivoSeguimiento })"
+                                   class="btn btn-sm btn-success">
+                                    <i class="glyphicon glyphicon-download-alt"></i> @Model.NombreArchivoSeguimiento
+                                </a>
+                            </p>
+                        }
+                        <input type="file" name="archivoSeguimiento" accept=".pdf" class="form-control" />
+                        <span class="help-block text-muted">
+                            @(string.IsNullOrEmpty(Model.NombreArchivoSeguimiento) ? "Sin archivo." : "Sube PDF nuevo para reemplazar.")
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>PDF Furel</label>
+                        @if (!string.IsNullOrEmpty(Model.NombreArchivoFurel))
+                        {
+                            <p>
+                                <a href="@Url.Action("Descargar", "ReporteEnfermedadLaboral",
+                            new { ruta=Model.RutaArchivoFurel, nombre=Model.NombreArchivoFurel })"
+                                   class="btn btn-sm btn-success">
+                                    <i class="glyphicon glyphicon-download-alt"></i> @Model.NombreArchivoFurel
+                                </a>
+                            </p>
+                        }
+                        <input type="file" name="archivoFurel" accept=".pdf" class="form-control" />
+                        <span class="help-block text-muted">
+                            @(string.IsNullOrEmpty(Model.NombreArchivoFurel) ? "Sin archivo." : "Sube PDF nuevo para reemplazar.")
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Responsable)
+                        @Html.TextBoxFor(m => m.Responsable, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ActividadARealizar)
+                        @Html.TextBoxFor(m => m.ActividadARealizar, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.FechaPlaneada)
+                        @Html.TextBoxFor(m => m.FechaPlaneada, "{0:yyyy-MM-dd}",
+                            new { @class = "form-control", type = "date" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.FechaEjecucion)
+                        @Html.TextBoxFor(m => m.FechaEjecucion, "{0:yyyy-MM-dd}",
+                            new { @class = "form-control", type = "date" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Observaciones)
+                        @Html.TextAreaFor(m => m.Observaciones, new { @class = "form-control", rows = "2" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-warning">
+        <i class="glyphicon glyphicon-floppy-disk"></i> Actualizar
+    </button>
+    <a href="@Url.Action("Index", "ReporteEnfermedadLaboral")"
+       class="btn btn-default" style="border:2px solid #aaa;background:transparent;">
+        <i class="glyphicon glyphicon-arrow-left"></i> Ver listado
+    </a>
+}
+@section Scripts {
+    <script>
+        document.getElementById('tipoEnfermedad').addEventListener('change', function () {
+            document.getElementById('panelInvestigacion').style.display =
+                (this.value === 'Enfermedad Laboral') ? 'block' : 'none';
+        });
+    </script>
+}

@@ -1,0 +1,65 @@
+﻿@model ModuloSST_HSLV.Models.Evaluacion
+@{ ViewBag.Title = "Cargar Evaluación"; }
+<h2 class="text-primary">Cargar Evaluación</h2>
+<hr />
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        <strong>Error:</strong> @ViewBag.Error
+    </div>
+}
+@using (Html.BeginForm("Crear", "Evaluacion",
+        FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Seleccionar tipo de evaluación</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="tipoEvaluacion"
+                               value="Inspeccion de areas y/o puesto de trabajo" required />
+                        <strong>Inspección de áreas y/o puesto de trabajo</strong>
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="tipoEvaluacion"
+                               value="Evaluacion de Riesgo Psicosocial" />
+                        <strong>Evaluación de Riesgo Psicosocial</strong>
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="tipoEvaluacion"
+                               value="Analisis de puesto de trabajo" />
+                        <strong>Análisis de puesto de trabajo</strong>
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="tipoEvaluacion"
+                               value="Registro de inspeccion de bioseguridad" />
+                        <strong>Registro de inspección de bioseguridad</strong>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="archivo">
+                    Adjuntar archivo PDF <span class="text-danger">*</span>
+                </label>
+                <input type="file" name="archivo" id="archivo"
+                       accept=".pdf" class="form-control" />
+                <span class="help-block text-muted">Solo se permiten archivos en formato PDF.</span>
+            </div>
+            <button type="submit" class="btn btn-primary">Cargar</button>
+            <a href="@Url.Action("Index", "Evaluacion")"
+               class="btn btn-default" style="border:2px solid #aaa; background:transparent;">
+                Ver listado
+            </a>
+        </div>
+    </div>
+}

@@ -1,0 +1,340 @@
+﻿@model ModuloSST_HSLV.Models.ReporteIncidente
+@{
+    ViewBag.Title = "Registrar Incidente";
+    var procesos = ViewBag.Procesos as List<ModuloSST_HSLV.Models.Proceso>;
+    var subprocesos = ViewBag.Subprocesos as List<ModuloSST_HSLV.Models.Subproceso>;
+    var causas = ViewBag.CausasSubcausas
+        as System.Collections.Generic.Dictionary<string, string[]>;
+}
+<h2 class="text-primary">Registrar Incidente</h2>
+<hr />
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <strong>Corrija los siguientes errores antes de guardar:</strong>
+        <ul>
+            @foreach (var e in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@e.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+@using (Html.BeginForm("Registrar", "ReporteIncidente",
+    FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.IdEmpleado)
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Datos del Involucrado</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Cedula)
+                        @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Cedula, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.NombreCompleto)
+                        @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.NombreCompleto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Genero)
+                        <select name="Genero" class="form-control">
+                            <option value="">-- Género --</option>
+                            @foreach (var g in ViewBag.Generos as string[])
+                            {
+                                <option value="@g">@g</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Edad)
+                        @Html.TextBoxFor(m => m.Edad, new { @class = "form-control", type = "number", min = "0" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Cargo)
+                        @Html.TextBoxFor(m => m.Cargo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Cargo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Contratista)
+                        @Html.TextBoxFor(m => m.Contratista, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Contratista, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.TiempoPrestacion)
+                        @Html.TextBoxFor(m => m.TiempoPrestacion, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.TiempoPrestacion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Proceso</label>
+                        <select name="IdProceso" class="form-control">
+                            <option value="">-- Seleccionar proceso --</option>
+                            @foreach (var p in procesos)
+                            {
+                                <option value="@p.IdProceso">@p.NombreProceso</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Subproceso / Servicio / Área</label>
+                        <select name="IdSubproceso" class="form-control">
+                            <option value="">-- Seleccionar subproceso --</option>
+                            @foreach (var s in subprocesos)
+                            {
+                                <option value="@s.IdSubproceso">@s.NombreSubproceso</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Información del Incidente</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.FechaIncidente)
+                        @Html.TextBoxFor(m => m.FechaIncidente, "{0:yyyy-MM-dd}",
+                            new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(m => m.FechaIncidente, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.HoraIncidente)
+                        @Html.TextBoxFor(m => m.HoraIncidente, "{0:HH\\:mm}",
+                            new { @class = "form-control", type = "time" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Tipo de Peligro</label>
+                        <select name="TipoPeligro" class="form-control">
+                            <option value="">-- Seleccionar --</option>
+                            @foreach (var t in ViewBag.TiposPeligro as string[])
+                            {
+                                <option value="@t">@t</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Turno</label>
+                        <select name="Turno" class="form-control">
+                            <option value="">-- Turno --</option>
+                            @foreach (var t in ViewBag.Turnos as string[])
+                            {
+                                <option value="@t">@t</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Observaciones)
+                        @Html.TextAreaFor(m => m.Observaciones, new { @class = "form-control", rows = "2" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Adjuntar PDF del Incidente</label>
+                        <input type="file" name="archivoIncidente" accept=".pdf" class="form-control" />
+                        <span class="help-block text-muted">Solo se permiten archivos PDF.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Investigación y Seguimiento</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.FechaInvestigacion)
+                        @Html.TextBoxFor(m => m.FechaInvestigacion, "{0:yyyy-MM-dd}",
+                            new { @class = "form-control", type = "date", id = "fechaInvestigacion" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.DiasInvestigacion)
+                        @Html.TextBoxFor(m => m.DiasInvestigacion,
+                            new { @class = "form-control", id = "diasInvestigacion", @readonly = "readonly" })
+                        <span class="help-block text-muted">Se calcula automáticamente.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Causa</label>
+                        <select name="Causa" id="selectCausa" class="form-control">
+                            <option value="">-- Seleccionar causa --</option>
+                            @if (causas != null)
+                            {
+                                foreach (var c in causas.Keys)
+                                {
+                                    <option value="@c">@c</option>
+                                }
+                            }
+                        </select>
+                        <span class="help-block text-muted">
+                            Si no está en la lista, descríbala en Observaciones.
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Subcausa</label>
+                        <select name="Subcausa" id="selectSubcausa" class="form-control">
+                            <option value="">-- Seleccione primero una causa --</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Adjuntar PDF de Investigación</label>
+                        <input type="file" name="archivoInvestigacion" accept=".pdf" class="form-control" />
+                        <span class="help-block text-muted">Solo se permiten archivos PDF.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Plan de Mejora</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Responsable)
+                        @Html.TextBoxFor(m => m.Responsable, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ActividadARealizar)
+                        @Html.TextBoxFor(m => m.ActividadARealizar, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.FechaPlaneada)
+                        @Html.TextBoxFor(m => m.FechaPlaneada, "{0:yyyy-MM-dd}",
+                            new { @class = "form-control", type = "date" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.FechaEjecucion)
+                        @Html.TextBoxFor(m => m.FechaEjecucion, "{0:yyyy-MM-dd}",
+                            new { @class = "form-control", type = "date" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Adjuntar PDF Plan de Mejora</label>
+                        <input type="file" name="archivoPlan" accept=".pdf" class="form-control" />
+                        <span class="help-block text-muted">Solo se permiten archivos PDF.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Observaciones Finales</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                @Html.LabelFor(m => m.ObservacionesFinales)
+                @Html.TextAreaFor(m => m.ObservacionesFinales, new { @class = "form-control", rows = "3" })
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="@Url.Action("Index", "ReporteIncidente")"
+       class="btn btn-default" style="border:2px solid #aaa;background:transparent;">
+        Ver listado
+    </a>
+}
+@section Scripts {
+    <script>
+        var causasSubcausas = {
+            'Manejo inadecuado de cortopunzantes': ['Falta de autocuidado', 'Reencapuchar agujas', 'Manejo inseguro durante procedimientos (suturas, punciones)', 'Falta de solicitud de apoyo en pacientes con alteraciones', 'Manejo inadecuado por terceros', 'Segregación inadecuada de residuos cortopunzantes', 'Disposición incorrecta de residuos'],
+            'Posturas y movimientos inadecuados / ergonomía': ['Posturas inadecuadas', 'Movimientos inadecuados', 'Sobreesfuerzo', 'Fuerza excesiva en labores', 'Movimientos en falso', 'Levantamiento incorrecto', 'Falta de autocuidado en manipulación de cargas'],
+            'Caídas y resbalones': ['Piso húmedo / superficies resbalosas', 'Falta de señalización', 'Baja iluminación', 'Desniveles sin demarcar', 'Pisada en falso / torsión', 'Caídas en gradas', 'Cerámica o piso liso', 'Exceso de confianza'],
+            'Movilización inadecuada de pacientes': ['Técnica incorrecta', 'Falta de apoyo del personal', 'No solicitar ayuda', 'Uso de elementos desgastados (sábanas, camillas)'],
+            'Fallas en equipos, mobiliario e infraestructura': ['Mobiliario defectuoso (sillas, gabinetes, pasamanos)', 'Falta de mantenimiento de equipos biomédicos', 'Fallas en ambulancia (piso, camilla)'],
+            'Uso inadecuado o falta de EPP y dispositivos': ['Uso incorrecto de dispositivos de seguridad', 'Falta de aseguramiento del EPP', 'Herramientas mal utilizadas'],
+            'Condiciones ambientales inseguras': ['Iluminación inadecuada', 'Pisos en mal estado'],
+            'Falta de autocuidado (general)': ['Exceso de confianza', 'Actividades rutinarias sin precaución', 'Correr, caminar sin cuidado', 'No asegurar barandas'],
+            'Procedimientos inseguros': ['Falta de adherencia a protocolos', 'Falta de insumos adecuados', 'Administración insegura de medicamentos', 'Procedimientos clínicos inseguros'],
+            'Accidentes de tránsito': ['Volcamiento'],
+            'Actividades deportivas': ['Deportes de alto impacto (fútbol, voleibol y baloncesto)'],
+            'Fatiga y condiciones fisiológicas': ['Fatiga laboral', 'Sudoración excesiva'],
+            'Exposición a agentes biológicos': ['Picadura por (insectos, larvas, etc)', 'Mordedura por (insectos, larvas, etc)'],
+            'Factores externos / terceros': ['Acciones inseguras de terceros', 'Bloqueos violentos', 'Pacientes agresivos (falta de contención adecuada)']
+        };
+        document.getElementById('selectCausa').addEventListener('change', function () {
+            var sel = document.getElementById('selectSubcausa');
+            sel.innerHTML = '<option value="">-- Seleccionar subcausa --</option>';
+            if (this.value && causasSubcausas[this.value]) {
+                causasSubcausas[this.value].forEach(function (sub) {
+                    var o = document.createElement('option');
+                    o.value = sub; o.text = sub; sel.appendChild(o);
+                });
+            }
+        });
+        document.getElementById('fechaInvestigacion').addEventListener('change', function () {
+            var base = document.querySelector('[name="FechaIncidente"]');
+            if (base && base.value && this.value) {
+                var diff = (new Date(this.value) - new Date(base.value)) / 86400000;
+                document.getElementById('diasInvestigacion').value = Math.max(0, Math.round(diff));
+            }
+        });
+    </script>
+}

@@ -1,0 +1,200 @@
+﻿@model ModuloSST_HSLV.Models.InspeccionBioseguridad
+@{
+    ViewBag.Title = "Registrar Inspección de Bioseguridad";
+    var procesos = ViewBag.Procesos as List<ModuloSST_HSLV.Models.Proceso>;
+    var subprocesos = ViewBag.Subprocesos as List<ModuloSST_HSLV.Models.Subproceso>;
+}
+<h2 class="text-primary">Registrar Inspección de Bioseguridad</h2>
+<hr />
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <strong>Corrija los siguientes errores antes de guardar:</strong>
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+@using (Html.BeginForm("Registrar", "InspeccionBioseguridad", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.IdEmpleado)
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Datos del Colaborador</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Cedula)
+                        @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Cedula, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.NombreCompleto)
+                        @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.NombreCompleto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Genero)
+                        <select name="Genero" class="form-control">
+                            <option value="">-- Género --</option>
+                            @foreach (var g in ViewBag.Generos as string[])
+                            {
+                                <option value="@g">@g</option>
+                            }
+                        </select>
+                        @Html.ValidationMessageFor(m => m.Genero, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Edad)
+                        @Html.TextBoxFor(m => m.Edad, new { @class = "form-control", type = "number", min = "0" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Cargo)
+                        @Html.TextBoxFor(m => m.Cargo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Cargo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Contratista)
+                        @Html.TextBoxFor(m => m.Contratista, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Contratista, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.TiempoPrestacion)
+                        @Html.TextBoxFor(m => m.TiempoPrestacion, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.TiempoPrestacion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Proceso</label>
+                        <select name="IdProceso" class="form-control">
+                            <option value="">-- Seleccionar proceso --</option>
+                            @foreach (var p in procesos)
+                            {
+                                <option value="@p.IdProceso">@p.NombreProceso</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Subproceso / Servicio / Área</label>
+                        <select name="IdSubproceso" class="form-control">
+                            <option value="">-- Seleccionar subproceso --</option>
+                            @foreach (var s in subprocesos)
+                            {
+                                <option value="@s.IdSubproceso">@s.NombreSubproceso</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.FechaInspeccion)
+                        @Html.TextBoxFor(m => m.FechaInspeccion, "{0:yyyy-MM-dd}",
+                            new { @class = "form-control", type = "date" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Evaluación de ítems de bioseguridad</h3>
+        </div>
+        <div class="panel-body">
+            <p class="text-muted">
+                <strong>C</strong> = Cumple &nbsp;|&nbsp;
+                <strong>NC</strong> = No Cumple &nbsp;|&nbsp;
+                <strong>NA</strong> = No Aplica
+            </p>
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="active">
+                        <th>Ítem</th>
+                        <th class="text-center" style="width:120px">C (Cumple)</th>
+                        <th class="text-center" style="width:120px">NC (No Cumple)</th>
+                        <th class="text-center" style="width:120px">NA (No Aplica)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ var items = new[]
+                       {
+                        new { label="Higiene de Manos",        campo="HigieneManos" },
+                        new { label="Protección Respiratoria",  campo="ProteccionRespiratoria" },
+                        new { label="Uso de Guantes",           campo="UsoGuantes" },
+                        new { label="Uso de Gorro",             campo="UsoGorro" },
+                        new { label="Uso de Bata",              campo="UsoBata" },
+                        new { label="Protección Visual",        campo="ProteccionVisual" },
+                        new { label="Uso Delantal/Peto",        campo="UsoDelantalPeto" },
+                        new { label="Calzado Adecuado",         campo="CalzadoAdecuado" },
+                        new { label="Transporte de Muestras",   campo="TransporteMuestras" },
+                        new { label="Manejo Corto Punzantes",   campo="ManejoCorto" },
+                        new { label="Manejo de Residuos",       campo="ManejoResiduos" },
+                    }; }
+                    @foreach (var item in items)
+                    {
+                        <tr>
+                            <td><strong>@item.label</strong></td>
+                            <td class="text-center">
+                                <input type="radio" name="@item.campo" value="C" checked="checked" />
+                            </td>
+                            <td class="text-center">
+                                <input type="radio" name="@item.campo" value="NC" />
+                            </td>
+                            <td class="text-center">
+                                <input type="radio" name="@item.campo" value="NA" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Observaciones Finales</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                @Html.LabelFor(m => m.ObservacionesFinales)
+                @Html.TextAreaFor(m => m.ObservacionesFinales,
+                    new
+                         {
+                             @class = "form-control",
+                             rows = "3",
+                         })
+                @Html.ValidationMessageFor(m => m.ObservacionesFinales, "",
+                    new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="@Url.Action("Index", "InspeccionBioseguridad")"
+       class="btn btn-default" style="border:2px solid #aaa; background:transparent;">
+        Ver listado
+    </a>
+}

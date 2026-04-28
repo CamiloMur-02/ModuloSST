@@ -1,0 +1,133 @@
+﻿@model ModuloSST_HSLV.Models.ReporteEnfermedadLaboral
+@{ ViewBag.Title = "Detalle — Enfermedad Laboral"; }
+<h2 class="text-primary">
+    <i class="glyphicon glyphicon-heart-empty"></i> Detalle — Reporte de Enfermedad
+</h2>
+<hr />
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title">Datos del Empleado</h3></div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-2"><strong>Cédula:</strong><br />@Model.Cedula</div>
+            <div class="col-md-4"><strong>Apellidos y Nombre:</strong><br />@Model.NombreCompleto</div>
+            <div class="col-md-2"><strong>Género:</strong><br />@Model.Genero</div>
+            <div class="col-md-2"><strong>Edad:</strong><br />@Model.Edad años</div>
+        </div>
+        <div class="row" style="margin-top:10px">
+            <div class="col-md-4"><strong>Cargo:</strong><br />@Model.Cargo</div>
+            <div class="col-md-4"><strong>Contratista:</strong><br />@Model.Contratista</div>
+            <div class="col-md-4"><strong>Tiempo de Prestación:</strong><br />@Model.TiempoPrestacion</div>
+        </div>
+        <div class="row" style="margin-top:10px">
+            <div class="col-md-6">
+                <strong>Proceso:</strong><br />
+                @(Model.Proceso != null ? Model.Proceso.NombreProceso : Model.IdProceso.ToString())
+            </div>
+            <div class="col-md-6">
+                <strong>Subproceso:</strong><br />
+                @(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : Model.IdSubproceso.ToString())
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title">Diagnóstico</h3></div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4"><strong>Tipo:</strong><br />@Model.TipoEnfermedad</div>
+            <div class="col-md-4"><strong>Fecha Diagnóstico:</strong><br />@Model.FechaDiagnostico.ToString("dd/MM/yyyy")</div>
+            <div class="col-md-2"><strong>Código:</strong><br />@(Model.Codigo ?? "—")</div>
+            <div class="col-md-2"><strong>Días Incap.:</strong><br />@Model.DiasIncapacidad</div>
+        </div>
+        <div class="row" style="margin-top:10px">
+            <div class="col-md-3">
+                <strong>Inicio Incap.:</strong><br />
+                @(Model.FechaInicioIncapacidad.HasValue ? Model.FechaInicioIncapacidad.Value.ToString("dd/MM/yyyy") : "—")
+            </div>
+            <div class="col-md-3">
+                <strong>Fin Incap.:</strong><br />
+                @(Model.FechaFinalIncapacidad.HasValue ? Model.FechaFinalIncapacidad.Value.ToString("dd/MM/yyyy") : "—")
+            </div>
+            <div class="col-md-6"><strong>Detalle Diagnóstico:</strong><br />@Model.DetallesDiagnostico</div>
+        </div>
+        @if (!string.IsNullOrEmpty(Model.NombreArchivoPlan))
+        {
+            <div class="row" style="margin-top:10px">
+                <div class="col-md-12">
+                    <strong>PDF Plan (si aplica):</strong>
+                    <a href="@Url.Action("Descargar", "ReporteEnfermedadLaboral",
+                    new { ruta=Model.RutaArchivoPlan, nombre=Model.NombreArchivoPlan })"
+                       class="btn btn-sm btn-success">
+                        <i class="glyphicon glyphicon-download-alt"></i> @Model.NombreArchivoPlan
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@if (Model.TipoEnfermedad == "Enfermedad Laboral" && !string.IsNullOrEmpty(Model.Causa))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title">Investigación</h3></div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <strong>Fecha Investigación:</strong><br />
+                    @(Model.FechaInvestigacion.HasValue ? Model.FechaInvestigacion.Value.ToString("dd/MM/yyyy") : "—")
+                </div>
+                <div class="col-md-2"><strong>Días Inv.:</strong><br />@(Model.DiasInvestigacion ?? 0)</div>
+                <div class="col-md-7"><strong>Causa:</strong><br />@Model.Causa</div>
+            </div>
+            <div class="row" style="margin-top:10px">
+                @if (!string.IsNullOrEmpty(Model.NombreArchivoSeguimiento))
+                {<div class="col-md-4">
+                        <strong>PDF Seguimiento:</strong>
+                        <a href="@Url.Action("Descargar", "ReporteEnfermedadLaboral",
+                        new { ruta=Model.RutaArchivoSeguimiento, nombre=Model.NombreArchivoSeguimiento })"
+                           class="btn btn-sm btn-success">
+                            <i class="glyphicon glyphicon-download-alt"></i> @Model.NombreArchivoSeguimiento
+                        </a>
+                    </div>
+                }
+                @if (!string.IsNullOrEmpty(Model.NombreArchivoFurel))
+                {<div class="col-md-4">
+                        <strong>PDF Furel:</strong>
+                        <a href="@Url.Action("Descargar", "ReporteEnfermedadLaboral",
+                        new { ruta=Model.RutaArchivoFurel, nombre=Model.NombreArchivoFurel })"
+                           class="btn btn-sm btn-success">
+                            <i class="glyphicon glyphicon-download-alt"></i> @Model.NombreArchivoFurel
+                        </a>
+                    </div>
+                }
+            </div>
+            <div class="row" style="margin-top:10px">
+                <div class="col-md-4"><strong>Responsable:</strong><br />@(Model.Responsable ?? "—")</div>
+                <div class="col-md-8"><strong>Actividad:</strong><br />@(Model.ActividadARealizar ?? "—")</div>
+            </div>
+            <div class="row" style="margin-top:10px">
+                <div class="col-md-3">
+                    <strong>Fecha Planeada:</strong><br />
+                    @(Model.FechaPlaneada.HasValue ? Model.FechaPlaneada.Value.ToString("dd/MM/yyyy") : "—")
+                </div>
+                <div class="col-md-3">
+                    <strong>Fecha Ejecución:</strong><br />
+                    @(Model.FechaEjecucion.HasValue ? Model.FechaEjecucion.Value.ToString("dd/MM/yyyy") : "—")
+                </div>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.Observaciones))
+            {
+                <div class="row" style="margin-top:10px">
+                    <div class="col-md-12"><strong>Observaciones:</strong><br />@Model.Observaciones</div>
+                </div>
+            }
+        </div>
+    </div>
+}
+<a href="@Url.Action("Index", "ReporteEnfermedadLaboral")"
+   class="btn btn-default" style="border:2px solid #aaa;background:transparent;">
+    <i class="glyphicon glyphicon-arrow-left"></i> Ver listado
+</a>
+<a href="@Url.Action("Editar", "ReporteEnfermedadLaboral", new { id = Model.IdReporteEnfermedadLaboral })"
+   class="btn btn-warning" style="margin-left:5px">
+    <i class="glyphicon glyphicon-pencil"></i> Editar
+</a>

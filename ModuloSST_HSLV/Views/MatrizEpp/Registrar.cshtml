@@ -1,0 +1,234 @@
+﻿@model ModuloSST_HSLV.Models.MatrizEpp
+@{
+    ViewBag.Title = "Registrar Entrega de EPP";
+    var catalogo = ViewBag.CatalogoEPP as List<ModuloSST_HSLV.Models.CatalogoEpp>;
+    var procesos = ViewBag.Procesos as List<ModuloSST_HSLV.Models.Proceso>;
+    var subprocesos = ViewBag.Subprocesos as List<ModuloSST_HSLV.Models.Subproceso>;
+}
+<h2 class="text-primary">Registrar Entrega de EPP</h2>
+<hr />
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <strong>Corrija los siguientes errores:</strong>
+        <ul>
+            @foreach (var e in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@e.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+@using (Html.BeginForm("Registrar", "MatrizEpp", FormMethod.Post,
+    new { onsubmit = "return validarFormulario()" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.IdEmpleado)
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Datos del Colaborador</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Cedula)
+                        @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Cedula, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.NombreCompleto)
+                        @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.NombreCompleto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Genero)
+                        <select name="Genero" class="form-control">
+                            <option value="">-- Género --</option>
+                            @foreach (var g in ViewBag.Generos as string[])
+                            {
+                                <option value="@g">@g</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Edad)
+                        @Html.TextBoxFor(m => m.Edad, new { @class = "form-control", type = "number", min = "0" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.FechaRegistro)
+                        @Html.TextBoxFor(m => m.FechaRegistro, "{0:yyyy-MM-dd}",
+                            new { @class = "form-control", type = "date" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Cargo)
+                        @Html.TextBoxFor(m => m.Cargo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Cargo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Contratista)
+                        @Html.TextBoxFor(m => m.Contratista, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Contratista, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.TiempoPrestacion)
+                        @Html.TextBoxFor(m => m.TiempoPrestacion, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.TiempoPrestacion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Proceso</label>
+                        <select name="IdProceso" class="form-control">
+                            <option value="">-- Seleccionar proceso --</option>
+                            @if (procesos != null)
+                            {
+                                foreach (var p in procesos)
+                                {
+                                    <option value="@p.IdProceso">@p.NombreProceso</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Subproceso / Servicio / Área</label>
+                        <select name="IdSubproceso" class="form-control">
+                            <option value="">-- Seleccionar subproceso --</option>
+                            @if (subprocesos != null)
+                            {
+                                foreach (var s in subprocesos)
+                                {
+                                    <option value="@s.IdSubproceso">@s.NombreSubproceso</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Elementos de Protección Personal entregados</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="active">
+                        <th>Seleccionar</th>
+                        <th>EPP</th>
+                        <th>Fecha de Entrega <span class="text-danger">*</span></th>
+                        <th>Tiempo de Alerta (meses) <span class="text-danger">*</span></th>
+                        <th>Fecha Estimada de Cambio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (catalogo != null)
+                    {
+                        foreach (var epp in catalogo)
+                        {
+                            <tr>
+                                <td class="text-center" style="width:80px">
+                                    <input type="checkbox" name="idsEppSeleccionados"
+                                           value="@epp.IdCatalogoEPP" id="epp_@epp.IdCatalogoEPP" />
+                                </td>
+                                <td><label for="epp_@epp.IdCatalogoEPP">@epp.NombreEPP</label></td>
+                                <td style="width:180px">
+                                    <input type="date" name="fecha_@epp.IdCatalogoEPP"
+                                           class="form-control input-sm"
+                                           id="fecha_@epp.IdCatalogoEPP"
+                                           onchange="calcularEstimado('@epp.IdCatalogoEPP')" />
+                                </td>
+                                <td style="width:130px">
+                                    <input type="number" name="alerta_@epp.IdCatalogoEPP"
+                                           class="form-control input-sm" value="12" min="1"
+                                           id="alerta_@epp.IdCatalogoEPP"
+                                           onchange="calcularEstimado('@epp.IdCatalogoEPP')" />
+                                </td>
+                                <td id="estimado_@epp.IdCatalogoEPP" class="text-muted">—</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Observaciones Finales</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                @Html.LabelFor(m => m.ObservacionesFinales)
+                @Html.TextAreaFor(m => m.ObservacionesFinales,
+                    new
+                         {
+                             @class = "form-control",
+                             rows = "3"
+                         })
+                @Html.ValidationMessageFor(m => m.ObservacionesFinales, "",
+                    new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="@Url.Action("Index", "MatrizEpp")"
+       class="btn btn-default" style="border:2px solid #aaa;background:transparent;">
+        Cancelar
+    </a>
+}
+
+@section Scripts {
+    <script>
+        function calcularEstimado(idEpp) {
+            var fecha = document.getElementById('fecha_' + idEpp).value;
+            var alerta = parseInt(document.getElementById('alerta_' + idEpp).value);
+            var celda = document.getElementById('estimado_' + idEpp);
+            if (fecha && alerta) {
+                var f = new Date(fecha);
+                f.setMonth(f.getMonth() + alerta);
+                var d = String(f.getDate()).padStart(2, '0');
+                var m = String(f.getMonth() + 1).padStart(2, '0');
+                celda.innerHTML = d + '/' + m + '/' + f.getFullYear();
+            } else {
+                celda.innerHTML = '—';
+            }
+        }
+        function validarFormulario() {
+            var checks = document.querySelectorAll('input[name="idsEppSeleccionados"]:checked');
+            if (checks.length === 0) {
+                alert('Debe seleccionar al menos un elemento EPP.');
+                return false;
+            }
+            for (var i = 0; i < checks.length; i++) {
+                if (!document.getElementById('fecha_' + checks[i].value).value) {
+                    alert('Debe ingresar la fecha de entrega para todos los EPP seleccionados.');
+                    return false;
+                }
+            }
+            return true;
+        }
+    </script>
+}
