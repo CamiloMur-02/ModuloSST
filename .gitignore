@@ -1,0 +1,5 @@
+# Ignorar carpetas de configuración de VS
+.vs/
+[Bb]in/
+[Oo]bj/
+*.user

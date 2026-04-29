@@ -1,13 +1,22 @@
 ﻿@model IEnumerable<ModuloSST_HSLV.Models.ReporteAccidenteTrabajo>
-@{ ViewBag.Title = "Reportes de Accidente de Trabajo"; }
+@{
+    ViewBag.Title = "Reportes de Accidente de Trabajo";
+}
+
 <div class="row">
     <div class="col-md-12">
         <h2 class="text-primary">Reportes de Accidente de Trabajo</h2>
         <hr />
-        <p>
+
+        <div style="margin-bottom: 20px;">
             @Html.ActionLink("+ Registrar accidente", "Registrar", "ReporteAccidenteTrabajo",
-                null, new { @class = "btn btn-primary" })
-        </p>
+                null, new { @class = "btn btn-success" })
+
+            <a href="@Url.Action("Dashboard", "ReporteAccidenteTrabajo")" class="btn btn-primary">
+                <i class="glyphicon glyphicon-stats"></i> Ver Dashboard / Indicadores
+            </a>
+        </div>
+
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover">
                 <thead>
@@ -40,13 +49,13 @@
                                 <td>@item.Cedula</td>
                                 <td>@item.NombreCompleto</td>
                                 <td>@item.Cargo</td>
-                                <td>@(item.Proceso != null ? item.Proceso.NombreProceso : item.IdProceso.ToString())</td>
+                                <td>@(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")</td>
                                 <td>@item.FechaAT.ToString("dd/MM/yyyy")</td>
                                 <td>@item.TipoPeligro</td>
                                 <td class="text-center">@item.DiasIncapacidad</td>
                                 <td>
                                     <a href="@Url.Action("Detalle", "ReporteAccidenteTrabajo", new { id = item.IdReporteAccidenteTrabajo })"
-                                       class="btn btn-sm btn-success">Ver</a>
+                                       class="btn btn-sm btn-info">Ver</a>
                                     <a href="@Url.Action("Editar", "ReporteAccidenteTrabajo", new { id = item.IdReporteAccidenteTrabajo })"
                                        class="btn btn-sm btn-warning">Editar</a>
                                 </td>
