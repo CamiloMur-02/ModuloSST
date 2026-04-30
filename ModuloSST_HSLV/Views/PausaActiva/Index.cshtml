@@ -1,28 +1,40 @@
 ﻿@model IEnumerable<ModuloSST_HSLV.Models.PausaActiva>
-@{ ViewBag.Title = "Pausas Activas"; }
+@{
+    ViewBag.Title = "Pausas Activas";
+}
+
 <div class="row">
     <div class="col-md-12">
-        <h2 class="text-primary">Pausas Activas</h2>
+        <h2 class="text-primary">Gestión de Pausas Activas</h2>
         <hr />
-        <p>
-            @Html.ActionLink("+ Registrar pausa activa", "Registrar", "PausaActiva",
-                null, new { @class = "btn btn-primary" })
-        </p>
+
+        @* SECCIÓN DE BOTONES SUPERIORES *@
+        <div style="margin-bottom: 20px;">
+            <a href="@Url.Action("Registrar", "PausaActiva")" class="btn btn-success" style="background-color: #1a8a59; border:none;">
+                + Registrar pausa activa
+            </a>
+
+            @* Botón de Dashboard (Estilo Cian) *@
+            <a href="@Url.Action("Dashboard", "PausaActiva")" class="btn btn-primary" border:none; margin-left: 5px;">
+                <i class="glyphicon glyphicon-stats"></i> Ver Indicadores / Dashboard
+            </a>
+        </div>
+
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover">
                 <thead>
                     <tr class="active">
-                        <th>#</th>
+                        <th class="text-center">#</th>
                         <th>Cédula</th>
                         <th>Apellidos y Nombre</th>
                         <th>Cargo</th>
                         <th>Proceso</th>
-                        <th>Fecha Pausa</th>
-                        <th>Acciones</th>
+                        <th class="text-center">Fecha Pausa</th>
+                        <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if (!Model.Any())
+                    @if (Model == null || !Model.Any())
                     {
                         <tr><td colspan="7" class="text-center text-muted">No hay registros de pausas activas.</td></tr>
                     }
@@ -32,15 +44,24 @@
                         foreach (var item in Model)
                         {
                             <tr>
-                                <td>@i</td>
+                                <td class="text-center">@i</td>
                                 <td>@item.Cedula</td>
                                 <td>@item.NombreCompleto</td>
                                 <td>@item.Cargo</td>
-                                <td>@(item.Proceso != null ? item.Proceso.NombreProceso : item.IdProceso.ToString())</td>
-                                <td>@item.Fecha.ToString("dd/MM/yyyy")</td>
-                                <td>
+                                <td>@(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")</td>
+                                <td class="text-center">@item.Fecha.ToString("dd/MM/yyyy")</td>
+                                <td class="text-center">
+                                    @* BOTÓN VER (Cápsula Azul) *@
                                     <a href="@Url.Action("Detalle", "PausaActiva", new { id = item.IdPausaActiva })"
-                                       class="btn btn-sm btn-success">Ver</a>
+                                       title="Ver Detalle"
+                                       style="display: inline-flex; align-items: center; justify-content: center;
+                                       width: 45px; height: 20px; background-color: #3182ce;
+                                       border-radius: 50px; color: white; font-size: 12px;
+                                       text-decoration: none;">
+                                        Ver
+                                    </a>
+
+                                    @* Nota: Si en el futuro agregas Editar, iría la cápsula amarilla aquí *@
                                 </td>
                             </tr>
                             i++;
@@ -51,3 +72,7 @@
         </div>
     </div>
 </div>
+
+<p class="text-center text-muted" style="margin-top:20px;">
+    &copy; @DateTime.Now.Year — Hospital Susana López de Valencia
+</p>

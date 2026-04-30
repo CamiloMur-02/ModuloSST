@@ -1,31 +1,40 @@
 ﻿@model IEnumerable<ModuloSST_HSLV.Models.ReporteIncidente>
-@{ ViewBag.Title = "Reportes de Incidente"; }
+@{
+    ViewBag.Title = "Reportes de Incidente";
+}
+
 <div class="row">
     <div class="col-md-12">
-        <h2 class="text-primary">Reportes de Incidente</h2>
+        <h2 class="text-primary">Gestión de Reportes de Incidentes</h2>
         <hr />
-        <p>
-            @Html.ActionLink("+ Registrar incidente", "Registrar", "ReporteIncidente",
-                null, new { @class = "btn btn-primary" })
-        </p>
+
+        <div style="margin-bottom: 20px;">
+            <a href="@Url.Action("Registrar")" class="btn btn-success" style="background-color: #1a8a59; border:none;">
+                + Registrar incidente
+            </a>
+            <a href="@Url.Action("Dashboard")" class="btn btn-primary" border:none; margin-left: 5px;">
+                Ver Indicadores / Dashboard
+            </a>
+        </div>
+
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover">
                 <thead>
                     <tr class="active">
-                        <th>#</th>
+                        <th class="text-center">#</th>
                         <th>Cédula</th>
                         <th>Apellidos y Nombre</th>
                         <th>Cargo</th>
                         <th>Proceso</th>
-                        <th>Fecha Incidente</th>
-                        <th>Tipo Peligro</th>
-                        <th>Acciones</th>
+                        <th class="text-center">Fecha Incidente</th>
+                        <th class="text-center">Tipo Peligro</th>
+                        <th class="text-center" style="min-width:100px;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if (!Model.Any())
+                    @if (Model == null || !Model.Any())
                     {
-                        <tr><td colspan="8" class="text-center text-muted">No hay reportes de incidentes registrados.</td></tr>
+                        <tr><td colspan="8" class="text-center text-muted">No hay reportes registrados.</td></tr>
                     }
                     else
                     {
@@ -33,18 +42,33 @@
                         foreach (var item in Model)
                         {
                             <tr>
-                                <td>@i</td>
+                                <td class="text-center">@i</td>
                                 <td>@item.Cedula</td>
                                 <td>@item.NombreCompleto</td>
                                 <td>@item.Cargo</td>
-                                <td>@(item.Proceso != null ? item.Proceso.NombreProceso : item.IdProceso.ToString())</td>
-                                <td>@item.FechaIncidente.ToString("dd/MM/yyyy")</td>
-                                <td>@item.TipoPeligro</td>
-                                <td>
-                                    <a href="@Url.Action("Detalle", "ReporteIncidente", new { id = item.IdReporteIncidente })"
-                                       class="btn btn-sm btn-success">Ver</a>
-                                    <a href="@Url.Action("Editar", "ReporteIncidente", new { id = item.IdReporteIncidente })"
-                                       class="btn btn-sm btn-warning">Editar</a>
+                                <td>@(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")</td>
+                                <td class="text-center">@item.FechaIncidente.ToString("dd/MM/yyyy")</td>
+                                <td class="text-center">@item.TipoPeligro</td>
+                                <td class="text-center">
+                                    @* BOTÓN VER (AZUL) *@
+                                    <a href="@Url.Action("Detalle", new { id = item.IdReporteIncidente })"
+                                       title="Ver Detalle"
+                                       style="display: inline-flex; align-items: center; justify-content: center;
+                                         width: 50px; height: 22px; background-color: #3182ce;
+                                         border-radius: 12px; color: white; font-size: 12px;
+                                         text-decoration: none; cursor: pointer;">
+                                        Ver
+                                    </a>
+
+                                    @* BOTÓN EDITAR (AMARILLO) *@
+                                    <a href="@Url.Action("Editar", new { id = item.IdReporteIncidente })"
+                                       title="Editar"
+                                       style="display: inline-flex; align-items: center; justify-content: center;
+                                         width: 60px; height: 22px; background-color: #f6ad55;
+                                         border-radius: 12px; color: white; font-size: 12px;
+                                         text-decoration: none; cursor: pointer; margin-left: 8px;">
+                                        Editar
+                                    </a>
                                 </td>
                             </tr>
                             i++;

@@ -1,0 +1,166 @@
+﻿@using ModuloSST_HSLV.Controllers
+@{
+    ViewBag.Title = "Dashboard de Pausas Activas";
+}
+
+<div class="container-fluid">
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-8">
+            <h2 class=""mb-4">
+                <i class="glyphicon glyphicon-heart"></i> 📊 Indicadores de Pausas Activas
+            </h2>
+        </div>
+        <div class="col-md-4 text-right">
+            <a href="@Url.Action("Index")" class="btn btn-default" style="border: 1px solid #ccc;">
+                <i class="glyphicon glyphicon-list"></i> Volver al Listado
+            </a>
+        </div>
+    </div>
+    <hr />
+
+    <!-- Filtros -->
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("Dashboard", "PausaActiva", FormMethod.Get, new { @class = "form-inline" }))
+            {
+                <label>Año: </label>
+                <input type="number" name="anio" class="form-control"
+                       value="@ViewBag.AnioActual"
+                       style="width: 90px; margin-right:10px;" />
+
+                <label>Mes: </label>
+                <select name="mes" class="form-control" style="margin-right:10px;">
+                    <option value="">-- Todos --</option>
+                    @for (int i = 1; i <= 12; i++)
+                    {
+                        <option value="@i" @(ViewBag.MesActual == i ? "selected" : "")>
+                            @System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(i)
+                        </option>
+                    }
+                </select>
+
+                <label>Trimestre: </label>
+                <select name="trimestre" class="form-control" style="margin-right:10px;">
+                    <option value="">-- Todos --</option>
+                    <option value="1" @(ViewBag.TrimestreActual == 1 ? "selected" : "")>T1</option>
+                    <option value="2" @(ViewBag.TrimestreActual == 2 ? "selected" : "")>T2</option>
+                    <option value="3" @(ViewBag.TrimestreActual == 3 ? "selected" : "")>T3</option>
+                    <option value="4" @(ViewBag.TrimestreActual == 4 ? "selected" : "")>T4</option>
+                </select>
+
+                <button type="submit" class="btn btn-primary">
+                    Filtrar Indicadores
+                </button>
+            }
+        </div>
+    </div>
+
+    <!-- Total -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-success text-center">
+                <div class="panel-body">
+                    <h1 style="font-size: 60px; margin:0; color: #2c7a7b;">
+                        @ViewBag.TotalPausas
+                    </h1>
+                    <p class="text-muted">PAUSAS ACTIVAS REGISTRADAS</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráficas -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">Pausas por Proceso</div>
+                <div class="panel-body">
+                    <canvas id="chartProceso"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">Pausas por Tipo de Cargo</div>
+                <div class="panel-body">
+                    <canvas id="chartCargo"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Distribución por Subproceso</div>
+                <div class="panel-body">
+                    <canvas id="chartSubproceso" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // ===== PROCESO =====
+    var dataProc = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.EstadisticasProceso));
+
+    new Chart(document.getElementById('chartProceso'), {
+        type: 'doughnut',
+        data: {
+            labels: dataProc.map(x => x.Nombre),
+            datasets: [{
+                data: dataProc.map(x => x.Cantidad),
+                backgroundColor: ['#3182ce', '#38a169', '#dd6b20', '#e53e3e', '#805ad5']
+            }]
+        }
+    });
+
+    // ===== CARGO =====
+    var dataCargo = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.EstadisticasCargo));
+
+    new Chart(document.getElementById('chartCargo'), {
+        type: 'bar',
+        data: {
+            labels: dataCargo.map(x => x.Nombre),
+            datasets: [{
+                label: 'Cantidad',
+                data: dataCargo.map(x => x.Cantidad),
+                backgroundColor: '#337ab7'
+            }]
+        },
+        options: {
+            responsive: true,
+            indexAxis: 'y',
+            scales: {
+                x: { beginAtZero: true }
+            }
+        }
+    });
+
+    // ===== SUBPROCESO =====
+    var dataSub = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.EstadisticasSubproceso));
+
+    new Chart(document.getElementById('chartSubproceso'), {
+        type: 'bar',
+        data: {
+            labels: dataSub.map(x => x.Nombre),
+            datasets: [{
+                label: 'Pausas Realizadas',
+                data: dataSub.map(x => x.Cantidad),
+                backgroundColor: '#38a169'
+            }]
+        },
+        options: {
+            responsive: true,
+            indexAxis: 'y',
+            scales: {
+                x: { beginAtZero: true }
+            }
+        }
+    });
+</script>

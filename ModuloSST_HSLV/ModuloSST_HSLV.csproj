@@ -232,6 +232,8 @@
     <Content Include="Views\PausaActiva\Registrar.cshtml" />
     <Content Include="Views\PausaActiva\Detalle.cshtml" />
     <Content Include="Views\ReporteAccidenteTrabajo\Dashboard.cshtml" />
+    <Content Include="Views\ReporteIncidente\Dashboard.cshtml" />
+    <Content Include="Views\PausaActiva\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

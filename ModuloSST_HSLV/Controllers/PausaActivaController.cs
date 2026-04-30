@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using ModuloSST_HSLV.DAL;
@@ -6,67 +8,127 @@ using ModuloSST_HSLV.Models;
 
 namespace ModuloSST_HSLV.Controllers
 {
-    /// <summary>
-    /// Controlador Pausa Activa
-    /// Gestiona el registro y consulta de pausas activas realizadas a colaboradores.
-    /// </summary>
-    /// <remarks>
-    /// Funcionalidades:
-    ///  - Registro de pausas activas
-    ///  - Consulta de listado
-    ///  - Visualización de detalle
-    /// </remarks>
     public class PausaActivaController : Controller
     {
-        #region [1] Campos y Dependencias
-
-        /// <summary>Contexto de base de datos.</summary>
         private readonly SSTContext db = new SSTContext();
 
-        #endregion
+        #region [1] Vistas Principales (Index & Dashboard)
 
-        #region [2] Métodos GET
-
-        /// <summary>
-        /// [2.1] Lista todas las pausas activas ordenadas por fecha descendente.
-        /// </summary>
+        // GET: PausaActiva/Index
         public ActionResult Index()
         {
             var pausas = db.PausasActivas
-                .Include("Proceso")
-                .Include("Subproceso")
+                .Include(p => p.Proceso)
+                .Include(p => p.Subproceso)
                 .OrderByDescending(p => p.Fecha)
                 .ToList();
 
             return View(pausas);
         }
 
-        /// <summary>
-        /// [2.2] Muestra el formulario para registrar una pausa activa.
-        /// </summary>
+        // GET: PausaActiva/Dashboard
+        public ActionResult Dashboard(int? anio, int? mes, int? trimestre)
+        {
+            // Configuración de filtros iniciales
+            int anioSel = anio ?? DateTime.Now.Year;
+            ViewBag.AnioActual = anioSel;
+            ViewBag.MesActual = mes;
+            ViewBag.TrimestreActual = trimestre;
+
+            var consulta = db.PausasActivas.AsQueryable();
+
+            // Aplicar Filtro de Año
+            consulta = consulta.Where(p => p.Fecha.Year == anioSel);
+
+            // Aplicar Filtro de Mes
+            if (mes.HasValue)
+                consulta = consulta.Where(p => p.Fecha.Month == mes.Value);
+
+            // Aplicar Filtro de Trimestre
+            if (trimestre.HasValue)
+            {
+                int mesInicio = (trimestre.Value - 1) * 3 + 1;
+                int mesFin = mesInicio + 2;
+                consulta = consulta.Where(p => p.Fecha.Month >= mesInicio && p.Fecha.Month <= mesFin);
+            }
+
+            var listaFiltrada = consulta.ToList();
+
+            // --- Cálculos para el Dashboard ---
+            ViewBag.TotalPausas = listaFiltrada.Count();
+
+            // 1. Agrupación por Proceso
+            ViewBag.EstadisticasProceso = listaFiltrada
+                .GroupBy(p => p.Proceso?.NombreProceso ?? "N/A")
+                .Select(g => new EstadisticaPausa { Nombre = g.Key, Cantidad = g.Count() })
+                .OrderByDescending(x => x.Cantidad)
+                .ToList();
+
+            // 2. Agrupación por Subproceso
+            ViewBag.EstadisticasSubproceso = listaFiltrada
+                .GroupBy(p => p.Subproceso?.NombreSubproceso ?? "N/A")
+                .Select(g => new EstadisticaPausa { Nombre = g.Key, Cantidad = g.Count() })
+                .OrderByDescending(x => x.Cantidad)
+                .ToList();
+
+            // 3. Agrupación por Cargo
+            ViewBag.EstadisticasCargo = listaFiltrada
+                .GroupBy(p => p.Cargo ?? "No definido")
+                .Select(g => new EstadisticaPausa { Nombre = g.Key, Cantidad = g.Count() })
+                .OrderByDescending(x => x.Cantidad)
+                .ToList();
+
+            return View();
+        }
+
+        #endregion
+
+        #region [2] Registro y Detalle
+
+        // GET: PausaActiva/Registrar
         public ActionResult Registrar()
         {
             CargarListas();
-
-            return View(new PausaActiva
-            {
-                Fecha = DateTime.Today
-            });
+            return View(new PausaActiva { Fecha = DateTime.Today });
         }
 
-        /// <summary>
-        /// [2.3] Muestra el detalle de una pausa activa.
-        /// </summary>
+        // POST: PausaActiva/Registrar
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Registrar(PausaActiva modelo)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    modelo.FechaCreacion = DateTime.Now;
+                    db.PausasActivas.Add(modelo);
+                    db.SaveChanges();
+
+                    TempData["Exito"] = "Pausa activa registrada correctamente para " + modelo.NombreCompleto + ".";
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error al guardar: " + ex.Message);
+                }
+            }
+
+            CargarListas();
+            return View(modelo);
+        }
+
+        // GET: PausaActiva/Detalle/5
         public ActionResult Detalle(int id)
         {
             var pausa = db.PausasActivas
-                .Include("Proceso")
-                .Include("Subproceso")
+                .Include(p => p.Proceso)
+                .Include(p => p.Subproceso)
                 .FirstOrDefault(p => p.IdPausaActiva == id);
 
             if (pausa == null)
             {
-                TempData["Error"] = "No se encontró la pausa activa con ID " + id + ".";
+                TempData["Error"] = "No se encontró el registro.";
                 return RedirectToAction("Index");
             }
 
@@ -75,52 +137,8 @@ namespace ModuloSST_HSLV.Controllers
 
         #endregion
 
-        #region [3] Métodos POST
+        #region [3] Métodos Auxiliares
 
-        /// <summary>
-        /// [3.1] Registra una nueva pausa activa.
-        /// </summary>
-        /// <param name="modelo">Modelo de la pausa activa.</param>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Registrar(PausaActiva modelo)
-        {
-            if (!ModelState.IsValid)
-            {
-                CargarListas();
-                return View(modelo);
-            }
-
-            try
-            {
-                modelo.FechaCreacion = DateTime.Now;
-                db.PausasActivas.Add(modelo);
-                db.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("",
-                    "Ocurrió un error al guardar la pausa activa en la base de datos. " +
-                    "Verifique que el proceso y subproceso sean válidos. " +
-                    "Detalle técnico: " + ex.Message);
-
-                CargarListas();
-                return View(modelo);
-            }
-
-            TempData["Exito"] = "Pausa activa registrada correctamente para " +
-                                 modelo.NombreCompleto + ".";
-
-            return RedirectToAction("Index");
-        }
-
-        #endregion
-
-        #region [4] Métodos Privados
-
-        /// <summary>
-        /// [4.1] Carga listas necesarias en ViewBag.
-        /// </summary>
         private void CargarListas()
         {
             ViewBag.Procesos = db.Procesos.OrderBy(p => p.NombreProceso).ToList();
@@ -128,13 +146,6 @@ namespace ModuloSST_HSLV.Controllers
             ViewBag.Generos = new[] { "Masculino", "Femenino", "Otro" };
         }
 
-        #endregion
-
-        #region [5] Liberación de Recursos
-
-        /// <summary>
-        /// [5.1] Libera los recursos del contexto.
-        /// </summary>
         protected override void Dispose(bool disposing)
         {
             if (disposing) db.Dispose();
@@ -142,5 +153,12 @@ namespace ModuloSST_HSLV.Controllers
         }
 
         #endregion
+
+        // Clase de apoyo para estructurar datos del Dashboard
+        public class EstadisticaPausa
+        {
+            public string Nombre { get; set; }
+            public int Cantidad { get; set; }
+        }
     }
 }
