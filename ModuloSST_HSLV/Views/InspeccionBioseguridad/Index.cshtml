@@ -1,13 +1,23 @@
 ﻿@model IEnumerable<ModuloSST_HSLV.Models.InspeccionBioseguridad>
-@{ ViewBag.Title = "Inspecciones de Bioseguridad"; }
+@{
+    ViewBag.Title = "Inspecciones de Bioseguridad";
+}
+
 <div class="row">
     <div class="col-md-12">
         <h2 class="text-primary">Inspecciones de Bioseguridad</h2>
         <hr />
+
         <p>
             @Html.ActionLink("+ Registrar inspección", "Registrar", "InspeccionBioseguridad",
                 null, new { @class = "btn btn-primary" })
+
+            @* NUEVO BOTÓN PARA EL DASHBOARD *@
+            <a href="@Url.Action("Dashboard", "InspeccionBioseguridad")" class="btn btn-info">
+                <i class="glyphicon glyphicon-stats"></i> Ver Indicadores / Dashboard
+            </a>
         </p>
+
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover">
                 <thead>
@@ -22,7 +32,7 @@
                         <th>C</th>
                         <th>NC</th>
                         <th>NA</th>
-                        <th>Acciones</th>
+                        <th style="width: 100px;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,15 +50,17 @@
                                 <td>@item.Cedula</td>
                                 <td>@item.NombreCompleto</td>
                                 <td>@item.Cargo</td>
-                                <td>@(item.Proceso != null ? item.Proceso.NombreProceso : item.IdProceso.ToString())</td>
-                                <td>@(item.Subproceso != null ? item.Subproceso.NombreSubproceso : item.IdSubproceso.ToString())</td>
+                                <td>@(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")</td>
+                                <td>@(item.Subproceso != null ? item.Subproceso.NombreSubproceso : "N/A")</td>
                                 <td>@item.FechaInspeccion.ToString("dd/MM/yyyy")</td>
-                                <td class="text-center">@item.TotalCumple</td>
-                                <td class="text-center">@item.TotalNoCumple</td>
-                                <td class="text-center">@item.TotalNoAplica</td>
+                                <td class="text-center"><span class="text-success"><strong>@item.TotalCumple</strong></span></td>
+                                <td class="text-center"><span class="text-danger"><strong>@item.TotalNoCumple</strong></span></td>
+                                <td class="text-center text-muted">@item.TotalNoAplica</td>
                                 <td>
                                     <a href="@Url.Action("Detalle", "InspeccionBioseguridad", new { id = item.IdInspeccionBioseguridad })"
-                                       class="btn btn-sm btn-success">Ver</a>
+                                       class="btn btn-sm btn-success">
+                                        <i class="glyphicon glyphicon-eye-open"></i> Ver
+                                    </a>
                                 </td>
                             </tr>
                             i++;

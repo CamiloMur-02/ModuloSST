@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using ModuloSST_HSLV.DAL;
@@ -7,323 +8,201 @@ using ModuloSST_HSLV.Models;
 
 namespace ModuloSST_HSLV.Controllers
 {
-    /// <summary>
-    /// Controlador Matriz de EPP
-    /// Gestiona la matriz de entrega de Elementos de Protección Personal (EPP).
-    /// </summary>
-    /// <remarks>
-    /// Diseño:
-    ///  - Cada colaborador tiene una MatrizEpp con múltiples ElementoEpp.
-    ///  - El tiempo de alerta es por elemento.
-    ///  - TiempoRestante se recalcula en memoria (dato derivado).
-    ///  - "Excluir" marca Activo=false (no elimina físicamente).
-    /// </remarks>
+    // Clase para evitar errores de enlace en el Dashboard
+    public class EstadisticaEpp
+    {
+        public string Nombre { get; set; }
+        public int Cantidad { get; set; }
+    }
+
     public class MatrizEppController : Controller
     {
-        #region [1] Campos y Dependencias
-
-        /// <summary>Contexto de base de datos.</summary>
         private readonly SSTContext db = new SSTContext();
 
+        #region [1] Dashboard
+        public ActionResult Dashboard(int? anio)
+        {
+            int anioSel = anio ?? DateTime.Now.Year;
+            ViewBag.AnioActual = anioSel;
+
+            var entregas = db.ElementosEPP
+                .Include(e => e.CatalogoEpp)
+                .Where(e => e.Activo && e.FechaEntrega.HasValue && e.FechaEntrega.Value.Year == anioSel)
+                .ToList();
+
+            int[] cantidadesMes = new int[12];
+            var resumenMensual = entregas.GroupBy(e => e.FechaEntrega.Value.Month)
+                                         .Select(g => new { Mes = g.Key, Cant = g.Count() });
+            foreach (var item in resumenMensual) cantidadesMes[item.Mes - 1] = item.Cant;
+            ViewBag.DatosMensuales = cantidadesMes;
+
+            int[] trimestres = new int[4];
+            trimestres[0] = cantidadesMes[0] + cantidadesMes[1] + cantidadesMes[2];
+            trimestres[1] = cantidadesMes[3] + cantidadesMes[4] + cantidadesMes[5];
+            trimestres[2] = cantidadesMes[6] + cantidadesMes[7] + cantidadesMes[8];
+            trimestres[3] = cantidadesMes[9] + cantidadesMes[10] + cantidadesMes[11];
+            ViewBag.DatosTrimestrales = trimestres;
+
+            ViewBag.TopElementos = entregas
+                .GroupBy(e => e.CatalogoEpp.NombreEPP)
+                .Select(g => new EstadisticaEpp { Nombre = g.Key, Cantidad = g.Count() })
+                .OrderByDescending(g => g.Cantidad).Take(10).ToList();
+
+            return View();
+        }
         #endregion
 
-        #region [2] Métodos GET
+        #region [2] Vistas Principales
 
-        /// <summary>
-        /// [2.1] Lista todas las matrices con sus elementos y recalcula TiempoRestante en memoria.
-        /// </summary>
         public ActionResult Index()
         {
             var matriz = db.MatrizEPP
-                .Include("Elementos")
-                .Include("Elementos.CatalogoEpp")
-                .Include("Proceso")
-                .Include("Subproceso")
-                .OrderByDescending(m => m.FechaRegistro)
-                .ToList();
+                .Include(m => m.Elementos.Select(e => e.CatalogoEpp))
+                .Include(m => m.Proceso)
+                .Include(m => m.Subproceso)
+                .OrderByDescending(m => m.FechaRegistro).ToList();
 
-            // Recalcular TiempoRestante en memoria
             foreach (var registro in matriz)
+            {
                 foreach (var elem in registro.Elementos.Where(e => e.Activo && e.FechaEntrega.HasValue))
                 {
-                    double dias = (DateTime.Today - elem.FechaEntrega.Value).TotalDays;
-                    elem.TiempoRestante = (decimal)(elem.TiempoAlerta - (dias / 30));
-                }
+                    // Calculamos la fecha de vencimiento real
+                    DateTime fechaVencimiento = elem.FechaEntrega.Value.AddMonths(elem.TiempoAlerta);
 
+                    // Si hoy es ANTES de la fecha de vencimiento, NO está vencido
+                    if (DateTime.Today < fechaVencimiento)
+                    {
+                        TimeSpan diferencia = fechaVencimiento - DateTime.Today;
+                        // Calculamos meses restantes (ejemplo: 0.5, 1.2, etc.)
+                        elem.TiempoRestante = (decimal)(diferencia.TotalDays / 30.44);
+                    }
+                    else
+                    {
+                        // Si hoy es igual o mayor, está vencido
+                        elem.TiempoRestante = 0;
+                    }
+                }
+            }
             return View(matriz);
         }
 
-        /// <summary>
-        /// [2.2] Muestra el formulario de registro de una nueva matriz.
-        /// </summary>
         public ActionResult Registrar()
         {
             CargarListas();
             return View(new MatrizEpp { FechaRegistro = DateTime.Today });
         }
 
-        /// <summary>
-        /// [2.3] Muestra el formulario de edición de una matriz existente.
-        /// </summary>
-        public ActionResult Editar(int id)
-        {
-            var registro = db.MatrizEPP
-                .Include("Elementos")
-                .Include("Elementos.CatalogoEpp")
-                .Include("Proceso")
-                .Include("Subproceso")
-                .FirstOrDefault(m => m.IdMatrizEPP == id);
-
-            if (registro == null)
-            {
-                TempData["Error"] = "No se encontró la matriz EPP con ID " + id + ".";
-                return RedirectToAction("Index");
-            }
-
-            foreach (var elem in registro.Elementos.Where(e => e.Activo && e.FechaEntrega.HasValue))
-            {
-                double dias = (DateTime.Today - elem.FechaEntrega.Value).TotalDays;
-                elem.TiempoRestante = (decimal)(elem.TiempoAlerta - (dias / 30));
-            }
-
-            CargarListas();
-            return View(registro);
-        }
-
-        #endregion
-
-        #region [3] Métodos POST
-
-        /// <summary>
-        /// [3.1] Registra una nueva matriz de entrega de EPP.
-        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Registrar(
-            MatrizEpp modelo,
-            int[] idsEppSeleccionados,
-            FormCollection form)
+        public ActionResult Registrar(MatrizEpp modelo, int[] idsEppSeleccionados, FormCollection form)
         {
-            if (idsEppSeleccionados == null || idsEppSeleccionados.Length == 0)
+            if (ModelState.IsValid && idsEppSeleccionados != null)
             {
-                ModelState.AddModelError("",
-                    "Debe seleccionar al menos un elemento EPP para registrar la entrega.");
-                CargarListas();
-                return View(modelo);
-            }
-
-            if (!ModelState.IsValid)
-            {
-                CargarListas();
-                return View(modelo);
-            }
-
-            modelo.Elementos = new List<ElementoEpp>();
-
-            foreach (int idEpp in idsEppSeleccionados)
-            {
-                string fechaStr = form["fecha_" + idEpp];
-                string alertaStr = form["alerta_" + idEpp];
-
-                DateTime? fechaEntrega = null;
-                if (!string.IsNullOrWhiteSpace(fechaStr) &&
-                    DateTime.TryParse(fechaStr, out DateTime fechaParsed))
-                    fechaEntrega = fechaParsed;
-
-                if (!fechaEntrega.HasValue)
+                modelo.Elementos = new List<ElementoEpp>();
+                foreach (int idEpp in idsEppSeleccionados)
                 {
-                    ModelState.AddModelError("",
-                        "Debe ingresar la fecha de entrega para todos los EPP seleccionados.");
-                    CargarListas();
-                    return View(modelo);
+                    if (DateTime.TryParse(form["fecha_" + idEpp], out DateTime f))
+                    {
+                        modelo.Elementos.Add(new ElementoEpp
+                        {
+                            IdCatalogoEPP = idEpp,
+                            FechaEntrega = f,
+                            TiempoAlerta = int.Parse(form["alerta_" + idEpp] ?? "12"),
+                            Activo = true,
+                            FechaCreacion = DateTime.Now
+                        });
+                    }
                 }
-
-                int alerta = 12;
-                if (!string.IsNullOrWhiteSpace(alertaStr))
-                    int.TryParse(alertaStr, out alerta);
-
-                double dias = (DateTime.Today - fechaEntrega.Value).TotalDays;
-                decimal tiempoRestante = (decimal)(alerta - (dias / 30));
-
-                modelo.Elementos.Add(new ElementoEpp
-                {
-                    IdCatalogoEPP = idEpp,
-                    FechaEntrega = fechaEntrega,
-                    TiempoAlerta = alerta,
-                    TiempoRestante = tiempoRestante,
-                    Activo = true,
-                    FechaCreacion = DateTime.Now
-                });
-            }
-
-            try
-            {
                 modelo.FechaCreacion = DateTime.Now;
                 db.MatrizEPP.Add(modelo);
                 db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("",
-                    "Ocurrió un error al guardar la matriz en la base de datos. " +
-                    "Detalle técnico: " + ex.Message);
-
-                CargarListas();
-                return View(modelo);
-            }
-
-            TempData["Exito"] = "Entrega de EPP registrada correctamente para " +
-                                 modelo.NombreCompleto + ".";
-
-            return RedirectToAction("Index");
+            CargarListas();
+            return View(modelo);
         }
 
-        /// <summary>
-        /// [3.2] Marca un elemento como inactivo (no lo elimina físicamente).
-        /// </summary>
+        public ActionResult Editar(int id)
+        {
+            var registro = db.MatrizEPP
+                .Include(m => m.Elementos.Select(e => e.CatalogoEpp))
+                .Include(m => m.Proceso)
+                .Include(m => m.Subproceso)
+                .FirstOrDefault(m => m.IdMatrizEPP == id);
+
+            if (registro == null) return RedirectToAction("Index");
+            CargarListas();
+            return View(registro);
+        }
+        #endregion
+
+        #region [3] Acciones de Edición (Botones de la Vista)
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ExcluirElemento(int idElemento, int idMatriz)
         {
             var elem = db.ElementosEPP.Find(idElemento);
-
-            if (elem == null)
-            {
-                TempData["Error"] = "El elemento EPP con ID " + idElemento +
-                                    " no fue encontrado.";
-                return RedirectToAction("Editar", new { id = idMatriz });
-            }
-
-            try
+            if (elem != null)
             {
                 elem.Activo = false;
                 elem.FechaModificacion = DateTime.Now;
-
-                db.Entry(elem).Property(e => e.Activo).IsModified = true;
-                db.Entry(elem).Property(e => e.FechaModificacion).IsModified = true;
+                db.Entry(elem).State = EntityState.Modified;
                 db.SaveChanges();
             }
-            catch (Exception ex)
-            {
-                TempData["Error"] = "No se pudo excluir el elemento. " +
-                                    "Detalle técnico: " + ex.Message;
-                return RedirectToAction("Editar", new { id = idMatriz });
-            }
-
-            TempData["Exito"] = "Elemento de EPP excluido correctamente.";
             return RedirectToAction("Editar", new { id = idMatriz });
         }
 
-        /// <summary>
-        /// [3.3] Agrega un nuevo elemento EPP a una matriz existente.
-        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AgregarElemento(
-            int idMatriz,
-            int idCatalogo,
-            DateTime? fechaEntrega,
-            int tiempoAlerta = 12)
+        public ActionResult AgregarElemento(int idMatriz, int idCatalogo, DateTime? fechaEntrega, int tiempoAlerta = 12)
         {
-            if (!fechaEntrega.HasValue)
+            if (fechaEntrega.HasValue)
             {
-                TempData["Error"] = "La fecha de entrega es obligatoria para agregar un elemento EPP.";
-                return RedirectToAction("Editar", new { id = idMatriz });
-            }
-
-            double dias = (DateTime.Today - fechaEntrega.Value).TotalDays;
-            decimal tiempoRestante = (decimal)(tiempoAlerta - (dias / 30));
-
-            try
-            {
-                db.ElementosEPP.Add(new ElementoEpp
+                var nuevo = new ElementoEpp
                 {
                     IdMatrizEPP = idMatriz,
                     IdCatalogoEPP = idCatalogo,
-                    FechaEntrega = fechaEntrega,
+                    FechaEntrega = fechaEntrega.Value,
                     TiempoAlerta = tiempoAlerta,
-                    TiempoRestante = tiempoRestante,
                     Activo = true,
                     FechaCreacion = DateTime.Now
-                });
+                };
+                db.ElementosEPP.Add(nuevo);
                 db.SaveChanges();
             }
-            catch (Exception ex)
-            {
-                TempData["Error"] = "No se pudo agregar el elemento EPP. " +
-                                    "Verifique que el tipo de EPP seleccionado sea válido. " +
-                                    "Detalle técnico: " + ex.Message;
-                return RedirectToAction("Editar", new { id = idMatriz });
-            }
-
-            TempData["Exito"] = "Elemento de EPP agregado correctamente.";
             return RedirectToAction("Editar", new { id = idMatriz });
         }
 
-        /// <summary>
-        /// [3.4] Guarda las observaciones finales de una matriz.
-        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult GuardarObservaciones(int idMatriz, string observacionesFinales)
+        public ActionResult GuardarObservaciones(int idMatriz, string ObservacionesFinales)
         {
-            var registro = db.MatrizEPP
-                .FirstOrDefault(m => m.IdMatrizEPP == idMatriz);
-
-            if (registro == null)
+            var matriz = db.MatrizEPP.Find(idMatriz);
+            if (matriz != null)
             {
-                TempData["Error"] = "No se encontró la entrega de EPP con ID " + idMatriz + ".";
-                return RedirectToAction("Index");
-            }
-
-            try
-            {
-                registro.ObservacionesFinales = observacionesFinales;
-                registro.FechaModificacion = DateTime.Now;
+                matriz.ObservacionesFinales = ObservacionesFinales;
+                matriz.FechaModificacion = DateTime.Now;
+                db.Entry(matriz).State = EntityState.Modified;
                 db.SaveChanges();
             }
-            catch (Exception ex)
-            {
-                TempData["Error"] = "No se pudieron guardar las observaciones. " +
-                                    "Detalle técnico: " + ex.Message;
-                return RedirectToAction("Editar", new { id = idMatriz });
-            }
-
-            TempData["Exito"] = "Observaciones guardadas correctamente.";
             return RedirectToAction("Editar", new { id = idMatriz });
         }
 
         #endregion
 
-        #region [4] Métodos Privados
-
-        /// <summary>
-        /// [4.1] Carga listas necesarias en ViewBag.
-        /// </summary>
         private void CargarListas()
         {
             ViewBag.Procesos = db.Procesos.OrderBy(p => p.NombreProceso).ToList();
             ViewBag.Subprocesos = db.Subprocesos.OrderBy(s => s.NombreSubproceso).ToList();
-            ViewBag.Generos = new[] { "Masculino", "Femenino", "Otro" };
-            ViewBag.CatalogoEPP = db.CatalogoEPP
-                .Where(c => c.Estado)
-                .OrderBy(c => c.NombreEPP)
-                .ToList();
+            ViewBag.CatalogoEPP = db.CatalogoEPP.Where(c => c.Estado).OrderBy(c => c.NombreEPP).ToList();
+            ViewBag.Generos = new string[] { "Masculino", "Femenino", "Otro" };
         }
 
-        #endregion
-
-        #region [5] Liberación de Recursos
-
-        /// <summary>
-        /// [5.1] Libera los recursos del contexto.
-        /// </summary>
         protected override void Dispose(bool disposing)
         {
             if (disposing) db.Dispose();
             base.Dispose(disposing);
         }
-
-        #endregion
     }
 }

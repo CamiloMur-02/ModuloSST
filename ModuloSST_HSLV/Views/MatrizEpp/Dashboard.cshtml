@@ -1,0 +1,95 @@
+﻿@using ModuloSST_HSLV.Controllers
+@{
+    ViewBag.Title = "Indicadores de Suministros EPP";
+    // Forzamos la lista a ser del tipo correcto desde el inicio
+    var listaElementos = ViewBag.TopElementos as List<EstadisticaEpp>;
+    int[] datosMensuales = ViewBag.DatosMensuales as int[];
+    int[] datosTrimestrales = ViewBag.DatosTrimestrales as int[];
+    int totalGeneral = datosTrimestrales != null ? datosTrimestrales.Sum() : 0;
+}
+
+<div class="container-fluid">
+    <h2 class="text-primary"><i class="glyphicon glyphicon-stats"></i> Dashboard de Suministros EPP</h2>
+    <hr />
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("Dashboard", "MatrizEpp", FormMethod.Get, new { @class = "form-inline" }))
+            {
+                <label>Año: </label>
+                <input type="number" name="anio" class="form-control" value="@ViewBag.AnioActual" style="width:100px; margin-right:10px;" />
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+                <a href="@Url.Action("Index")" class="btn btn-default pull-right">Volver</a>
+            }
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">Entregas Mensuales</div>
+                <div class="panel-body"><canvas id="chartMensual" height="100"></canvas></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">Distribución Trimestral</div>
+                <div class="panel-body"><canvas id="chartTrimestre" height="230"></canvas></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Top 10 Elementos más entregados</div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Elemento</th>
+                        <th class="text-center">Cantidad</th>
+                        <th>% del Total Año</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (listaElementos != null && listaElementos.Any())
+                    {
+                        foreach (EstadisticaEpp item in listaElementos)
+                        {
+                            double porc = totalGeneral > 0 ? (double)item.Cantidad * 100 / totalGeneral : 0;
+                            <tr>
+                                <td>@item.Nombre</td>
+                                <td class="text-center"><strong>@item.Cantidad</strong></td>
+                                <td style="width: 40%">
+                                    <div class="progress" style="margin-bottom:0">
+                                        <div class="progress-bar progress-bar-info" style="width: @porc.ToString("0")%">
+                                            @porc.ToString("0.0")%
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    new Chart(document.getElementById('chartMensual'), {
+        type: 'line',
+        data: {
+            labels: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+            datasets: [{ label: 'EPP', data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(datosMensuales)), borderColor: '#3182ce', fill: true }]
+        }
+    });
+
+    new Chart(document.getElementById('chartTrimestre'), {
+        type: 'doughnut',
+        data: {
+            labels: ['T1','T2','T3','T4'],
+            datasets: [{ data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(datosTrimestrales)), backgroundColor: ['#4299e1','#48bb78','#ed8936','#ecc94b'] }]
+        }
+    });
+</script>

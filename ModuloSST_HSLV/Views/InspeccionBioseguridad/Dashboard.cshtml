@@ -1,0 +1,163 @@
+﻿@using ModuloSST_HSLV.Controllers
+@{
+    ViewBag.Title = "Dashboard de Bioseguridad";
+    var estadisticasItems = ViewBag.EstadisticasItems as List<InspeccionBioseguridadController.EstadisticaBioseguridad>;
+}
+
+<div class="container-fluid">
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-8">
+            <h2 class="text-primary"><i class="glyphicon glyphicon-shield"></i> Indicadores de Bioseguridad</h2>
+        </div>
+        <div class="col-md-4 text-right">
+            <a href="@Url.Action("Index")" class="btn btn-default" style="border: 1px solid #ccc;">
+                <i class="glyphicon glyphicon-list"></i> Volver al Listado
+            </a>
+        </div>
+    </div>
+    <hr />
+
+    @* Filtros *@
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @using (Html.BeginForm("Dashboard", "InspeccionBioseguridad", FormMethod.Get, new { @class = "form-inline" }))
+            {
+                <label>Año: </label>
+                <input type="number" name="anio" class="form-control" value="@ViewBag.AnioActual" style="width: 100px; margin-right:15px;" />
+
+                <label>Trimestre: </label>
+                <select name="trimestre" class="form-control" style="margin-right:15px;">
+                    <option value="">-- Todos los Trimestres --</option>
+                    <option value="1" @(ViewBag.TrimestreActual == 1 ? "selected" : "")>T1 (Ene-Mar)</option>
+                    <option value="2" @(ViewBag.TrimestreActual == 2 ? "selected" : "")>T2 (Abr-Jun)</option>
+                    <option value="3" @(ViewBag.TrimestreActual == 3 ? "selected" : "")>T3 (Jul-Sep)</option>
+                    <option value="4" @(ViewBag.TrimestreActual == 4 ? "selected" : "")>T4 (Oct-Dic)</option>
+                </select>
+
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            }
+        </div>
+    </div>
+
+    @* Tabla de Adherencia por Ítem (Lo que pediste: % y Cantidad Exacta) *@
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="background-color: #f5f5f5;">
+                    <h3 class="panel-title"><strong>Cumplimiento Normativo por Ítem Evaluado</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Norma / Ítem de Bioseguridad</th>
+                                <th class="text-center">Cumple (C)</th>
+                                <th class="text-center">No Cumple (NC)</th>
+                                <th style="width: 40%;">Porcentaje de Adherencia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (estadisticasItems != null && estadisticasItems.Any())
+                            {
+                                foreach (var item in estadisticasItems)
+                                {
+                                    var colorBarra = item.PorcentajeAdherencia >= 80 ? "progress-bar-success" :
+                                                    (item.PorcentajeAdherencia >= 60 ? "progress-bar-warning" : "progress-bar-danger");
+                                    <tr>
+                                        <td>@item.Nombre</td>
+                                        <td class="text-center"><span class="label label-success">@item.Cumple</span></td>
+                                        <td class="text-center"><span class="label label-danger">@item.NoCumple</span></td>
+                                        <td>
+                                            <div class="progress" style="margin-bottom:0; height: 18px;">
+                                                <div class="progress-bar @colorBarra" role="progressbar"
+                                                     style="width: @item.PorcentajeAdherencia.ToString("0")%;">
+                                                    @item.PorcentajeAdherencia.ToString("0.0")%
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td colspan="4" class="text-center">No hay datos para el periodo seleccionado.</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Gráficas de Procesos y Subprocesos *@
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"><strong>Adherencia por Proceso (%)</strong></div>
+                <div class="panel-body">
+                    <canvas id="chartProcesos" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"><strong>Adherencia por Subproceso</strong></div>
+                <div class="panel-body">
+                    <canvas id="chartSubprocesos" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Scripts para Gráficas *@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Datos Procesos
+    var dataProc = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.AdherenciaProceso));
+    new Chart(document.getElementById('chartProcesos'), {
+        type: 'bar',
+        data: {
+            labels: dataProc.map(x => x.Nombre),
+            datasets: [{
+                label: '% Adherencia',
+                data: dataProc.map(x => x.Porcentaje),
+                backgroundColor: '#3182ce',
+                borderRadius: 5 
+            }]
+        },
+        options: {
+            indexAxis: 'y', // <--- ESTO ES LO QUE LO HACE HORIZONTAL
+            responsive: true,
+            plugins: {
+                legend: { display: false } 
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: { display: true, text: 'Porcentaje de Cumplimiento' }
+                }
+            }
+        }
+    });
+
+    // Datos Subprocesos (Ej: Cirugía Adultos)
+    var dataSub = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.AdherenciaSubproceso));
+    new Chart(document.getElementById('chartSubprocesos'), {
+        type: 'bar',
+        data: {
+            labels: dataSub.map(x => x.Nombre),
+            datasets: [{
+                label: '% Adherencia',
+                data: dataSub.map(x => x.Porcentaje),
+                backgroundColor: '#38a169',
+                borderRadius: 5
+            }]
+        },
+        options: {
+            indexAxis: 'y', // Barras horizontales para que se lean mejor los subprocesos largos
+            scales: { x: { beginAtZero: true, max: 100 } }
+        }
+    });
+</script>

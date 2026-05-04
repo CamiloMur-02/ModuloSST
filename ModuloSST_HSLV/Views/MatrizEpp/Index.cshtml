@@ -1,64 +1,100 @@
 ﻿@model IEnumerable<ModuloSST_HSLV.Models.MatrizEpp>
-@{ ViewBag.Title = "Matriz de Entrega de EPP"; }
+@{
+    ViewBag.Title = "Matriz de Entrega de EPP";
+}
+
 <div class="row">
     <div class="col-md-12">
         <h2 class="text-primary">Matriz de Entrega de EPP</h2>
         <hr />
+
         <p>
             @Html.ActionLink("+ Registrar entrega", "Registrar", "MatrizEpp", null, new { @class = "btn btn-primary" })
             <a href="@Url.Action("Index", "CatalogoEpp")" class="btn btn-default" style="border:2px solid #aaa;background:transparent;">
                 Catálogo EPP
             </a>
+            <a href="@Url.Action("Dashboard", "MatrizEpp")" class="btn btn-info">
+                <i class="glyphicon glyphicon-stats"></i> Ver Estadísticas de Suministros
+            </a>
         </p>
+
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover">
                 <thead>
                     <tr class="active">
-                        <th>#</th>
+                        <th class="text-center">#</th>
                         <th>Cédula</th>
                         <th>Apellidos y Nombres</th>
                         <th>Cargo</th>
-                        <th>Proceso</th>
-                        <th>Subproceso</th>
-                        <th>Fecha Registro</th>
-                        <th>EPP Activos</th>
-                        <th>Alertas</th>
-                        <th>Acciones</th>
+                        <th>Proceso / Área</th>
+                        <th class="text-center">Fecha Registro</th>
+                        <th class="text-center">EPP Activos</th>
+                        <th class="text-center">Alertas / Estado</th>
+                        <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (!Model.Any())
                     {
-                        <tr><td colspan="10" class="text-center text-muted">No hay registros de entrega de EPP.</td></tr>
+                        <tr><td colspan="9" class="text-center text-muted">No hay registros de entrega de EPP.</td></tr>
                     }
                     else
                     {
                         int i = 1;
                         foreach (var item in Model)
                         {
-                            int alertas = item.Elementos.Count(e => e.Activo && e.TiempoRestante <= 0);
+                            // Lógica de conteo limpia
+                            var activos = item.Elementos.Where(e => e.Activo).ToList();
+                            int vencidos = activos.Count(e => e.TiempoRestante <= 0);
+                            int porVencer = activos.Count(e => e.TiempoRestante > 0 && e.TiempoRestante <= 1);
+                            int totalActivos = activos.Count;
+
                             <tr>
-                                <td>@i</td>
+                                <td class="text-center">@i</td>
                                 <td>@item.Cedula</td>
-                                <td>@item.NombreCompleto</td>
+                                <td><strong>@item.NombreCompleto</strong></td>
                                 <td>@item.Cargo</td>
-                                <td>@(item.Proceso != null ? item.Proceso.NombreProceso : item.IdProceso.ToString())</td>
-                                <td>@(item.Subproceso != null ? item.Subproceso.NombreSubproceso : item.IdSubproceso.ToString())</td>
-                                <td>@item.FechaRegistro.ToString("dd/MM/yyyy")</td>
-                                <td class="text-center">@item.Elementos.Count(e => e.Activo)</td>
+                                <td>
+                                    <small>
+                                        @(item.Proceso != null ? item.Proceso.NombreProceso : "N/A") / <br />
+                                        @(item.Subproceso != null ? item.Subproceso.NombreSubproceso : "N/A")
+                                    </small>
+                                </td>
+                                <td class="text-center">@item.FechaRegistro.ToString("dd/MM/yyyy")</td>
                                 <td class="text-center">
-                                    @if (alertas > 0)
+                                    <span class="badge" style="color: #333;">@totalActivos</span>
+                                </td>
+                                <td class="text-center">
+                                    @if (vencidos > 0)
                                     {
-                                        <span class="badge bg-danger">@alertas vencido(s)</span>
+                                        <span class="label label-danger" style="display:block; margin-bottom:2px; font-size: 90%; padding: 5px;">
+                                            <i class="glyphicon glyphicon-remove"></i> @vencidos vencido(s)
+                                        </span>
                                     }
-                                    else
+
+                                    @if (porVencer > 0)
                                     {
-                                        <span>OK</span>
+                                        <span class="label label-warning" style="display:block; font-size: 90%; padding: 5px;">
+                                            <i class="glyphicon glyphicon-time"></i> @porVencer por vencer
+                                        </span>
+                                    }
+
+                                    @if (vencidos == 0 && porVencer == 0 && totalActivos > 0)
+                                    {
+                                        <span class="label label-success" style="padding: 5px;">
+                                            <i class="glyphicon glyphicon-ok"></i> Al día
+                                        </span>
+                                    }
+                                    else if (totalActivos == 0)
+                                    {
+                                        <span class="text-muted small">Sin EPP</span>
                                     }
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <a href="@Url.Action("Editar", "MatrizEpp", new { id = item.IdMatrizEPP })"
-                                       class="btn btn-sm btn-warning">Editar</a>
+                                       class="btn btn-sm btn-warning">
+                                        <i class="glyphicon glyphicon-edit"></i> Gestionar
+                                    </a>
                                 </td>
                             </tr>
                             i++;
