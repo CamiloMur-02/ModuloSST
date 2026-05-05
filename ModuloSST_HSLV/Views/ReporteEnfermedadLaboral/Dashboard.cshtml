@@ -1,0 +1,180 @@
+﻿@using ModuloSST_HSLV.Models.ViewModels
+
+@{
+    ViewBag.Title = "Estadísticas de Salud";
+}
+
+<div class="container-fluid">
+    <h2 class="text-primary">
+        <i class="glyphicon glyphicon-heart"></i> Dashboard Epidemiológico @DateTime.Now.Year
+    </h2>
+    <hr />
+
+    <div class="row">
+        <!-- SISTEMAS -->
+        <div class="col-md-5">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <strong>Distribución por Sistemas (CIE-10)</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">
+
+                        @if (ViewBag.Sistemas != null)
+                        {
+                            foreach (SistemaViewModel s in ViewBag.Sistemas)
+                            {
+                                <div class="list-group-item">
+                                    <span class="badge" style="background-color: #5bc0de;">
+                                        @s.TotalCasos casos
+                                    </span>
+
+                                    <h5 class="list-group-item-heading">
+                                        <strong>@s.NombreSistema</strong>
+                                    </h5>
+
+                                    <p class="list-group-item-text text-muted small">
+                                        Total días incapacidad: @s.TotalDias
+                                    </p>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="text-muted">No hay datos disponibles.</div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOP DIAGNÓSTICOS -->
+        <div class="col-md-7">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>Top 5 Diagnósticos con Mayor Incapacidad</strong>
+                </div>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="active">
+                            <th>CIE-10</th>
+                            <th>Descripción</th>
+                            <th class="text-center">Días</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @if (ViewBag.TopDiagnosticos != null)
+                        {
+                            foreach (DiagnosticoViewModel d in ViewBag.TopDiagnosticos)
+                            {
+                                <tr>
+                                    <td>
+                                        <b class="text-primary">@d.Codigo</b>
+                                    </td>
+
+                                    <td>
+                                        <small class="text-muted">@d.Detalle</small>
+                                    </td>
+
+                                    <td class="text-center text-danger">
+                                        <strong>@d.Dias</strong>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3" class="text-center text-muted">
+                                    No hay datos disponibles.
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLA DETALLE -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <strong>Seguimiento de Enfermedad Laboral</strong>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr class="info">
+                        <th>Mes</th>
+                        <th>Colaborador / Cargo</th>
+                        <th>Proceso / Subproceso</th>
+                        <th>Causa / Diagnóstico</th>
+                        <th>Días</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @if (ViewBag.LaboralesDetalle != null)
+                    {
+                        foreach (var item in ViewBag.LaboralesDetalle)
+                        {
+                            <tr>
+                                <!-- MES -->
+                                <td class="text-center">
+                                    <strong>Mes @item.FechaDiagnostico.Month</strong><br />
+                                    <span class="label label-default">
+                                        Trim @(((item.FechaDiagnostico.Month - 1) / 3) + 1)
+                                    </span>
+                                </td>
+
+                                <!-- COLABORADOR -->
+                                <td>
+                                    <strong>@item.NombreCompleto</strong><br />
+                                    <small>@item.Cargo</small>
+                                </td>
+
+                                <!-- PROCESO -->
+                                <td>
+                                    @(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")<br />
+                                    <small>
+                                        @(item.Subproceso != null ? item.Subproceso.NombreSubproceso : "N/A")
+                                    </small>
+                                </td>
+
+                                <!-- CAUSA + DIAGNÓSTICO -->
+                                <td>
+                                    <span class="label label-primary">
+                                        @(string.IsNullOrEmpty(item.Causa) ? "N/A" : item.Causa)
+                                    </span>
+                                    <br />
+                                    <small class="text-muted">
+                                        @item.DetallesDiagnostico
+                                    </small>
+                                </td>
+
+                                <!-- DÍAS -->
+                                <td class="text-center">
+                                    <strong>@item.DiasIncapacidad</strong>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">
+                                No hay registros disponibles.
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

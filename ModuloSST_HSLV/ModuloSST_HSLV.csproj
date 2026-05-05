@@ -150,6 +150,8 @@
     <Compile Include="Models\Proceso.cs" />
     <Compile Include="Models\ReporteAccidenteTrabajo.cs" />
     <Compile Include="Models\Subproceso.cs" />
+    <Compile Include="Models\ViewModels\Class1.cs" />
+    <Compile Include="Models\ViewModels\SistemaViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +238,7 @@
     <Content Include="Views\PausaActiva\Dashboard.cshtml" />
     <Content Include="Views\InspeccionBioseguridad\Dashboard.cshtml" />
     <Content Include="Views\MatrizEpp\Dashboard.cshtml" />
+    <Content Include="Views\ReporteEnfermedadLaboral\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

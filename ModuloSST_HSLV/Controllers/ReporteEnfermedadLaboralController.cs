@@ -3,8 +3,10 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
 using ModuloSST_HSLV.DAL;
 using ModuloSST_HSLV.Models;
+using ModuloSST_HSLV.Models.ViewModels;
 
 namespace ModuloSST_HSLV.Controllers
 {
@@ -42,15 +44,91 @@ namespace ModuloSST_HSLV.Controllers
         public ActionResult Index()
         {
             var reportes = db.ReportesEnfermedadLaboral
-                .Include("Proceso")
-                .Include("Subproceso")
+                .Include(r => r.Proceso)
+                .Include(r => r.Subproceso)
                 .OrderByDescending(r => r.FechaDiagnostico)
                 .ToList();
 
             return View(reportes);
         }
 
-        /// <summary>
+        public ActionResult Dashboard()
+        {
+            var hoy = DateTime.Today;
+
+            // 1. Obtener datos con relaciones
+            var reportes = db.ReportesEnfermedadLaboral
+                .Include(r => r.Proceso)
+                .Include(r => r.Subproceso)
+                .Where(r => r.FechaDiagnostico.Year == hoy.Year)
+                .ToList();
+
+            // 2. CLASIFICACIÓN POR SISTEMAS (Enfermedad General)
+            ViewBag.Sistemas = reportes
+                .Where(r => r.TipoEnfermedad == "Enfermedad General")
+                .Select(r => new
+                {
+                    Sistema = ClasificarSistemaCIE10(r.Codigo),
+                    Dias = r.DiasIncapacidad
+                })
+                .GroupBy(x => x.Sistema)
+                .Select(g => new ModuloSST_HSLV.Models.ViewModels.SistemaViewModel
+                {
+                    NombreSistema = g.Key,
+                    TotalCasos = g.Count(),
+                    TotalDias = g.Sum(x => x.Dias)
+                })
+                .OrderByDescending(x => x.TotalDias)
+                .ToList();
+
+            // 3. TOP DIAGNÓSTICOS (✅ SOLO UNA VEZ Y BIEN TIPADO)
+            ViewBag.TopDiagnosticos = reportes
+                .GroupBy(r => new
+                {
+                    Cod = string.IsNullOrEmpty(r.Codigo) ? "S/D" : r.Codigo,
+                    Det = string.IsNullOrEmpty(r.DetallesDiagnostico) ? "Sin Detalle" : r.DetallesDiagnostico
+                })
+                .Select(g => new ModuloSST_HSLV.Models.ViewModels.DiagnosticoViewModel
+                {
+                    Codigo = g.Key.Cod,
+                    Detalle = g.Key.Det,
+                    Dias = g.Sum(x => x.DiasIncapacidad)
+                })
+                .OrderByDescending(x => x.Dias)
+                .Take(5)
+                .ToList();
+
+            // 4. ENFERMEDAD LABORAL - FILTROS
+            var laborales = reportes
+                .Where(r => r.TipoEnfermedad == "Enfermedad Laboral")
+                .ToList();
+
+            ViewBag.Mensual = laborales
+                .GroupBy(r => r.FechaDiagnostico.Month)
+                .Select(g => new
+                {
+                    Mes = g.Key,
+                    Cantidad = g.Count()
+                })
+                .OrderBy(x => x.Mes)
+                .ToList();
+
+            ViewBag.Trimestral = laborales
+                .GroupBy(r => (r.FechaDiagnostico.Month - 1) / 3 + 1)
+                .Select(g => new
+                {
+                    Trimestre = g.Key,
+                    Cantidad = g.Count()
+                })
+                .OrderBy(x => x.Trimestre)
+                .ToList();
+
+            // 5. DETALLE
+            ViewBag.LaboralesDetalle = laborales;
+
+            return View();
+        }
+
         /// [2.2] Muestra el formulario de registro.
         /// </summary>
         public ActionResult Registrar()
@@ -70,8 +148,8 @@ namespace ModuloSST_HSLV.Controllers
         public ActionResult Editar(int id)
         {
             var reporte = db.ReportesEnfermedadLaboral
-                .Include("Proceso")
-                .Include("Subproceso")
+                .Include(r => r.Proceso)
+                .Include(r => r.Subproceso)
                 .FirstOrDefault(r => r.IdReporteEnfermedadLaboral == id);
 
             if (reporte == null)
@@ -90,8 +168,8 @@ namespace ModuloSST_HSLV.Controllers
         public ActionResult Detalle(int id)
         {
             var reporte = db.ReportesEnfermedadLaboral
-                .Include("Proceso")
-                .Include("Subproceso")
+                .Include(r => r.Proceso)
+                .Include(r => r.Subproceso)
                 .FirstOrDefault(r => r.IdReporteEnfermedadLaboral == id);
 
             if (reporte == null)
@@ -383,6 +461,58 @@ namespace ModuloSST_HSLV.Controllers
                 nuevaRuta = rutaAnterior;
                 nuevoNombre = nombreAnterior;
             }
+        }
+
+        private string ClasificarSistemaCIE10(string codigo)
+        {
+            if (string.IsNullOrWhiteSpace(codigo))
+                return "No registrado";
+
+            char letra = char.ToUpper(codigo[0]);
+
+            if (letra >= 'A' && letra <= 'B')
+                return "Enfermedades Infecciosas";
+
+            if (letra == 'C')
+                return "Neoplasias";
+
+            if (letra == 'D')
+                return "Enfermedades de la Sangre";
+
+            if (letra == 'E')
+                return "Sistema Endocrino";
+
+            if (letra == 'F')
+                return "Trastornos Mentales";
+
+            if (letra == 'G')
+                return "Sistema Nervioso";
+
+            if (letra == 'H')
+                return "Ojo y Oído";
+
+            if (letra == 'I')
+                return "Sistema Circulatorio";
+
+            if (letra == 'J')
+                return "Sistema Respiratorio";
+
+            if (letra == 'K')
+                return "Sistema Digestivo";
+
+            if (letra == 'L')
+                return "Piel y Faneras";
+
+            if (letra == 'M')
+                return "Sistema Osteomuscular";
+
+            if (letra == 'N')
+                return "Sistema Genitourinario";
+
+            if (letra >= 'S' && letra <= 'T')
+                return "Traumatismos / Causas Externas";
+
+            return "Otros Sistemas";
         }
 
         #endregion
