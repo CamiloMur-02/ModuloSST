@@ -10,7 +10,8 @@
             <h2 class="text-primary"><i class="glyphicon glyphicon-shield"></i> Indicadores de Bioseguridad</h2>
         </div>
         <div class="col-md-4 text-right">
-            <a href="@Url.Action("Index")" class="btn btn-default" style="border: 1px solid #ccc;">
+            <a href="@Url.Action("Index")" class="btn btn-default"
+               style="border: 2px solid #29235c; color: #29235c; border-radius: 12px; font-weight: 600;">
                 <i class="glyphicon glyphicon-list"></i> Volver al Listado
             </a>
         </div>
@@ -34,12 +35,12 @@
                     <option value="4" @(ViewBag.TrimestreActual == 4 ? "selected" : "")>T4 (Oct-Dic)</option>
                 </select>
 
-                <button type="submit" class="btn btn-primary">Filtrar</button>
+                <button type="submit" class="btn-dashboard" style="padding: 6px 20px;">Filtrar</button>
             }
         </div>
     </div>
 
-    @* Tabla de Adherencia por Ítem (Lo que pediste: % y Cantidad Exacta) *@
+    @* Tabla de Adherencia por Ítem (Cantidad Exacta) *@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
@@ -47,7 +48,7 @@
                     <h3 class="panel-title"><strong>Cumplimiento Normativo por Ítem Evaluado</strong></h3>
                 </div>
                 <div class="panel-body">
-                    <table class="table table-hover">
+                    <table class="table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>Norma / Ítem de Bioseguridad</th>
@@ -57,30 +58,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (estadisticasItems != null && estadisticasItems.Any())
+                            @foreach (var item in estadisticasItems)
                             {
-                                foreach (var item in estadisticasItems)
-                                {
-                                    var colorBarra = item.PorcentajeAdherencia >= 80 ? "progress-bar-success" :
-                                                    (item.PorcentajeAdherencia >= 60 ? "progress-bar-warning" : "progress-bar-danger");
-                                    <tr>
-                                        <td>@item.Nombre</td>
-                                        <td class="text-center"><span class="label label-success">@item.Cumple</span></td>
-                                        <td class="text-center"><span class="label label-danger">@item.NoCumple</span></td>
-                                        <td>
-                                            <div class="progress" style="margin-bottom:0; height: 18px;">
-                                                <div class="progress-bar @colorBarra" role="progressbar"
-                                                     style="width: @item.PorcentajeAdherencia.ToString("0")%;">
-                                                    @item.PorcentajeAdherencia.ToString("0.0")%
-                                                </div>
+                                
+                                var colorBarra = item.PorcentajeAdherencia >= 80 ? "#76b82a" : // Verde hospital
+                                                (item.PorcentajeAdherencia >= 60 ? "#f0ad4e" : "#d9534f");
+                                <tr>
+                                    <td>@item.Nombre</td>
+                                    @* Círculos de color sólido para C y NC *@
+                                    <td class="text-center">
+                                        <span style="background-color: #28a745; color: white; padding: 4px 10px; border-radius: 50%; font-weight: bold;">@item.Cumple</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span style="background-color: #dc3545; color: white; padding: 4px 10px; border-radius: 50%; font-weight: bold;">@item.NoCumple</span>
+                                    </td>
+                                    <td>
+                                        <div class="progress" style="margin-bottom:0; height: 18px; border-radius: 10px; background-color: #f1f1f1;">
+                                            <div class="progress-bar" role="progressbar"
+                                                 style="width: @item.PorcentajeAdherencia.ToString("0")%; background-color: @colorBarra;">
+                                                @item.PorcentajeAdherencia.ToString("0.0")%
                                             </div>
-                                        </td>
-                                    </tr>
-                                }
-                            }
-                            else
-                            {
-                                <tr><td colspan="4" class="text-center">No hay datos para el periodo seleccionado.</td></tr>
+                                        </div>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -101,7 +101,7 @@
         </div>
         <div class="col-md-6">
             <div class="panel panel-default">
-                <div class="panel-heading"><strong>Adherencia por Subproceso</strong></div>
+                <div class="panel-heading"><strong>Adherencia por Subproceso (%)</strong></div>
                 <div class="panel-body">
                     <canvas id="chartSubprocesos" height="200"></canvas>
                 </div>
@@ -113,51 +113,49 @@
 @* Scripts para Gráficas *@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Datos Procesos
+    // Configuración común para ambos gráficos
+    const commonOptions = {
+        indexAxis: 'y',
+        responsive: true,
+        plugins: {
+            legend: { display: false } 
+        },
+        scales: {
+            x: {
+                beginAtZero: true,
+                max: 100,
+                title: { display: false } 
+            }
+        }
+    };
+
+    // Datos Procesos (Azul Oscuro Institucional)
     var dataProc = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.AdherenciaProceso));
     new Chart(document.getElementById('chartProcesos'), {
         type: 'bar',
         data: {
             labels: dataProc.map(x => x.Nombre),
             datasets: [{
-                label: '% Adherencia',
                 data: dataProc.map(x => x.Porcentaje),
-                backgroundColor: '#3182ce',
-                borderRadius: 5 
+                backgroundColor: '#29235c', // Azul oscuro oficial
+                borderRadius: 8
             }]
         },
-        options: {
-            indexAxis: 'y', // <--- ESTO ES LO QUE LO HACE HORIZONTAL
-            responsive: true,
-            plugins: {
-                legend: { display: false } 
-            },
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    max: 100,
-                    title: { display: true, text: 'Porcentaje de Cumplimiento' }
-                }
-            }
-        }
+        options: commonOptions
     });
 
-    // Datos Subprocesos (Ej: Cirugía Adultos)
+    // Datos Subprocesos (Verde Institucional)
     var dataSub = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.AdherenciaSubproceso));
     new Chart(document.getElementById('chartSubprocesos'), {
         type: 'bar',
         data: {
             labels: dataSub.map(x => x.Nombre),
             datasets: [{
-                label: '% Adherencia',
                 data: dataSub.map(x => x.Porcentaje),
-                backgroundColor: '#38a169',
-                borderRadius: 5
+                backgroundColor: '#76b82a', 
+                borderRadius: 8
             }]
         },
-        options: {
-            indexAxis: 'y', // Barras horizontales para que se lean mejor los subprocesos largos
-            scales: { x: { beginAtZero: true, max: 100 } }
-        }
+        options: commonOptions
     });
 </script>

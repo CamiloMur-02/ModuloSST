@@ -1,63 +1,70 @@
 ﻿@model ModuloSST_HSLV.Models.Evaluacion
 @{ ViewBag.Title = "Cargar Evaluación"; }
+
+@* Título principal *@
 <h2 class="text-primary">Cargar Evaluación</h2>
 <hr />
+
 @if (ViewBag.Error != null)
 {
     <div class="alert alert-danger">
         <strong>Error:</strong> @ViewBag.Error
     </div>
 }
-@using (Html.BeginForm("Crear", "Evaluacion",
-        FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+@using (Html.BeginForm("Crear", "Evaluacion", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Seleccionar tipo de evaluación</h3>
-        </div>
-        <div class="panel-body">
-            <div class="form-group">
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="tipoEvaluacion"
-                               value="Inspeccion de areas y/o puesto de trabajo" required />
-                        <strong>Inspección de áreas y/o puesto de trabajo</strong>
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="tipoEvaluacion"
-                               value="Evaluacion de Riesgo Psicosocial" />
-                        <strong>Evaluación de Riesgo Psicosocial</strong>
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="tipoEvaluacion"
-                               value="Analisis de puesto de trabajo" />
-                        <strong>Análisis de puesto de trabajo</strong>
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="tipoEvaluacion"
-                               value="Registro de inspeccion de bioseguridad" />
-                        <strong>Registro de inspección de bioseguridad</strong>
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="archivo">
-                    Adjuntar archivo PDF <span class="text-danger">*</span>
+
+    
+    <div class="form-container">
+        <h3 class="text-primary" style="font-size: 1.5em; margin-bottom: 20px;">
+            Seleccionar tipo de evaluación
+        </h3>
+
+        <div class="form-group" style="margin-left: 10px;">
+            <div class="radio mb-3">
+                <label style="font-weight: 500; cursor: pointer;">
+                    <input type="radio" name="tipoEvaluacion" value="Inspeccion de areas y/o puesto de trabajo" required />
+                    Inspección de áreas y/o puesto de trabajo
                 </label>
-                <input type="file" name="archivo" id="archivo"
-                       accept=".pdf" class="form-control" />
-                <span class="help-block text-muted">Solo se permiten archivos en formato PDF.</span>
             </div>
-            <button type="submit" class="btn btn-primary">Cargar</button>
-            <a href="@Url.Action("Index", "Evaluacion")"
-               class="btn btn-default" style="border:2px solid #aaa; background:transparent;">
+            <div class="radio mb-3">
+                <label style="font-weight: 500; cursor: pointer;">
+                    <input type="radio" name="tipoEvaluacion" value="Evaluacion de Riesgo Psicosocial" />
+                    Evaluación de Riesgo Psicosocial
+                </label>
+            </div>
+            <div class="radio mb-3">
+                <label style="font-weight: 500; cursor: pointer;">
+                    <input type="radio" name="tipoEvaluacion" value="Analisis de puesto de trabajo" />
+                    Análisis de puesto de trabajo
+                </label>
+            </div>
+            <div class="radio mb-3">
+                <label style="font-weight: 500; cursor: pointer;">
+                    <input type="radio" name="tipoEvaluacion" value="Registro de inspeccion de bioseguridad" />
+                    Registro de inspección de bioseguridad
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group mt-4">
+            <label for="archivo" style="font-weight: bold; color: #2e4053;">
+                Adjuntar archivo PDF <span class="text-danger">*</span>
+            </label>
+            
+            <input type="file" name="archivo" id="archivo" accept=".pdf" class="form-control" style="border-radius: 10px; max-width: 100%;" />
+            <span class="help-block text-muted" style="font-size: 0.9em;">Solo se permiten archivos en formato PDF.</span>
+        </div>
+
+        <div class="mt-4">
+            @* Botón Cargar*@
+            <button type="submit" class="btn-verde-claro">Cargar</button>
+
+            @* Botón Ver listado*@
+            <a href="@Url.Action("Index", "Evaluacion")" class="btn btn-default"
+               style="border: 2px solid #29235c; background: transparent; border-radius: 12px; color: #29235c; font-weight: 600; padding: 8px 20px;">
                 Ver listado
             </a>
         </div>

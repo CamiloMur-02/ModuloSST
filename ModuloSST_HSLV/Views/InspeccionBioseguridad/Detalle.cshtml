@@ -1,80 +1,84 @@
 ﻿@model ModuloSST_HSLV.Models.InspeccionBioseguridad
 @{ ViewBag.Title = "Detalle de Inspección"; }
+
 <h2 class="text-primary">Detalle de Inspección de Bioseguridad</h2>
 <hr />
-<div class="panel panel-default">
-    <div class="panel-heading"><h3 class="panel-title">Datos del Colaborador</h3></div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-2"><strong>Cédula:</strong><br />@Model.Cedula</div>
-            <div class="col-md-4"><strong>Apellidos y Nombres:</strong><br />@Model.NombreCompleto</div>
-            <div class="col-md-2"><strong>Género:</strong><br />@Model.Genero</div>
-            <div class="col-md-2"><strong>Edad:</strong><br />@Model.Edad años</div>
-            <div class="col-md-2"><strong>Fecha:</strong><br />@Model.FechaInspeccion.ToString("dd/MM/yyyy")</div>
+
+@* Contenedor Principal *@
+<div class="form-container">
+    <h3 class="text-primary" style="margin-bottom: 20px;">Datos del Colaborador</h3>
+    <div class="row">
+        <div class="col-md-2"><strong>Cédula:</strong><br />@Model.Cedula</div>
+        <div class="col-md-4"><strong>Apellidos y Nombres:</strong><br />@Model.NombreCompleto</div>
+        <div class="col-md-2"><strong>Género:</strong><br />@Model.Genero</div>
+        <div class="col-md-2"><strong>Edad:</strong><br />@Model.Edad años</div>
+        <div class="col-md-2"><strong>Fecha:</strong><br />@Model.FechaInspeccion.ToString("dd/MM/yyyy")</div>
+    </div>
+    <div class="row" style="margin-top:15px">
+        <div class="col-md-4"><strong>Cargo:</strong><br />@Model.Cargo</div>
+        <div class="col-md-4"><strong>Contratista:</strong><br />@Model.Contratista</div>
+        <div class="col-md-4"><strong>Tiempo de Prestación:</strong><br />@Model.TiempoPrestacion meses</div>
+    </div>
+    <div class="row" style="margin-top:15px">
+        <div class="col-md-6">
+            <strong>Proceso:</strong><br />
+            @(Model.Proceso != null ? Model.Proceso.NombreProceso : "No asignado")
         </div>
-        <div class="row" style="margin-top:10px">
-            <div class="col-md-4"><strong>Cargo:</strong><br />@Model.Cargo</div>
-            <div class="col-md-4"><strong>Contratista:</strong><br />@Model.Contratista</div>
-            <div class="col-md-4"><strong>Tiempo de Prestación (meses):</strong><br />@Model.TiempoPrestacion</div>
-        </div>
-        <div class="row" style="margin-top:10px">
-            <div class="col-md-6">
-                <strong>Proceso:</strong><br />
-                @(Model.Proceso != null ? Model.Proceso.NombreProceso : Model.IdProceso.ToString())
-            </div>
-            <div class="col-md-6">
-                <strong>Subproceso:</strong><br />
-                @(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : Model.IdSubproceso.ToString())
-            </div>
+        <div class="col-md-6">
+            <strong>Subproceso:</strong><br />
+            @(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : "No asignado")
         </div>
     </div>
 </div>
-<div class="panel panel-default">
-    <div class="panel-heading"><h3 class="panel-title">Evaluación de ítems</h3></div>
-    <div class="panel-body">
-        <table class="table table-bordered">
+
+@* Tabla de Evaluación *@
+<div class="form-container mt-4">
+    <h3 class="text-primary" style="margin-bottom: 15px;">Evaluación de Ítems</h3>
+    <div class="table-responsive">
+        <table class="table table-hover">
             <thead>
-                <tr class="active">
+                
+                <tr>
                     <th>Ítem de Bioseguridad</th>
                     <th class="text-center">Resultado</th>
                 </tr>
             </thead>
             <tbody>
                 @{ var items = new[] {
-                    new { nombre="Higiene de Manos",          valor=Model.HigieneManos },
-                    new { nombre="Protección Respiratoria",   valor=Model.ProteccionRespiratoria },
-                    new { nombre="Uso de Guantes",            valor=Model.UsoGuantes },
-                    new { nombre="Uso de Gorro",              valor=Model.UsoGorro },
-                    new { nombre="Uso de Bata",               valor=Model.UsoBata },
-                    new { nombre="Protección Visual",         valor=Model.ProteccionVisual },
-                    new { nombre="Uso Delantal/Peto",         valor=Model.UsoDelantalPeto },
-                    new { nombre="Calzado Adecuado",          valor=Model.CalzadoAdecuado },
-                    new { nombre="Transporte de Muestras",    valor=Model.TransporteMuestras },
-                    new { nombre="Manejo Corto Punzantes",    valor=Model.ManejoCorto },
-                    new { nombre="Manejo de Residuos",        valor=Model.ManejoResiduos },
+                    new { nombre="Higiene de Manos", valor=Model.HigieneManos },
+                    new { nombre="Protección Respiratoria", valor=Model.ProteccionRespiratoria },
+                    new { nombre="Uso de Guantes", valor=Model.UsoGuantes },
+                    new { nombre="Uso de Gorro", valor=Model.UsoGorro },
+                    new { nombre="Uso de Bata", valor=Model.UsoBata },
+                    new { nombre="Protección Visual", valor=Model.ProteccionVisual },
+                    new { nombre="Uso Delantal/Peto", valor=Model.UsoDelantalPeto },
+                    new { nombre="Calzado Adecuado", valor=Model.CalzadoAdecuado },
+                    new { nombre="Transporte de Muestras", valor=Model.TransporteMuestras },
+                    new { nombre="Manejo Corto Punzantes", valor=Model.ManejoCorto },
+                    new { nombre="Manejo de Residuos", valor=Model.ManejoResiduos },
                 }; }
                 @foreach (var item in items)
                 {
                     <tr>
-                        <td>@item.nombre</td>
+                        <td style="font-weight: 500;">@item.nombre</td>
                         <td class="text-center">
                             @if (item.valor == "C")
-                            {<span class="badge">Cumple</span> }
+                            {<span style="background-color: #28a745; color: white; padding: 3px 10px; border-radius: 12px; font-size: 11px;">CUMPLE</span> }
                             else if (item.valor == "NC")
-                            { <span class="badge">No Cumple</span> }
+                            { <span style="background-color: #dc3545; color: white; padding: 3px 10px; border-radius: 12px; font-size: 11px;">NO CUMPLE</span> }
                             else
-                            { <span class="badge">No Aplica</span>}
+                            { <span style="background-color: #6c757d; color: white; padding: 3px 10px; border-radius: 12px; font-size: 11px;">N/A</span>}
                         </td>
                     </tr>
                 }
             </tbody>
             <tfoot>
-                <tr class="active">
-                    <td><strong>TOTALES</strong></td>
+                <tr style="background-color: #f8f9fa; font-weight: bold;">
+                    <td class="text-right">TOTALES:</td>
                     <td class="text-center">
-                        <span class="badge bg-success">C: @Model.TotalCumple</span>
-                        <span class="badge bg-danger" style="margin-left:5px">NC: @Model.TotalNoCumple</span>
-                        <span class="badge bg-warning text-dark" style="margin-left:5px">NA: @Model.TotalNoAplica</span>
+                        <span class="text-success">C: @Model.TotalCumple</span> |
+                        <span class="text-danger">NC: @Model.TotalNoCumple</span> |
+                        <span class="text-muted">NA: @Model.TotalNoAplica</span>
                     </td>
                 </tr>
             </tfoot>
@@ -84,15 +88,15 @@
 
 @if (!string.IsNullOrEmpty(Model.ObservacionesFinales))
 {
-    <div class="panel panel-default">
-        <div class="panel-heading"><h3 class="panel-title">Observaciones Finales</h3></div>
-        <div class="panel-body">
-            <p>@Model.ObservacionesFinales</p>
-        </div>
+    <div class="form-container mt-4">
+        <h3 class="text-primary">Observaciones Finales</h3>
+        <p style="background: #fdfdfd; padding: 15px; border-left: 4px solid #29235c;">@Model.ObservacionesFinales</p>
     </div>
 }
 
-<a href="@Url.Action("Index", "InspeccionBioseguridad")"
-   class="btn btn-default" style="border:2px solid #aaa; background:transparent;">
-    Ver listado
-</a>
+<div style="margin-top: 30px; margin-bottom: 50px;">
+    <a href="@Url.Action("Index", "InspeccionBioseguridad")"
+       class="btn btn-default" style="border: 2px solid #29235c; color: #29235c; border-radius: 12px; font-weight: 600; padding: 8px 25px;">
+        <i class="glyphicon glyphicon-arrow-left"></i> Volver al listado
+    </a>
+</div>

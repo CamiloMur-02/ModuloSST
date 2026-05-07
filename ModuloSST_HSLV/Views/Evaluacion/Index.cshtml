@@ -1,22 +1,29 @@
 ﻿@model IEnumerable<ModuloSST_HSLV.Models.Evaluacion>
 @{ ViewBag.Title = "Evaluaciones"; }
+
 <div class="row">
     <div class="col-md-12">
+        
         <h2 class="text-primary">Evaluaciones Cargadas</h2>
         <hr />
+
         <p>
+            
             @Html.ActionLink("+ Cargar nueva evaluación", "Crear", "Evaluacion",
-                null, new { @class = "btn btn-primary" })
+                null, new { @class = "btn-verde-claro" })
         </p>
+
         <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover">
+            
+            <table class="table table-striped table-hover">
                 <thead>
-                    <tr class="active">
-                        <th>#</th>
+                    
+                    <tr>
+                        <th class="text-center">#</th>
                         <th>Tipo de Evaluación</th>
                         <th>Nombre del Archivo</th>
-                        <th>Fecha de Carga</th>
-                        <th>Acciones</th>
+                        <th class="text-center">Fecha de Carga</th>
+                        <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,35 +41,15 @@
                         foreach (var item in Model)
                         {
                             <tr>
-                                <td>@i</td>
-                                <td>
-                                    @if (item.TipoEvaluacion == "Inspeccion de areas y/o puesto de trabajo")
-                                    {
-                                        <span>Inspección de áreas y/o puesto de trabajo</span>
-                                    }
-                                    else if (item.TipoEvaluacion == "Evaluacion de Riesgo Psicosocial")
-                                    {
-                                        <span>Evaluación de Riesgo Psicosocial</span>
-                                    }
-                                    else if (item.TipoEvaluacion == "Analisis de puesto de trabajo")
-                                    {
-                                        <span>Análisis de puesto de trabajo</span>
-                                    }
-                                    else if (item.TipoEvaluacion == "Registro de inspeccion de bioseguridad")
-                                    {
-                                        <span>Registro de inspección de bioseguridad</span>
-                                    }
-                                    else
-                                    {
-                                        <span>@item.TipoEvaluacion</span>
-                                    }
-                                </td>
+                                <td class="text-center">@i</td>
+                                <td style="font-weight: bold;">@item.TipoEvaluacion</td>
                                 <td>@item.NombreArchivo</td>
-                                <td>@item.FechaCarga.ToString("dd/MM/yyyy HH:mm")</td>
-                                <td>
+                                <td class="text-center">@item.FechaCarga.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td class="text-center">
+                                    
                                     @Html.ActionLink("Descargar", "VerArchivo", "Evaluacion",
                                         new { id = item.IdEvaluacion },
-                                        new { @class = "btn btn-sm btn-success", target = "_blank" })
+                                        new { @class = "btn-descargar", target = "_blank" })
                                 </td>
                             </tr>
                             i++;

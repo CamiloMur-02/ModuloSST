@@ -1,20 +1,222 @@
-﻿/* Set padding to keep content from hitting the edges */
+﻿/* --- CONFIGURACIÓN BASE Y TIPOGRAFÍA --- */
+@font-face {
+    font-family: 'PoppinsSemiBold';
+    src: url('./tipografia/Poppins-SemiBold.ttf') format('truetype');
+}
+
+html, body {
+    min-height: 100%;
+    margin: 0;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'PoppinsSemiBold', sans-serif; /* Aplica la fuente del hospital */
+}
+
 .body-content {
     margin-top: 15px;
     padding-left: 15px;
     padding-right: 15px;
+    padding-bottom: 90px;
+    flex: 1;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+/* --- DISEÑO DE NAVBAR (INSTITUCIONAL) --- */
+.design-navbar {
+    background-color: #327531 !important;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    border: none !important;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+.navbar-brand {
+    color: white !important;
+    padding-left: 20px;
+    font-family: 'PoppinsSemiBold', sans-serif;
+}
+
+.logo-navbar {
+    height: 70px; /* Ajustado para que no sature el menú */
+    width: auto;
+    background: #ffffff;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.navbar-nav .nav-link {
+    color: white !important;
+    font-weight: 100;
+    font-size: 14px;
+}
+
+/* --- BOTONES PERSONALIZADOS --- */
+
+.btn-dashboard {
+    background-color: #518ccc;
+    color: white !important;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.btn-dashboard:hover {
+    background-color: #1f7ee6;
+    color: white !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn-ver {
+    background-color: #327531; /* Verde oscuro institucional */
+    color: white !important;
+    border-radius: 20px !important; 
+    padding: 4px 15px;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.btn-verde-claro {
+    all: unset;
+    background-color: #76b82a;
+    color: white !important;
+    font-weight: 600;
+    padding: 10px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-verde-claro:hover {
+    background-color: #79c71f;
+    color: white !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn-verde-oscuro {
+    all: unset;
+    background-color: #327531;
+    color: white !important;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+
+.btn-azul {
+    all: unset;
+    background-color: #29235c;
+    color: #ffffff !important;
+    font-weight: 600;
+    padding: 10px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+/* Botón descargar: Verde suave y profesional */
+.btn-descargar {
+    background-color: #4caf50; /* Verde material design suave */
+    color: white !important;
+    border-radius: 8px !important;
+    padding: 4px 12px;
+    font-size: 13px;
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.btn-descargar:hover {
+    background-color: #388e3c;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Títulos principales en azul institucional */
+h2, .text-primary, h2.text-primary {
+    color: #29235c !important; /* El azul oscuro del logo */
+    font-family: 'PoppinsSemiBold', sans-serif;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+
+.btn-primary, .btn-success, .btn-info {
+    border-radius: 12px !important; /* Menos cuadrado, más moderno */
+    font-family: 'PoppinsSemiBold', sans-serif;
+    border: none;
+    transition: 0.3s;
+}
+
+/* El botón azul de "Cargar nueva evaluación" */
+.btn-azul-inst {
+    background-color: #007bff; /* Azul vibrante como el de tu foto */
+    color: white !important;
+    padding: 8px 20px;
+    border-radius: 10px;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.badge {
+    background-color: #29235c !important; /* Azul oscuro para contraste */
+    color: white !important;
+    font-family: sans-serif;
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+
+/* Alertas de vencimiento en rojo circular */
+.label-danger, .bg-danger {
+    background-color: #d32f2f !important;
+    border-radius: 12px;
+    padding: 5px 12px;
+    color: white !important;
+}
+
+/* Ajuste de inputs para que no sean tan pequeños */
+input, select, textarea {
+    max-width: 350px;
+    border-radius: 8px !important;
+}
+
+/* Encabezados de tabla estilo Institucional */
+.table thead tr,
+.table thead th {
+    background-color: #2e4053 !important; 
+    color: white !important; 
+    text-align: center;
+    vertical-align: middle;
+    border: none;
+    font-family: 'PoppinsSemiBold', sans-serif;
+    font-size: 14px;
+}
+
+/* Efecto cebra para las filas (opcional, para mejor lectura) */
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0,0,0,.05);
+}
+
+/* Ajuste para que las celdas de la tabla no se vean pegadas */
+.table td {
+    vertical-align: middle !important;
+}
+
+/* Estilo para que los formularios respiren mejor */
+.form-container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Una sombra muy suave */
+    margin-bottom: 30px;
 }

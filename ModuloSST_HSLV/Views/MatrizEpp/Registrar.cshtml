@@ -5,13 +5,15 @@
     var procesos = ViewBag.Procesos as List<ModuloSST_HSLV.Models.Proceso>;
     var subprocesos = ViewBag.Subprocesos as List<ModuloSST_HSLV.Models.Subproceso>;
 }
+
 <h2 class="text-primary">Registrar Entrega de EPP</h2>
 <hr />
+
 @if (!ViewData.ModelState.IsValid)
 {
-    <div class="alert alert-danger">
-        <strong>Corrija los siguientes errores:</strong>
-        <ul>
+    <div class="alert alert-danger" style="border-radius:15px;">
+        <i class="glyphicon glyphicon-exclamation-sign"></i> <strong>Corrija los siguientes errores:</strong>
+        <ul style="margin-top:10px;">
             @foreach (var e in ViewData.ModelState.Values.SelectMany(v => v.Errors))
             {
                 <li>@e.ErrorMessage</li>
@@ -19,36 +21,39 @@
         </ul>
     </div>
 }
-@using (Html.BeginForm("Registrar", "MatrizEpp", FormMethod.Post,
-    new { onsubmit = "return validarFormulario()" }))
+
+@using (Html.BeginForm("Registrar", "MatrizEpp", FormMethod.Post, new { onsubmit = "return validarFormulario()" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.IdEmpleado)
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Datos del Colaborador</h3>
+    @* --- SECCIÓN: DATOS DEL COLABORADOR --- *@
+    <div class="panel panel-default" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; margin-bottom: 30px;">
+        <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 15px 15px 0 0; padding: 15px;">
+            <h3 class="panel-title" style="font-weight: bold; font-size: 1.2em;">
+                <i class="glyphicon glyphicon-user"></i> Datos del Colaborador
+            </h3>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" style="padding: 25px;">
             <div class="row">
                 <div class="col-md-2">
                     <div class="form-group">
                         @Html.LabelFor(m => m.Cedula)
-                        @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", style = "border-radius: 10px;" })
                         @Html.ValidationMessageFor(m => m.Cedula, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         @Html.LabelFor(m => m.NombreCompleto)
-                        @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control", style = "border-radius: 10px;" })
                         @Html.ValidationMessageFor(m => m.NombreCompleto, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.Genero)
-                        <select name="Genero" class="form-control">
+                        <label>Género</label>
+                        <select name="Genero" class="form-control" style="border-radius: 10px;">
                             <option value="">-- Género --</option>
                             @foreach (var g in ViewBag.Generos as string[])
                             {
@@ -60,14 +65,13 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         @Html.LabelFor(m => m.Edad)
-                        @Html.TextBoxFor(m => m.Edad, new { @class = "form-control", type = "number", min = "0" })
+                        @Html.TextBoxFor(m => m.Edad, new { @class = "form-control", type = "number", min = "0", style = "border-radius: 10px;" })
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.FechaRegistro)
-                        @Html.TextBoxFor(m => m.FechaRegistro, "{0:yyyy-MM-dd}",
-                            new { @class = "form-control", type = "date" })
+                        <label>Fecha Registro</label>
+                        @Html.TextBoxFor(m => m.FechaRegistro, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", style = "border-radius: 10px;" })
                     </div>
                 </div>
             </div>
@@ -75,22 +79,19 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         @Html.LabelFor(m => m.Cargo)
-                        @Html.TextBoxFor(m => m.Cargo, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Cargo, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.Cargo, new { @class = "form-control", style = "border-radius: 10px;" })
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         @Html.LabelFor(m => m.Contratista)
-                        @Html.TextBoxFor(m => m.Contratista, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Contratista, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.Contratista, new { @class = "form-control", style = "border-radius: 10px;" })
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.TiempoPrestacion)
-                        @Html.TextBoxFor(m => m.TiempoPrestacion, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.TiempoPrestacion, "", new { @class = "text-danger" })
+                        <label>Tiempo Prestación (meses)</label>
+                        @Html.TextBoxFor(m => m.TiempoPrestacion, new { @class = "form-control", style = "border-radius: 10px;" })
                     </div>
                 </div>
             </div>
@@ -98,7 +99,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Proceso</label>
-                        <select name="IdProceso" class="form-control">
+                        <select name="IdProceso" class="form-control" style="border-radius: 10px;">
                             <option value="">-- Seleccionar proceso --</option>
                             @if (procesos != null)
                             {
@@ -113,7 +114,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Subproceso / Servicio / Área</label>
-                        <select name="IdSubproceso" class="form-control">
+                        <select name="IdSubproceso" class="form-control" style="border-radius: 10px;">
                             <option value="">-- Seleccionar subproceso --</option>
                             @if (subprocesos != null)
                             {
@@ -128,76 +129,84 @@
             </div>
         </div>
     </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Elementos de Protección Personal entregados</h3>
+
+    @* --- SECCIÓN: ELEMENTOS DE PROTECCIÓN --- *@
+    <div class="panel panel-default" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; margin-bottom: 30px;">
+        <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 15px 15px 0 0; padding: 15px;">
+            <h3 class="panel-title" style="font-weight: bold; font-size: 1.2em;">
+                <i class="glyphicon glyphicon-th-list"></i> EPP Entregados
+            </h3>
         </div>
-        <div class="panel-body">
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="active">
-                        <th>Seleccionar</th>
-                        <th>EPP</th>
-                        <th>Fecha de Entrega <span class="text-danger">*</span></th>
-                        <th>Tiempo de Alerta (meses) <span class="text-danger">*</span></th>
-                        <th>Fecha Estimada de Cambio</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (catalogo != null)
-                    {
-                        foreach (var epp in catalogo)
+        <div class="panel-body" style="padding: 0;">
+            <div class="table-responsive">
+                <table class="table table-hover" style="margin-bottom: 0;">
+                    <thead style="background-color: #f8f9fa;">
+                        <tr>
+                            <th class="text-center" style="padding:15px;">Seleccionar</th>
+                            <th style="padding:15px;">EPP</th>
+                            <th style="padding:15px;">Fecha de Entrega <span class="text-danger">*</span></th>
+                            <th style="padding:15px;">Cambio (meses) <span class="text-danger">*</span></th>
+                            <th style="padding:15px;">Fecha Estimada de Cambio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (catalogo != null)
                         {
-                            <tr>
-                                <td class="text-center" style="width:80px">
-                                    <input type="checkbox" name="idsEppSeleccionados"
-                                           value="@epp.IdCatalogoEPP" id="epp_@epp.IdCatalogoEPP" />
-                                </td>
-                                <td><label for="epp_@epp.IdCatalogoEPP">@epp.NombreEPP</label></td>
-                                <td style="width:180px">
-                                    <input type="date" name="fecha_@epp.IdCatalogoEPP"
-                                           class="form-control input-sm"
-                                           id="fecha_@epp.IdCatalogoEPP"
-                                           onchange="calcularEstimado('@epp.IdCatalogoEPP')" />
-                                </td>
-                                <td style="width:130px">
-                                    <input type="number" name="alerta_@epp.IdCatalogoEPP"
-                                           class="form-control input-sm" value="12" min="1"
-                                           id="alerta_@epp.IdCatalogoEPP"
-                                           onchange="calcularEstimado('@epp.IdCatalogoEPP')" />
-                                </td>
-                                <td id="estimado_@epp.IdCatalogoEPP" class="text-muted">—</td>
-                            </tr>
+                            foreach (var epp in catalogo)
+                            {
+                                <tr>
+                                    <td class="text-center" style="vertical-align: middle;">
+                                        <input type="checkbox" name="idsEppSeleccionados"
+                                               style="width:20px; height:20px; cursor:pointer;"
+                                               value="@epp.IdCatalogoEPP" id="epp_@epp.IdCatalogoEPP" />
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <label for="epp_@epp.IdCatalogoEPP" style="cursor:pointer; font-weight:normal;">@epp.NombreEPP</label>
+                                    </td>
+                                    <td style="width:200px; vertical-align: middle;">
+                                        <input type="date" name="fecha_@epp.IdCatalogoEPP"
+                                               class="form-control input-sm" style="border-radius:8px;"
+                                               id="fecha_@epp.IdCatalogoEPP"
+                                               onchange="calcularEstimado('@epp.IdCatalogoEPP')" />
+                                    </td>
+                                    <td style="width:130px; vertical-align: middle;">
+                                        <input type="number" name="alerta_@epp.IdCatalogoEPP"
+                                               class="form-control input-sm" value="12" min="1"
+                                               style="border-radius:8px;"
+                                               id="alerta_@epp.IdCatalogoEPP"
+                                               onchange="calcularEstimado('@epp.IdCatalogoEPP')" />
+                                    </td>
+                                    <td id="estimado_@epp.IdCatalogoEPP" class="text-primary" style="vertical-align: middle; font-weight:bold;">—</td>
+                                </tr>
+                            }
                         }
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Observaciones Finales</h3>
-        </div>
-        <div class="panel-body">
-            <div class="form-group">
-                @Html.LabelFor(m => m.ObservacionesFinales)
-                @Html.TextAreaFor(m => m.ObservacionesFinales,
-                    new
-                         {
-                             @class = "form-control",
-                             rows = "3"
-                         })
-                @Html.ValidationMessageFor(m => m.ObservacionesFinales, "",
-                    new { @class = "text-danger" })
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary">Guardar</button>
-    <a href="@Url.Action("Index", "MatrizEpp")"
-       class="btn btn-default" style="border:2px solid #aaa;background:transparent;">
-        Cancelar
-    </a>
+    @* --- SECCIÓN: OBSERVACIONES --- *@
+    <div class="panel panel-default" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; margin-bottom: 30px;">
+        <div class="panel-body" style="padding: 25px;">
+            <div class="form-group">
+                <label style="font-weight:bold; color:#29235c;">Observaciones Finales</label>
+                @Html.TextAreaFor(m => m.ObservacionesFinales, new { @class = "form-control", rows = "3", style = "border-radius: 12px; resize: none;", placeholder = "Ingrese detalles adicionales de la entrega..." })
+            </div>
+        </div>
+    </div>
+
+    @* --- BOTONES DE ACCIÓN --- *@
+    <div style="margin-bottom: 50px;">
+        <button type="submit" class="btn-verde-claro" style="padding: 10px 30px;">
+            <i class="glyphicon glyphicon-floppy-disk"></i> Guardar Registro
+        </button>
+
+        <a href="@Url.Action("Index", "MatrizEpp")" class="btn btn-default"
+           style="border: 2px solid #aaa; border-radius: 12px; padding: 10px 25px; margin-left: 10px; font-weight:600;">
+            Cancelar
+        </a>
+    </div>
 }
 
 @section Scripts {
@@ -208,23 +217,28 @@
             var celda = document.getElementById('estimado_' + idEpp);
             if (fecha && alerta) {
                 var f = new Date(fecha);
-                f.setMonth(f.getMonth() + alerta);
-                var d = String(f.getDate()).padStart(2, '0');
-                var m = String(f.getMonth() + 1).padStart(2, '0');
-                celda.innerHTML = d + '/' + m + '/' + f.getFullYear();
+                
+                f.setMonth(f.getUTCMonth() + alerta);
+                var d = String(f.getUTCDate()).padStart(2, '0');
+                var m = String(f.getUTCMonth() + 1).padStart(2, '0');
+                celda.innerHTML = d + '/' + m + '/' + f.getUTCFullYear();
+                celda.className = "text-success";
             } else {
                 celda.innerHTML = '—';
+                celda.className = "text-muted";
             }
         }
+
         function validarFormulario() {
             var checks = document.querySelectorAll('input[name="idsEppSeleccionados"]:checked');
             if (checks.length === 0) {
-                alert('Debe seleccionar al menos un elemento EPP.');
+                alert('⚠️ Debe seleccionar al menos un elemento EPP para registrar la entrega.');
                 return false;
             }
             for (var i = 0; i < checks.length; i++) {
                 if (!document.getElementById('fecha_' + checks[i].value).value) {
-                    alert('Debe ingresar la fecha de entrega para todos los EPP seleccionados.');
+                    alert('⚠️ Por favor, ingrese la fecha de entrega para el EPP seleccionado.');
+                    document.getElementById('fecha_' + checks[i].value).focus();
                     return false;
                 }
             }

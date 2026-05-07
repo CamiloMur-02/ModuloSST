@@ -1,15 +1,47 @@
 ﻿@model IEnumerable<ModuloSST_HSLV.Models.ReporteEnfermedadLaboral>
-@{ ViewBag.Title = "Reportes de Enfermedad Laboral"; }
+
+@{
+    ViewBag.Title = "Reportes de Enfermedad Laboral";
+}
+
 <div class="row">
     <div class="col-md-12">
-        <h2 class="text-primary">Reportes de Enfermedad Laboral</h2>
+
+        <h2 class="text-primary">
+            Reportes de Enfermedad Laboral
+        </h2>
+
         <hr />
+
         <p>
-            @Html.ActionLink("+ Registrar enfermedad", "Registrar", "ReporteEnfermedadLaboral",
-             null, new { @class = "btn btn-primary" })
+            @Html.ActionLink( 
+                "+ Registrar enfermedad",
+                "Registrar",
+                "ReporteEnfermedadLaboral",
+                null,
+                new
+                {
+                    @class = "btn btn-primary",
+                    style = "margin-right:10px;"
+                }
+            )
+
+            @Html.ActionLink(
+                "Dashboard Epidemiológico",
+                "Dashboard",
+                "ReporteEnfermedadLaboral",
+                null,
+                new
+                {
+                    @class = "btn btn-info"
+                }
+            )
         </p>
+
         <div class="table-responsive">
+
             <table class="table table-bordered table-striped table-hover">
+
                 <thead>
                     <tr class="active">
                         <th>#</th>
@@ -22,36 +54,74 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
+
                 <tbody>
+
                     @if (!Model.Any())
                     {
-                        <tr><td colspan="8" class="text-center text-muted">No hay reportes registrados.</td></tr>
+                        <tr>
+                            <td colspan="8" class="text-center text-muted">
+                                No hay reportes registrados.
+                            </td>
+                        </tr>
                     }
                     else
                     {
                         int i = 1;
+
                         foreach (var item in Model)
                         {
                             <tr>
+
                                 <td>@i</td>
+
                                 <td>@item.Cedula</td>
+
                                 <td>@item.NombreCompleto</td>
+
                                 <td>@item.Cargo</td>
-                                <td>@item.TipoEnfermedad</td>
-                                <td>@item.FechaDiagnostico.ToString("dd/MM/yyyy")</td>
-                                <td class="text-center">@item.DiasIncapacidad</td>
+
                                 <td>
-                                    <a href="@Url.Action("Detalle", "ReporteEnfermedadLaboral", new { id = item.IdReporteEnfermedadLaboral })"
-                                       class="btn btn-sm btn-success">Ver</a>
-                                    <a href="@Url.Action("Editar", "ReporteEnfermedadLaboral", new { id = item.IdReporteEnfermedadLaboral })"
-                                       class="btn btn-sm btn-warning">Editar</a>
+                                    <span class="label label-info">
+                                        @item.TipoEnfermedad
+                                    </span>
                                 </td>
+
+                                <td>
+                                    @item.FechaDiagnostico.ToString("dd/MM/yyyy")
+                                </td>
+
+                                <td class="text-center">
+                                    <strong>@item.DiasIncapacidad</strong>
+                                </td>
+
+                                <td>
+
+                                    <a href="@Url.Action("Detalle", "ReporteEnfermedadLaboral",
+                                        new { id = item.IdReporteEnfermedadLaboral })"
+                                       class="btn btn-sm btn-success">
+                                        Ver
+                                    </a>
+
+                                    <a href="@Url.Action("Editar", "ReporteEnfermedadLaboral",
+                                        new { id = item.IdReporteEnfermedadLaboral })"
+                                       class="btn btn-sm btn-warning">
+                                        Editar
+                                    </a>
+
+                                </td>
+
                             </tr>
+
                             i++;
                         }
                     }
+
                 </tbody>
+
             </table>
+
         </div>
+
     </div>
 </div>
