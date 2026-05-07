@@ -2,30 +2,34 @@
     ViewBag.Title = "Dashboard Accidentes de Trabajo";
 }
 
-<div class="container-fluid">
-    <div class="row" style="margin-top: 20px;">
+<div class="container-fluid" style="background-color: #f4f7f6; min-height: 100vh; padding-bottom: 50px;">
+    @* --- ENCABEZADO --- *@
+    <div class="row" style="padding-top: 20px; margin-bottom: 20px;">
         <div class="col-md-8">
-            <h2 class="mb-4">📊 Indicadores de Accidentes de Trabajo</h2>
+            <h2 style="color: #29235c; font-weight: bold;">
+                <i class="glyphicon glyphicon-stats"></i> Indicadores de Accidentes de Trabajo
+            </h2>
         </div>
         <div class="col-md-4 text-right">
-            <a href="@Url.Action("Index", "ReporteAccidenteTrabajo")" class="btn btn-default" style="border:1px solid #ccc;">
-                <i class="glyphicon glyphicon-list"></i> Volver al Listado
+            <a href="@Url.Action("Index", "ReporteAccidenteTrabajo")" class="btn"
+               style="background-color: #29235c; color: white; border-radius: 10px; font-weight: bold; padding: 10px 20px;">
+                <i class="glyphicon glyphicon-arrow-left"></i> Volver al Listado
             </a>
         </div>
     </div>
-    <hr />
 
-    <div class="panel panel-default shadow mb-4">
-        <div class="panel-body">
+    @* --- FILTROS --- *@
+    <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px;">
+        <div class="panel-body" style="padding: 20px;">
             @using (Html.BeginForm("Dashboard", "ReporteAccidenteTrabajo", FormMethod.Get, new { @class = "form-inline" }))
             {
-                <div class="form-group" style="margin-right: 15px;">
-                    <label>Año: </label>
-                    <input type="number" name="anio" class="form-control" value="@ViewBag.AnioActual" style="width: 100px;" />
+                <div class="form-group" style="margin-right: 20px;">
+                    <label style="color: #666; margin-right: 10px;">Año Fiscal: </label>
+                    <input type="number" name="anio" class="form-control" value="@ViewBag.AnioActual" style="width: 100px; border-radius: 8px;" />
                 </div>
-                <div class="form-group" style="margin-right: 15px;">
-                    <label>Trimestre: </label>
-                    <select name="trimestre" class="form-control">
+                <div class="form-group" style="margin-right: 20px;">
+                    <label style="color: #666; margin-right: 10px;">Periodo (Trimestre): </label>
+                    <select name="trimestre" class="form-control" style="border-radius: 8px;">
                         <option value="">Todos los trimestres</option>
                         <option value="1" @(ViewBag.TrimestreActual == 1 ? "selected" : "")>T1 (Ene-Mar)</option>
                         <option value="2" @(ViewBag.TrimestreActual == 2 ? "selected" : "")>T2 (Abr-Jun)</option>
@@ -33,82 +37,106 @@
                         <option value="4" @(ViewBag.TrimestreActual == 4 ? "selected" : "")>T4 (Oct-Dic)</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Filtrar</button>
+                <button type="submit" class="btn" style="background-color: #76b82a; color: white; border-radius: 8px; font-weight: bold; padding: 6px 25px;">
+                    <i class="glyphicon glyphicon-filter"></i> Aplicar Filtros
+                </button>
             }
         </div>
     </div>
 
+    @* --- TARJETAS DE RESUMEN (KPIs) --- *@
     <div class="row">
         <div class="col-md-6">
-            <div class="panel panel-danger text-center" style="box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                <div class="panel-heading"><h4>Total Accidentes</h4></div>
-                <div class="panel-body">
-                    <h1 style="font-size: 50px; margin: 0;">@ViewBag.TotalAccidentes</h1>
+            <div style="background: white; border-radius: 15px; padding: 25px; border-left: 8px solid #d9534f; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 25px;">
+                <p style="color: #888; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; font-size: 12px;">Frecuencia Total</p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2 style="margin: 0; font-weight: 800; color: #333; font-size: 40px;">@ViewBag.TotalAccidentes</h2>
+                    <i class="glyphicon glyphicon-warning-sign" style="font-size: 35px; color: #d9534f; opacity: 0.3;"></i>
                 </div>
+                <p style="margin-top: 10px; color: #d9534f; font-weight: 600; margin-bottom: 0;">Total Accidentes Registrados</p>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="panel panel-warning text-center" style="box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                <div class="panel-heading"><h4>Días de Incapacidad</h4></div>
+            <div style="background: white; border-radius: 15px; padding: 25px; border-left: 8px solid #f0ad4e; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 25px;">
+                <p style="color: #888; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; font-size: 12px;">Severidad Acumulada</p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2 style="margin: 0; font-weight: 800; color: #333; font-size: 40px;">@ViewBag.TotalIncapacidad</h2>
+                    <i class="glyphicon glyphicon-time" style="font-size: 35px; color: #f0ad4e; opacity: 0.3;"></i>
+                </div>
+                <p style="margin-top: 10px; color: #f0ad4e; font-weight: 600; margin-bottom: 0;">Días de Incapacidad Totales</p>
+            </div>
+        </div>
+    </div>
+
+    @* --- GRÁFICOS --- *@
+    <div class="row">
+        <div class="col-md-7">
+            <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                <div class="panel-heading" style="background: white; border-bottom: 1px solid #eee; padding: 15px;">
+                    <h4 style="margin: 0; color: #29235c; font-weight: bold;">Accidentes por Proceso (Top 5)</h4>
+                </div>
                 <div class="panel-body">
-                    <h1 style="font-size: 50px; margin: 0;">@ViewBag.TotalIncapacidad</h1>
+                    <canvas id="chartProcesos" height="150"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                <div class="panel-heading" style="background: white; border-bottom: 1px solid #eee; padding: 15px;">
+                    <h4 style="margin: 0; color: #29235c; font-weight: bold;">Distribución por Peligro</h4>
+                </div>
+                <div class="panel-body">
+                    <canvas id="chartPeligros" height="215"></canvas>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading"><strong>Accidentes por Proceso (Top 5)</strong></div>
-                <div class="panel-body"><canvas id="chartProcesos"></canvas></div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading"><strong>Distribución por Tipo de Peligro</strong></div>
-                <div class="panel-body"><canvas id="chartPeligros"></canvas></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
+    @* --- TABLA DE CAUSAS --- *@
+    <div class="row" style="margin-top: 10px;">
         <div class="col-md-12">
-            <div class="panel panel-info">
-                <div class="panel-heading"><strong>Análisis de Causas Raíz Identificadas</strong></div>
-                <div class="panel-body">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Causa</th>
-                                <th class="text-center">Cantidad</th>
-                                <th>Frecuencia Visual (%)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (ViewBag.EstadisticasCausas != null)
-                            {
-                                var listaCausas = (List<ModuloSST_HSLV.Controllers.EstadisticaItem>)ViewBag.EstadisticasCausas;
-                                int totalAcc = ViewBag.TotalAccidentes ?? 0;
-
-                                foreach (var item in listaCausas)
+            <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                <div class="panel-heading" style="background: #29235c; color: white; border-radius: 15px 15px 0 0; padding: 15px;">
+                    <h4 style="margin: 0; font-weight: bold;"><i class="glyphicon glyphicon-search"></i> Análisis de Causas Raíz</h4>
+                </div>
+                <div class="panel-body" style="padding: 0;">
+                    <div class="table-responsive">
+                        <table class="table table-hover" style="margin-bottom: 0;">
+                            <thead>
+                                <tr style="background: #fcfcfc; color: #666;">
+                                    <th style="padding: 15px;">Nombre de la Causa</th>
+                                    <th class="text-center" style="padding: 15px;">Cantidad</th>
+                                    <th style="padding: 15px;">Frecuencia Relativa (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ViewBag.EstadisticasCausas != null)
                                 {
-                                    var pct = totalAcc > 0 ? (item.Cantidad * 100) / totalAcc : 0;
-                                    <tr>
-                                        <td>@item.Nombre</td>
-                                        <td class="text-center"><span class="label label-default">@item.Cantidad</span></td>
-                                        <td>
-                                            <div class="progress" style="height: 15px; margin-bottom: 0;">
-                                                <div class="progress-bar progress-bar-info" role="progressbar" style="width: @pct%">
-                                                    @pct%
+                                    var listaCausas = (List<ModuloSST_HSLV.Controllers.EstadisticaItem>)ViewBag.EstadisticasCausas;
+                                    int totalAcc = ViewBag.TotalAccidentes ?? 0;
+
+                                    foreach (var item in listaCausas)
+                                    {
+                                        var pct = totalAcc > 0 ? (item.Cantidad * 100) / totalAcc : 0;
+                                        <tr>
+                                            <td style="padding: 12px 15px; font-weight: 600; color: #444;">@item.Nombre</td>
+                                            <td class="text-center" style="vertical-align: middle;">
+                                                <span style="background: #eee; padding: 5px 12px; border-radius: 20px; font-weight: bold;">@item.Cantidad</span>
+                                            </td>
+                                            <td style="padding: 12px 15px; vertical-align: middle;">
+                                                <div class="progress" style="height: 18px; margin-bottom: 0; border-radius: 10px; background-color: #f0f0f0;">
+                                                    <div class="progress-bar" role="progressbar"
+                                                         style="width: @pct%; background-color: #3a86ff; line-height: 18px; font-weight: bold; box-shadow: none;">
+                                                        @pct%
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
+                                    }
                                 }
-                            }
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -117,22 +145,27 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Gráfico Procesos
+    // Gráfico Procesos (Barras Horizontales con Azul Institucional)
     var dataProcesos = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.TopProcesos));
     new Chart(document.getElementById('chartProcesos'), {
         type: 'bar',
         data: {
             labels: dataProcesos.map(x => x.Nombre),
             datasets: [{
-                label: 'Cantidad',
+                label: 'Accidentes',
                 data: dataProcesos.map(x => x.Cantidad),
-                backgroundColor: '#337ab7'
+                backgroundColor: '#29235c',
+                borderRadius: 5
             }]
         },
-        options: { indexAxis: 'y', responsive: true }
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            plugins: { legend: { display: false } }
+        }
     });
 
-    // Gráfico Peligros
+    // Gráfico Peligros (Dona con paleta hospitalaria)
     var dataPeligros = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.EstadisticasPeligros));
     new Chart(document.getElementById('chartPeligros'), {
         type: 'doughnut',
@@ -140,8 +173,16 @@
             labels: dataPeligros.map(x => x.Nombre),
             datasets: [{
                 data: dataPeligros.map(x => x.Cantidad),
-                backgroundColor: ['#d9534f', '#f0ad4e', '#5bc0de', '#5cb85c', '#777']
+                backgroundColor: ['#d9534f', '#76b82a', '#3a86ff', '#f0ad4e', '#9b59b6', '#7f8c8d'],
+                borderWidth: 0
             }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' }
+            },
+            cutout: '60%'
         }
     });
 </script>

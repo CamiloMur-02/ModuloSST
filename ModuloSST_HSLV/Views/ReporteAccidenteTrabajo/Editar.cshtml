@@ -3,55 +3,58 @@
     ViewBag.Title = "Editar Accidente de Trabajo";
     var procesos = ViewBag.Procesos as List<ModuloSST_HSLV.Models.Proceso>;
     var subprocesos = ViewBag.Subprocesos as List<ModuloSST_HSLV.Models.Subproceso>;
-    var causas = ViewBag.CausasSubcausas
-        as System.Collections.Generic.Dictionary<string, string[]>;
+    var causas = ViewBag.CausasSubcausas as System.Collections.Generic.Dictionary<string, string[]>;
 }
-<h2 class="text-primary">Editar Reporte de Accidente de Trabajo</h2>
-<hr />
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="alert alert-danger">
-        <strong>Corrija los siguientes errores:</strong>
-        <ul>
-            @foreach (var e in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-            {
-                <li>@e.ErrorMessage</li>
-            }
-        </ul>
-    </div>
-}
-@using (Html.BeginForm("Editar", "ReporteAccidenteTrabajo",
-    FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.IdReporteAccidenteTrabajo)
-    @Html.HiddenFor(m => m.FechaCreacion)
-    @Html.HiddenFor(m => m.IdEmpleado)
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Datos del Accidentado</h3>
+
+<div class="container" style="padding-top: 20px; padding-bottom: 50px;">
+    @* --- CABECERA --- *@
+    <div class="row" style="margin-bottom: 20px;">
+        <div class="col-md-8">
+            <h2 style="color: #29235c; font-weight: bold; margin: 0;">
+                <i class="glyphicon glyphicon-edit"></i> Editar Reporte de Accidente
+            </h2>
+            <p class="text-muted">Modifique la información necesaria del registro N° @Model.NumeroReporte</p>
         </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Cedula)
-                        @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Cedula, "", new { @class = "text-danger" })
+        <div class="col-md-4 text-right" style="padding-top: 15px;">
+            <a href="@Url.Action("Index", "ReporteAccidenteTrabajo")" class="btn btn-default" style="border-radius: 8px; border: 2px solid #ccc;">
+                <i class="glyphicon glyphicon-arrow-left"></i> Volver al listado
+            </a>
+        </div>
+    </div>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger" style="border-radius: 12px;">
+            <strong><i class="glyphicon glyphicon-exclamation-sign"></i> Por favor, corrija los errores:</strong>
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        </div>
+    }
+
+    @using (Html.BeginForm("Editar", "ReporteAccidenteTrabajo", FormMethod.Post, new { enctype = "multipart/form-data", id = "formEditar" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.IdReporteAccidenteTrabajo)
+        @Html.HiddenFor(m => m.FechaCreacion)
+        @Html.HiddenFor(m => m.IdEmpleado)
+
+        @* --- SECCIÓN 1: DATOS PERSONALES --- *@
+        <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+            <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 12px 12px 0 0;">
+                <h3 class="panel-title font-weight-bold">1. Datos del Accidentado</h3>
+            </div>
+            <div class="panel-body" style="padding: 25px;">
+                <div class="row">
+                    <div class="col-md-3 form-group">
+                        @Html.LabelFor(m => m.Cedula, new { @class = "text-muted small" })
+                        @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", @readonly = "readonly", style = "background-color: #f9f9f9;" })
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.NombreCompleto)
+                    <div class="col-md-6 form-group">
+                        @Html.LabelFor(m => m.NombreCompleto, new { @class = "text-muted small" })
                         @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.NombreCompleto, "", new { @class = "text-danger" })
                     </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Genero)
+                    <div class="col-md-3 form-group">
+                        <label class="text-muted small">Género</label>
                         <select name="Genero" class="form-control">
-                            <option value="">-- Género --</option>
                             @foreach (var g in ViewBag.Generos as string[])
                             {
                                 <option value="@g" @(Model.Genero == g ? "selected" : "")>@g</option>
@@ -59,54 +62,35 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Edad)
-                        @Html.TextBoxFor(m => m.Edad, new { @class = "form-control", type = "number", min = "0" })
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Cargo)
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        @Html.LabelFor(m => m.Cargo, new { @class = "text-muted small" })
                         @Html.TextBoxFor(m => m.Cargo, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Cargo, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4 form-group">
+                        @Html.LabelFor(m => m.Contratista, new { @class = "text-muted small" })
+                        @Html.TextBoxFor(m => m.Contratista, new { @class = "form-control", placeholder = "Si aplica" })
+                    </div>
+                    <div class="col-md-4 form-group">
+                        @Html.LabelFor(m => m.Edad, new { @class = "text-muted small" })
+                        @Html.TextBoxFor(m => m.Edad, new { @class = "form-control", type = "number" })
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Contratista)
-                        @Html.TextBoxFor(m => m.Contratista, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Contratista, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.TiempoPrestacion)
-                        @Html.TextBoxFor(m => m.TiempoPrestacion, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.TiempoPrestacion, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Proceso</label>
-                        <select name="IdProceso" class="form-control">
-                            <option value="">-- Seleccionar proceso --</option>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label class="text-muted small">Proceso</label>
+                        <select name="IdProceso" class="form-control select2">
+                            <option value="">-- Seleccionar --</option>
                             @foreach (var p in procesos)
                             {
                                 <option value="@p.IdProceso" @(Model.IdProceso == p.IdProceso ? "selected" : "")>@p.NombreProceso</option>
                             }
                         </select>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Subproceso / Servicio / Área</label>
-                        <select name="IdSubproceso" class="form-control">
-                            <option value="">-- Seleccionar subproceso --</option>
+                    <div class="col-md-6 form-group">
+                        <label class="text-muted small">Subproceso / Área</label>
+                        <select name="IdSubproceso" class="form-control select2">
+                            <option value="">-- Seleccionar --</option>
                             @foreach (var s in subprocesos)
                             {
                                 <option value="@s.IdSubproceso" @(Model.IdSubproceso == s.IdSubproceso ? "selected" : "")>@s.NombreSubproceso</option>
@@ -116,132 +100,84 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Información del Accidente</h3>
-        </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.NumeroReporte)
-                        @Html.TextBoxFor(m => m.NumeroReporte, new { @class = "form-control", type = "number" })
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.FechaAT)
-                        @Html.TextBoxFor(m => m.FechaAT, "{0:yyyy-MM-dd}",
-                            new { @class = "form-control", type = "date", id = "fechaAT" })
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.HoraAT)
-                        @Html.TextBoxFor(m => m.HoraAT, "{0:hh\\:mm}",
-                            new { @class = "form-control", type = "time" })
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.DiasIncapacidad)
-                        @Html.TextBoxFor(m => m.DiasIncapacidad,
-                            new { @class = "form-control", type = "number", min = "0" })
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.FechaReporte)
-                        @Html.TextBoxFor(m => m.FechaReporte, "{0:yyyy-MM-dd}",
-                            new { @class = "form-control", type = "date" })
-                    </div>
-                </div>
+
+        @* --- SECCIÓN 2: DETALLES DEL ACCIDENTE --- *@
+        <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+            <div class="panel-heading" style="background-color: #d9534f; color: white; border-radius: 12px 12px 0 0;">
+                <h3 class="panel-title font-weight-bold">2. Información del Suceso y Diagnóstico</h3>
             </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Tipo de Peligro</label>
+            <div class="panel-body" style="padding: 25px;">
+                <div class="row">
+                    <div class="col-md-3 form-group">
+                        @Html.LabelFor(m => m.FechaAT, new { @class = "text-muted small" })
+                        @Html.TextBoxFor(m => m.FechaAT, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "fechaAT" })
+                    </div>
+                    <div class="col-md-3 form-group">
+                        @Html.LabelFor(m => m.HoraAT, new { @class = "text-muted small" })
+                        @Html.TextBoxFor(m => m.HoraAT, "{0:hh\\:mm}", new { @class = "form-control", type = "time" })
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label class="text-muted small">Tipo de Peligro</label>
                         <select name="TipoPeligro" class="form-control">
-                            <option value="">-- Seleccionar --</option>
                             @foreach (var t in ViewBag.TiposPeligro as string[])
                             {
                                 <option value="@t" @(Model.TipoPeligro == t ? "selected" : "")>@t</option>
                             }
                         </select>
                     </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.CodigoDiagnostico)
-                        @Html.TextBoxFor(m => m.CodigoDiagnostico,
-                            new { @class = "form-control", placeholder = "Ej: W46" })
+                    <div class="col-md-3 form-group">
+                        @Html.LabelFor(m => m.DiasIncapacidad, new { @class = "text-muted small" })
+                        @Html.TextBoxFor(m => m.DiasIncapacidad, new { @class = "form-control", type = "number" })
                     </div>
                 </div>
-                <div class="col-md-7">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.DetalleDiagnostico)
+                <div class="row">
+                    <div class="col-md-2 form-group">
+                        @Html.LabelFor(m => m.CodigoDiagnostico, new { @class = "text-muted small" })
+                        @Html.TextBoxFor(m => m.CodigoDiagnostico, new { @class = "form-control", placeholder = "CIE-10" })
+                    </div>
+                    <div class="col-md-10 form-group">
+                        @Html.LabelFor(m => m.DetalleDiagnostico, new { @class = "text-muted small" })
                         @Html.TextBoxFor(m => m.DetalleDiagnostico, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.DetalleDiagnostico, "", new { @class = "text-danger" })
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.ObservacionesAccidente)
-                        @Html.TextAreaFor(m => m.ObservacionesAccidente,
-                            new { @class = "form-control", rows = "2" })
+                <div class="row">
+                    <div class="col-md-8 form-group">
+                        @Html.LabelFor(m => m.ObservacionesAccidente, new { @class = "text-muted small" })
+                        @Html.TextAreaFor(m => m.ObservacionesAccidente, new { @class = "form-control", rows = "3" })
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>PDF Furat</label>
+                    <div class="col-md-4">
+                        <label class="text-muted small">Adjunto FURAT (PDF)</label>
                         @if (!string.IsNullOrEmpty(Model.NombreArchivoAccidente))
                         {
-                            <p>
-                                <a href="@Url.Action("Descargar", "ReporteAccidenteTrabajo",
-                                    new { ruta = Model.RutaArchivoAccidente, nombre = Model.NombreArchivoAccidente })"
-                                   class="btn btn-sm btn-success">
-                                    @Model.NombreArchivoAccidente
-                                </a>
-                            </p>
+                            <div class="alert alert-info" style="padding: 10px; margin-bottom: 10px; font-size: 12px;">
+                                <i class="glyphicon glyphicon-paperclip"></i> Actual: @Model.NombreArchivoAccidente
+                            </div>
                         }
                         <input type="file" name="archivoAccidente" accept=".pdf" class="form-control" />
-                        <span class="help-block text-muted">
-                            @(string.IsNullOrEmpty(Model.NombreArchivoAccidente) ? "Sin archivo adjunto." : "Sube un PDF nuevo para reemplazar el actual.")
-                        </span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Investigación y Seguimiento</h3>
-        </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.FechaInvestigacion)
-                        @Html.TextBoxFor(m => m.FechaInvestigacion, "{0:yyyy-MM-dd}",
-                            new { @class = "form-control", type = "date", id = "fechaInvestigacion" })
+
+        @* --- SECCIÓN 3: INVESTIGACIÓN --- *@
+        <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+            <div class="panel-heading" style="background-color: #3a86ff; color: white; border-radius: 12px 12px 0 0;">
+                <h3 class="panel-title font-weight-bold">3. Investigación y Causa</h3>
+            </div>
+            <div class="panel-body" style="padding: 25px;">
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        @Html.LabelFor(m => m.FechaInvestigacion, new { @class = "text-muted small" })
+                        @Html.TextBoxFor(m => m.FechaInvestigacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "fechaInvestigacion" })
                     </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.DiasInvestigacion)
-                        @Html.TextBoxFor(m => m.DiasInvestigacion,
-                            new { @class = "form-control", id = "diasInvestigacion", @readonly = "readonly" })
-                        <span class="help-block text-muted">Se calcula automáticamente.</span>
+                    <div class="col-md-4 form-group">
+                        @Html.LabelFor(m => m.DiasInvestigacion, new { @class = "text-muted small" })
+                        @Html.TextBoxFor(m => m.DiasInvestigacion, new { @class = "form-control", id = "diasInvestigacion", @readonly = "readonly", style = "background: #eee;" })
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label>Turno</label>
+                    <div class="col-md-4 form-group">
+                        <label class="text-muted small">Turno</label>
                         <select name="Turno" class="form-control">
-                            <option value="">-- Turno --</option>
+                            <option value="">-- Seleccionar --</option>
                             @foreach (var t in ViewBag.Turnos as string[])
                             {
                                 <option value="@t" @(Model.Turno == t ? "selected" : "")>@t</option>
@@ -249,13 +185,11 @@
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Causa</label>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label class="text-muted small">Causa Principal</label>
                         <select name="Causa" id="selectCausa" class="form-control">
-                            <option value="">-- Seleccionar causa --</option>
+                            <option value="">-- Seleccionar --</option>
                             @if (causas != null)
                             {
                                 foreach (var c in causas.Keys)
@@ -264,164 +198,128 @@
                                 }
                             }
                         </select>
-                        <span class="help-block text-muted">
-                            Si no está en la lista, descríbala en Observaciones.
-                        </span>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Subcausa</label>
+                    <div class="col-md-6 form-group">
+                        <label class="text-muted small">Subcausa Detallada</label>
                         <select name="Subcausa" id="selectSubcausa" class="form-control">
-                            <option value="">-- Seleccione primero una causa --</option>
+                            <option value="">-- Seleccione una causa --</option>
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>PDF de Investigación</label>
-                        @if (!string.IsNullOrEmpty(Model.NombreArchivoInvestigacion))
-                        {
-                            <p>
-                                <a href="@Url.Action("Descargar", "ReporteAccidenteTrabajo",
-                                    new { ruta = Model.RutaArchivoInvestigacion, nombre = Model.NombreArchivoInvestigacion })"
-                                   class="btn btn-sm btn-success">
-                                    @Model.NombreArchivoInvestigacion
-                                </a>
-                            </p>
-                        }
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="text-muted small">PDF de Investigación</label>
                         <input type="file" name="archivoInvestigacion" accept=".pdf" class="form-control" />
-                        <span class="help-block text-muted">
-                            @(string.IsNullOrEmpty(Model.NombreArchivoInvestigacion) ? "Sin archivo adjunto." : "Sube un PDF nuevo para reemplazar el actual.")
-                        </span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Plan de Mejora</h3>
-        </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Responsable)
+
+        @* --- SECCIÓN 4: PLAN DE MEJORA --- *@
+        <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+            <div class="panel-heading" style="background-color: #76b82a; color: white; border-radius: 12px 12px 0 0;">
+                <h3 class="panel-title font-weight-bold">4. Plan de Mejora</h3>
+            </div>
+            <div class="panel-body" style="padding: 25px;">
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        @Html.LabelFor(m => m.Responsable, new { @class = "text-muted small" })
                         @Html.TextBoxFor(m => m.Responsable, new { @class = "form-control" })
                     </div>
-                </div>
-                <div class="col-md-8">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.IntervencionRealizar)
+                    <div class="col-md-8 form-group">
+                        @Html.LabelFor(m => m.IntervencionRealizar, new { @class = "text-muted small" })
                         @Html.TextBoxFor(m => m.IntervencionRealizar, new { @class = "form-control" })
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.FechaPlaneada)
-                        @Html.TextBoxFor(m => m.FechaPlaneada, "{0:yyyy-MM-dd}",
-                            new { @class = "form-control", type = "date" })
+                <div class="row">
+                    <div class="col-md-3 form-group">
+                        @Html.LabelFor(m => m.FechaPlaneada, new { @class = "text-muted small" })
+                        @Html.TextBoxFor(m => m.FechaPlaneada, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.FechaEjecucion)
-                        @Html.TextBoxFor(m => m.FechaEjecucion, "{0:yyyy-MM-dd}",
-                            new { @class = "form-control", type = "date" })
+                    <div class="col-md-3 form-group">
+                        @Html.LabelFor(m => m.FechaEjecucion, new { @class = "text-muted small" })
+                        @Html.TextBoxFor(m => m.FechaEjecucion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>PDF Plan de Mejora</label>
-                        @if (!string.IsNullOrEmpty(Model.NombreArchivoPlan))
-                        {
-                            <p>
-                                <a href="@Url.Action("Descargar", "ReporteAccidenteTrabajo",
-                                    new { ruta = Model.RutaArchivoPlan, nombre = Model.NombreArchivoPlan })"
-                                   class="btn btn-sm btn-success">
-                                    @Model.NombreArchivoPlan
-                                </a>
-                            </p>
-                        }
+                    <div class="col-md-6">
+                        <label class="text-muted small">PDF Evidencia de Plan</label>
                         <input type="file" name="archivoPlan" accept=".pdf" class="form-control" />
-                        <span class="help-block text-muted">
-                            @(string.IsNullOrEmpty(Model.NombreArchivoPlan) ? "Sin archivo adjunto." : "Sube un PDF nuevo para reemplazar el actual.")
-                        </span>
                     </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ObservacionesFinales, new { @class = "text-muted small" })
+                    @Html.TextAreaFor(m => m.ObservacionesFinales, new { @class = "form-control", rows = "3", placeholder = "Comentarios de cierre..." })
                 </div>
             </div>
         </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Observaciones Finales</h3>
-        </div>
-        <div class="panel-body">
-            <div class="form-group">
-                @Html.LabelFor(m => m.ObservacionesFinales)
-                @Html.TextAreaFor(m => m.ObservacionesFinales,
-                    new { @class = "form-control", rows = "3" })
-            </div>
-        </div>
-    </div>
 
-    <button type="submit" class="btn btn-warning">Actualizar</button>
-    <a href="@Url.Action("Index", "ReporteAccidenteTrabajo")"
-       class="btn btn-default" style="border:2px solid #aaa;background:transparent;">
-        Ver listado
-    </a>
-}
+        <div class="text-center" style="margin-top: 30px;">
+            <button type="submit" class="btn btn-success btn-lg" style="background-color: #76b82a;"padding: 10px 40px; font-weight: bold; border-radius: 30px; box-shadow: 0 4px 15px rgba(92, 184, 92, 0.4);">
+                <i class="glyphicon glyphicon-refresh"></i> ACTUALIZAR REPORTE
+            </button>
+        </div>
+    }
+</div>
+
+<style>
+    .small {
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 11px;
+        letter-spacing: 0.5px;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        height: 38px;
+    }
+
+        .form-control:focus {
+            border-color: #29235c;
+            box-shadow: none;
+        }
+
+    textarea.form-control {
+        height: auto;
+    }
+</style>
+
 @section Scripts {
     <script>
-        var causasSubcausas = {
-            'Manejo inadecuado de cortopunzantes': ['Falta de autocuidado','Reencapuchar agujas','Manejo inseguro durante procedimientos (suturas, punciones)','Falta de solicitud de apoyo en pacientes con alteraciones','Manejo inadecuado por terceros','Segregación inadecuada de residuos cortopunzantes','Disposición incorrecta de residuos'],
-            'Posturas y movimientos inadecuados / ergonomía': ['Posturas inadecuadas','Movimientos inadecuados','Sobreesfuerzo','Fuerza excesiva en labores','Movimientos en falso','Levantamiento incorrecto','Falta de autocuidado en manipulación de cargas'],
-            'Caídas y resbalones': ['Piso húmedo / superficies resbalosas','Falta de señalización','Baja iluminación','Desniveles sin demarcar','Pisada en falso / torsión','Caídas en gradas','Cerámica o piso liso','Exceso de confianza'],
-            'Movilización inadecuada de pacientes': ['Técnica incorrecta','Falta de apoyo del personal','No solicitar ayuda','Uso de elementos desgastados (sábanas, camillas)'],
-            'Fallas en equipos, mobiliario e infraestructura': ['Mobiliario defectuoso (sillas, gabinetes, pasamanos)','Falta de mantenimiento de equipos biomédicos','Fallas en ambulancia (piso, camilla)'],
-            'Uso inadecuado o falta de EPP y dispositivos': ['Uso incorrecto de dispositivos de seguridad','Falta de aseguramiento del EPP','Herramientas mal utilizadas'],
-            'Condiciones ambientales inseguras': ['Iluminación inadecuada','Pisos en mal estado'],
-            'Falta de autocuidado (general)': ['Exceso de confianza','Actividades rutinarias sin precaución','Correr, caminar sin cuidado','No asegurar barandas'],
-            'Procedimientos inseguros': ['Falta de adherencia a protocolos','Falta de insumos adecuados','Administración insegura de medicamentos','Procedimientos clínicos inseguros'],
-            'Accidentes de tránsito': ['Volcamiento'],
-            'Actividades deportivas': ['Deportes de alto impacto (fútbol, voleibol y baloncesto)'],
-            'Fatiga y condiciones fisiológicas': ['Fatiga laboral','Sudoración excesiva'],
-            'Exposición a agentes biológicos': ['Picadura por (insectos, larvas, etc)','Mordedura por (insectos, larvas, etc)'],
-            'Factores externos / terceros': ['Acciones inseguras de terceros','Bloqueos violentos','Pacientes agresivos (falta de contención adecuada)']
-        };
-        window.onload = function() {
-            var causa = document.getElementById('selectCausa').value;
-            var subcausaGuardada = '@Model.Subcausa';
-            if (causa && causasSubcausas[causa]) {
-                var sel = document.getElementById('selectSubcausa');
-                sel.innerHTML = '<option value="">-- Seleccionar subcausa --</option>';
-                causasSubcausas[causa].forEach(function(sub) {
+        var causasSubcausas = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(causas));
+
+        function cargarSubcausas(causaValue, subcausaSeleccionada) {
+            var sel = document.getElementById('selectSubcausa');
+            sel.innerHTML = '<option value="">-- Seleccionar subcausa --</option>';
+            if (causaValue && causasSubcausas[causaValue]) {
+                causasSubcausas[causaValue].forEach(function(sub) {
                     var o = document.createElement('option');
                     o.value = sub; o.text = sub;
-                    if (sub === subcausaGuardada) o.selected = true;
+                    if (sub === subcausaSeleccionada) o.selected = true;
                     sel.appendChild(o);
                 });
             }
+        }
+
+        window.onload = function() {
+            var causaActual = document.getElementById('selectCausa').value;
+            var subcausaGuardada = '@Model.Subcausa';
+            cargarSubcausas(causaActual, subcausaGuardada);
         };
+
         document.getElementById('selectCausa').addEventListener('change', function () {
-            var sel = document.getElementById('selectSubcausa');
-            sel.innerHTML = '<option value="">-- Seleccionar subcausa --</option>';
-            if (this.value && causasSubcausas[this.value]) {
-                causasSubcausas[this.value].forEach(function(sub) {
-                    var o = document.createElement('option');
-                    o.value = sub; o.text = sub; sel.appendChild(o);
-                });
-            }
+            cargarSubcausas(this.value, '');
         });
+
         document.getElementById('fechaInvestigacion').addEventListener('change', function () {
-            var base = document.querySelector('[name="FechaAT"]');
-            if (base && base.value && this.value) {
-                var diff = (new Date(this.value) - new Date(base.value)) / 86400000;
+            var fechaAT = document.getElementById('fechaAT').value;
+            if (fechaAT && this.value) {
+                var inicio = new Date(fechaAT);
+                var fin = new Date(this.value);
+                var diff = (fin - inicio) / (1000 * 60 * 60 * 24);
                 document.getElementById('diasInvestigacion').value = Math.max(0, Math.round(diff));
             }
         });

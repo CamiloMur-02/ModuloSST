@@ -8,29 +8,18 @@
 }
 
 <div class="container-fluid">
-    @* --- ENCABEZADO --- *@
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
-        <div>
-            <h2 class="text-primary" style="margin:0; font-weight:bold;">
-                <i class="glyphicon glyphicon-stats"></i> Dashboard de Suministros EPP
-            </h2>
-            <p class="text-muted">Análisis de entrega de elementos de protección personal</p>
-        </div>
-        <a href="@Url.Action("Index")" class="btn btn-default" style="border-radius:10px; border: 2px solid #29235c; color: #29235c; font-weight:bold;">
-            <i class="glyphicon glyphicon-list"></i> Volver al Listado
-        </a>
-    </div>
 
-    @* --- FILTRO Y RESUMEN RÁPIDO --- *@
-    <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-default" style="border-radius:15px; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100px; display: flex; align-items: center;">
+    @* --- SECCIÓN SUPERIOR: FILTRO, TÍTULO Y VOLVER --- *@
+    <div class="row" style="margin-bottom: 30px; margin-top: 10px;">
+        @* Filtro a la izquierda *@
+        <div class="col-md-3">
+            <div class="panel panel-default" style="border-radius:15px; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 90px; display: flex; align-items: center; margin-bottom:0;">
                 <div class="panel-body" style="width: 100%;">
                     @using (Html.BeginForm("Dashboard", "MatrizEpp", FormMethod.Get, new { @class = "form-inline", style = "display:flex; justify-content:center; gap:10px;" }))
                     {
                         <div class="form-group" style="margin:0;">
-                            <label>Año: </label>
-                            <input type="number" name="anio" class="form-control" value="@ViewBag.AnioActual" style="width:85px; border-radius:10px; font-weight:bold;" />
+                            <label style="color:#666;">Año: </label>
+                            <input type="number" name="anio" class="form-control" value="@ViewBag.AnioActual" style="width:85px; border-radius:10px; font-weight:bold; border: 1px solid #ddd;" />
                         </div>
                         <button type="submit" class="btn-ver" style="border-radius:10px; padding: 6px 15px;">Filtrar</button>
                     }
@@ -38,52 +27,30 @@
             </div>
         </div>
 
-        @* KPI: Total Entregado (Sin fondo, estilo limpio) *@
-        <div class="col-md-4">
-            <div class="panel panel-default" style="border-radius:15px; border: none; border-left: 5px solid #29235c; box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100px;">
-                <div class="panel-body text-center" style="padding: 15px;">
-                    <p style="margin:0; color: #666; font-size: 14px; font-weight: 500; text-transform: uppercase;">Total Entregados</p>
-                    <h2 style="margin: 5px 0; font-weight:bold; color: #29235c; font-size: 32px;">@totalGeneral.ToString("N0")</h2>
-                </div>
-            </div>
+        @* Espacio Central: Título acorde a la información *@
+        <div class="col-md-6 text-center" style="display: flex; flex-direction: column; justify-content: center; height: 90px;">
+            <h2 style="color: #29235c; font-weight: bold; margin: 0; text-transform: uppercase; letter-spacing: 1px; font-size: 24px;">
+                Análisis Estadístico de Suministros
+            </h2>
+            <p style="color: #76b82a; font-weight: bold; margin-top: 5px; font-size: 16px; margin-bottom:0;">
+                Gestión Institucional de EPP - Periodo @ViewBag.AnioActual
+            </p>
         </div>
 
-        @* KPI: Último Mes (Sin fondo, estilo limpio) *@
-        <div class="col-md-4">
-            <div class="panel panel-default" style="border-radius:15px; border: none; border-left: 5px solid #76b82a; box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 100px;">
-                <div class="panel-body text-center" style="padding: 15px;">
-                    <p style="margin:0; color: #666; font-size: 14px; font-weight: 500; text-transform: uppercase;">Entregas del Mes</p>
-                    <h2 style="margin: 5px 0; font-weight:bold; color: #76b82a; font-size: 32px;">@(datosMensuales != null ? datosMensuales.LastOrDefault().ToString("N0") : "0")</h2>
-                </div>
-            </div>
+        @* Botón Volver a la derecha *@
+        <div class="col-md-3 text-right" style="display: flex; align-items: center; justify-content: flex-end; height: 90px;">
+            <a href="@Url.Action("Index")" class="btn btn-default" style="background-color: #29235c; color: white; border-radius: 10px; font-weight: bold; padding: 10px 20px;">
+                <i class="glyphicon glyphicon-list"></i> Volver al Listado
+            </a>
         </div>
     </div>
-    @* KPI: Total Entregado *@
-    <div class="col-md-4">
-        <div class="panel panel-default" style="border-radius:15px; background: #29235c; color: white;">
-            <div class="panel-body text-center">
-                <h4 style="margin:0; opacity: 0.8;">Total EPP Entregados</h4>
-                <h2 style="margin: 5px 0; font-weight:bold;">@totalGeneral.ToString("N0")</h2>
-            </div>
-        </div>
-    </div>
-    @* KPI: Mes Actual (Estimado) *@
-    <div class="col-md-4">
-        <div class="panel panel-default" style="border-radius:15px; background: #76b82a; color: white;">
-            <div class="panel-body text-center">
-                <h4 style="margin:0; opacity: 0.8;">Último Mes</h4>
-                <h2 style="margin: 5px 0; font-weight:bold;">@(datosMensuales != null ? datosMensuales.LastOrDefault().ToString("N0") : "0")</h2>
-            </div>
-        </div>
-    </div>
-</div>
 
     @* --- GRÁFICOS --- *@
     <div class="row">
         <div class="col-md-8">
             <div class="panel panel-default" style="border-radius:15px; border:none; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                <div class="panel-heading" style="background:white; border-radius:15px 15px 0 0; font-weight:bold; color:#29235c;">
-                    Tendencia Mensual de Entregas
+                <div class="panel-heading" style="background:white; border-radius:15px 15px 0 0; font-weight:bold; color:#29235c; border-bottom: 1px solid #f0f0f0;">
+                    <i class="glyphicon glyphicon-signal" style="color:#76b82a;"></i> Tendencia Mensual de Entregas
                 </div>
                 <div class="panel-body">
                     <canvas id="chartMensual" height="120"></canvas>
@@ -92,8 +59,8 @@
         </div>
         <div class="col-md-4">
             <div class="panel panel-default" style="border-radius:15px; border:none; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                <div class="panel-heading" style="background:white; border-radius:15px 15px 0 0; font-weight:bold; color:#29235c;">
-                    Distribución por Trimestre
+                <div class="panel-heading" style="background:white; border-radius:15px 15px 0 0; font-weight:bold; color:#29235c; border-bottom: 1px solid #f0f0f0;">
+                    <i class="glyphicon glyphicon-adjust" style="color:#76b82a;"></i> Distribución por Trimestre
                 </div>
                 <div class="panel-body">
                     <canvas id="chartTrimestre" height="270"></canvas>
@@ -104,8 +71,8 @@
 
     @* --- TABLA TOP ELEMENTOS --- *@
     <div class="panel panel-default" style="border-radius:15px; border:none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 40px;">
-        <div class="panel-heading" style="background:#29235c; color:white; border-radius:10px 10px 0 0; font-weight:bold;">
-            <i class="glyphicon glyphicon-list-alt"></i>  Elementos más Entregados
+        <div class="panel-heading" style="background:#29235c; color:white; border-radius:15px 15px 0 0; font-weight:bold;">
+            <i class="glyphicon glyphicon-list-alt"></i> Elementos más Entregados
         </div>
         <div class="table-responsive">
             <table class="table table-hover" style="margin-bottom:0;">
@@ -124,7 +91,9 @@
                             double porc = totalGeneral > 0 ? (double)item.Cantidad * 100 / totalGeneral : 0;
                             <tr>
                                 <td style="padding-left:25px; vertical-align:middle;"><strong>@item.Nombre</strong></td>
-                                <td class="text-center" style="vertical-align:middle;"><span class="badge" style="background:#76b82a;">@item.Cantidad</span></td>
+                                <td class="text-center" style="vertical-align:middle;">
+                                    <span class="badge" style="background:#76b82a; padding: 5px 10px;">@item.Cantidad</span>
+                                </td>
                                 <td style="width: 45%; vertical-align:middle; padding-right:25px;">
                                     <div style="display:flex; align-items:center;">
                                         <div class="progress" style="margin-bottom:0; flex-grow:1; height:12px; border-radius:10px; background:#eee;">
@@ -145,11 +114,9 @@
 @* --- SCRIPTS DE GRÁFICOS --- *@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Configuración Global de Chart.js
     Chart.defaults.font.family = "'Segoe UI', 'Helvetica', 'Arial', sans-serif";
     Chart.defaults.color = "#666";
 
-    // Gráfico Lineal (Mensual)
     new Chart(document.getElementById('chartMensual'), {
         type: 'line',
         data: {
@@ -175,7 +142,6 @@
         }
     });
 
-    // Gráfico de Dona (Trimestral)
     new Chart(document.getElementById('chartTrimestre'), {
         type: 'doughnut',
         data: {

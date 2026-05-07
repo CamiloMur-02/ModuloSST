@@ -1,33 +1,82 @@
 ﻿@model ModuloSST_HSLV.Models.CatalogoEpp
-@{ ViewBag.Title = "Agregar tipo de EPP"; }
-<h2 class="text-primary">Agregar tipo de EPP</h2>
-<hr />
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    if (!ViewData.ModelState.IsValid)
+@{
+    ViewBag.Title = "Agregar tipo de EPP";
+}
+
+<div class="container-fluid">
+    <div style="margin-bottom: 20px;">
+        <h2 class="text-primary" style="font-weight:bold;">
+            <i class="glyphicon glyphicon-plus"></i> Agregar Nuevo Tipo de EPP
+        </h2>
+        <p class="text-muted">Defina un nuevo elemento para que esté disponible en la Matriz de SST.</p>
+        <hr />
+    </div>
+
+    @using (Html.BeginForm())
     {
-        <div class="alert alert-danger">
-            <strong>Corrija los siguientes errores:</strong>
-            @Html.ValidationSummary(false, "", new { @class = "mb-0" })
-        </div>
-    }
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="form-group">
-                @Html.LabelFor(m => m.NombreEPP)
-                @Html.TextBoxFor(m => m.NombreEPP,
-                    new { @class = "form-control", placeholder = "Ej: Monogafas" })
-                @Html.ValidationMessageFor(m => m.NombreEPP, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>@Html.CheckBoxFor(m => m.Estado) Activo</label>
+        @Html.AntiForgeryToken()
+
+        @* --- ALERTAS DE VALIDACIÓN --- *@
+        if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger" style="border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <i class="glyphicon glyphicon-exclamation-sign"></i> <strong>Corrija los siguientes errores:</strong>
+                <div style="margin-top: 5px;">
+                    @Html.ValidationSummary(false, "", new { @class = "mb-0" })
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-            @Html.ActionLink("Cancelar", "Index", "CatalogoEpp",
-                null, new { @class = "btn btn-default" })
+        }
+
+        @* --- FORMULARIO --- *@
+        <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 600px;">
+            <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 15px 15px 0 0; padding: 12px 20px;">
+                <h3 class="panel-title" style="font-weight: bold;">Datos del Elemento</h3>
+            </div>
+            <div class="panel-body" style="padding: 25px;">
+
+                <div class="form-group">
+                    <label style="color: #29235c; font-weight: bold;">Nombre del EPP</label>
+                    @Html.TextBoxFor(m => m.NombreEPP, new
+                    {
+                        @class = "form-control",
+                        placeholder = "Ej: Casco dieléctrico, Guantes de nitrilo...",
+                        style = "border-radius: 10px; height: 40px;"
+                    })
+                    @Html.ValidationMessageFor(m => m.NombreEPP, "", new { @class = "text-danger", style = "font-size: 12px;" })
+                </div>
+
+                <div class="form-group" style="margin-top: 20px;">
+                    <div class="checkbox" style="display: flex; align-items: center;">
+                        <label style="font-weight: bold; cursor: pointer;">
+                            @Html.CheckBoxFor(m => m.Estado, new { style = "width: 18px; height: 18px; margin-right: 10px;" })
+                            ¿El elemento está activo?
+                        </label>
+                    </div>
+                    <small class="text-muted">Si está inactivo, no aparecerá para nuevas entregas en la matriz.</small>
+                </div>
+
+                <hr style="margin: 25px 0;" />
+
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" class="btn" style="background-color: #29235c; color: white; border-radius: 10px; padding: 10px 30px; font-weight: bold; border: none;">
+                        <i class="glyphicon glyphicon-floppy-disk"></i> Guardar Elemento
+                    </button>
+
+                    @Html.ActionLink("Cancelar", "Index", "CatalogoEpp", null, new
+                    {
+                        @class = "btn btn-default",
+                        style = "border-radius: 10px; padding: 10px 25px; border: 2px solid #29235c; color: #29235c; font-weight: bold; background: transparent;"
+                    })
+                </div>
+            </div>
         </div>
-    </div>
-}
+    }
+</div>
+
+<style>
+    /* Estilo para los inputs al hacer focus */
+    .form-control:focus {
+        border-color: #76b82a;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(118, 184, 42, 0.4);
+    }
+</style>

@@ -1,155 +1,195 @@
 ﻿@model ModuloSST_HSLV.Models.ReporteAccidenteTrabajo
-@{ ViewBag.Title = "Detalle — Accidente de Trabajo"; }
-<h2 class="text-primary">Detalle — Reporte de Accidente de Trabajo</h2>
-<hr />
-<div class="panel panel-default">
-    <div class="panel-heading"><h3 class="panel-title">Datos del Accidentado</h3></div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-2"><strong>Cédula:</strong><br />@Model.Cedula</div>
-            <div class="col-md-4"><strong>Apellidos y Nombre:</strong><br />@Model.NombreCompleto</div>
-            <div class="col-md-2"><strong>Género:</strong><br />@Model.Genero</div>
-            <div class="col-md-2"><strong>Edad:</strong><br />@Model.Edad años</div>
-            <div class="col-md-2"><strong>N° Reporte:</strong><br />@Model.NumeroReporte</div>
+@{
+    ViewBag.Title = "Detalle — Accidente de Trabajo";
+}
+
+<div class="container" style="padding-top: 20px; padding-bottom: 50px;">
+    @* --- CABECERA DE LA VISTA --- *@
+    <div class="row" style="margin-bottom: 20px; display: flex; align-items: center;">
+        <div class="col-md-8">
+            <h2 style="color: #29235c; font-weight: bold; margin: 0;">
+                <i class="glyphicon glyphicon-file"></i> Detalle del Reporte de Accidente
+            </h2>
+            <p class="text-muted" style="margin-top: 5px;">Visualización completa de la investigación y seguimiento.</p>
         </div>
-        <div class="row" style="margin-top:10px">
-            <div class="col-md-4"><strong>Cargo:</strong><br />@Model.Cargo</div>
-            <div class="col-md-4"><strong>Contratista:</strong><br />@Model.Contratista</div>
-            <div class="col-md-4"><strong>Tiempo de Prestación:</strong><br />@Model.TiempoPrestacion</div>
+        <div class="col-md-4 text-right">
+            <a href="@Url.Action("Index", "ReporteAccidenteTrabajo")" class="btn btn-default" style="border-radius: 8px; font-weight: bold; border: 2px solid #ccc;">
+                <i class="glyphicon glyphicon-list"></i> Volver
+            </a>
+            <a href="@Url.Action("Editar", "ReporteAccidenteTrabajo", new { id = Model.IdReporteAccidenteTrabajo })"
+               class="btn"
+               style="background-color: #76b82a; color: white; border-radius: 8px; font-weight: bold; margin-left: 5px; border: none; transition: background 0.3s;">
+                <i class="glyphicon glyphicon-edit"></i> Editar Reporte
+            </a>
         </div>
-        <div class="row" style="margin-top:10px">
-            <div class="col-md-6">
-                <strong>Proceso:</strong><br />
-                @(Model.Proceso != null ? Model.Proceso.NombreProceso : Model.IdProceso.ToString())
+    </div>
+
+    <hr style="border-top: 1px solid #ddd;" />
+
+    @* --- BLOQUE 1: DATOS PERSONALES --- *@
+    <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+        <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 12px 12px 0 0;">
+            <h3 class="panel-title" style="font-weight: bold;">1. Datos del Accidentado</h3>
+        </div>
+        <div class="panel-body" style="padding: 25px;">
+            <div class="row">
+                <div class="col-md-3"><label class="text-muted small">Cédula</label><p style="font-size: 16px; font-weight: 600;">@Model.Cedula</p></div>
+                <div class="col-md-5"><label class="text-muted small">Apellidos y Nombre</label><p style="font-size: 16px; font-weight: 600;">@Model.NombreCompleto</p></div>
+                <div class="col-md-2"><label class="text-muted small">Género</label><p>@Model.Genero</p></div>
+                <div class="col-md-2"><label class="text-muted small">Edad</label><p>@Model.Edad años</p></div>
             </div>
-            <div class="col-md-6">
-                <strong>Subproceso:</strong><br />
-                @(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : Model.IdSubproceso.ToString())
+            <div class="row" style="margin-top:15px">
+                <div class="col-md-4"><label class="text-muted small">Cargo / Función</label><p>@Model.Cargo</p></div>
+                <div class="col-md-4"><label class="text-muted small">Contratista</label><p>@(string.IsNullOrEmpty(Model.Contratista) ? "Directo" : Model.Contratista)</p></div>
+                <div class="col-md-4"><label class="text-muted small">N° Reporte Interno</label><p class="text-primary" style="font-weight: bold;">@Model.NumeroReporte</p></div>
+            </div>
+            <div class="row" style="margin-top:15px">
+                <div class="col-md-6">
+                    <label class="text-muted small">Proceso</label>
+                    <p>@(Model.Proceso != null ? Model.Proceso.NombreProceso : "—")</p>
+                </div>
+                <div class="col-md-6">
+                    <label class="text-muted small">Subproceso / Área</label>
+                    <p>@(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : "—")</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="panel panel-default">
-    <div class="panel-heading"><h3 class="panel-title">Información del Accidente</h3></div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-3"><strong>Fecha AT:</strong><br />@Model.FechaAT.ToString("dd/MM/yyyy")</div>
-            <div class="col-md-3">
-                <strong>Hora:</strong><br />
-                @(Model.HoraAT.HasValue ? Model.HoraAT.Value.ToString(@"hh\:mm") : "—")
-            </div>
-            <div class="col-md-3"><strong>Tipo de Peligro:</strong><br />@Model.TipoPeligro</div>
-            <div class="col-md-3"><strong>Días Incapacidad:</strong><br />@Model.DiasIncapacidad</div>
+
+    @* --- BLOQUE 2: INFORMACIÓN DEL ACCIDENTE --- *@
+    <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+        <div class="panel-heading" style="background-color: #d9534f; color: white; border-radius: 12px 12px 0 0;">
+            <h3 class="panel-title" style="font-weight: bold;">2. Información del Suceso</h3>
         </div>
-        <div class="row" style="margin-top:10px">
-            <div class="col-md-2"><strong>Código Dx:</strong><br />@(Model.CodigoDiagnostico ?? "—")</div>
-            <div class="col-md-7"><strong>Detalle Diagnóstico:</strong><br />@Model.DetalleDiagnostico</div>
-            <div class="col-md-3">
-                <strong>Fecha Reporte:</strong><br />
-                @(Model.FechaReporte.HasValue ? Model.FechaReporte.Value.ToString("dd/MM/yyyy") : "—")
+        <div class="panel-body" style="padding: 25px;">
+            <div class="row">
+                <div class="col-md-3"><label class="text-muted small">Fecha Accidente</label><p style="font-weight: bold;">@Model.FechaAT.ToString("dd / MMMM / yyyy")</p></div>
+                <div class="col-md-3"><label class="text-muted small">Hora Exacta</label><p>@(Model.HoraAT.HasValue ? DateTime.Today.Add(Model.HoraAT.Value).ToString("hh:mm tt") : "—")</p></div>
+                <div class="col-md-3"><label class="text-muted small">Tipo de Peligro</label><p><span class="label label-danger">@Model.TipoPeligro</span></p></div>
+                <div class="col-md-3"><label class="text-muted small">Días Incapacidad</label><p style="font-size: 18px; font-weight: bold; color: #d9534f;">@Model.DiasIncapacidad</p></div>
             </div>
-        </div>
-        @if (!string.IsNullOrEmpty(Model.ObservacionesAccidente))
-        {
-            <div class="row" style="margin-top:10px">
-                <div class="col-md-12"><strong>Observaciones:</strong><br />@Model.ObservacionesAccidente</div>
+            <div class="row" style="margin-top:15px; background: #fefefe; padding: 10px; border-radius: 8px; border: 1px solid #f5f5f5;">
+                <div class="col-md-2"><label class="text-muted small">CIE-10</label><p><strong>@(Model.CodigoDiagnostico ?? "—")</strong></p></div>
+                <div class="col-md-7"><label class="text-muted small">Diagnóstico Médico</label><p>@Model.DetalleDiagnostico</p></div>
+                <div class="col-md-3"><label class="text-muted small">Fecha de Reporte</label><p>@(Model.FechaReporte.HasValue ? Model.FechaReporte.Value.ToString("dd/MM/yyyy") : "—")</p></div>
             </div>
-        }
-        @if (!string.IsNullOrEmpty(Model.NombreArchivoAccidente))
-        {
-            <div class="row" style="margin-top:10px">
-                <div class="col-md-12">
-                    <strong>Furat PDF:</strong>
-                    <a href="@Url.Action("Descargar", "ReporteAccidenteTrabajo",
-                        new { ruta = Model.RutaArchivoAccidente, nombre = Model.NombreArchivoAccidente })"
-                       class="btn btn-sm btn-success">
-                        @Model.NombreArchivoAccidente
+
+            <div style="margin-top: 15px;">
+                <label class="text-muted small">Relato de lo sucedido</label>
+                <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; font-style: italic;">
+                    "@Model.ObservacionesAccidente"
+                </div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.NombreArchivoAccidente))
+            {
+                <div style="margin-top: 20px;">
+                    <a href="@Url.Action("Descargar", "ReporteAccidenteTrabajo", new { ruta = Model.RutaArchivoAccidente, nombre = Model.NombreArchivoAccidente })"
+                       class="btn btn-success" style="border-radius: 20px; padding: 5px 20px;">
+                        <i class="glyphicon glyphicon-download-alt"></i> Descargar FURAT (PDF)
                     </a>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
+
+    @* --- BLOQUE 3: INVESTIGACIÓN --- *@
+    <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+        <div class="panel-heading" style="background-color: #3a86ff; color: white; border-radius: 12px 12px 0 0;">
+            <h3 class="panel-title" style="font-weight: bold;">3. Investigación de Causa Raíz</h3>
+        </div>
+        <div class="panel-body" style="padding: 25px;">
+            @if (!string.IsNullOrEmpty(Model.Causa))
+            {
+                <div class="row">
+                    <div class="col-md-4"><label class="text-muted small">Fecha Investigación</label><p>@(Model.FechaInvestigacion.HasValue ? Model.FechaInvestigacion.Value.ToString("dd/MM/yyyy") : "—")</p></div>
+                    <div class="col-md-4"><label class="text-muted small">Tiempo de Respuesta</label><p>@(Model.DiasInvestigacion ?? 0) días hábiles</p></div>
+                    <div class="col-md-4"><label class="text-muted small">Turno</label><p>@(Model.Turno ?? "—")</p></div>
+                </div>
+                <div class="row" style="margin-top:15px">
+                    <div class="col-md-6" style="border-left: 4px solid #3a86ff;"><label class="text-muted small">Causa Principal</label><p style="font-weight: bold;">@Model.Causa</p></div>
+                    <div class="col-md-6" style="border-left: 4px solid #76b82a;"><label class="text-muted small">Subcausa / Detalle</label><p>@(Model.Subcausa ?? "—")</p></div>
+                </div>
+                if (!string.IsNullOrEmpty(Model.NombreArchivoInvestigacion))
+                {
+                    <div style="margin-top: 20px;">
+                        <a href="@Url.Action("Descargar", "ReporteAccidenteTrabajo", new { ruta = Model.RutaArchivoInvestigacion, nombre = Model.NombreArchivoInvestigacion })"
+                           class="btn btn-primary" style="border-radius: 20px; padding: 5px 20px;">
+                            <i class="glyphicon glyphicon-paperclip"></i> Ver Archivo de Investigación
+                        </a>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="text-center text-muted">
+                    <p><i class="glyphicon glyphicon-info-sign"></i> Pendiente de realizar investigación técnica.</p>
+                </div>
+            }
+        </div>
+    </div>
+
+    @* --- BLOQUE 4: PLAN DE MEJORA --- *@
+    <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+        <div class="panel-heading" style="background-color: #76b82a; color: white; border-radius: 12px 12px 0 0;">
+            <h3 class="panel-title" style="font-weight: bold;">4. Plan de Mejora e Intervención</h3>
+        </div>
+        <div class="panel-body" style="padding: 25px;">
+            @if (!string.IsNullOrEmpty(Model.Responsable))
+            {
+                <div class="row">
+                    <div class="col-md-4"><label class="text-muted small">Líder Responsable</label><p><strong>@Model.Responsable</strong></p></div>
+                    <div class="col-md-8"><label class="text-muted small">Acción Correctiva / Preventiva</label><p>@Model.IntervencionRealizar</p></div>
+                </div>
+                <div class="row" style="margin-top:15px">
+                    <div class="col-md-4"><label class="text-muted small">Fecha Límite</label><p>@(Model.FechaPlaneada.HasValue ? Model.FechaPlaneada.Value.ToString("dd/MM/yyyy") : "—")</p></div>
+                    <div class="col-md-4"><label class="text-muted small">Fecha de Ejecución</label><p class="text-success">@(Model.FechaEjecucion.HasValue ? Model.FechaEjecucion.Value.ToString("dd/MM/yyyy") : "—")</p></div>
+                    <div class="col-md-4">
+                        @if (!string.IsNullOrEmpty(Model.NombreArchivoPlan))
+                        {
+                            <label class="text-muted small">Soporte Ejecución</label><br />
+                            <a href="@Url.Action("Descargar", "ReporteAccidenteTrabajo", new { ruta = Model.RutaArchivoPlan, nombre = Model.NombreArchivoPlan })"
+                               class="btn btn-link" style="padding: 0; color: #76b82a; font-weight: bold;">
+                                <i class="glyphicon glyphicon-file"></i> Ver Evidencia
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="text-center text-muted">
+                    <p><i class="glyphicon glyphicon-time"></i> El plan de mejora no ha sido definido aún.</p>
+                </div>
+            }
+        </div>
+    </div>
+
+    @* --- OBSERVACIONES FINALES --- *@
+    @if (!string.IsNullOrEmpty(Model.ObservacionesFinales))
+    {
+        <div style="background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #eee;">
+            <label style="color: #29235c; font-weight: bold;">Observaciones Finales de Cierre:</label>
+            <p style="margin-bottom: 0;">@Model.ObservacionesFinales</p>
+        </div>
+    }
 </div>
-@if (!string.IsNullOrEmpty(Model.Causa))
-{
-    <div class="panel panel-default">
-        <div class="panel-heading"><h3 class="panel-title">Investigación y Seguimiento</h3></div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-3">
-                    <strong>Fecha Investigación:</strong><br />
-                    @(Model.FechaInvestigacion.HasValue ? Model.FechaInvestigacion.Value.ToString("dd/MM/yyyy") : "—")
-                </div>
-                <div class="col-md-2"><strong>Días Inv.:</strong><br />@(Model.DiasInvestigacion ?? 0)</div>
-                <div class="col-md-3"><strong>Turno:</strong><br />@(Model.Turno ?? "—")</div>
-            </div>
-            <div class="row" style="margin-top:10px">
-                <div class="col-md-6"><strong>Causa:</strong><br />@Model.Causa</div>
-                <div class="col-md-6"><strong>Subcausa:</strong><br />@(Model.Subcausa ?? "—")</div>
-            </div>
-            @if (!string.IsNullOrEmpty(Model.NombreArchivoInvestigacion))
-            {
-                <div class="row" style="margin-top:10px">
-                    <div class="col-md-12">
-                        <strong>PDF Investigación:</strong>
-                        <a href="@Url.Action("Descargar", "ReporteAccidenteTrabajo",
-                            new { ruta = Model.RutaArchivoInvestigacion, nombre = Model.NombreArchivoInvestigacion })"
-                           class="btn btn-sm btn-success">
-                            @Model.NombreArchivoInvestigacion
-                        </a>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
-}
-@if (!string.IsNullOrEmpty(Model.Responsable))
-{
-    <div class="panel panel-default">
-        <div class="panel-heading"><h3 class="panel-title">Plan de Mejora</h3></div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-4"><strong>Responsable:</strong><br />@Model.Responsable</div>
-                <div class="col-md-8"><strong>Intervención:</strong><br />@(Model.IntervencionRealizar ?? "—")</div>
-            </div>
-            <div class="row" style="margin-top:10px">
-                <div class="col-md-3">
-                    <strong>Fecha Planeada:</strong><br />
-                    @(Model.FechaPlaneada.HasValue ? Model.FechaPlaneada.Value.ToString("dd/MM/yyyy") : "—")
-                </div>
-                <div class="col-md-3">
-                    <strong>Fecha Ejecución:</strong><br />
-                    @(Model.FechaEjecucion.HasValue ? Model.FechaEjecucion.Value.ToString("dd/MM/yyyy") : "—")
-                </div>
-            </div>
-            @if (!string.IsNullOrEmpty(Model.NombreArchivoPlan))
-            {
-                <div class="row" style="margin-top:10px">
-                    <div class="col-md-12">
-                        <strong>PDF Plan:</strong>
-                        <a href="@Url.Action("Descargar", "ReporteAccidenteTrabajo",
-                            new { ruta = Model.RutaArchivoPlan, nombre = Model.NombreArchivoPlan })"
-                           class="btn btn-sm btn-success">
-                            @Model.NombreArchivoPlan
-                        </a>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
-}
-@if (!string.IsNullOrEmpty(Model.ObservacionesFinales))
-{
-    <div class="panel panel-default">
-        <div class="panel-heading"><h3 class="panel-title">Observaciones Finales</h3></div>
-        <div class="panel-body">@Model.ObservacionesFinales</div>
-    </div>
-}
-<a href="@Url.Action("Index", "ReporteAccidenteTrabajo")"
-   class="btn btn-default" style="border:2px solid #aaa;background:transparent;">
-    Ver listado
-</a>
-<a href="@Url.Action("Editar", "ReporteAccidenteTrabajo", new { id = Model.IdReporteAccidenteTrabajo })"
-   class="btn btn-warning" style="margin-left:5px">
-    Editar
-</a>
+
+<style>
+    label.small {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    p {
+        margin-bottom: 0;
+        font-size: 15px;
+        color: #333;
+    }
+
+    .panel-heading {
+        padding: 12px 20px !important;
+    }
+</style>

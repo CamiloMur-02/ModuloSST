@@ -3,38 +3,52 @@
     ViewBag.Title = "Reportes de Incidente";
 }
 
-<div class="row">
-    <div class="col-md-12">
-        <h2 class="text-primary">Gestión de Reportes de Incidentes</h2>
-        <hr />
+<div class="container-fluid" style="background-color: #fff; padding: 20px;">
+    @* --- TÍTULO --- *@
+    <h2 style="color: #29235c; font-weight: bold; margin-bottom: 5px;">
+        Gestión de Reportes de Incidentes
+    </h2>
+    <hr style="border-top: 1px solid #eee; margin-top: 5px;" />
 
-        <div style="margin-bottom: 20px;">
-            <a href="@Url.Action("Registrar")" class="btn btn-success" style="background-color: #1a8a59; border:none;">
-                + Registrar incidente
-            </a>
-            <a href="@Url.Action("Dashboard")" class="btn btn-primary" border:none; margin-left: 5px;">
-                Ver Indicadores / Dashboard
-            </a>
-        </div>
+    @* --- ENCABEZADO Y BOTONES DE ACCIÓN  *@
+    <div style="margin-bottom: 25px;">
+        <a href="@Url.Action("Registrar")"
+           class="btn"
+           style="background-color: #76b82a; color: white; border-radius: 10px; font-weight: bold; padding: 8px 20px; border: none;">
+            + Registrar incidente
+        </a>
+        <a href="@Url.Action("Dashboard")"
+           class="btn"
+           style="background-color: #5b9bd5; color: white; border-radius: 10px; font-weight: bold; padding: 8px 20px; margin-left: 10px; border: none;">
+            <i class="glyphicon glyphicon-dashboard"></i> Ver Indicadores / Dashboard
+        </a>
+    </div>
 
+    @* --- TABLA DE REGISTROS  *@
+    <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden;">
         <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover">
-                <thead>
-                    <tr class="active">
-                        <th class="text-center">#</th>
-                        <th>Cédula</th>
-                        <th>Apellidos y Nombre</th>
-                        <th>Cargo</th>
-                        <th>Proceso</th>
-                        <th class="text-center">Fecha Incidente</th>
-                        <th class="text-center">Tipo Peligro</th>
-                        <th class="text-center" style="min-width:100px;">Acciones</th>
+            <table class="table table-hover" style="margin-bottom: 0;">
+                <thead style="background: #29235c; color: white;">
+                    <tr>
+                        <th class="text-center" style="padding: 15px;">#</th>
+                        <th style="padding: 15px;">Cédula</th>
+                        <th style="padding: 15px;">Apellidos y Nombre</th>
+                        <th style="padding: 15px;">Cargo</th>
+                        <th style="padding: 15px;">Proceso</th>
+                        <th class="text-center" style="padding: 15px;">Fecha Incidente</th>
+                        <th class="text-center" style="padding: 15px;">Tipo Peligro</th>
+                        <th class="text-center" style="padding: 15px; min-width: 160px;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (Model == null || !Model.Any())
                     {
-                        <tr><td colspan="8" class="text-center text-muted">No hay reportes registrados.</td></tr>
+                        <tr>
+                            <td colspan="8" class="text-center" style="padding: 40px;">
+                                <i class="glyphicon glyphicon-info-sign" style="font-size: 30px; color: #ccc;"></i><br />
+                                <span class="text-muted">No hay reportes registrados.</span>
+                            </td>
+                        </tr>
                     }
                     else
                     {
@@ -42,33 +56,40 @@
                         foreach (var item in Model)
                         {
                             <tr>
-                                <td class="text-center">@i</td>
-                                <td>@item.Cedula</td>
-                                <td>@item.NombreCompleto</td>
-                                <td>@item.Cargo</td>
-                                <td>@(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")</td>
-                                <td class="text-center">@item.FechaIncidente.ToString("dd/MM/yyyy")</td>
-                                <td class="text-center">@item.TipoPeligro</td>
-                                <td class="text-center">
-                                    @* BOTÓN VER (AZUL) *@
-                                    <a href="@Url.Action("Detalle", new { id = item.IdReporteIncidente })"
-                                       title="Ver Detalle"
-                                       style="display: inline-flex; align-items: center; justify-content: center;
-                                         width: 50px; height: 22px; background-color: #3182ce;
-                                         border-radius: 12px; color: white; font-size: 12px;
-                                         text-decoration: none; cursor: pointer;">
-                                        Ver
-                                    </a>
+                                <td class="text-center" style="vertical-align: middle; font-weight: bold; color: #666;">@i</td>
+                                <td style="vertical-align: middle;">@item.Cedula</td>
+                                <td style="vertical-align: middle; font-weight: bold;">@item.NombreCompleto</td>
+                                <td style="vertical-align: middle;">@item.Cargo</td>
+                                <td style="vertical-align: middle;">
+                                    @* Descripción Proceso Normal *@
+                                    @(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")
+                                </td>
+                                <td class="text-center" style="vertical-align: middle;">
+                                    @item.FechaIncidente.ToString("dd/MM/yyyy")
+                                </td>
+                                <td class="text-center" style="vertical-align: middle; color: #d9534f; font-weight: bold;">
 
-                                    @* BOTÓN EDITAR (AMARILLO) *@
-                                    <a href="@Url.Action("Editar", new { id = item.IdReporteIncidente })"
-                                       title="Editar"
-                                       style="display: inline-flex; align-items: center; justify-content: center;
-                                         width: 60px; height: 22px; background-color: #f6ad55;
-                                         border-radius: 12px; color: white; font-size: 12px;
-                                         text-decoration: none; cursor: pointer; margin-left: 8px;">
-                                        Editar
-                                    </a>
+                                    @item.TipoPeligro
+                                </td>
+                                <td class="text-center" style="vertical-align: middle;">
+                                    @* --- BOTONES DE ACCIONES  *@
+                                    <div style="display: flex; justify-content: center; gap: 5px;">
+                                        @* BOTÓN VER (VERDE CLARO) *@
+                                        <a href="@Url.Action("Detalle", new { id = item.IdReporteIncidente })"
+                                           class="btn btn-sm"
+                                           style="width: 60px; height: 26px; line-height: 12px; background-color: #76b82a;
+                                             border-radius: 12px; color: white; font-size: 12px; font-weight: bold;">
+                                            Ver
+                                        </a>
+
+                                        @* BOTÓN EDITAR (AZUL OSCURO) *@
+                                        <a href="@Url.Action("Editar", new { id = item.IdReporteIncidente })"
+                                           class="btn btn-sm"
+                                           style="width: 65px; height: 26px; line-height: 12px; background-color: #29235c;
+                                             border-radius: 12px; color: white; font-size: 12px; font-weight: bold;">
+                                            Editar
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             i++;
@@ -79,3 +100,16 @@
         </div>
     </div>
 </div>
+
+<style>
+    
+    .table-hover tbody tr:hover {
+        background-color: #f9f9ff !important;
+        transition: all 0.2s ease;
+    }
+    
+    .btn:hover {
+        opacity: 0.9;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>

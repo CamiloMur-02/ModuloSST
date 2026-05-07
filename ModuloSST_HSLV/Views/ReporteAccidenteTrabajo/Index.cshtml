@@ -3,40 +3,59 @@
     ViewBag.Title = "Reportes de Accidente de Trabajo";
 }
 
-<div class="row">
-    <div class="col-md-12">
-        <h2 class="text-primary">Reportes de Accidente de Trabajo</h2>
+<div class="container-fluid">
+    @* --- ENCABEZADO Y BOTONES DE ACCIÓN (Estilo Bioseguridad) --- *@
+    <div style="margin-top: 20px;">
+        <h2 style="color: #29235c; font-weight: bold; margin-bottom: 15px;">
+            Reportes de Accidente de Trabajo
+        </h2>
         <hr />
 
-        <div style="margin-bottom: 20px;">
-            @Html.ActionLink("+ Registrar accidente", "Registrar", "ReporteAccidenteTrabajo",
-                null, new { @class = "btn btn-success" })
+        <div style="margin-bottom: 15px; display: flex; gap: 10px;">
+            @* Botón Registrar (Verde Hospital) *@
+            <a href="@Url.Action("Registrar", "ReporteAccidenteTrabajo")"
+               class="btn"
+               style="background-color: #76b82a; color: white; border-radius: 10px; font-weight: bold; padding: 8px 20px; border: none;">
+                + Registrar accidente
+            </a>
 
-            <a href="@Url.Action("Dashboard", "ReporteAccidenteTrabajo")" class="btn btn-primary">
-                <i class="glyphicon glyphicon-stats"></i> Ver Dashboard / Indicadores
+            @* Botón Dashboard (Azul HSLV) *@
+            <a href="@Url.Action("Dashboard", "ReporteAccidenteTrabajo")"
+               class="btn-dashboard"
+               style=color: white; border-radius: 10px; font-weight: bold; padding: 8px 20px; border: none;">
+                <i class="glyphicon glyphicon-stats"></i> Ver Indicadores / Dashboard
             </a>
         </div>
+        <hr style="border-top: 1px solid #eee;" />
+    </div>
 
+    @* --- TABLA DE REPORTES --- *@
+    <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden;">
         <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover">
-                <thead>
-                    <tr class="active">
-                        <th>#</th>
-                        <th>N° Reporte</th>
-                        <th>Cédula</th>
-                        <th>Apellidos y Nombre</th>
-                        <th>Cargo</th>
-                        <th>Proceso</th>
-                        <th>Fecha AT</th>
-                        <th>Tipo Peligro</th>
-                        <th>Días Incap.</th>
-                        <th>Acciones</th>
+            <table class="table table-hover" style="margin-bottom: 0;">
+                <thead style="background: #29235c; color: white;">
+                    <tr>
+                        <th class="text-center" style="padding: 15px;">#</th>
+                        <th style="padding: 15px;">N° Reporte</th>
+                        <th style="padding: 15px;">Cédula</th>
+                        <th style="padding: 15px;">Apellidos y Nombre</th>
+                        <th style="padding: 15px;">Cargo</th>
+                        <th style="padding: 15px;">Proceso</th>
+                        <th class="text-center" style="padding: 15px;">Fecha AT</th>
+                        <th style="padding: 15px;">Tipo Peligro</th>
+                        <th class="text-center" style="padding: 15px;">Días Incap.</th>
+                        <th class="text-center" style="padding: 15px;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (!Model.Any())
                     {
-                        <tr><td colspan="10" class="text-center text-muted">No hay reportes registrados.</td></tr>
+                        <tr>
+                            <td colspan="10" class="text-center" style="padding: 40px;">
+                                <i class="glyphicon glyphicon-folder-open" style="font-size: 30px; color: #ccc; margin-bottom: 10px;"></i><br />
+                                <span class="text-muted">No hay reportes registrados actualmente.</span>
+                            </td>
+                        </tr>
                     }
                     else
                     {
@@ -44,20 +63,41 @@
                         foreach (var item in Model)
                         {
                             <tr>
-                                <td>@i</td>
-                                <td>@item.NumeroReporte</td>
-                                <td>@item.Cedula</td>
-                                <td>@item.NombreCompleto</td>
-                                <td>@item.Cargo</td>
-                                <td>@(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")</td>
-                                <td>@item.FechaAT.ToString("dd/MM/yyyy")</td>
-                                <td>@item.TipoPeligro</td>
-                                <td class="text-center">@item.DiasIncapacidad</td>
-                                <td>
-                                    <a href="@Url.Action("Detalle", "ReporteAccidenteTrabajo", new { id = item.IdReporteAccidenteTrabajo })"
-                                       class="btn btn-sm btn-info">Ver</a>
-                                    <a href="@Url.Action("Editar", "ReporteAccidenteTrabajo", new { id = item.IdReporteAccidenteTrabajo })"
-                                       class="btn btn-sm btn-warning">Editar</a>
+                                <td class="text-center" style="vertical-align: middle; font-weight: bold; color: #666;">@i</td>
+                                <td style="vertical-align: middle;">
+                                    <span class="label label-default" style="background-color: #eee; color: #333; font-size: 11px; border: 1px solid #ddd;">@item.NumeroReporte</span>
+                                </td>
+                                <td style="vertical-align: middle;">@item.Cedula</td>
+                                <td style="vertical-align: middle; font-weight: bold;">@item.NombreCompleto</td>
+                                <td style="vertical-align: middle;">@item.Cargo</td>
+                                <td style="vertical-align: middle; color: #29235c; font-weight: 600;">
+                                    @(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")
+                                </td>
+                                <td class="text-center" style="vertical-align: middle;">
+                                    @item.FechaAT.ToString("dd/MM/yyyy")
+                                </td>
+                                <td style="vertical-align: middle; color: #d9534f; font-weight: 500;">@item.TipoPeligro</td>
+                                <td class="text-center" style="vertical-align: middle;">
+                                    @if (item.DiasIncapacidad > 0)
+                                    {
+                                        <span class="badge" style="background-color: #f39c12; padding: 6px 10px;">@item.DiasIncapacidad</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">0</span>
+                                    }
+                                </td>
+                                <td class="text-center" style="vertical-align: middle;">
+                                    <div style="display: flex; justify-content: center; gap: 5px;">
+                                        <a href="@Url.Action("Detalle", "ReporteAccidenteTrabajo", new { id = item.IdReporteAccidenteTrabajo })"
+                                           class="btn btn-sm" style="background-color: #76b82a; color: white; border-radius: 8px; font-weight: bold; width: 55px;">
+                                            Ver
+                                        </a>
+                                        <a href="@Url.Action("Editar", "ReporteAccidenteTrabajo", new { id = item.IdReporteAccidenteTrabajo })"
+                                           class="btn btn-sm" style="background-color: #29235c; color: white; border-radius: 8px; font-weight: bold; width: 55px;">
+                                            Editar
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             i++;
@@ -68,3 +108,16 @@
         </div>
     </div>
 </div>
+
+<style>
+    
+    .table-hover tbody tr:hover {
+        background-color: #f9f9ff !important;
+        transition: all 0.2s ease;
+    }
+    
+    .btn:hover {
+        opacity: 0.9;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>

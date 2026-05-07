@@ -11,7 +11,7 @@
         </div>
         <div class="col-md-4 text-right">
             <a href="@Url.Action("Index")" class="btn btn-default"
-               style="border: 2px solid #29235c; color: #29235c; border-radius: 12px; font-weight: 600;">
+               style="background-color: #29235c; color: white; border-radius: 10px; font-weight: bold; padding: 10px 20px;">
                 <i class="glyphicon glyphicon-list"></i> Volver al Listado
             </a>
         </div>
@@ -35,7 +35,9 @@
                     <option value="4" @(ViewBag.TrimestreActual == 4 ? "selected" : "")>T4 (Oct-Dic)</option>
                 </select>
 
-                <button type="submit" class="btn-dashboard" style="padding: 6px 20px;">Filtrar</button>
+                <button type="submit" class="btn" style="background-color: #76b82a; color: white; border-radius: 8px; font-weight: bold; padding: 6px 25px;">
+                    <i class="glyphicon glyphicon-filter"></i> Aplicar Filtros
+                </button>
             }
         </div>
     </div>
