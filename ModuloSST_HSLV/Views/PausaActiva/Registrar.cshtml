@@ -1,129 +1,153 @@
 ﻿@model ModuloSST_HSLV.Models.PausaActiva
 @{
     ViewBag.Title = "Registrar Pausa Activa";
-    var procesos = ViewBag.Procesos as List<ModuloSST_HSLV.Models.Proceso>;
-    var subprocesos = ViewBag.Subprocesos as List<ModuloSST_HSLV.Models.Subproceso>;
+    var procesos = ViewBag.Procesos as List<ModuloSST_HSLV.Models.Proceso> ?? new List<ModuloSST_HSLV.Models.Proceso>();
+    var subprocesos = ViewBag.Subprocesos as List<ModuloSST_HSLV.Models.Subproceso> ?? new List<ModuloSST_HSLV.Models.Subproceso>();
 }
-<h2 class="text-primary">Registrar Pausa Activa</h2>
-<hr />
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="alert alert-danger">
-        <strong>Corrija los siguientes errores antes de guardar:</strong>
-        <ul>
-            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-            {
-                <li>@error.ErrorMessage</li>
-            }
-        </ul>
-    </div>
-}
-@using (Html.BeginForm("Registrar", "PausaActiva", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.IdEmpleado)
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Datos del Empleado</h3>
+
+<div class="container-fluid" style="padding: 20px;">
+    @* --- TÍTULO --- *@
+    <h2 style="color: #29235c; font-weight: bold; margin-bottom: 5px;">
+        <i class="glyphicon glyphicon-time" style="color: #76b82a;"></i> Registrar Pausa Activa
+    </h2>
+    <p class="text-muted">Ingrese la información del colaborador y los detalles de la actividad realizada.</p>
+    <hr style="border-top: 1px solid #eee;" />
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger" style="border-radius: 10px;">
+            <strong><i class="glyphicon glyphicon-exclamation-sign"></i> Corrija los siguientes errores:</strong>
+            <ul>
+                @foreach (var e in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@e.ErrorMessage</li>
+                }
+            </ul>
         </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Cedula)
-                        @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Cedula, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.NombreCompleto)
-                        @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.NombreCompleto, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Genero)
-                        <select name="Genero" class="form-control">
-                            <option value="">-- Género --</option>
-                            @foreach (var g in ViewBag.Generos as string[])
-                            {
-                                <option value="@g">@g</option>
-                            }
-                        </select>
-                        @Html.ValidationMessageFor(m => m.Genero, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Edad)
-                        @Html.TextBoxFor(m => m.Edad, new { @class = "form-control", type = "number", min = "0" })
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Fecha)
-                        @Html.TextBoxFor(m => m.Fecha, "{0:yyyy-MM-dd}",
-                            new { @class = "form-control", type = "date" })
-                        @Html.ValidationMessageFor(m => m.Fecha, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+    }
+
+    @using (Html.BeginForm("Registrar", "PausaActiva", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.IdEmpleado)
+
+        @* --- SECCIÓN 1: DATOS DEL EMPLEADO --- *@
+        <div class="panel panel-default" style="border-radius: 12px; overflow: hidden; border: 1px solid #ddd; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+            <div class="panel-heading" style="background-color: #29235c; color: white; padding: 12px 20px;">
+                <h3 class="panel-title" style="font-weight: bold;"><i class="glyphicon glyphicon-user"></i> 1. Información del Colaborador</h3>
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Cargo)
-                        @Html.TextBoxFor(m => m.Cargo, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Cargo, "", new { @class = "text-danger" })
+            <div class="panel-body" style="padding: 25px;">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="text-muted small">Cédula</label>
+                            @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", style = "border-radius: 8px; font-weight: bold;" })
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label class="text-muted small">Nombre Completo</label>
+                            @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control", style = "border-radius: 8px;" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="text-muted small">Género</label>
+                            @Html.DropDownListFor(m => m.Genero, new SelectList(ViewBag.Generos as string[]), "-- Seleccionar --", new { @class = "form-control", style = "border-radius: 8px;" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="text-muted small">Edad</label>
+                            @Html.TextBoxFor(m => m.Edad, new { @class = "form-control", type = "number", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Contratista)
-                        @Html.TextBoxFor(m => m.Contratista, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Contratista, "", new { @class = "text-danger" })
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="text-muted small">Cargo</label>
+                            @Html.TextBoxFor(m => m.Cargo, new { @class = "form-control", style = "border-radius: 8px;" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="text-muted small">Empresa / Contratista</label>
+                            @Html.TextBoxFor(m => m.Contratista, new { @class = "form-control", style = "border-radius: 8px;" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="text-muted small">Tiempo Prestación (Meses/Años)</label>
+                            @Html.TextBoxFor(m => m.TiempoPrestacion, new { @class = "form-control", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.TiempoPrestacion)
-                        @Html.TextBoxFor(m => m.TiempoPrestacion, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.TiempoPrestacion, "", new { @class = "text-danger" })
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="text-muted small">Proceso</label>
+                            @Html.DropDownListFor(m => m.IdProceso, new SelectList(procesos, "IdProceso", "NombreProceso"), "-- Seleccionar Proceso --", new { @class = "form-control", style = "border-radius: 8px;" })
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Proceso</label>
-                        <select name="IdProceso" class="form-control">
-                            <option value="">-- Seleccionar proceso --</option>
-                            @foreach (var p in procesos)
-                            {
-                                <option value="@p.IdProceso">@p.NombreProceso</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Subproceso / Servicio / Área</label>
-                        <select name="IdSubproceso" class="form-control">
-                            <option value="">-- Seleccionar subproceso --</option>
-                            @foreach (var s in subprocesos)
-                            {
-                                <option value="@s.IdSubproceso">@s.NombreSubproceso</option>
-                            }
-                        </select>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="text-muted small">Subproceso / Servicio / Área</label>
+                            @Html.DropDownListFor(m => m.IdSubproceso, new SelectList(subprocesos, "IdSubproceso", "NombreSubproceso"), "-- Seleccionar Subproceso --", new { @class = "form-control", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Guardar</button>
-    <a href="@Url.Action("Index", "PausaActiva")"
-       class="btn btn-default" style="border:2px solid #aaa; background:transparent;">
-        Ver listado
-    </a>
-}
+
+        @* --- SECCIÓN 2: DETALLES DE LA PAUSA --- *@
+        <div class="panel panel-default" style="border-radius: 12px; overflow: hidden; border: 1px solid #ddd; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+            <div class="panel-heading" style="background-color: #76b82a; color: white; padding: 12px 20px;">
+                <h3 class="panel-title" style="font-weight: bold;"><i class="glyphicon glyphicon-calendar"></i> 2. Detalles de la Actividad</h3>
+            </div>
+            <div class="panel-body" style="padding: 25px;">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="text-muted small">Fecha de la Pausa Activa</label>
+                            @Html.TextBoxFor(m => m.Fecha, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", style = "border-radius: 8px; border: 2px solid #76b82a;" })
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        @* Aquí podrías agregar un campo de "Observaciones" si tu modelo lo permite *@
+                        <div class="alert alert-info" style="background-color: #f7fafc; border: 1px solid #e2e8f0; color: #4a5568; margin-bottom: 0;">
+                            <i class="glyphicon glyphicon-info-sign"></i>
+                            Asegúrese de que el colaborador haya realizado los ejercicios de estiramiento y movilidad articular programados para el turno.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* --- BOTONES DE ACCIÓN --- *@
+        <div class="text-center" style="margin-top: 30px; margin-bottom: 50px;">
+            <a href="@Url.Action("Index")" class="btn btn-default" style="border-radius: 25px; padding: 10px 30px; font-weight: bold; border: 2px solid #999; margin-right: 15px;">
+                <i class="glyphicon glyphicon-arrow-left"></i> Cancelar
+            </a>
+
+            <button type="submit" class="btn btn-success" style="background-color: #76b82a; color: white; border-radius: 25px; padding: 10px 50px; font-weight: bold; font-size: 16px; border: none; box-shadow: 0 4px 15px rgba(118, 184, 42, 0.3);">
+                <i class="glyphicon glyphicon-floppy-disk"></i> GUARDAR REGISTRO
+            </button>
+        </div>
+    }
+</div>
+
+<style>
+    .form-control:focus {
+        border-color: #76b82a;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(118, 184, 42, .6);
+    }
+
+    label {
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+</style>

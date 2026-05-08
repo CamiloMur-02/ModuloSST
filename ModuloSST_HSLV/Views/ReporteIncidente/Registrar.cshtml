@@ -5,254 +5,273 @@
     var subprocesos = ViewBag.Subprocesos as List<ModuloSST_HSLV.Models.Subproceso> ?? new List<ModuloSST_HSLV.Models.Subproceso>();
 }
 
-<div class="container-fluid" style="padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-
-    @* --- CABECERA PRINCIPAL --- *@
-    <h1 style="color: #29235c; font-weight: bold;">Registrar Nuevo Incidente</h1>
+<div class="container-fluid" style="padding: 20px;">
+    @* --- TÍTULO --- *@
+    <h2 style="color: #29235c; font-weight: bold; margin-bottom: 5px;">
+        <i class="glyphicon glyphicon-plus"></i> Registrar Nuevo Incidente
+    </h2>
     <p class="text-muted">Complete todos los campos del reporte, investigación y plan de mejora.</p>
-    <br />
+    <hr style="border-top: 1px solid #eee;" />
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger" style="border-radius: 10px;">
+            <strong><i class="glyphicon glyphicon-exclamation-sign"></i> Corrija los siguientes errores:</strong>
+            <ul>
+                @foreach (var e in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@e.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
 
     @using (Html.BeginForm("Registrar", "ReporteIncidente", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.IdEmpleado)
 
-        @* --- SECCIÓN 1: DATOS DEL INVOLUCRADO *@
-        <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; overflow: hidden;">
-            <div style="background-color: #29235c; color: white; padding: 15px 25px;">
-                <h3 style="margin: 0; font-weight: bold; font-size: 1.4em;">DATOS DEL INVOLUCRADO</h3>
+        @* --- SECCIÓN 1: DATOS DEL INVOLUCRADO --- *@
+        <div class="panel panel-default" style="border-radius: 12px; overflow: hidden; border: 1px solid #ddd; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+            <div class="panel-heading" style="background-color: #29235c; color: white; padding: 12px 20px;">
+                <h3 class="panel-title" style="font-weight: bold;"><i class="glyphicon glyphicon-user"></i> 1. Datos del Involucrado</h3>
             </div>
             <div class="panel-body" style="padding: 25px;">
                 <div class="row">
                     <div class="col-md-3">
-                        <label class="text-muted small">Cédula</label>
-                        @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control input-custom" })
+                        <div class="form-group">
+                            <label class="text-muted small">Cédula</label>
+                            @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                     <div class="col-md-5">
-                        <label class="text-muted small">Nombre Completo</label>
-                        @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control input-custom" })
+                        <div class="form-group">
+                            <label class="text-muted small">Nombre Completo</label>
+                            @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                     <div class="col-md-2">
-                        <label class="text-muted small">Género</label>
-                        @Html.DropDownListFor(m => m.Genero, new SelectList(ViewBag.Generos), "-- Seleccionar --", new { @class = "form-control input-custom" })
+                        <div class="form-group">
+                            <label class="text-muted small">Género</label>
+                            @Html.DropDownListFor(m => m.Genero, new SelectList(ViewBag.Generos), "-- Seleccionar --", new { @class = "form-control", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                     <div class="col-md-2">
-                        <label class="text-muted small">Edad</label>
-                        @Html.TextBoxFor(m => m.Edad, new { @class = "form-control input-custom", type = "number" })
+                        <div class="form-group">
+                            <label class="text-muted small">Edad</label>
+                            @Html.TextBoxFor(m => m.Edad, new { @class = "form-control", type = "number", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                 </div>
-                <br />
+
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="text-muted small">Cargo</label>
-                        @Html.TextBoxFor(m => m.Cargo, new { @class = "form-control input-custom" })
+                        <div class="form-group">
+                            <label class="text-muted small">Cargo</label>
+                            @Html.TextBoxFor(m => m.Cargo, new { @class = "form-control", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                     <div class="col-md-4">
-                        <label class="text-muted small">Empresa/Contratista</label>
-                        @Html.TextBoxFor(m => m.Contratista, new { @class = "form-control input-custom" })
+                        <div class="form-group">
+                            <label class="text-muted small">Empresa/Contratista</label>
+                            @Html.TextBoxFor(m => m.Contratista, new { @class = "form-control", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                     <div class="col-md-4">
-                        <label class="text-muted small">Tiempo de Prestación (meses)</label>
-                        @Html.TextBoxFor(m => m.TiempoPrestacion, new { @class = "form-control input-custom" })
+                        <div class="form-group">
+                            <label class="text-muted small">Tiempo de Prestación (meses)</label>
+                            @Html.TextBoxFor(m => m.TiempoPrestacion, new { @class = "form-control", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                 </div>
-                <br />
+
                 <div class="row">
                     <div class="col-md-6">
-                        <label class="text-muted small">Proceso</label>
-                        @Html.DropDownListFor(m => m.IdProceso, new SelectList(procesos, "IdProceso", "NombreProceso"), "-- Seleccionar Proceso --", new { @class = "form-control input-custom" })
+                        <div class="form-group">
+                            <label class="text-muted small">Proceso</label>
+                            @Html.DropDownListFor(m => m.IdProceso, new SelectList(procesos, "IdProceso", "NombreProceso"), "-- Seleccionar Proceso --", new { @class = "form-control", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <label class="text-muted small">Subproceso / Servicio / Área</label>
-                        @Html.DropDownListFor(m => m.IdSubproceso, new SelectList(subprocesos, "IdSubproceso", "NombreSubproceso"), "-- Seleccionar Subproceso --", new { @class = "form-control input-custom" })
+                        <div class="form-group">
+                            <label class="text-muted small">Subproceso / Servicio / Área</label>
+                            @Html.DropDownListFor(m => m.IdSubproceso, new SelectList(subprocesos, "IdSubproceso", "NombreSubproceso"), "-- Seleccionar Subproceso --", new { @class = "form-control", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        @* --- SECCIÓN 2: INFORMACIÓN DEL INCIDENTE *@
-        <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; overflow: hidden;">
-            <div style="background-color: #d9534f; color: white; padding: 15px 25px;">
-                <h3 style="margin: 0; font-weight: bold; font-size: 1.4em;">INFORMACIÓN DEL INCIDENTE</h3>
+        @* --- SECCIÓN 2: INFORMACIÓN DEL INCIDENTE --- *@
+        <div class="panel panel-default" style="border-radius: 12px; overflow: hidden; border: 1px solid #ddd; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+            <div class="panel-heading" style="background-color: #d9534f; color: white; padding: 12px 20px;">
+                <h3 class="panel-title" style="font-weight: bold;"><i class="glyphicon glyphicon-exclamation-sign"></i> 2. Información del Incidente</h3>
             </div>
             <div class="panel-body" style="padding: 25px;">
                 <div class="row">
                     <div class="col-md-3">
-                        <label class="text-muted small">Fecha Incidente</label>
-                        @Html.TextBoxFor(m => m.FechaIncidente, "{0:yyyy-MM-dd}", new { @class = "form-control input-custom", type = "date", id = "fechaIncidente" })
+                        <div class="form-group">
+                            <label class="text-muted small">Fecha Incidente</label>
+                            @Html.TextBoxFor(m => m.FechaIncidente, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "fechaIncidente", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                     <div class="col-md-3">
-                        <label class="text-muted small">Hora Incidente</label>
-                        @Html.TextBoxFor(m => m.HoraIncidente, "{0:HH\\:mm}", new { @class = "form-control input-custom", type = "time" })
+                        <div class="form-group">
+                            <label class="text-muted small">Hora Incidente</label>
+                            @Html.TextBoxFor(m => m.HoraIncidente, "{0:HH\\:mm}", new { @class = "form-control", type = "time", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                     <div class="col-md-3">
-                        <label class="text-muted small">Tipo de Peligro</label>
-                        @Html.DropDownListFor(m => m.TipoPeligro, new SelectList(ViewBag.TiposPeligro), "-- Seleccionar --", new { @class = "form-control input-custom" })
+                        <div class="form-group">
+                            <label class="text-muted small">Tipo de Peligro</label>
+                            @Html.DropDownListFor(m => m.TipoPeligro, new SelectList(ViewBag.TiposPeligro), "-- Seleccionar --", new { @class = "form-control", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                     <div class="col-md-3">
-                        <label class="text-muted small">Turno</label>
-                        @Html.DropDownListFor(m => m.Turno, new SelectList(ViewBag.Turnos), "-- Seleccionar --", new { @class = "form-control input-custom" })
+                        <div class="form-group">
+                            <label class="text-muted small">Turno</label>
+                            @Html.DropDownListFor(m => m.Turno, new SelectList(ViewBag.Turnos), "-- Seleccionar --", new { @class = "form-control", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                 </div>
-                <br />
+
                 <div class="row">
                     <div class="col-md-8">
-                        <label class="text-muted small">Observaciones / Relato</label>
-                        @Html.TextAreaFor(m => m.Observaciones, new { @class = "form-control input-custom", rows = "3", style = "resize: none;" })
+                        <div class="form-group">
+                            <label class="text-muted small">Observaciones / Relato</label>
+                            @Html.TextAreaFor(m => m.Observaciones, new { @class = "form-control", rows = "3", style = "border-radius: 8px; resize: none;" })
+                        </div>
                     </div>
                     <div class="col-md-4">
-                        <label class="text-muted small">Adjuntar PDF del Incidente</label>
-                        <input type="file" name="archivoIncidente" accept=".pdf" class="form-control input-custom" />
+                        <div class="form-group" style="background: #fcfcfc; padding: 10px; border-radius: 8px; border: 1px dashed #ccc;">
+                            <label class="text-muted small"><i class="glyphicon glyphicon-paperclip"></i> Adjuntar PDF del Incidente</label>
+                            <input type="file" name="archivoIncidente" accept=".pdf" class="form-control" />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        @* --- SECCIÓN 3: INVESTIGACIÓN  *@
-        <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; overflow: hidden;">
-            <div style="background-color: #4a90e2; color: white; padding: 15px 25px;">
-                <h3 style="margin: 0; font-weight: bold; font-size: 1.4em;">INVESTIGACIÓN Y SEGUIMIENTO</h3>
+        @* --- SECCIÓN 3: INVESTIGACIÓN Y SEGUIMIENTO --- *@
+        <div class="panel panel-default" style="border-radius: 12px; overflow: hidden; border: 1px solid #ddd; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+            <div class="panel-heading" style="background-color: #4a90e2; color: white; padding: 12px 20px;">
+                <h3 class="panel-title" style="font-weight: bold;"><i class="glyphicon glyphicon-search"></i> 3. Investigación y Seguimiento</h3>
             </div>
             <div class="panel-body" style="padding: 25px;">
                 <div class="row">
                     <div class="col-md-3">
-                        <label class="text-muted small">Fecha Investigación</label>
-                        @Html.TextBoxFor(m => m.FechaInvestigacion, "{0:yyyy-MM-dd}", new { @class = "form-control input-custom", type = "date", id = "fechaInvestigacion" })
+                        <div class="form-group">
+                            <label class="text-muted small">Fecha Investigación</label>
+                            @Html.TextBoxFor(m => m.FechaInvestigacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "fechaInvestigacion", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                     <div class="col-md-3">
-                        <label class="text-muted small">Días Transcurridos</label>
-                        @Html.TextBoxFor(m => m.DiasInvestigacion, new { @class = "form-control input-custom", id = "diasInvestigacion", @readonly = "readonly", style = "background: #f8f9fa;" })
+                        <div class="form-group">
+                            <label class="text-muted small">Días Transcurridos</label>
+                            @Html.TextBoxFor(m => m.DiasInvestigacion, new { @class = "form-control", id = "diasInvestigacion", @readonly = "readonly", style = "background: #f8f9fa; border-radius: 8px; font-weight: bold; color: #d9534f;" })
+                        </div>
                     </div>
                 </div>
-                <br />
+
                 <div class="row">
                     <div class="col-md-6">
-                        <label class="text-muted small">Causa Principal</label>
-                        <select name="Causa" id="selectCausa" class="form-control input-custom">
-                            <option value="">-- Seleccionar causa --</option>
-                        </select>
+                        <div class="form-group">
+                            <label class="text-muted small">Causa Principal</label>
+                            <select name="Causa" id="selectCausa" class="form-control" style="border-radius: 8px;">
+                                <option value="">-- Seleccionar causa --</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <label class="text-muted small">Subcausa específica</label>
-                        <select name="Subcausa" id="selectSubcausa" class="form-control input-custom">
-                            <option value="">-- Seleccione primero una causa --</option>
-                        </select>
+                        <div class="form-group">
+                            <label class="text-muted small">Subcausa específica</label>
+                            <select name="Subcausa" id="selectSubcausa" class="form-control" style="border-radius: 8px;">
+                                <option value="">-- Seleccione primero una causa --</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <br />
+
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="text-muted small">Adjuntar PDF de Investigación</label>
-                        <input type="file" name="archivoInvestigacion" accept=".pdf" class="form-control input-custom" />
+                        <div class="form-group" style="background: #fcfcfc; padding: 10px; border-radius: 8px; border: 1px dashed #ccc;">
+                            <label class="text-muted small"><i class="glyphicon glyphicon-paperclip"></i> PDF Investigación</label>
+                            <input type="file" name="archivoInvestigacion" accept=".pdf" class="form-control" />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        @* --- SECCIÓN 4: PLAN DE MEJORA  *@
-        <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; overflow: hidden;">
-            <div style="background-color: #76b82a; color: white; padding: 15px 25px;">
-                <h3 style="margin: 0; font-weight: bold; font-size: 1.4em;">PLAN DE MEJORA</h3>
+        @* --- SECCIÓN 4: PLAN DE MEJORA --- *@
+        <div class="panel panel-default" style="border-radius: 12px; overflow: hidden; border: 1px solid #ddd; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+            <div class="panel-heading" style="background-color: #76b82a; color: white; padding: 12px 20px;">
+                <h3 class="panel-title" style="font-weight: bold;"><i class="glyphicon glyphicon-ok"></i> 4. Plan de Mejora</h3>
             </div>
             <div class="panel-body" style="padding: 25px;">
                 <div class="row">
                     <div class="col-md-4">
-                        <label class="text-muted small">Responsable</label>
-                        @Html.TextBoxFor(m => m.Responsable, new { @class = "form-control input-custom" })
+                        <div class="form-group">
+                            <label class="text-muted small">Responsable</label>
+                            @Html.TextBoxFor(m => m.Responsable, new { @class = "form-control", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                     <div class="col-md-8">
-                        <label class="text-muted small">Actividad / Intervención a Realizar</label>
-                        @Html.TextBoxFor(m => m.ActividadARealizar, new { @class = "form-control input-custom" })
+                        <div class="form-group">
+                            <label class="text-muted small">Actividad / Intervención a Realizar</label>
+                            @Html.TextBoxFor(m => m.ActividadARealizar, new { @class = "form-control", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                 </div>
-                <br />
+
                 <div class="row">
                     <div class="col-md-3">
-                        <label class="text-muted small">Fecha Planeada</label>
-                        @Html.TextBoxFor(m => m.FechaPlaneada, "{0:yyyy-MM-dd}", new { @class = "form-control input-custom", type = "date" })
+                        <div class="form-group">
+                            <label class="text-muted small">Fecha Planeada</label>
+                            @Html.TextBoxFor(m => m.FechaPlaneada, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", style = "border-radius: 8px;" })
+                        </div>
                     </div>
                     <div class="col-md-3">
-                        <label class="text-muted small">Fecha Ejecución</label>
-                        @Html.TextBoxFor(m => m.FechaEjecucion, "{0:yyyy-MM-dd}", new { @class = "form-control input-custom", type = "date" })
+                        <div class="form-group">
+                            <label class="text-muted small">Fecha Ejecución</label>
+                            @Html.TextBoxFor(m => m.FechaEjecucion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", style = "border-radius: 8px;" })
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <label class="text-muted small">PDF Plan de Mejora</label>
-                        <input type="file" name="archivoPlan" accept=".pdf" class="form-control input-custom" />
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="text-muted small">Observaciones Finales</label>
+                            @Html.TextAreaFor(m => m.ObservacionesFinales, new { @class = "form-control", rows = "2", style = "border-radius: 8px; resize: none;" })
+                        </div>
                     </div>
                 </div>
-                <br />
+
                 <div class="row">
-                    <div class="col-md-12">
-                        <label class="text-muted small">Observaciones Finales</label>
-                        @Html.TextAreaFor(m => m.ObservacionesFinales, new { @class = "form-control input-custom", rows = "2", style = "resize: none;" })
+                    <div class="col-md-6">
+                        <div class="form-group" style="background: #fcfcfc; padding: 10px; border-radius: 8px; border: 1px dashed #ccc;">
+                            <label class="text-muted small"><i class="glyphicon glyphicon-paperclip"></i> PDF Plan de Mejora</label>
+                            <input type="file" name="archivoPlan" accept=".pdf" class="form-control" />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        @* --- BOTONES FINALES --- *@
-        <div style="margin-bottom: 80px; display: flex; gap: 15px;">
-            <button type="submit" class="btn-guardar">
-                Guardar Reporte Completo
-            </button>
-            <a href="@Url.Action("Index")" class="btn-cancelar">
-                Cancelar y Volver
+        @* --- BOTONES DE ACCIÓN --- *@
+        <div class="text-center" style="margin-top: 30px; margin-bottom: 50px;">
+            <a href="@Url.Action("Index")" class="btn btn-default" style="border-radius: 25px; padding: 10px 30px; font-weight: bold; border: 2px solid #999; margin-right: 15px;">
+                <i class="glyphicon glyphicon-arrow-left"></i> Cancelar
             </a>
+
+            <button type="submit" class="btn btn-success" style="background-color: #76b82a; color: white; border-radius: 25px; padding: 10px 50px; font-weight: bold; font-size: 16px; border: none; box-shadow: 0 4px 15px rgba(118, 184, 42, 0.3);">
+                <i class="glyphicon glyphicon-floppy-disk"></i> GUARDAR REPORTE COMPLETO
+            </button>
         </div>
     }
 </div>
 
-<style>
-    .input-custom {
-        border-radius: 10px !important;
-        border: 1px solid #ddd !important;
-        height: 40px;
-        box-shadow: none !important;
-    }
-
-        .input-custom:focus {
-            border-color: #4a90e2 !important;
-            box-shadow: 0 0 5px rgba(74,144,226,0.2) !important;
-        }
-
-    .btn-guardar {
-        background-color: #76b82a;
-        color: white;
-        border: none;
-        padding: 12px 40px;
-        border-radius: 12px;
-        font-weight: bold;
-        font-size: 1.1em;
-        transition: 0.3s;
-    }
-
-        .btn-guardar:hover {
-            background-color: #5d9620;
-            transform: translateY(-2px);
-        }
-
-    .btn-cancelar {
-        background-color: white;
-        color: #29235c;
-        border: 2px solid #29235c;
-        padding: 12px 40px;
-        border-radius: 12px;
-        font-weight: bold;
-        text-decoration: none;
-        text-align: center;
-        transition: 0.3s;
-    }
-
-        .btn-cancelar:hover {
-            background-color: #f8f9fa;
-            color: #29235c;
-            text-decoration: none;
-        }
-</style>
-
 @section Scripts {
     <script>
-        
+        // Lógica de Causas y Subcausas
         var causasSubcausas = {
             'Manejo inadecuado de cortopunzantes': ['Falta de autocuidado', 'Reencapuchar agujas', 'Manejo inseguro durante procedimientos', 'Segregación inadecuada'],
             'Posturas y movimientos inadecuados / ergonomía': ['Posturas inadecuadas', 'Movimientos inadecuados', 'Sobreesfuerzo', 'Levantamiento incorrecto'],
@@ -280,6 +299,7 @@
             }
         });
 
+        // Cálculo automático de días
         document.getElementById('fechaInvestigacion').addEventListener('change', function () {
             var fInc = document.getElementById('fechaIncidente').value;
             if (fInc && this.value) {

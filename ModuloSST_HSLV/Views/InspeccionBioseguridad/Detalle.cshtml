@@ -1,102 +1,184 @@
 ﻿@model ModuloSST_HSLV.Models.InspeccionBioseguridad
-@{ ViewBag.Title = "Detalle de Inspección"; }
-
-<h2 class="text-primary">Detalle de Inspección de Bioseguridad</h2>
-<hr />
-
-@* Contenedor Principal *@
-<div class="form-container">
-    <h3 class="text-primary" style="margin-bottom: 20px;">Datos del Colaborador</h3>
-    <div class="row">
-        <div class="col-md-2"><strong>Cédula:</strong><br />@Model.Cedula</div>
-        <div class="col-md-4"><strong>Apellidos y Nombres:</strong><br />@Model.NombreCompleto</div>
-        <div class="col-md-2"><strong>Género:</strong><br />@Model.Genero</div>
-        <div class="col-md-2"><strong>Edad:</strong><br />@Model.Edad años</div>
-        <div class="col-md-2"><strong>Fecha:</strong><br />@Model.FechaInspeccion.ToString("dd/MM/yyyy")</div>
-    </div>
-    <div class="row" style="margin-top:15px">
-        <div class="col-md-4"><strong>Cargo:</strong><br />@Model.Cargo</div>
-        <div class="col-md-4"><strong>Contratista:</strong><br />@Model.Contratista</div>
-        <div class="col-md-4"><strong>Tiempo de Prestación:</strong><br />@Model.TiempoPrestacion meses</div>
-    </div>
-    <div class="row" style="margin-top:15px">
-        <div class="col-md-6">
-            <strong>Proceso:</strong><br />
-            @(Model.Proceso != null ? Model.Proceso.NombreProceso : "No asignado")
-        </div>
-        <div class="col-md-6">
-            <strong>Subproceso:</strong><br />
-            @(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : "No asignado")
-        </div>
-    </div>
-</div>
-
-@* Tabla de Evaluación *@
-<div class="form-container mt-4">
-    <h3 class="text-primary" style="margin-bottom: 15px;">Evaluación de Ítems</h3>
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead>
-                
-                <tr>
-                    <th>Ítem de Bioseguridad</th>
-                    <th class="text-center">Resultado</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{ var items = new[] {
-                    new { nombre="Higiene de Manos", valor=Model.HigieneManos },
-                    new { nombre="Protección Respiratoria", valor=Model.ProteccionRespiratoria },
-                    new { nombre="Uso de Guantes", valor=Model.UsoGuantes },
-                    new { nombre="Uso de Gorro", valor=Model.UsoGorro },
-                    new { nombre="Uso de Bata", valor=Model.UsoBata },
-                    new { nombre="Protección Visual", valor=Model.ProteccionVisual },
-                    new { nombre="Uso Delantal/Peto", valor=Model.UsoDelantalPeto },
-                    new { nombre="Calzado Adecuado", valor=Model.CalzadoAdecuado },
-                    new { nombre="Transporte de Muestras", valor=Model.TransporteMuestras },
-                    new { nombre="Manejo Corto Punzantes", valor=Model.ManejoCorto },
-                    new { nombre="Manejo de Residuos", valor=Model.ManejoResiduos },
-                }; }
-                @foreach (var item in items)
-                {
-                    <tr>
-                        <td style="font-weight: 500;">@item.nombre</td>
-                        <td class="text-center">
-                            @if (item.valor == "C")
-                            {<span style="background-color: #28a745; color: white; padding: 3px 10px; border-radius: 12px; font-size: 11px;">CUMPLE</span> }
-                            else if (item.valor == "NC")
-                            { <span style="background-color: #dc3545; color: white; padding: 3px 10px; border-radius: 12px; font-size: 11px;">NO CUMPLE</span> }
-                            else
-                            { <span style="background-color: #6c757d; color: white; padding: 3px 10px; border-radius: 12px; font-size: 11px;">N/A</span>}
-                        </td>
-                    </tr>
-                }
-            </tbody>
-            <tfoot>
-                <tr style="background-color: #f8f9fa; font-weight: bold;">
-                    <td class="text-right">TOTALES:</td>
-                    <td class="text-center">
-                        <span class="text-success">C: @Model.TotalCumple</span> |
-                        <span class="text-danger">NC: @Model.TotalNoCumple</span> |
-                        <span class="text-muted">NA: @Model.TotalNoAplica</span>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-</div>
-
-@if (!string.IsNullOrEmpty(Model.ObservacionesFinales))
-{
-    <div class="form-container mt-4">
-        <h3 class="text-primary">Observaciones Finales</h3>
-        <p style="background: #fdfdfd; padding: 15px; border-left: 4px solid #29235c;">@Model.ObservacionesFinales</p>
-    </div>
+@{
+    ViewBag.Title = "Detalle — Inspección de Bioseguridad";
 }
 
-<div style="margin-top: 30px; margin-bottom: 50px;">
-    <a href="@Url.Action("Index", "InspeccionBioseguridad")"
-       class="btn btn-default" style="border: 2px solid #29235c; color: #29235c; border-radius: 12px; font-weight: 600; padding: 8px 25px;">
-        <i class="glyphicon glyphicon-arrow-left"></i> Volver al listado
-    </a>
+<div class="container" style="padding-top: 20px; padding-bottom: 50px;">
+    @* --- CABECERA DE LA VISTA --- *@
+    <div class="row" style="margin-bottom: 20px; display: flex; align-items: center;">
+        <div class="col-md-8">
+            <h2 style="color: #29235c; font-weight: bold; margin: 0;">
+                <i class="glyphicon glyphicon-check"></i> Detalle de Inspección de Bioseguridad
+            </h2>
+            <p class="text-muted" style="margin-top: 5px;">Revisión de estándares de protección y cumplimiento de protocolos.</p>
+        </div>
+        <div class="col-md-4 text-right">
+            <a href="@Url.Action("Index", "InspeccionBioseguridad")" class="btn btn-default" style="border-radius: 8px; font-weight: bold; border: 2px solid #ccc; padding: 8px 20px;">
+                <i class="glyphicon glyphicon-arrow-left"></i> Volver al Listado
+            </a>
+        </div>
+    </div>
+
+    <hr style="border-top: 1px solid #ddd;" />
+
+    @* --- BLOQUE 1: DATOS DEL COLABORADOR --- *@
+    <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+        <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 12px 12px 0 0;">
+            <h3 class="panel-title" style="font-weight: bold;">1. Datos del Colaborador</h3>
+        </div>
+        <div class="panel-body" style="padding: 25px;">
+            <div class="row">
+                <div class="col-md-3"><label class="text-muted small">Cédula</label><p style="font-size: 16px; font-weight: 600;">@Model.Cedula</p></div>
+                <div class="col-md-5"><label class="text-muted small">Apellidos y Nombre</label><p style="font-size: 16px; font-weight: 600;">@Model.NombreCompleto</p></div>
+                <div class="col-md-2"><label class="text-muted small">Género</label><p>@Model.Genero</p></div>
+                <div class="col-md-2"><label class="text-muted small">Edad</label><p>@Model.Edad años</p></div>
+            </div>
+            <div class="row" style="margin-top:15px">
+                <div class="col-md-4"><label class="text-muted small">Cargo / Función</label><p>@Model.Cargo</p></div>
+                <div class="col-md-4"><label class="text-muted small">Contratista</label><p>@(string.IsNullOrEmpty(Model.Contratista) ? "Directo / Propio" : Model.Contratista)</p></div>
+                <div class="col-md-4"><label class="text-muted small">Fecha de Inspección</label><p class="text-primary" style="font-weight: bold;">@Model.FechaInspeccion.ToString("dd / MMMM / yyyy")</p></div>
+            </div>
+            <div class="row" style="margin-top:15px">
+                <div class="col-md-4">
+                    <label class="text-muted small">Proceso</label>
+                    <p>@(Model.Proceso != null ? Model.Proceso.NombreProceso : "—")</p>
+                </div>
+                <div class="col-md-4">
+                    <label class="text-muted small">Subproceso / Área</label>
+                    <p>@(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : "—")</p>
+                </div>
+                <div class="col-md-4">
+                    <label class="text-muted small">Tiempo Prestación</label>
+                    <p>@Model.TiempoPrestacion meses</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* --- BLOQUE 2: EVALUACIÓN DE ÍTEMS --- *@
+    <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+        <div class="panel-heading" style="background-color: #3a86ff; color: white; border-radius: 12px 12px 0 0;">
+            <h3 class="panel-title" style="font-weight: bold;">2. Resultados de Evaluación Bioseguridad</h3>
+        </div>
+        <div class="panel-body" style="padding: 25px;">
+            <div class="table-responsive">
+                <table class="table table-hover" style="margin-bottom: 0;">
+                    <thead>
+                        <tr style="background-color: #f8f9fa;">
+                            <th style="border:none; color: #666;">Ítem de Bioseguridad</th>
+                            <th class="text-center" style="border:none; color: #666; width: 150px;">Resultado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ var items = new[] {
+                            new { nombre="Higiene de Manos", valor=Model.HigieneManos },
+                            new { nombre="Protección Respiratoria", valor=Model.ProteccionRespiratoria },
+                            new { nombre="Uso de Guantes", valor=Model.UsoGuantes },
+                            new { nombre="Uso de Gorro", valor=Model.UsoGorro },
+                            new { nombre="Uso de Bata", valor=Model.UsoBata },
+                            new { nombre="Protección Visual", valor=Model.ProteccionVisual },
+                            new { nombre="Uso Delantal/Peto", valor=Model.UsoDelantalPeto },
+                            new { nombre="Calzado Adecuado", valor=Model.CalzadoAdecuado },
+                            new { nombre="Transporte de Muestras", valor=Model.TransporteMuestras },
+                            new { nombre="Manejo Corto Punzantes", valor=Model.ManejoCorto },
+                            new { nombre="Manejo de Residuos", valor=Model.ManejoResiduos },
+                        }; }
+                        @foreach (var item in items)
+                        {
+                            <tr>
+                                <td style="font-weight: 500; vertical-align: middle;">@item.nombre</td>
+                                <td class="text-center" style="vertical-align: middle;">
+                                    @if (item.valor == "C")
+                                    {<span class="badge-custom-cumple">CUMPLE</span> }
+                                    else if (item.valor == "NC")
+                                    { <span class="badge-custom-nocumple">NO CUMPLE</span> }
+                                    else
+                                    { <span class="badge-custom-na">N/A</span>}
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr style="background-color: #29235c; color: white;">
+                            <td class="text-right" style="font-weight: bold; border-radius: 0 0 0 8px;">TOTALES DE EVALUACIÓN:</td>
+                            <td class="text-center" style="font-weight: bold; border-radius: 0 0 8px 0;">
+                                C: @Model.TotalCumple | NC: @Model.TotalNoCumple | NA: @Model.TotalNoAplica
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    @* --- BLOQUE 3: OBSERVACIONES Y CIERRE --- *@
+    <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+        <div class="panel-heading" style="background-color: #76b82a; color: white; border-radius: 12px 12px 0 0;">
+            <h3 class="panel-title" style="font-weight: bold;">3. Observaciones y Conclusiones</h3>
+        </div>
+        <div class="panel-body" style="padding: 25px;">
+            @if (!string.IsNullOrEmpty(Model.ObservacionesFinales))
+            {
+                <div style="background: #fdfdfd; padding: 20px; border-radius: 8px; border-left: 5px solid #29235c; font-style: italic; font-size: 15px; color: #555;">
+                    "@Model.ObservacionesFinales"
+                </div>
+            }
+            else
+            {
+                <p class="text-muted text-center italic">No se registraron observaciones adicionales en esta inspección.</p>
+            }
+        </div>
+    </div>
 </div>
+
+<style>
+    
+    label.small {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        display: block;
+        margin-bottom: 4px;
+        color: #888;
+    }
+
+    p {
+        margin-bottom: 0;
+        font-size: 15px;
+        color: #333;
+    }
+
+    .panel-heading {
+        padding: 12px 20px !important;
+    }
+
+    
+    .badge-custom-cumple {
+        background-color: #28a745;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .badge-custom-nocumple {
+        background-color: #dc3545;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .badge-custom-na {
+        background-color: #6c757d;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: bold;
+        display: inline-block;
+    }
+</style>

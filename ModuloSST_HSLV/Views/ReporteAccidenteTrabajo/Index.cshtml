@@ -3,26 +3,25 @@
     ViewBag.Title = "Reportes de Accidente de Trabajo";
 }
 
-<div class="container-fluid">
-    @* --- ENCABEZADO Y BOTONES DE ACCIÓN (Estilo Bioseguridad) --- *@
-    <div style="margin-top: 20px;">
+    @* --- ENCABEZADO Y BOTONES DE ACCIÓN  *@
+<div class="row">
+    <div class="col-md-12">
         <h2 style="color: #29235c; font-weight: bold; margin-bottom: 15px;">
             Reportes de Accidente de Trabajo
         </h2>
         <hr />
 
         <div style="margin-bottom: 15px; display: flex; gap: 10px;">
-            @* Botón Registrar (Verde Hospital) *@
+            @* Botón Registrar  *@
             <a href="@Url.Action("Registrar", "ReporteAccidenteTrabajo")"
                class="btn"
                style="background-color: #76b82a; color: white; border-radius: 10px; font-weight: bold; padding: 8px 20px; border: none;">
                 + Registrar accidente
             </a>
 
-            @* Botón Dashboard (Azul HSLV) *@
-            <a href="@Url.Action("Dashboard", "ReporteAccidenteTrabajo")"
-               class="btn-dashboard"
-               style=color: white; border-radius: 10px; font-weight: bold; padding: 8px 20px; border: none;">
+            @* Botón Dashboard  *@
+            
+            <a href="@Url.Action("Dashboard", "ReporteAccidenteTrabajo")" class="btn-dashboard">
                 <i class="glyphicon glyphicon-stats"></i> Ver Indicadores / Dashboard
             </a>
         </div>
@@ -90,11 +89,11 @@
                                 <td class="text-center" style="vertical-align: middle;">
                                     <div style="display: flex; justify-content: center; gap: 5px;">
                                         <a href="@Url.Action("Detalle", "ReporteAccidenteTrabajo", new { id = item.IdReporteAccidenteTrabajo })"
-                                           class="btn btn-sm" style="background-color: #76b82a; color: white; border-radius: 8px; font-weight: bold; width: 55px;">
+                                           class="btn btn-sm" style="background-color: #76b82a; color: white; border-radius: 15px; font-weight: bold; width: 55px;">
                                             Ver
                                         </a>
                                         <a href="@Url.Action("Editar", "ReporteAccidenteTrabajo", new { id = item.IdReporteAccidenteTrabajo })"
-                                           class="btn btn-sm" style="background-color: #29235c; color: white; border-radius: 8px; font-weight: bold; width: 55px;">
+                                           class="btn btn-sm" style="background-color: #29235c; color: white; border-radius: 15px; font-weight: bold; width: 55px;">
                                             Editar
                                         </a>
                                     </div>

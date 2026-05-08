@@ -12,7 +12,7 @@ namespace ModuloSST_HSLV.Controllers
 {
     public class ReporteIncidenteController : Controller
     {
-        // Usamos el contexto correcto que vimos en Pausa Activa
+        
         private readonly SSTContext db = new SSTContext();
 
         // --- [GET] Listado Principal ---
@@ -28,7 +28,7 @@ namespace ModuloSST_HSLV.Controllers
         // --- [GET] Mostrar formulario de registro ---
         public ActionResult Registrar()
         {
-            CargarListas(); // Esto llena los combos de procesos, géneros, etc.
+            CargarListas(); 
 
             // Creamos un modelo con la fecha de hoy por defecto
             var nuevoReporte = new ReporteIncidente
@@ -201,7 +201,7 @@ namespace ModuloSST_HSLV.Controllers
             return View();
         }
 
-        // CLASE DE APOYO (Ponla al final del namespace o dentro de la clase)
+        
         public class EstadisticaItemIncidente
         {
             public string Nombre { get; set; }

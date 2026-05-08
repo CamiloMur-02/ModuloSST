@@ -1,35 +1,113 @@
 ﻿@model ModuloSST_HSLV.Models.PausaActiva
-@{ ViewBag.Title = "Detalle Pausa Activa"; }
-<h2 class="text-primary">Detalle — Pausa Activa</h2>
-<hr />
-<div class="panel panel-default">
-    <div class="panel-heading"><h3 class="panel-title">Datos del Empleado</h3></div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-2"><strong>Cédula:</strong><br />@Model.Cedula</div>
-            <div class="col-md-4"><strong>Apellidos y Nombre:</strong><br />@Model.NombreCompleto</div>
-            <div class="col-md-2"><strong>Género:</strong><br />@Model.Genero</div>
-            <div class="col-md-2"><strong>Edad:</strong><br />@Model.Edad años</div>
-            <div class="col-md-2"><strong>Fecha Pausa:</strong><br />@Model.Fecha.ToString("dd/MM/yyyy")</div>
+@{
+    ViewBag.Title = "Detalle Pausa Activa";
+}
+
+<div class="container-fluid" style="padding: 20px;">
+    @* --- CABECERA --- *@
+    <div class="row">
+        <div class="col-md-8">
+            <h2 style="color: #29235c; font-weight: bold; margin-bottom: 5px;">
+                <i class="glyphicon glyphicon-list-alt" style="color: #3182ce;"></i> Detalle del Registro
+            </h2>
+            <p class="text-muted">Información completa de la pausa activa realizada.</p>
         </div>
-        <div class="row" style="margin-top:10px">
-            <div class="col-md-4"><strong>Cargo:</strong><br />@Model.Cargo</div>
-            <div class="col-md-4"><strong>Contratista:</strong><br />@Model.Contratista</div>
-            <div class="col-md-4"><strong>Tiempo de Prestación (meses):</strong><br />@Model.TiempoPrestacion</div>
+        <div class="col-md-4 text-right" style="padding-top: 20px;">
+            <span class="label" style="background-color: #3182ce; padding: 8px 15px; font-size: 13px; border-radius: 50px;">
+                ID Registro: #@Model.IdPausaActiva
+            </span>
         </div>
-        <div class="row" style="margin-top:10px">
-            <div class="col-md-6">
-                <strong>Proceso:</strong><br />
-                @(Model.Proceso != null ? Model.Proceso.NombreProceso : Model.IdProceso.ToString())
+    </div>
+
+    <hr style="border-top: 1px solid #eee;" />
+
+    @* --- PANEL PRINCIPAL DE INFORMACIÓN --- *@
+    <div class="panel panel-default" style="border-radius: 15px; overflow: hidden; border: 1px solid #ddd; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+        <div class="panel-heading" style="background-color: #29235c; color: white; padding: 15px 25px;">
+            <h3 class="panel-title" style="font-weight: bold;">
+                <i class="glyphicon glyphicon-user"></i> Datos del Colaborador
+            </h3>
+        </div>
+        <div class="panel-body" style="padding: 30px; background-color: #fff;">
+
+            @* Fila 1: Básicos *@
+            <div class="row" style="margin-bottom: 25px;">
+                <div class="col-md-3">
+                    <label class="text-muted small" style="text-transform: uppercase;">Cédula</label>
+                    <p style="font-size: 16px; font-weight: bold; color: #333;">@Model.Cedula</p>
+                </div>
+                <div class="col-md-5">
+                    <label class="text-muted small" style="text-transform: uppercase;">Nombre Completo</label>
+                    <p style="font-size: 16px; font-weight: bold; color: #29235c;">@Model.NombreCompleto</p>
+                </div>
+                <div class="col-md-2">
+                    <label class="text-muted small" style="text-transform: uppercase;">Género</label>
+                    <p style="font-size: 15px; color: #444;">@Model.Genero</p>
+                </div>
+                <div class="col-md-2">
+                    <label class="text-muted small" style="text-transform: uppercase;">Edad</label>
+                    <p style="font-size: 15px; color: #444;">@Model.Edad años</p>
+                </div>
             </div>
-            <div class="col-md-6">
-                <strong>Subproceso:</strong><br />
-                @(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : Model.IdSubproceso.ToString())
+
+            @* Fila 2: Laborales *@
+            <div class="row" style="margin-bottom: 25px; padding: 20px; background-color: #f8f9fa; border-radius: 10px;">
+                <div class="col-md-4">
+                    <label class="text-muted small" style="text-transform: uppercase;">Cargo</label>
+                    <p style="font-size: 15px; font-weight: 500;">@Model.Cargo</p>
+                </div>
+                <div class="col-md-4">
+                    <label class="text-muted small" style="text-transform: uppercase;">Contratista / Empresa</label>
+                    <p style="font-size: 15px; font-weight: 500;">@Model.Contratista</p>
+                </div>
+                <div class="col-md-4">
+                    <label class="text-muted small" style="text-transform: uppercase;">Tiempo de Prestación</label>
+                    <p style="font-size: 15px; font-weight: 500;">@Model.TiempoPrestacion</p>
+                </div>
+            </div>
+
+            @* Fila 3: Ubicación y Fecha *@
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="text-muted small" style="text-transform: uppercase;">Proceso</label>
+                    <p style="font-size: 15px; color: #444;">
+                        <i class="glyphicon glyphicon-map-marker text-primary"></i>
+                        @(Model.Proceso != null ? Model.Proceso.NombreProceso : "N/A")
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <label class="text-muted small" style="text-transform: uppercase;">Subproceso / Área</label>
+                    <p style="font-size: 15px; color: #444;">
+                        @(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : "N/A")
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <label class="text-muted small" style="text-transform: uppercase;">Fecha de Ejecución</label>
+                    <p style="font-size: 18px; font-weight: bold; color: #76b82a;">
+                        <i class="glyphicon glyphicon-calendar"></i> @Model.Fecha.ToString("dd / MM / yyyy")
+                    </p>
+                </div>
             </div>
         </div>
     </div>
+
+    @* --- BOTONES DE RETORNO --- *@
+    <div class="text-center" style="margin-top: 30px;">
+        <a href="@Url.Action("Index", "PausaActiva")" class="btn btn-default"
+           style="border-radius: 25px; padding: 12px 40px; font-weight: bold; border: 2px solid #29235c; color: #29235c; transition: all 0.3s;">
+            <i class="glyphicon glyphicon-arrow-left"></i> VOLVER AL LISTADO
+        </a>
+    </div>
 </div>
-<a href="@Url.Action("Index", "PausaActiva")"
-   class="btn btn-default" style="border:2px solid #aaa; background:transparent;">
-    Ver listado
-</a>
+
+<style>
+    .btn-default:hover {
+        background-color: #29235c !important;
+        color: white !important;
+    }
+
+    label {
+        margin-bottom: 2px;
+        letter-spacing: 0.5px;
+    }
+</style>

@@ -64,8 +64,8 @@
         <div class="panel-body" style="padding: 25px;">
             <div class="row">
                 <div class="col-md-3"><label class="text-muted small">Tipo de Enfermedad</label><p style="font-weight: bold; color: #d9534f;">@Model.TipoEnfermedad</p></div>
-                <div class="col-md-3"><label class="text-muted small">Fecha Diagnóstico</label><p>@Model.FechaDiagnostico.ToString("dd / MMMM / yyyy")</p></div>
-                <div class="col-md-3"><label class="text-muted small">Código CIE-10</label><p><span class="label label-default" style="background-color: #29235c; font-size: 90%;">@(Model.Codigo ?? "—")</span></p></div>
+                <div class="col-md-3"><label class="text-muted small">Fecha Diagnóstico</label><p style="font-weight: bold;">@Model.FechaDiagnostico.ToString("dd / MMMM / yyyy")</p></div>
+                <div class="col-md-3"><label class="text-muted small">Código CIE-10</label><p style="font-weight: bold;">@(Model.Codigo ?? "—")</p></div>
                 <div class="col-md-3"><label class="text-muted small">Días Incapacidad</label><p style="font-size: 18px; font-weight: bold; color: #d9534f;">@Model.DiasIncapacidad</p></div>
             </div>
 
@@ -87,7 +87,7 @@
         </div>
     </div>
 
-    @* --- BLOQUE 3: INVESTIGACIÓN (SOLO SI ES LABORAL) --- *@
+    @* --- BLOQUE 3: INVESTIGACIÓN --- *@
     @if (Model.TipoEnfermedad == "Enfermedad Laboral" && !string.IsNullOrEmpty(Model.Causa))
     {
         <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
@@ -129,15 +129,15 @@
 </div>
 
 <style>
-    /* Estilos globales para mantener la identidad visual de "Accidentes" */
+    
     label.small {
         text-transform: uppercase;
         letter-spacing: 1px;
         display: block;
         margin-bottom: 4px;
-        color: #777 !important;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-weight: normal;
+        font-weight: bold; 
+        font-size: 11px; 
+        color: #777;
     }
 
     p {
@@ -147,6 +147,10 @@
     }
 
     .panel-heading {
-        padding: 12px 20px !important;
+        padding: 12px 20px !important; 
+    }
+
+    .panel-title {
+        font-size: 28px;
     }
 </style>

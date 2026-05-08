@@ -38,131 +38,142 @@
         @Html.HiddenFor(m => m.IdEmpleado)
 
         @* --- SECCIÓN 1: DATOS PERSONALES --- *@
-        <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
-            <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 12px 12px 0 0;">
-                <h3 class="panel-title font-weight-bold">1. Datos del Accidentado</h3>
+<div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+    <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 12px 12px 0 0; padding: 15px 20px;">
+        <h3 class="panel-title" style="font-weight: bold; font-size: 18px; margin: 0;">
+            1. Datos del Accidentado
+        </h3>
+    </div>
+    <div class="panel-body" style="padding: 25px;">
+        <div class="row">
+            <div class="col-md-3 form-group">
+                @Html.LabelFor(m => m.Cedula, new { @class = "text-muted small" })
+                @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", @readonly = "readonly", style = "background-color: #f9f9f9;" })
             </div>
-            <div class="panel-body" style="padding: 25px;">
-                <div class="row">
-                    <div class="col-md-3 form-group">
-                        @Html.LabelFor(m => m.Cedula, new { @class = "text-muted small" })
-                        @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", @readonly = "readonly", style = "background-color: #f9f9f9;" })
-                    </div>
-                    <div class="col-md-6 form-group">
-                        @Html.LabelFor(m => m.NombreCompleto, new { @class = "text-muted small" })
-                        @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control" })
-                    </div>
-                    <div class="col-md-3 form-group">
-                        <label class="text-muted small">Género</label>
-                        <select name="Genero" class="form-control">
-                            @foreach (var g in ViewBag.Generos as string[])
-                            {
-                                <option value="@g" @(Model.Genero == g ? "selected" : "")>@g</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 form-group">
-                        @Html.LabelFor(m => m.Cargo, new { @class = "text-muted small" })
-                        @Html.TextBoxFor(m => m.Cargo, new { @class = "form-control" })
-                    </div>
-                    <div class="col-md-4 form-group">
-                        @Html.LabelFor(m => m.Contratista, new { @class = "text-muted small" })
-                        @Html.TextBoxFor(m => m.Contratista, new { @class = "form-control", placeholder = "Si aplica" })
-                    </div>
-                    <div class="col-md-4 form-group">
-                        @Html.LabelFor(m => m.Edad, new { @class = "text-muted small" })
-                        @Html.TextBoxFor(m => m.Edad, new { @class = "form-control", type = "number" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 form-group">
-                        <label class="text-muted small">Proceso</label>
-                        <select name="IdProceso" class="form-control select2">
-                            <option value="">-- Seleccionar --</option>
-                            @foreach (var p in procesos)
-                            {
-                                <option value="@p.IdProceso" @(Model.IdProceso == p.IdProceso ? "selected" : "")>@p.NombreProceso</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <label class="text-muted small">Subproceso / Área</label>
-                        <select name="IdSubproceso" class="form-control select2">
-                            <option value="">-- Seleccionar --</option>
-                            @foreach (var s in subprocesos)
-                            {
-                                <option value="@s.IdSubproceso" @(Model.IdSubproceso == s.IdSubproceso ? "selected" : "")>@s.NombreSubproceso</option>
-                            }
-                        </select>
-                    </div>
-                </div>
+            <div class="col-md-6 form-group">
+                @Html.LabelFor(m => m.NombreCompleto, new { @class = "text-muted small" })
+                @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control" })
+            </div>
+            <div class="col-md-3 form-group">
+                <label class="text-muted small">Género</label>
+                <select name="Genero" class="form-control">
+                    @foreach (var g in ViewBag.Generos as string[])
+                    {
+                        <option value="@g" @(Model.Genero == g ? "selected" : "")>@g</option>
+                    }
+                </select>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-4 form-group">
+                @Html.LabelFor(m => m.Cargo, new { @class = "text-muted small" })
+                @Html.TextBoxFor(m => m.Cargo, new { @class = "form-control" })
+            </div>
+            <div class="col-md-4 form-group">
+                @Html.LabelFor(m => m.Contratista, new { @class = "text-muted small" })
+                @Html.TextBoxFor(m => m.Contratista, new { @class = "form-control", placeholder = "Si aplica" })
+            </div>
+            <div class="col-md-4 form-group">
+                @Html.LabelFor(m => m.Edad, new { @class = "text-muted small" })
+                @Html.TextBoxFor(m => m.Edad, new { @class = "form-control", type = "number" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 form-group">
+                <label class="text-muted small">Proceso</label>
+                <select name="IdProceso" class="form-control select2">
+                    <option value="">-- Seleccionar --</option>
+                    @foreach (var p in procesos)
+                    {
+                        <option value="@p.IdProceso" @(Model.IdProceso == p.IdProceso ? "selected" : "")>@p.NombreProceso</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6 form-group">
+                <label class="text-muted small">Subproceso / Área</label>
+                <select name="IdSubproceso" class="form-control select2">
+                    <option value="">-- Seleccionar --</option>
+                    @foreach (var s in subprocesos)
+                    {
+                        <option value="@s.IdSubproceso" @(Model.IdSubproceso == s.IdSubproceso ? "selected" : "")>@s.NombreSubproceso</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+       
 
         @* --- SECCIÓN 2: DETALLES DEL ACCIDENTE --- *@
-        <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
-            <div class="panel-heading" style="background-color: #d9534f; color: white; border-radius: 12px 12px 0 0;">
-                <h3 class="panel-title font-weight-bold">2. Información del Suceso y Diagnóstico</h3>
+    <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
+        
+        <div class="panel-heading" style="background-color: #d9534f; color: white; border-radius: 12px 12px 0 0; padding: 15px 20px;">
+            <h3 class="panel-title" style="font-weight: bold; font-size: 18px; margin: 0;">
+                2. Información del Suceso y Diagnóstico
+            </h3>
+        </div>
+    <div class="panel-body" style="padding: 25px;">
+        <div class="row">
+            <div class="col-md-3 form-group">
+                @Html.LabelFor(m => m.FechaAT, new { @class = "text-muted small" })
+                @Html.TextBoxFor(m => m.FechaAT, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "fechaAT" })
             </div>
-            <div class="panel-body" style="padding: 25px;">
-                <div class="row">
-                    <div class="col-md-3 form-group">
-                        @Html.LabelFor(m => m.FechaAT, new { @class = "text-muted small" })
-                        @Html.TextBoxFor(m => m.FechaAT, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "fechaAT" })
-                    </div>
-                    <div class="col-md-3 form-group">
-                        @Html.LabelFor(m => m.HoraAT, new { @class = "text-muted small" })
-                        @Html.TextBoxFor(m => m.HoraAT, "{0:hh\\:mm}", new { @class = "form-control", type = "time" })
-                    </div>
-                    <div class="col-md-3 form-group">
-                        <label class="text-muted small">Tipo de Peligro</label>
-                        <select name="TipoPeligro" class="form-control">
-                            @foreach (var t in ViewBag.TiposPeligro as string[])
-                            {
-                                <option value="@t" @(Model.TipoPeligro == t ? "selected" : "")>@t</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="col-md-3 form-group">
-                        @Html.LabelFor(m => m.DiasIncapacidad, new { @class = "text-muted small" })
-                        @Html.TextBoxFor(m => m.DiasIncapacidad, new { @class = "form-control", type = "number" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 form-group">
-                        @Html.LabelFor(m => m.CodigoDiagnostico, new { @class = "text-muted small" })
-                        @Html.TextBoxFor(m => m.CodigoDiagnostico, new { @class = "form-control", placeholder = "CIE-10" })
-                    </div>
-                    <div class="col-md-10 form-group">
-                        @Html.LabelFor(m => m.DetalleDiagnostico, new { @class = "text-muted small" })
-                        @Html.TextBoxFor(m => m.DetalleDiagnostico, new { @class = "form-control" })
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-8 form-group">
-                        @Html.LabelFor(m => m.ObservacionesAccidente, new { @class = "text-muted small" })
-                        @Html.TextAreaFor(m => m.ObservacionesAccidente, new { @class = "form-control", rows = "3" })
-                    </div>
-                    <div class="col-md-4">
-                        <label class="text-muted small">Adjunto FURAT (PDF)</label>
-                        @if (!string.IsNullOrEmpty(Model.NombreArchivoAccidente))
-                        {
-                            <div class="alert alert-info" style="padding: 10px; margin-bottom: 10px; font-size: 12px;">
-                                <i class="glyphicon glyphicon-paperclip"></i> Actual: @Model.NombreArchivoAccidente
-                            </div>
-                        }
-                        <input type="file" name="archivoAccidente" accept=".pdf" class="form-control" />
-                    </div>
-                </div>
+            <div class="col-md-3 form-group">
+                @Html.LabelFor(m => m.HoraAT, new { @class = "text-muted small" })
+                @Html.TextBoxFor(m => m.HoraAT, "{0:hh\\:mm}", new { @class = "form-control", type = "time" })
+            </div>
+            <div class="col-md-3 form-group">
+                <label class="text-muted small">Tipo de Peligro</label>
+                <select name="TipoPeligro" class="form-control">
+                    @foreach (var t in ViewBag.TiposPeligro as string[])
+                    {
+                        <option value="@t" @(Model.TipoPeligro == t ? "selected" : "")>@t</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                @Html.LabelFor(m => m.DiasIncapacidad, new { @class = "text-muted small" })
+                @Html.TextBoxFor(m => m.DiasIncapacidad, new { @class = "form-control", type = "number" })
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-2 form-group">
+                @Html.LabelFor(m => m.CodigoDiagnostico, new { @class = "text-muted small" })
+                @Html.TextBoxFor(m => m.CodigoDiagnostico, new { @class = "form-control", placeholder = "CIE-10" })
+            </div>
+            <div class="col-md-10 form-group">
+                @Html.LabelFor(m => m.DetalleDiagnostico, new { @class = "text-muted small" })
+                @Html.TextBoxFor(m => m.DetalleDiagnostico, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 form-group">
+                @Html.LabelFor(m => m.ObservacionesAccidente, new { @class = "text-muted small" })
+                @Html.TextAreaFor(m => m.ObservacionesAccidente, new { @class = "form-control", rows = "3" })
+            </div>
+            <div class="col-md-4">
+                <label class="text-muted small">Adjunto FURAT (PDF)</label>
+                @if (!string.IsNullOrEmpty(Model.NombreArchivoAccidente))
+                {
+                    <div class="alert alert-info" style="padding: 10px; margin-bottom: 10px; font-size: 12px;">
+                        <i class="glyphicon glyphicon-paperclip"></i> Actual: @Model.NombreArchivoAccidente
+                    </div>
+                }
+                <input type="file" name="archivoAccidente" accept=".pdf" class="form-control" />
+            </div>
+        </div>
+    </div>
+</div>
 
+
+       
         @* --- SECCIÓN 3: INVESTIGACIÓN --- *@
         <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
-            <div class="panel-heading" style="background-color: #3a86ff; color: white; border-radius: 12px 12px 0 0;">
-                <h3 class="panel-title font-weight-bold">3. Investigación y Causa</h3>
+            <div class="panel-heading" style="background-color: #3a86ff; color: white; border-radius: 12px 12px 0 0; padding: 15px 20px;">
+                <h3 class="panel-title" style="font-weight: bold; font-size: 18px; margin: 0;">
+                    3. Investigación y Causa
+                </h3>
             </div>
             <div class="panel-body" style="padding: 25px;">
                 <div class="row">
@@ -215,10 +226,14 @@
             </div>
         </div>
 
+        
+
         @* --- SECCIÓN 4: PLAN DE MEJORA --- *@
         <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
-            <div class="panel-heading" style="background-color: #76b82a; color: white; border-radius: 12px 12px 0 0;">
-                <h3 class="panel-title font-weight-bold">4. Plan de Mejora</h3>
+            <div class="panel-heading" style="background-color: #76b82a; color: white; border-radius: 12px 12px 0 0; padding: 15px 20px;">
+                <h3 class="panel-title" style="font-weight: bold; font-size: 18px; margin: 0;">
+                    4. Plan de Mejora
+                </h3>
             </div>
             <div class="panel-body" style="padding: 25px;">
                 <div class="row">

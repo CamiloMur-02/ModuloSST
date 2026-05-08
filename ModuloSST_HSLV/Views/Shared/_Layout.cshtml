@@ -7,67 +7,94 @@
     <title>@ViewBag.Title - Sistema SST | HSLV</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
+    
+    <style>
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100%;
+        }
+
+        
+        .design-navbar {
+            background-color: #2e7d32 !important; 
+            border: none !important;
+            border-radius: 0 !important;
+            margin-bottom: 0 !important;
+        }
+
+        .nav-link {
+            color: white !important;
+            font-size: 14px;
+        }
+
+            .nav-link:hover {
+                background-color: rgba(255,255,255,0.1);
+                border-radius: 4px;
+            }
+    </style>
 </head>
 <body>
-    @* Contenedor Principal: Logo Blanco + Barra Verde *@
-    <div class="d-flex align-items-center" style="background-color: white; width: 100%;">
+    
+    <header style="width: 100%;">
+        <div class="d-flex align-items-stretch" style="background-color: white; width: 100%;">
 
-        @* 1. Bloque del Logo (Fondo Blanco) *@
-        <div class="p-2" style="min-width: 180px; display: flex; justify-content: center; align-items: center;">
-            <a href="@Url.Action("Index", "Home")">
-                @* Ajustamos el logo para que sea protagonista como en la foto *@
-                <img src="@Url.Content("~/Content/imagenes/logos_dos.png")"
-                     alt="Logo Hospital"
-                     style="height: 85px; width: auto;" />
-            </a>
-        </div>
+            @* Bloque del Logo Hospital (Fondo Blanco) *@
+            <div style="min-width: 200px; display: flex; justify-content: center; align-items: center; padding: 10px;">
+                <a href="@Url.Action("Index", "Home")">
+                    <img src="@Url.Content("~/Content/imagenes/logos_dos.png")"
+                         alt="Logo Hospital"
+                         style="height: 80px; width: auto;" />
+                </a>
+            </div>
 
-        @* 2. Barra Verde (Navbar) *@
-        <nav class="navbar navbar-expand-sm navbar-dark design-navbar flex-grow-1" style="margin-bottom: 0; padding-left: 20px;">
-            <div class="container-fluid px-0">
-                @* El nombre del Hospital empieza aquí, dentro de lo verde *@
-                <span class="navbar-brand d-none d-md-inline" style="font-size: 22px; font-weight: bold; margin-right: 30px;">
-                    Hospital Susana López de Valencia E.S.E.
-                </span>
+            @* Barra Verde (Navbar) *@
+            <nav class="navbar navbar-expand-lg navbar-dark design-navbar flex-grow-1" style="padding: 0 20px;">
+                <div class="container-fluid">
+                    <span class="navbar-brand d-none d-xl-inline" style="font-size: 18px; font-weight: bold; margin-right: 20px;">
+                        Hospital Susana López de Valencia E.S.E.
+                    </span>
 
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                        title="Alternar navegación" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                <div class="collapse navbar-collapse">
-                    <ul class="navbar-nav">
-                        <li>@Html.ActionLink("Evaluaciones", "Index", "Evaluacion", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Bioseguridad", "Index", "InspeccionBioseguridad", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Matriz EPP", "Index", "MatrizEpp", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Accidentes", "Index", "ReporteAccidenteTrabajo", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Enfermedades", "Index", "ReporteEnfermedadLaboral", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Incidentes", "Index", "ReporteIncidente", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Pausas Activas", "Index", "PausaActiva", new { area = "" }, new { @class = "nav-link" })</li>
-                    </ul>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">@Html.ActionLink("Evaluaciones", "Index", "Evaluacion", null, new { @class = "nav-link" })</li>
+                            <li class="nav-item">@Html.ActionLink("Bioseguridad", "Index", "InspeccionBioseguridad", null, new { @class = "nav-link" })</li>
+                            <li class="nav-item">@Html.ActionLink("Matriz EPP", "Index", "MatrizEpp", null, new { @class = "nav-link" })</li>
+                            <li class="nav-item">@Html.ActionLink("Accidentes", "Index", "ReporteAccidenteTrabajo", null, new { @class = "nav-link" })</li>
+                            <li class="nav-item">@Html.ActionLink("Enfermedades", "Index", "ReporteEnfermedadLaboral", null, new { @class = "nav-link" })</li>
+                            <li class="nav-item">@Html.ActionLink("Incidentes", "Index", "ReporteIncidente", null, new { @class = "nav-link" })</li>
+                            <li class="nav-item">@Html.ActionLink("Pausas Activas", "Index", "PausaActiva", null, new { @class = "nav-link" })</li>
+                        </ul>
+
+                        
+                        <div class="d-flex align-items-center ms-3">
+                            <div style="background-color: white;
+                                    padding: 5px 15px;
+                                    border-radius: 8px;
+                                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                                    display: flex;
+                                    align-items: center;
+                                    height: 70px;">
+                                    <img src="@Url.Content("~/Content/imagenes/logo_uni.png")"
+                                     alt="Unicomfacauca"
+                                     style="height: 50px; width: auto;" /> @* Sin filtros para mantener naranja y azul *@
+
+                             </div>
+                       </div>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </div>
+            </nav>
+        </div>
+    </header>
 
+    @* --- PASO 3: CONTENIDO --- *@
     <div class="container body-content" style="margin-top: 30px;">
-        @* Mensajes de Alerta (Éxito/Error) *@
-        @if (TempData["Exito"] != null)
-        {
-            <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 20px;">
-                <strong>&#10003; Éxito:</strong> @TempData["Exito"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-            </div>
-        }
-
-        @if (TempData["Error"] != null)
-        {
-            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 20px;">
-                <strong>&#9888; Error:</strong> @TempData["Error"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-            </div>
-        }
+        
 
         @RenderBody()
 

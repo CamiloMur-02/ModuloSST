@@ -8,7 +8,7 @@ using ModuloSST_HSLV.Models;
 
 namespace ModuloSST_HSLV.Controllers
 {
-    // Clase para evitar errores de enlace en el Dashboard
+    
     public class EstadisticaEpp
     {
         public string Nombre { get; set; }

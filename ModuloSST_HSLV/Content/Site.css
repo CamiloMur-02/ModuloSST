@@ -1,9 +1,22 @@
-﻿/* --- CONFIGURACIÓN BASE Y TIPOGRAFÍA --- */
+﻿/* ==========================================================================
+   1. CONFIGURACIÓN DE FUENTES Y TIPOGRAFÍA
+   ========================================================================== */
 @font-face {
     font-family: 'PoppinsSemiBold';
     src: url('./tipografia/Poppins-SemiBold.ttf') format('truetype');
 }
 
+/* Títulos principales y textos destacados */
+h2, .text-primary, h2.text-primary {
+    color: #29235c !important; /* Azul oscuro institucional */
+    font-family: 'PoppinsSemiBold', sans-serif;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* ==========================================================================
+   2. ESTRUCTURA GLOBAL (LAYOUT)
+   ========================================================================== */
 html, body {
     min-height: 100%;
     margin: 0;
@@ -13,7 +26,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    font-family: 'PoppinsSemiBold', sans-serif; /* Aplica la fuente del hospital */
+    font-family: 'PoppinsSemiBold', sans-serif;
 }
 
 .body-content {
@@ -24,7 +37,9 @@ body {
     flex: 1;
 }
 
-/* --- DISEÑO DE NAVBAR (INSTITUCIONAL) --- */
+/* ==========================================================================
+   3. DISEÑO DE NAVEGACIÓN (NAVBAR)
+   ========================================================================== */
 .design-navbar {
     background-color: #327531 !important;
     height: 90px;
@@ -40,7 +55,7 @@ body {
 }
 
 .logo-navbar {
-    height: 70px; /* Ajustado para que no sature el menú */
+    height: 70px;
     width: auto;
     background: #ffffff;
     border-radius: 5px;
@@ -53,8 +68,11 @@ body {
     font-size: 14px;
 }
 
-/* --- BOTONES PERSONALIZADOS --- */
+/* ==========================================================================
+   4. BOTONES Y ACCIONES
+   ========================================================================== */
 
+/* Botón Dashboard (Azul Cielo) */
 .btn-dashboard {
     background-color: #518ccc;
     color: white !important;
@@ -68,21 +86,12 @@ body {
     text-decoration: none;
 }
 
-.btn-dashboard:hover {
-    background-color: #1f7ee6;
-    color: white !important;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
+    .btn-dashboard:hover {
+        background-color: #1f7ee6;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
 
-.btn-ver {
-    background-color: #327531; /* Verde oscuro institucional */
-    color: white !important;
-    border-radius: 20px !important; 
-    padding: 4px 15px;
-    font-size: 12px;
-    text-decoration: none;
-}
-
+/* Botón Verde Claro */
 .btn-verde-claro {
     all: unset;
     background-color: #76b82a;
@@ -96,12 +105,60 @@ body {
     text-align: center;
 }
 
-.btn-verde-claro:hover {
-    background-color: #79c71f;
-    color: white !important;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    .btn-verde-claro:hover {
+        background-color: #79c71f;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+/* Botón Azul Oscuro */
+.btn-azul {
+    all: unset;
+    background-color: #29235c;
+    color: #ffffff !important;
+    font-weight: 600;
+    padding: 10px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: inline-block;
 }
 
+/* Botón Azul Institucional (Evaluaciones) */
+.btn-azul-inst {
+    background-color: #007bff;
+    color: white !important;
+    padding: 8px 20px;
+    border-radius: 10px;
+    display: inline-block;
+    text-decoration: none;
+}
+
+/* Botones de Listado (Ver/Descargar) */
+.btn-ver {
+    background-color: #327531;
+    color: white !important;
+    border-radius: 20px !important;
+    padding: 4px 15px;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.btn-descargar {
+    background-color: #4caf50;
+    color: white !important;
+    border-radius: 8px !important;
+    padding: 4px 12px;
+    font-size: 13px;
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+    .btn-descargar:hover {
+        background-color: #388e3c;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+/* Otros botones auxiliares */
 .btn-verde-oscuro {
     all: unset;
     background-color: #327531;
@@ -114,69 +171,24 @@ body {
     display: inline-block;
 }
 
-.btn-azul {
-    all: unset;
-    background-color: #29235c;
-    color: #ffffff !important;
-    font-weight: 600;
-    padding: 10px 16px;
-    border-radius: 12px;
-    cursor: pointer;
-    display: inline-block;
-}
-
-/* Botón descargar: Verde suave y profesional */
-.btn-descargar {
-    background-color: #4caf50; /* Verde material design suave */
-    color: white !important;
-    border-radius: 8px !important;
-    padding: 4px 12px;
-    font-size: 13px;
-    text-decoration: none;
-    display: inline-block;
-    transition: 0.3s;
-}
-
-.btn-descargar:hover {
-    background-color: #388e3c;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-/* Títulos principales en azul institucional */
-h2, .text-primary, h2.text-primary {
-    color: #29235c !important; /* El azul oscuro del logo */
-    font-family: 'PoppinsSemiBold', sans-serif;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-
 .btn-primary, .btn-success, .btn-info {
-    border-radius: 12px !important; /* Menos cuadrado, más moderno */
+    border-radius: 12px !important;
     font-family: 'PoppinsSemiBold', sans-serif;
     border: none;
     transition: 0.3s;
 }
 
-/* El botón azul de "Cargar nueva evaluación" */
-.btn-azul-inst {
-    background-color: #007bff; /* Azul vibrante como el de tu foto */
-    color: white !important;
-    padding: 8px 20px;
-    border-radius: 10px;
-    display: inline-block;
-    text-decoration: none;
-}
-
+/* ==========================================================================
+   5. COMPONENTES DE INTERFAZ (BADGES, ALERTAS, FORMS)
+   ========================================================================== */
 .badge {
-    background-color: #29235c !important; /* Azul oscuro para contraste */
+    background-color: #29235c !important;
     color: white !important;
     font-family: sans-serif;
     padding: 6px 10px;
     border-radius: 8px;
 }
 
-/* Alertas de vencimiento en rojo circular */
 .label-danger, .bg-danger {
     background-color: #d32f2f !important;
     border-radius: 12px;
@@ -184,17 +196,27 @@ h2, .text-primary, h2.text-primary {
     color: white !important;
 }
 
-/* Ajuste de inputs para que no sean tan pequeños */
+/* Formularios */
+.form-container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+}
+
 input, select, textarea {
     max-width: 350px;
     border-radius: 8px !important;
 }
 
-/* Encabezados de tabla estilo Institucional */
+/* ==========================================================================
+   6. TABLAS DE DATOS
+   ========================================================================== */
 .table thead tr,
 .table thead th {
-    background-color: #2e4053 !important; 
-    color: white !important; 
+    background-color: #2e4053 !important;
+    color: white !important;
     text-align: center;
     vertical-align: middle;
     border: none;
@@ -202,21 +224,10 @@ input, select, textarea {
     font-size: 14px;
 }
 
-/* Efecto cebra para las filas (opcional, para mejor lectura) */
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(0,0,0,.05);
-}
-
-/* Ajuste para que las celdas de la tabla no se vean pegadas */
 .table td {
     vertical-align: middle !important;
 }
 
-/* Estilo para que los formularios respiren mejor */
-.form-container {
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Una sombra muy suave */
-    margin-bottom: 30px;
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0,0,0,.05);
 }

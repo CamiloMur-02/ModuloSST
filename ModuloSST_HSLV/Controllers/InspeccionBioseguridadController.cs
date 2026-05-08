@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic; // Necesario para List<>
-using System.Data.Entity;        // Necesario para .Include()
+using System.Collections.Generic;
+using System.Data.Entity;        
 using System.Linq;
 using System.Web.Mvc;
 using ModuloSST_HSLV.DAL;
@@ -163,6 +163,8 @@ namespace ModuloSST_HSLV.Controllers
         }
 
         #endregion
+
+
 
         // CLASE DE APOYO PARA EL DASHBOARD
         public class EstadisticaBioseguridad

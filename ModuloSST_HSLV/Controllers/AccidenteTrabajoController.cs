@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace ModuloSST_HSLV.Controllers
 {
-    // Esta clase es el "mapa" para que Razor entienda los datos del Dashboard
+    
     public class EstadisticaItem
     {
         public string Nombre { get; set; }

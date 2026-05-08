@@ -11,7 +11,7 @@
 
     @* --- SECCIÓN SUPERIOR: FILTRO, TÍTULO Y VOLVER --- *@
     <div class="row" style="margin-bottom: 30px; margin-top: 10px;">
-        @* Filtro a la izquierda *@
+        
         <div class="col-md-3">
             <div class="panel panel-default" style="border-radius:15px; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 90px; display: flex; align-items: center; margin-bottom:0;">
                 <div class="panel-body" style="width: 100%;">
@@ -21,13 +21,15 @@
                             <label style="color:#666;">Año: </label>
                             <input type="number" name="anio" class="form-control" value="@ViewBag.AnioActual" style="width:85px; border-radius:10px; font-weight:bold; border: 1px solid #ddd;" />
                         </div>
-                        <button type="submit" class="btn-ver" style="border-radius:10px; padding: 6px 15px;">Filtrar</button>
+                        <button type="submit" class="btn-verde-claro" style="border-radius:10px; padding: 6px 20px;">
+                            <i class="glyphicon glyphicon-filter"></i> Filtrar
+                        </button>
                     }
                 </div>
             </div>
         </div>
 
-        @* Espacio Central: Título acorde a la información *@
+        
         <div class="col-md-6 text-center" style="display: flex; flex-direction: column; justify-content: center; height: 90px;">
             <h2 style="color: #29235c; font-weight: bold; margin: 0; text-transform: uppercase; letter-spacing: 1px; font-size: 24px;">
                 Análisis Estadístico de Suministros
@@ -37,7 +39,7 @@
             </p>
         </div>
 
-        @* Botón Volver a la derecha *@
+        
         <div class="col-md-3 text-right" style="display: flex; align-items: center; justify-content: flex-end; height: 90px;">
             <a href="@Url.Action("Index")" class="btn btn-default" style="background-color: #29235c; color: white; border-radius: 10px; font-weight: bold; padding: 10px 20px;">
                 <i class="glyphicon glyphicon-list"></i> Volver al Listado

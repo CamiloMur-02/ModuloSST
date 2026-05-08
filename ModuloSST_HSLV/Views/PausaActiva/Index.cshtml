@@ -8,22 +8,22 @@
         <h2 class="text-primary">Gestión de Pausas Activas</h2>
         <hr />
 
-        @* SECCIÓN DE BOTONES SUPERIORES *@
         <div style="margin-bottom: 20px;">
-            <a href="@Url.Action("Registrar", "PausaActiva")" class="btn btn-success" style="background-color: #1a8a59; border:none;">
+            @* Botón Registrar (Estilo Verde) *@
+            <a href="@Url.Action("Registrar", "PausaActiva")" class="btn" style="background-color: #76b82a; color: white; border-radius: 8px; font-weight: bold; padding: 8px 20px; margin-right: 10px;">
                 + Registrar pausa activa
             </a>
 
-            @* Botón de Dashboard (Estilo Cian) *@
-            <a href="@Url.Action("Dashboard", "PausaActiva")" class="btn btn-primary" border:none; margin-left: 5px;">
-                <i class="glyphicon glyphicon-stats"></i> Ver Indicadores / Dashboard
-            </a>
+            @* Botón Dashboard (Estilo Azul Oscuro/Cian) *@
+        <a href="@Url.Action("Dashboard", "PausaActiva")" class="btn-dashboard">
+            <i class="glyphicon glyphicon-stats"></i> Ver Indicadores / Dashboard
+        </a>
         </div>
 
         <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover">
+            <table class="table table-striped table-hover">
                 <thead>
-                    <tr class="active">
+                    <tr>
                         <th class="text-center">#</th>
                         <th>Cédula</th>
                         <th>Apellidos y Nombre</th>
@@ -36,7 +36,11 @@
                 <tbody>
                     @if (Model == null || !Model.Any())
                     {
-                        <tr><td colspan="7" class="text-center text-muted">No hay registros de pausas activas.</td></tr>
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">
+                                No hay registros de pausas activas.
+                            </td>
+                        </tr>
                     }
                     else
                     {
@@ -45,23 +49,21 @@
                         {
                             <tr>
                                 <td class="text-center">@i</td>
-                                <td>@item.Cedula</td>
+                                <td style="font-weight: bold;">@item.Cedula</td>
                                 <td>@item.NombreCompleto</td>
                                 <td>@item.Cargo</td>
                                 <td>@(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")</td>
                                 <td class="text-center">@item.Fecha.ToString("dd/MM/yyyy")</td>
                                 <td class="text-center">
-                                    @* BOTÓN VER (Cápsula Azul) *@
+                                    @* Cápsula Azul para Ver Detalle *@
                                     <a href="@Url.Action("Detalle", "PausaActiva", new { id = item.IdPausaActiva })"
                                        title="Ver Detalle"
                                        style="display: inline-flex; align-items: center; justify-content: center;
-                                       width: 45px; height: 20px; background-color: #3182ce;
-                                       border-radius: 50px; color: white; font-size: 12px;
-                                       text-decoration: none;">
+                                       width: 50px; height: 22px; background-color: #76b82a;
+                                       border-radius: 50px; color: white; font-size: 11px;
+                                       text-decoration: none; font-weight: bold; text-transform: uppercase;">
                                         Ver
                                     </a>
-
-                                    @* Nota: Si en el futuro agregas Editar, iría la cápsula amarilla aquí *@
                                 </td>
                             </tr>
                             i++;
@@ -73,6 +75,3 @@
     </div>
 </div>
 
-<p class="text-center text-muted" style="margin-top:20px;">
-    &copy; @DateTime.Now.Year — Hospital Susana López de Valencia
-</p>

@@ -5,35 +5,45 @@
 
 <div class="container-fluid" style="padding: 20px;">
     @* --- TÍTULO --- *@
-    <div class="row" style="margin-bottom: 20px;">
-        <div class="col-md-12">
+    
+    <div class="row" style="margin-bottom: 20px; display: flex; align-items: center;">
+        <div class="col-md-8">
             <h2 style="color: #29235c; font-weight: bold; margin: 0;">
                 <i class="glyphicon glyphicon-stats" style="color: #76b82a;"></i> Dashboard Epidemiológico @DateTime.Now.Year
             </h2>
-            <hr style="border-top: 2px solid #76b82a; width: 60px; margin: 10px 0;" />
+        </div>
+        
+        <div class="col-md-4 text-right">
+            <a href="@Url.Action("Index")" class="btn btn-default"
+               style="background-color: #29235c; color: white; border-radius: 10px; font-weight: bold; padding: 10px 20px; border: none; transition: all 0.3s;">
+                <i class="glyphicon glyphicon-list"></i> Volver al Listado
+            </a>
         </div>
     </div>
+ <hr/>
 
     <div class="row">
         <div class="col-md-5">
             <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 12px 12px 0 0;">
-                    <strong style="text-transform: uppercase; font-size: 0.9em;">
+                <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 12px 12px 0 0; padding: 12px 15px;">
+                    <strong style="text-transform: uppercase; font-size: 0.9em; letter-spacing: 0.5px;">
                         <i class="glyphicon glyphicon-th-list"></i> Distribución por Sistemas
                     </strong>
                 </div>
                 <div class="panel-body" style="max-height: 450px; overflow-y: auto; padding: 0;">
                     <div class="list-group" style="margin-bottom: 0;">
-                        @if (ViewBag.Sistemas != null)
+                        @if (ViewBag.Sistemas != null && ((List<SistemaViewModel>)ViewBag.Sistemas).Any())
                         {
                             foreach (SistemaViewModel s in ViewBag.Sistemas)
                             {
-                                <div class="list-group-item" style="border-left: none; border-right: none; padding: 15px 20px;">
-                                    <span class="badge" style="background-color: #76b82a; font-size: 1.1em; padding: 6px 12px;">
-                                        @s.TotalCasos <small style="color: white; font-size: 0.7em;">casos</small>
+                                <div class="list-group-item" style="border-left: none; border-right: none; padding: 18px 20px; border-bottom: 1px solid #f0f0f0;">
+
+                                    <span class="badge" style="background-color: #29235c; font-size: 1.1em; padding: 7px 12px; border-radius: 8px;">
+                                        @s.TotalCasos <small style="color: rgba(255,255,255,0.8); font-size: 0.7em; font-weight: normal;">@(s.TotalCasos == 1 ? "caso" : "casos")</small>
                                     </span>
-                                    <h5 style="margin: 0; color: #29235c; font-weight: bold;">@s.NombreSistema</h5>
-                                    <p style="margin: 5px 0 0 0; font-size: 0.85em;" class="text-muted">
+
+                                    <h5 style="margin: 0; color: #29235c; font-weight: bold; font-size: 1.1em;">@s.NombreSistema</h5>
+                                    <p style="margin: 6px 0 0 0; font-size: 0.9em;" class="text-muted">
                                         Total días incapacidad: <strong style="color: #d9534f;">@s.TotalDias</strong>
                                     </p>
                                 </div>
@@ -41,7 +51,10 @@
                         }
                         else
                         {
-                            <div class="panel-body text-center text-muted">No hay datos disponibles.</div>
+                            <div class="text-center" style="padding: 40px;">
+                                <i class="glyphicon glyphicon-folder-open" style="font-size: 2em; color: #ccc;"></i>
+                                <p class="text-muted" style="margin-top: 10px;">No hay datos registrados en el periodo.</p>
+                            </div>
                         }
                     </div>
                 </div>
@@ -50,16 +63,16 @@
 
         <div class="col-md-7">
             <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                <div class="panel-heading" style="background-color: #f8f9fa; border-bottom: 2px solid #eee;">
-                    <strong style="color: #29235c;"><i class="glyphicon glyphicon-alert"></i> Top 5 Diagnósticos (Mayor Incapacidad)</strong>
+                <div class="panel-heading" style="background-color: #f8f9fa; border-bottom: 1px solid #eee; padding: 12px 15px;">
+                    <strong style="color: #29235c;"><i class="glyphicon glyphicon-alert" style="color: #d9534f;"></i> Top 5 Diagnósticos</strong>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover" style="margin-bottom: 0;">
                         <thead>
                             <tr style="background-color: #fcfcfc;">
-                                <th style="border-bottom: none; color: #777;">CIE-10</th>
-                                <th style="border-bottom: none; color: #777;">Descripción</th>
-                                <th class="text-center" style="border-bottom: none; color: #777;">Días</th>
+                                <th style="border-bottom: none; color: #777; font-size: 0.8em; text-transform: uppercase;">CIE-10</th>
+                                <th style="border-bottom: none; color: #777; font-size: 0.8em; text-transform: uppercase;">Descripción</th>
+                                <th class="text-center" style="border-bottom: none; color: #777; font-size: 0.8em; text-transform: uppercase;">Días</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -68,11 +81,11 @@
                                 foreach (DiagnosticoViewModel d in ViewBag.TopDiagnosticos)
                                 {
                                     <tr>
-                                        <td style="vertical-align: middle;">
-                                            <b style="color: #29235c; background: #eef2f7; padding: 4px 8px; border-radius: 4px;">@d.Codigo</b>
+                                        <td style="vertical-align: middle; padding: 12px;">
+                                            <b style="color: #29235c; background: #eef2f7; padding: 4px 8px; border-radius: 4px; font-family: monospace;">@d.Codigo</b>
                                         </td>
-                                        <td>
-                                            <div style="font-size: 0.9em; font-weight: 500; color: #444;">@d.Detalle</div>
+                                        <td style="vertical-align: middle;">
+                                            <div style="font-size: 0.9em; font-weight: 500; color: #444; line-height: 1.2;">@d.Detalle</div>
                                         </td>
                                         <td class="text-center" style="vertical-align: middle;">
                                             <span style="font-size: 1.1em; font-weight: bold; color: #d9534f;">@d.Dias</span>
@@ -87,19 +100,22 @@
         </div>
     </div>
 
+    @* --- SECCIÓN CASOS LABORALES --- *@
     <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-top: 10px;">
-        <div class="panel-heading" style="background-color: #29235c; color: white;">
-            <strong style="text-transform: uppercase;"><i class="glyphicon glyphicon-list-alt"></i> Seguimiento de Casos Laborales</strong>
+        <div class="panel-heading" style="background-color: #29235c; color: white; padding: 12px 15px;">
+            <strong style="text-transform: uppercase; font-size: 0.9em; letter-spacing: 0.5px;">
+                <i class="glyphicon glyphicon-list-alt"></i> Seguimiento de Casos Laborales
+            </strong>
         </div>
         <div class="table-responsive">
             <table class="table" style="margin-bottom: 0;">
                 <thead style="background-color: #eef2f7;">
                     <tr>
-                        <th class="text-center" style="color: #29235c; width: 100px;">Mes</th>
+                        <th class="text-center" style="color: #29235c; width: 110px;">Mes</th>
                         <th style="color: #29235c;">Colaborador</th>
-                        <th style="color: #29235c;">Ubicación</th>
-                        <th style="color: #29235c;">Análisis Causas</th>
-                        <th class="text-center" style="color: #29235c; width: 80px;">Días</th>
+                        <th style="color: #29235c;">Ubicación / Proceso</th>
+                        <th style="color: #29235c;">Diagnóstico y Análisis</th>
+                        <th class="text-center" style="color: #29235c; width: 90px;">Días</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -108,29 +124,31 @@
                         foreach (var item in ViewBag.LaboralesDetalle)
                         {
                             <tr style="border-bottom: 1px solid #eee;">
-                                <td class="text-center" style="vertical-align: middle; border-right: 1px solid #eee;">
-                                    <div style="color: #29235c; font-weight: bold; font-size: 1.1em;">@item.FechaDiagnostico.ToString("MMM").ToUpper()</div>
-                                    <span class="label" style="background-color: #76b82a;">Trim @(((item.FechaDiagnostico.Month - 1) / 3) + 1)</span>
+                                <td class="text-center" style="vertical-align: middle; border-right: 1px solid #f9f9f9;">
+                                    <div style="color: #29235c; font-weight: bold; font-size: 1em; text-transform: uppercase;">@item.FechaDiagnostico.ToString("MMMM")</div>
+                                    <span class="label" style="background-color: #76b82a; padding: 3px 8px; border-radius: 4px;">Trim @(((item.FechaDiagnostico.Month - 1) / 3) + 1)</span>
                                 </td>
                                 <td style="vertical-align: middle;">
-                                    <strong style="color: #333;">@item.NombreCompleto</strong><br />
-                                    <span class="text-muted small">@item.Cargo</span>
+                                    <div style="font-weight: bold; color: #333;">@item.NombreCompleto</div>
+                                    <div style="font-size: 0.85em; color: #777;">@item.Cargo</div>
                                 </td>
                                 <td style="vertical-align: middle;">
-                                    <span style="font-weight: 500;">@(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")</span><br />
-                                    <small class="text-muted">@(item.Subproceso != null ? item.Subproceso.NombreSubproceso : "N/A")</small>
+                                    <div style="font-weight: 500; font-size: 0.9em;">@(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")</div>
+                                    <div style="font-size: 0.8em; color: #888;">@(item.Subproceso != null ? item.Subproceso.NombreSubproceso : "N/A")</div>
                                 </td>
                                 <td style="vertical-align: middle;">
+                                    <div style="font-size: 0.9em; margin-bottom: 3px; color: #444;">
+                                        <i class="glyphicon glyphicon-tag" style="color: #ccc; font-size: 0.8em;"></i> @item.DetallesDiagnostico
+                                    </div>
                                     @if (!string.IsNullOrEmpty(item.Causa))
                                     {
-                                        <div style="background: #fff8e1; border-left: 3px solid #ffc107; padding: 4px 8px; font-size: 0.9em; margin-bottom: 4px;">
-                                            <strong>Causa:</strong> @item.Causa
+                                        <div style="background: #fff8e1; border-left: 3px solid #ffc107; padding: 2px 8px; font-size: 0.85em; display: inline-block; border-radius: 0 4px 4px 0;">
+                                            <strong style="color: #856404;">Causa:</strong> @item.Causa
                                         </div>
                                     }
-                                    <small class="text-muted"><i class="glyphicon glyphicon-info-sign"></i> @item.DetallesDiagnostico</small>
                                 </td>
                                 <td class="text-center" style="vertical-align: middle;">
-                                    <span class="badge" style="background: #d9534f; font-weight: bold;">@item.DiasIncapacidad</span>
+                                    <span class="badge" style="background: #d9534f; font-weight: bold; padding: 5px 10px;">@item.DiasIncapacidad</span>
                                 </td>
                             </tr>
                         }
@@ -140,3 +158,19 @@
         </div>
     </div>
 </div>
+
+<style>
+    
+    .panel-body::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .panel-body::-webkit-scrollbar-thumb {
+        background-color: #ccc;
+        border-radius: 10px;
+    }
+
+    .list-group-item:hover {
+        background-color: #fcfcfc;
+    }
+</style>
