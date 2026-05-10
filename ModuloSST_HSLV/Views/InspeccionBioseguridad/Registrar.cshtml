@@ -48,7 +48,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label style="color: #29235c; font-weight: 600;">Nombres y Apellidos</label>
+                            <label style="color: #29235c; font-weight: 600;">Nombres Completo</label>
                             @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control", style = "border-radius: 10px; border: 1px solid #ddd;" })
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                         <div class="form-group">
                             <label style="color: #29235c; font-weight: 600;">Fecha de Inspección</label>
                             @Html.TextBoxFor(m => m.FechaInspeccion, "{0:yyyy-MM-dd}",
-                                new { @class = "form-control", type = "date", style = "border-radius: 10px; border: 1px solid #ddd;" })
+         new { @class = "form-control", type = "date", style = "border-radius: 10px; border: 1px solid #ddd;" })
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -168,33 +168,36 @@
                 <p class="text-muted" style="margin: 0; font-size: 13px;">
                     <strong>Convenciones:</strong>
                     <span class="label label-success">C</span> Cumple |
-                    <span class="label label-danger">NC</span> No Cumple |
+                    <span class="label label-success">NC</span> No Cumple |
                     <span class="label label-default">NA</span> No Aplica
                 </p>
             </div>
         </div>
 
-        @* --- SECCIÓN 3: OBSERVACIONES Y BOTONES --- *@
-        <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 40px;">
-            <div class="panel-body" style="padding: 25px;">
-                <label style="color: #29235c; font-weight: bold; font-size: 16px; margin-bottom: 10px;">Observaciones Finales</label>
-                @Html.TextAreaFor(m => m.ObservacionesFinales, new { @class = "form-control", rows = "3", style = "border-radius: 10px; border: 1px solid #ddd; resize: none;", placeholder = "Escriba aquí los hallazgos o recomendaciones..." })
+            @* --- SECCIÓN 3: OBSERVACIONES Y BOTONES --- *@
+            <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 40px;">
+                <div class="panel-body" style="padding: 25px;">
 
-                <div style="margin-top: 30px; display: flex; gap: 15px;">
-                    <button type="submit" class="btn-verde-claro" style="padding: 12px 30px; border-radius: 12px; font-weight: bold; border: none; font-size: 15px;">
-                        <i class="glyphicon glyphicon-floppy-disk"></i> Guardar Inspección
-                    </button>
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <label style="color: #29235c; font-weight: 600;">Observaciones Generales</label>
+                        
+                        <textarea name="Observaciones" class="form-control" rows="4" placeholder="Describa hallazgos..." style="border-radius: 12px; border: 1px solid #ddd; resize: none;"></textarea>
+                    </div>
 
-                    <a href="@Url.Action("Index", "InspeccionBioseguridad")"
-                       class="btn btn-default" style="border: 2px solid #29235c; background: transparent; border-radius: 12px; color: #29235c; font-weight: bold; padding: 10px 25px;">
-                        <i class="glyphicon glyphicon-list"></i> Volver al listado
-                    </a>
+                    <div style="display: flex; gap: 15px; justify-content: flex-start;">
+                        <button type="submit" class="btn-verde-claro" style="padding: 12px 30px; border-radius: 12px; font-weight: bold; border: none; font-size: 15px;">
+                            <i class="glyphicon glyphicon-floppy-disk"></i> Guardar
+                        </button>
+
+                        <a href="@Url.Action("Index", "InspeccionBioseguridad")"
+                           class="btn btn-default" style="border: 2px solid #29235c; background: transparent; border-radius: 12px; color: #29235c; font-weight: bold; padding: 10px 25px;">
+                            <i class="glyphicon glyphicon-list"></i> Volver al listado
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
-
+        }
+    </div>
 <style>
     /* Estilo para los inputs al enfocar */
     .form-control:focus {

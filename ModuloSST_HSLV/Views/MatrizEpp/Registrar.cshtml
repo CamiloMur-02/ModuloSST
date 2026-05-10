@@ -134,7 +134,7 @@
     <div class="panel panel-default" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; margin-bottom: 30px;">
         <div class="panel-heading" style="background-color: #76b82a; color: white; border-radius: 15px 15px 0 0; padding: 15px;">
             <h3 class="panel-title" style="font-weight: bold; font-size: 1.2em;">
-                <i class="glyphicon glyphicon-th-list"></i> 2. EPP Entregados
+                <i class="glyphicon glyphicon-th-list"></i> 2. Elementos de Protección Personal Entregados
             </h3>
         </div>
         <div class="panel-body" style="padding: 0;">
@@ -186,25 +186,17 @@
         </div>
     </div>
 
-    @* --- SECCIÓN: OBSERVACIONES --- *@
-    <div class="panel panel-default" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; margin-bottom: 30px;">
-        <div class="panel-body" style="padding: 25px;">
-            <div class="form-group">
-                <label style="font-weight:bold; color:#29235c;">Observaciones Finales</label>
-                @Html.TextAreaFor(m => m.ObservacionesFinales, new { @class = "form-control", rows = "3", style = "border-radius: 12px; resize: none;", placeholder = "Ingrese detalles adicionales de la entrega..." })
-            </div>
-        </div>
-    </div>
 
-    @* --- BOTONES DE ACCIÓN --- *@
-    <div style="margin-bottom: 50px;">
-        <button type="submit" class="btn-verde-claro" style="padding: 10px 30px;">
-            <i class="glyphicon glyphicon-floppy-disk"></i> Guardar Registro
+    @* --- SECCIÓN DE BOTONES *@
+    <div style="margin-bottom: 50px; display: flex; gap: 15px; align-items: center;">
+        <button type="submit" class="btn-verde-claro" style="padding: 12px 30px; border-radius: 12px; font-weight: bold; border: none; font-size: 15px;">
+            <i class="glyphicon glyphicon-floppy-disk"></i> Guardar
         </button>
 
-        <a href="@Url.Action("Index", "MatrizEpp")" class="btn btn-default"
-           style="border: 2px solid #aaa; border-radius: 12px; padding: 10px 25px; margin-left: 10px; font-weight:600;">
-            Cancelar
+        <a href="@Url.Action("Index", "MatrizEpp")"
+           class="btn btn-default"
+           style="border: 2px solid #29235c; background: transparent; border-radius: 12px; color: #29235c; font-weight: bold; padding: 10px 25px;">
+            <i class="glyphicon glyphicon-remove"></i> Cancelar
         </a>
     </div>
 }
@@ -217,7 +209,7 @@
             var celda = document.getElementById('estimado_' + idEpp);
             if (fecha && alerta) {
                 var f = new Date(fecha);
-                
+
                 f.setMonth(f.getUTCMonth() + alerta);
                 var d = String(f.getUTCDate()).padStart(2, '0');
                 var m = String(f.getUTCMonth() + 1).padStart(2, '0');

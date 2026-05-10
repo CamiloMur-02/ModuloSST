@@ -1,113 +1,215 @@
 ﻿@model ModuloSST_HSLV.Models.ReporteIncidente
+
 @{
     ViewBag.Title = "Detalle — Incidente";
 }
 
 <div class="container" style="padding-top: 20px; padding-bottom: 50px;">
-    @* --- CABECERA DE LA VISTA --- *@
+
+    @* --- CABECERA --- *@
     <div class="row" style="margin-bottom: 20px; display: flex; align-items: center;">
         <div class="col-md-8">
-            <h2 style="color: #29235c; font-weight: bold; margin: 0;">
+            <h2 class="text-primary" style="font-weight: bold; margin: 0;">
                 <i class="glyphicon glyphicon-file"></i> Detalle del Reporte de Incidente
             </h2>
-            <p class="text-muted" style="margin-top: 5px;">Visualización completa del incidente registrado.</p>
+            <p class="text-muted" style="margin-top: 5px;">Visualización completa del incidente, investigación y plan de acción.</p>
         </div>
+
         <div class="col-md-4 text-right">
-            <a href="@Url.Action("Index", "ReporteIncidente")" class="btn btn-default" style="border-radius: 8px; font-weight: bold; border: 2px solid #ccc;">
-                <i class="glyphicon glyphicon-list"></i> Volver al listado
+            <a href="@Url.Action("Index", "ReporteIncidente")"
+               class="btn btn-default"
+               style="border: 2px solid #29235c; background: transparent; border-radius: 12px; color: #29235c; font-weight: bold; padding: 10px 20px;">
+                <i class="glyphicon glyphicon-list"></i> Volver
             </a>
+
             <a href="@Url.Action("Editar", "ReporteIncidente", new { id = Model.IdReporteIncidente })"
-               class="btn"
-               style="background-color: #76b82a; color: white; border-radius: 8px; font-weight: bold; margin-left: 5px; border: none; transition: background 0.3s;">
+               class="btn-verde-claro"
+               style="display: inline-block; color: white; border-radius: 12px; font-weight: bold; margin-left: 5px; border: none; padding: 11px 20px; text-decoration: none;">
                 <i class="glyphicon glyphicon-edit"></i> Editar Reporte
             </a>
         </div>
     </div>
 
-    <hr style="border-top: 1px solid #ddd;" />
-
     @* --- BLOQUE 1: DATOS DEL INVOLUCRADO --- *@
-    <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
-        <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 12px 12px 0 0;">
-            <h3 class="panel-title" style="font-weight: bold;">1. Datos del Involucrado</h3>
+    <div class="panel panel-default" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; margin-bottom: 30px;">
+        <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 15px 15px 0 0; padding: 15px;">
+            <h3 class="panel-title" style="font-weight: bold; font-size: 1.2em;">
+                <i class="glyphicon glyphicon-user"></i> 1. Datos del Involucrado
+            </h3>
         </div>
+
         <div class="panel-body" style="padding: 25px;">
             <div class="row">
-                <div class="col-md-3"><label class="text-muted small">Cédula</label><p style="font-size: 16px; font-weight: 600;">@Model.Cedula</p></div>
-                <div class="col-md-5"><label class="text-muted small">Apellidos y Nombre</label><p style="font-size: 16px; font-weight: 600; color: #29235c;">@Model.NombreCompleto</p></div>
-                <div class="col-md-2"><label class="text-muted small">Género</label><p>@Model.Genero</p></div>
-                <div class="col-md-2"><label class="text-muted small">Edad</label><p>@Model.Edad años</p></div>
-            </div>
-            <div class="row" style="margin-top:15px">
-                <div class="col-md-4"><label class="text-muted small">Cargo / Función</label><p>@Model.Cargo</p></div>
-                <div class="col-md-4"><label class="text-muted small">Empresa/Contratista</label><p>@(string.IsNullOrEmpty(Model.Contratista) ? "Directo" : Model.Contratista)</p></div>
-                <div class="col-md-4"><label class="text-muted small">Tiempo Prestación (Meses)</label><p>@Model.TiempoPrestacion</p></div>
-            </div>
-            <div class="row" style="margin-top:15px">
-                <div class="col-md-6">
-                    <label class="text-muted small">Proceso</label>
-                    <p>@(Model.Proceso != null ? Model.Proceso.NombreProceso : "—")</p>
+                <div class="col-md-3">
+                    <label class="detalle-label">Cédula</label>
+                    <p class="detalle-texto">@Model.Cedula</p>
                 </div>
+
+                <div class="col-md-5">
+                    <label class="detalle-label">Apellidos y Nombre</label>
+                    <p class="detalle-texto text-primary">@Model.NombreCompleto</p>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="detalle-label">Género</label>
+                    <p class="detalle-texto">@Model.Genero</p>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="detalle-label">Edad</label>
+                    <p class="detalle-texto">@Model.Edad años</p>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:15px;">
+                <div class="col-md-4">
+                    <label class="detalle-label">Cargo / Función</label>
+                    <p class="detalle-texto">@Model.Cargo</p>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="detalle-label">Empresa / Contratista</label>
+                    <p class="detalle-texto">@(string.IsNullOrEmpty(Model.Contratista) ? "Directo" : Model.Contratista)</p>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="detalle-label">Tiempo Prestación Meses</label>
+                    <p class="detalle-texto">@Model.TiempoPrestacion</p>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:15px;">
                 <div class="col-md-6">
-                    <label class="text-muted small">Subproceso / Servicio / Área</label>
-                    <p>@(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : "—")</p>
+                    <label class="detalle-label">Proceso</label>
+                    <p class="detalle-texto">@(Model.Proceso != null ? Model.Proceso.NombreProceso : "—")</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="detalle-label">Subproceso / Servicio / Área</label>
+                    <p class="detalle-texto">@(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : "—")</p>
                 </div>
             </div>
         </div>
     </div>
 
     @* --- BLOQUE 2: INFORMACIÓN DEL INCIDENTE --- *@
-    <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
-        <div class="panel-heading" style="background-color: #d9534f; color: white; border-radius: 12px 12px 0 0;">
-            <h3 class="panel-title" style="font-weight: bold;">2. Información del Incidente</h3>
+    <div class="panel panel-default" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; margin-bottom: 30px;">
+        <div class="panel-heading" style="background-color: #76b82a; color: white; border-radius: 15px 15px 0 0; padding: 15px;">
+            <h3 class="panel-title" style="font-weight: bold; font-size: 1.2em;">
+                <i class="glyphicon glyphicon-exclamation-sign"></i> 2. Información del Incidente
+            </h3>
         </div>
+
         <div class="panel-body" style="padding: 25px;">
             <div class="row">
-                <div class="col-md-3"><label class="text-muted small">Fecha Incidente</label><p style="font-weight: bold;">@Model.FechaIncidente.ToString("dd / MMMM / yyyy")</p></div>
-                <div class="col-md-3"><label class="text-muted small">Hora Incidente</label><p>@(Model.HoraIncidente.HasValue ? DateTime.Today.Add(Model.HoraIncidente.Value).ToString("hh:mm tt") : "—")</p></div>
-                <div class="col-md-3"><label class="text-muted small">Tipo de Peligro</label><p><span class="label label-danger" style="font-size: 90%;">@Model.TipoPeligro</span></p></div>
-                <div class="col-md-3"><label class="text-muted small">Turno</label><p>@(Model.Turno ?? "—")</p></div>
+                <div class="col-md-3">
+                    <label class="detalle-label">Fecha Incidente</label>
+                    <p class="detalle-texto">@Model.FechaIncidente.ToString("dd/MM/yyyy")</p>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="detalle-label">Hora Incidente</label>
+                    <p class="detalle-texto">@(Model.HoraIncidente.HasValue ? DateTime.Today.Add(Model.HoraIncidente.Value).ToString("hh:mm tt") : "—")</p>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="detalle-label">Tipo de Peligro</label>
+                    <p>
+                        <span class="label" style="background-color: #29235c; color: white; padding: 6px 10px; border-radius: 8px;">
+                            @Model.TipoPeligro
+                        </span>
+                    </p>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="detalle-label">Turno</label>
+                    <p class="detalle-texto">@(Model.Turno ?? "—")</p>
+                </div>
             </div>
 
-            <div style="margin-top: 15px;">
-                <label class="text-muted small">Relato / Observaciones</label>
-                <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; font-style: italic; border-left: 4px solid #d9534f;">
-                    "@Model.Observaciones"
-                </div>
+            <div style="margin-top: 20px; border-left: 4px solid #76b82a; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                <label class="detalle-label">Relato / Observaciones</label>
+                <p style="font-style: italic; margin-bottom: 0;">"@Model.Observaciones"</p>
             </div>
 
             @if (!string.IsNullOrEmpty(Model.NombreArchivoIncidente))
             {
                 <div style="margin-top: 20px;">
                     <a href="@Url.Action("Descargar", "ReporteIncidente", new { ruta = Model.RutaArchivoIncidente, nombre = Model.NombreArchivoIncidente })"
-                       class="btn btn-success" style="border-radius: 20px; padding: 5px 20px;">
-                        <i class="glyphicon glyphicon-download-alt"></i> Descargar Documento Adjunto (PDF)
+                       class="btn btn-sm"
+                       style="background-color: #76b82a; color: white; border-radius: 10px; font-weight: bold;">
+                        <i class="glyphicon glyphicon-paperclip"></i> Ver Documento del Incidente PDF
                     </a>
+                </div>
+            }
+            else
+            {
+                <div style="margin-top: 20px;">
+                    <p class="text-muted"><i class="glyphicon glyphicon-ban-circle"></i> No se adjuntó archivo del incidente.</p>
                 </div>
             }
         </div>
     </div>
 
     @* --- BLOQUE 3: INVESTIGACIÓN --- *@
-    <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
-        <div class="panel-heading" style="background-color: #3a86ff; color: white; border-radius: 12px 12px 0 0;">
-            <h3 class="panel-title" style="font-weight: bold;">3. Investigación y Seguimiento</h3>
+    <div class="panel panel-default" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; margin-bottom: 30px;">
+        <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 15px 15px 0 0; padding: 15px;">
+            <h3 class="panel-title" style="font-weight: bold; font-size: 1.2em;">
+                <i class="glyphicon glyphicon-search"></i> 3. Investigación y Seguimiento
+            </h3>
         </div>
+
         <div class="panel-body" style="padding: 25px;">
             @if (!string.IsNullOrEmpty(Model.Causa))
             {
                 <div class="row">
-                    <div class="col-md-4"><label class="text-muted small">Fecha Investigación</label><p>@(Model.FechaInvestigacion.HasValue ? Model.FechaInvestigacion.Value.ToString("dd/MM/yyyy") : "—")</p></div>
-                    <div class="col-md-4"><label class="text-muted small">Días Transcurridos</label><p style="font-weight: bold; color: #d9534f;">@(Model.DiasInvestigacion ?? 0) días</p></div>
+                    <div class="col-md-4">
+                        <label class="detalle-label">Fecha Investigación</label>
+                        <p class="detalle-texto">@(Model.FechaInvestigacion.HasValue ? Model.FechaInvestigacion.Value.ToString("dd/MM/yyyy") : "—")</p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="detalle-label">Días Transcurridos</label>
+                        <p class="text-primary" style="font-weight: bold; margin-bottom: 0;">@(Model.DiasInvestigacion ?? 0) días</p>
+                    </div>
                 </div>
-                <div class="row" style="margin-top:15px">
-                    <div class="col-md-6" style="border-left: 4px solid #3a86ff;"><label class="text-muted small">Causa Identificada</label><p style="font-weight: bold;">@Model.Causa</p></div>
-                    <div class="col-md-6" style="border-left: 4px solid #76b82a;"><label class="text-muted small">Subcausa / Detalle</label><p>@(Model.Subcausa ?? "—")</p></div>
+
+                <div class="row" style="margin-top:20px;">
+                    <div class="col-md-6">
+                        <div style="border-left: 4px solid #29235c; padding-left: 15px;">
+                            <label class="detalle-label">Causa Identificada</label>
+                            <p class="detalle-texto" style="font-weight: bold;">@Model.Causa</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div style="border-left: 4px solid #76b82a; padding-left: 15px;">
+                            <label class="detalle-label">Subcausa / Detalle</label>
+                            <p class="detalle-texto">@(Model.Subcausa ?? "—")</p>
+                        </div>
+                    </div>
                 </div>
+
+                if (!string.IsNullOrEmpty(Model.NombreArchivoInvestigacion))
+                {
+                    <div style="margin-top: 20px;">
+                        <a href="@Url.Action("Descargar", "ReporteIncidente", new { ruta = Model.RutaArchivoInvestigacion, nombre = Model.NombreArchivoInvestigacion })"
+                           class="btn btn-sm"
+                           style="background-color: #76b82a; color: white; border-radius: 10px; font-weight: bold;">
+                            <i class="glyphicon glyphicon-paperclip"></i> Ver Acta de Investigación
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div style="margin-top: 20px;">
+                        <p class="text-muted"><i class="glyphicon glyphicon-ban-circle"></i> No se adjuntó acta de investigación.</p>
+                    </div>
+                }
             }
             else
             {
-                <div class="text-center text-muted">
+                <div class="text-center text-muted" style="padding: 20px;">
                     <p><i class="glyphicon glyphicon-info-sign"></i> Pendiente de realizar investigación.</p>
                 </div>
             }
@@ -115,52 +217,97 @@
     </div>
 
     @* --- BLOQUE 4: PLAN DE MEJORA --- *@
-    <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
-        <div class="panel-heading" style="background-color: #76b82a; color: white; border-radius: 12px 12px 0 0;">
-            <h3 class="panel-title" style="font-weight: bold;">4. Plan de Mejora</h3>
+    <div class="panel panel-default" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; margin-bottom: 30px;">
+        <div class="panel-heading" style="background-color: #76b82a; color: white; border-radius: 15px 15px 0 0; padding: 15px;">
+            <h3 class="panel-title" style="font-weight: bold; font-size: 1.2em;">
+                <i class="glyphicon glyphicon-ok"></i> 4. Plan de Mejora
+            </h3>
         </div>
+
         <div class="panel-body" style="padding: 25px;">
             @if (!string.IsNullOrEmpty(Model.Responsable))
             {
                 <div class="row">
-                    <div class="col-md-4"><label class="text-muted small">Responsable Asignado</label><p><strong>@Model.Responsable</strong></p></div>
-                    <div class="col-md-8"><label class="text-muted small">Intervención a Realizar</label><p>@Model.ActividadARealizar</p></div>
+                    <div class="col-md-4">
+                        <label class="detalle-label">Responsable Asignado</label>
+                        <p class="detalle-texto">@Model.Responsable</p>
+                    </div>
+
+                    <div class="col-md-8">
+                        <label class="detalle-label">Actividad a Realizar</label>
+                        <p class="detalle-texto">@Model.ActividadARealizar</p>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col-md-4">
+                        <label class="detalle-label">Fecha Planeada</label>
+                        <p class="detalle-texto">@(Model.FechaPlaneada.HasValue ? Model.FechaPlaneada.Value.ToString("dd/MM/yyyy") : "—")</p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="detalle-label">Fecha Ejecución</label>
+                        <p class="detalle-texto">@(Model.FechaEjecucion.HasValue ? Model.FechaEjecucion.Value.ToString("dd/MM/yyyy") : "—")</p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="detalle-label">Soporte Plan de Mejora</label>
+
+                        @if (!string.IsNullOrEmpty(Model.NombreArchivoPlan))
+                        {
+                            <a href="@Url.Action("Descargar", "ReporteIncidente", new { ruta = Model.RutaArchivoPlan, nombre = Model.NombreArchivoPlan })"
+                               class="btn btn-sm"
+                               style="background-color: #76b82a; color: white; border-radius: 10px; font-weight: bold;">
+                                <i class="glyphicon glyphicon-paperclip"></i> Ver Soporte
+                            </a>
+                        }
+                        else
+                        {
+                            <p class="text-muted">No se adjuntó archivo</p>
+                        }
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; border-left: 4px solid #76b82a; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                    <label class="detalle-label">Observaciones Finales / Cierre</label>
+                    <p style="margin-bottom: 0;">@(Model.ObservacionesFinales ?? "Sin observaciones finales.")</p>
                 </div>
             }
             else
             {
-                <div class="text-center text-muted">
+                <div class="text-center text-muted" style="padding: 20px;">
                     <p><i class="glyphicon glyphicon-time"></i> El plan de mejora no ha sido definido.</p>
                 </div>
             }
         </div>
-    </div>
-</div>
+    </div>   
 
 <style>
-    /* Estilos para replicar exactamente la tipografía de "Accidentes" */
-    label.small {
+    .detalle-label {
+        color: #777;
+        font-size: 11px;
         text-transform: uppercase;
         letter-spacing: 1px;
         display: block;
         margin-bottom: 4px;
-        color: #777 !important; /* El gris claro que notaste */
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: bold;
     }
 
-    p {
+    .detalle-texto {
         margin-bottom: 0;
         font-size: 15px;
         color: #333;
-    }
-
-    /* Forzar la negrilla en los datos principales */
-    .dato-principal {
         font-weight: 600;
-        font-size: 16px;
     }
 
-    .panel-heading {
-        padding: 12px 20px !important;
+    .btn-verde-claro {
+        background-color: #76b82a;
+        color: white;
     }
+
+        .btn-verde-claro:hover {
+            background-color: #5f9821;
+            color: white;
+            text-decoration: none;
+        }
 </style>

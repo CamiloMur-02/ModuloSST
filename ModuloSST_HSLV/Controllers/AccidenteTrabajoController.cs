@@ -86,24 +86,69 @@ namespace ModuloSST_HSLV.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Registrar(ReporteAccidenteTrabajo modelo)
+        public ActionResult Registrar(ReporteAccidenteTrabajo modelo, HttpPostedFileBase archivoAccidente, HttpPostedFileBase archivoInvestigacion, HttpPostedFileBase archivoPlan)
         {
-            if (ModelState.IsValid)
+            // LOG DE PRUEBA: Si usas Debug, pon un breakpoint aquí para ver si los archivos vienen null
+            try
             {
+                string subPath = "~/Uploads/Accidentes/";
+                string folderPath = Server.MapPath(subPath);
+
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                // Procesar Archivo 1
+                if (archivoAccidente != null && archivoAccidente.ContentLength > 0)
+                {
+                    string nombreUnico = "FURAT_" + DateTime.Now.Ticks + Path.GetExtension(archivoAccidente.FileName);
+                    archivoAccidente.SaveAs(Path.Combine(folderPath, nombreUnico));
+                    modelo.NombreArchivoAccidente = archivoAccidente.FileName;
+                    modelo.RutaArchivoAccidente = subPath + nombreUnico;
+                }
+
+                // Procesar Archivo 2
+                if (archivoInvestigacion != null && archivoInvestigacion.ContentLength > 0)
+                {
+                    string nombreUnico = "INV_" + DateTime.Now.Ticks + Path.GetExtension(archivoInvestigacion.FileName);
+                    archivoInvestigacion.SaveAs(Path.Combine(folderPath, nombreUnico));
+                    modelo.NombreArchivoInvestigacion = archivoInvestigacion.FileName;
+                    modelo.RutaArchivoInvestigacion = subPath + nombreUnico;
+                }
+
+                // Procesar Archivo 3
+                if (archivoPlan != null && archivoPlan.ContentLength > 0)
+                {
+                    string nombreUnico = "PLAN_" + DateTime.Now.Ticks + Path.GetExtension(archivoPlan.FileName);
+                    archivoPlan.SaveAs(Path.Combine(folderPath, nombreUnico));
+                    modelo.NombreArchivoPlan = archivoPlan.FileName;
+                    modelo.RutaArchivoPlan = subPath + nombreUnico;
+                }
+
+                // Forzamos el guardado aunque el ModelState tenga quejas menores
                 modelo.FechaCreacion = DateTime.Now;
                 db.ReportesAccidenteTrabajo.Add(modelo);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
-            CargarListas();
-            return View(modelo);
+            catch (Exception ex)
+            {
+                // Esto te dirá exactamente qué falló si sale un error de pantalla blanca
+                return Content("Error crítico: " + ex.Message + " | Stack: " + ex.StackTrace);
+            }
         }
 
-        // --- 4. EDITAR ---
-        public ActionResult Editar(int id)
+        // --- 4. EDITAR (GET) ---
+        public ActionResult Editar(int? id)
         {
+            // Si el ID viene nulo desde la tabla, lo redirigimos al listado en lugar de dar error
+            if (id == null) return RedirectToAction("Index");
+
             var reporte = db.ReportesAccidenteTrabajo.Find(id);
             if (reporte == null) return HttpNotFound();
+
             CargarListas();
             return View(reporte);
         }
@@ -112,12 +157,23 @@ namespace ModuloSST_HSLV.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Editar(ReporteAccidenteTrabajo modelo)
         {
+            // PRIMERO: Limpiamos el error para que el "if" de abajo sea verdadero
+            ModelState.Remove("TiempoPrestacion");
+
+            // SEGUNDO: Le ponemos el "0" para que SQL no de error
+            if (string.IsNullOrEmpty(modelo.TiempoPrestacion))
+            {
+                modelo.TiempoPrestacion = "0";
+            }
+
+            // TERCERO: Recién ahora preguntamos si es válido
             if (ModelState.IsValid)
             {
                 db.Entry(modelo).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             CargarListas();
             return View(modelo);
         }

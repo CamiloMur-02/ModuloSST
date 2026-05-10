@@ -1,126 +1,241 @@
 ﻿@model ModuloSST_HSLV.Models.ReporteEnfermedadLaboral
+
 @{
     ViewBag.Title = "Detalle — Enfermedad Laboral";
+    bool esLaboral = Model.TipoEnfermedad == "Enfermedad Laboral";
 }
 
 <div class="container" style="padding-top: 20px; padding-bottom: 50px;">
-    @* --- CABECERA DE LA VISTA --- *@
+
+    @* --- CABECERA --- *@
     <div class="row" style="margin-bottom: 20px; display: flex; align-items: center;">
         <div class="col-md-8">
-            <h2 style="color: #29235c; font-weight: bold; margin: 0;">
-                <i class="glyphicon glyphicon-file"></i> Detalle del Reporte de Enfermedad
+            <h2 class="text-primary" style="font-weight: bold; margin: 0;">
+                <i class="glyphicon glyphicon-file"></i> Detalle del Reporte: @Model.TipoEnfermedad
             </h2>
             <p class="text-muted" style="margin-top: 5px;">Visualización técnica del diagnóstico y seguimiento médico.</p>
         </div>
+
         <div class="col-md-4 text-right">
-            <a href="@Url.Action("Index", "ReporteEnfermedadLaboral")" class="btn btn-default" style="border-radius: 8px; font-weight: bold; border: 2px solid #ccc;">
+            <a href="@Url.Action("Index", "ReporteEnfermedadLaboral")"
+               class="btn btn-default"
+               style="border: 2px solid #29235c; background: transparent; border-radius: 12px; color: #29235c; font-weight: bold; padding: 10px 20px;">
                 <i class="glyphicon glyphicon-list"></i> Volver
             </a>
+
             <a href="@Url.Action("Editar", "ReporteEnfermedadLaboral", new { id = Model.IdReporteEnfermedadLaboral })"
-               class="btn"
-               style="background-color: #76b82a; color: white; border-radius: 8px; font-weight: bold; margin-left: 5px; border: none; transition: background 0.3s;">
+               class="btn-verde-claro"
+               style="display: inline-block; color: white; border-radius: 12px; font-weight: bold; margin-left: 5px; border: none; padding: 11px 20px; text-decoration: none;">
                 <i class="glyphicon glyphicon-edit"></i> Editar Reporte
             </a>
         </div>
     </div>
 
-    <hr style="border-top: 1px solid #ddd;" />
+    <hr />
 
     @* --- BLOQUE 1: DATOS DEL EMPLEADO --- *@
-    <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
-        <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 12px 12px 0 0;">
-            <h3 class="panel-title" style="font-weight: bold;">1. Datos del Empleado</h3>
+    <div class="panel panel-default" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; margin-bottom: 30px;">
+        <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 15px 15px 0 0; padding: 15px;">
+            <h3 class="panel-title" style="font-weight: bold; font-size: 1.2em;">
+                <i class="glyphicon glyphicon-user"></i> 1. Datos del Empleado
+            </h3>
         </div>
+
         <div class="panel-body" style="padding: 25px;">
             <div class="row">
-                <div class="col-md-3"><label class="text-muted small">Cédula</label><p style="font-size: 16px; font-weight: 600;">@Model.Cedula</p></div>
-                <div class="col-md-5"><label class="text-muted small">Apellidos y Nombre</label><p style="font-size: 16px; font-weight: 600; color: #29235c;">@Model.NombreCompleto</p></div>
-                <div class="col-md-2"><label class="text-muted small">Género</label><p>@Model.Genero</p></div>
-                <div class="col-md-2"><label class="text-muted small">Edad</label><p>@Model.Edad años</p></div>
-            </div>
-            <div class="row" style="margin-top:15px">
-                <div class="col-md-4"><label class="text-muted small">Cargo / Función</label><p>@Model.Cargo</p></div>
-                <div class="col-md-4"><label class="text-muted small">Contratista</label><p>@(string.IsNullOrEmpty(Model.Contratista) ? "Directo" : Model.Contratista)</p></div>
-                <div class="col-md-4"><label class="text-muted small">Tiempo de Prestación</label><p>@Model.TiempoPrestacion</p></div>
-            </div>
-            <div class="row" style="margin-top:15px">
-                <div class="col-md-6">
-                    <label class="text-muted small">Proceso</label>
-                    <p>@(Model.Proceso != null ? Model.Proceso.NombreProceso : "—")</p>
+                <div class="col-md-3">
+                    <label class="detalle-label">Cédula</label>
+                    <p class="detalle-texto">@Model.Cedula</p>
                 </div>
+
+                <div class="col-md-5">
+                    <label class="detalle-label">Apellidos y Nombre</label>
+                    <p class="detalle-texto text-primary">@Model.NombreCompleto</p>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="detalle-label">Género</label>
+                    <p class="detalle-texto">@Model.Genero</p>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="detalle-label">Edad</label>
+                    <p class="detalle-texto">@Model.Edad años</p>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:15px;">
+                <div class="col-md-4">
+                    <label class="detalle-label">Cargo / Función</label>
+                    <p class="detalle-texto">@Model.Cargo</p>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="detalle-label">Contratista</label>
+                    <p class="detalle-texto">@(string.IsNullOrEmpty(Model.Contratista) ? "Directo" : Model.Contratista)</p>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="detalle-label">Tiempo de Prestación</label>
+                    <p class="detalle-texto">@Model.TiempoPrestacion</p>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:15px;">
                 <div class="col-md-6">
-                    <label class="text-muted small">Subproceso / Área</label>
-                    <p>@(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : "—")</p>
+                    <label class="detalle-label">Proceso</label>
+                    <p class="detalle-texto">@(Model.Proceso != null ? Model.Proceso.NombreProceso : "—")</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="detalle-label">Subproceso / Área</label>
+                    <p class="detalle-texto">@(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : "—")</p>
                 </div>
             </div>
         </div>
     </div>
 
     @* --- BLOQUE 2: DIAGNÓSTICO MÉDICO --- *@
-    <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
-        <div class="panel-heading" style="background-color: #d9534f; color: white; border-radius: 12px 12px 0 0;">
-            <h3 class="panel-title" style="font-weight: bold;">2. Información del Diagnóstico</h3>
+    <div class="panel panel-default" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; margin-bottom: 30px;">
+        <div class="panel-heading" style="background-color: #76b82a; color: white; border-radius: 15px 15px 0 0; padding: 15px;">
+            <h3 class="panel-title" style="font-weight: bold; font-size: 1.2em;">
+                <i class="glyphicon glyphicon-list-alt"></i> 2. Información del Diagnóstico
+            </h3>
         </div>
+
         <div class="panel-body" style="padding: 25px;">
             <div class="row">
-                <div class="col-md-3"><label class="text-muted small">Tipo de Enfermedad</label><p style="font-weight: bold; color: #d9534f;">@Model.TipoEnfermedad</p></div>
-                <div class="col-md-3"><label class="text-muted small">Fecha Diagnóstico</label><p style="font-weight: bold;">@Model.FechaDiagnostico.ToString("dd / MMMM / yyyy")</p></div>
-                <div class="col-md-3"><label class="text-muted small">Código CIE-10</label><p style="font-weight: bold;">@(Model.Codigo ?? "—")</p></div>
-                <div class="col-md-3"><label class="text-muted small">Días Incapacidad</label><p style="font-size: 18px; font-weight: bold; color: #d9534f;">@Model.DiasIncapacidad</p></div>
+                <div class="col-md-3">
+                    <label class="detalle-label">Tipo de Enfermedad</label>
+                    <p class="text-primary" style="font-weight: bold; margin-bottom: 0;">@Model.TipoEnfermedad</p>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="detalle-label">Fecha Diagnóstico</label>
+                    <p class="detalle-texto">@Model.FechaDiagnostico.ToString("dd/MM/yyyy")</p>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="detalle-label">Código CIE-10</label>
+                    <p class="detalle-texto">@(Model.Codigo ?? "—")</p>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="detalle-label">Días Incapacidad</label>
+                    <p class="text-primary" style="font-weight: bold; margin-bottom: 0;">@Model.DiasIncapacidad</p>
+                </div>
             </div>
 
-            <div class="row" style="margin-top:15px; background: #fefefe; padding: 15px; border-radius: 8px; border: 1px solid #f5f5f5;">
-                <div class="col-md-3"><label class="text-muted small">Inicio Incapacidad</label><p>@(Model.FechaInicioIncapacidad.HasValue ? Model.FechaInicioIncapacidad.Value.ToString("dd/MM/yyyy") : "—")</p></div>
-                <div class="col-md-3"><label class="text-muted small">Fin Incapacidad</label><p>@(Model.FechaFinalIncapacidad.HasValue ? Model.FechaFinalIncapacidad.Value.ToString("dd/MM/yyyy") : "—")</p></div>
-                <div class="col-md-6"><label class="text-muted small">Detalle del Diagnóstico</label><p>@Model.DetallesDiagnostico</p></div>
+            <div class="row" style="margin-top:20px; background: #f8f9fa; padding: 15px; border-radius: 10px; border-left: 4px solid #76b82a;">
+                <div class="col-md-3">
+                    <label class="detalle-label">Inicio Incapacidad</label>
+                    <p class="detalle-texto">@(Model.FechaInicioIncapacidad.HasValue ? Model.FechaInicioIncapacidad.Value.ToString("dd/MM/yyyy") : "—")</p>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="detalle-label">Fin Incapacidad</label>
+                    <p class="detalle-texto">@(Model.FechaFinalIncapacidad.HasValue ? Model.FechaFinalIncapacidad.Value.ToString("dd/MM/yyyy") : "—")</p>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="detalle-label">Detalle del Diagnóstico</label>
+                    <p class="detalle-texto">@Model.DetallesDiagnostico</p>
+                </div>
             </div>
 
             @if (!string.IsNullOrEmpty(Model.NombreArchivoPlan))
             {
                 <div style="margin-top: 20px;">
-                    <a href="@Url.Action("Descargar", "ReporteEnfermedadLaboral", new { ruta=Model.RutaArchivoPlan, nombre=Model.NombreArchivoPlan })"
-                       class="btn btn-success" style="border-radius: 20px; padding: 5px 20px;">
-                        <i class="glyphicon glyphicon-download-alt"></i> Descargar Plan de Mejora (PDF)
+                    <a href="@Url.Action("Descargar", "ReporteEnfermedadLaboral", new { ruta = Model.RutaArchivoPlan, nombre = Model.NombreArchivoPlan })"
+                       class="btn btn-sm"
+                       style="background-color: #76b82a; color: white; border-radius: 10px; font-weight: bold;">
+                        <i class="glyphicon glyphicon-download-alt"></i> Descargar Soporte Médico
                     </a>
+                </div>
+            }
+            else
+            {
+                <div style="margin-top: 20px;">
+                    <p class="text-muted"><i class="glyphicon glyphicon-ban-circle"></i> No se adjuntó soporte médico.</p>
                 </div>
             }
         </div>
     </div>
 
-    @* --- BLOQUE 3: INVESTIGACIÓN --- *@
-    @if (Model.TipoEnfermedad == "Enfermedad Laboral" && !string.IsNullOrEmpty(Model.Causa))
+    @* --- BLOQUE 3: INVESTIGACIÓN Y PLAN DE ACCIÓN --- *@
+    @if (esLaboral && (!string.IsNullOrEmpty(Model.Causa) || Model.FechaInvestigacion.HasValue))
     {
-        <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;">
-            <div class="panel-heading" style="background-color: #3a86ff; color: white; border-radius: 12px 12px 0 0;">
-                <h3 class="panel-title" style="font-weight: bold;">3. Investigación y Plan de Acción</h3>
+        <div class="panel panel-default" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; margin-bottom: 30px;">
+            <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 15px 15px 0 0; padding: 15px;">
+                <h3 class="panel-title" style="font-weight: bold; font-size: 1.2em;">
+                    <i class="glyphicon glyphicon-search"></i> 3. Investigación y Plan de Acción
+                </h3>
             </div>
+
             <div class="panel-body" style="padding: 25px;">
                 <div class="row">
-                    <div class="col-md-4"><label class="text-muted small">Fecha Investigación</label><p>@(Model.FechaInvestigacion.HasValue ? Model.FechaInvestigacion.Value.ToString("dd/MM/yyyy") : "—")</p></div>
-                    <div class="col-md-4"><label class="text-muted small">Tiempo de Respuesta</label><p>@(Model.DiasInvestigacion ?? 0) días</p></div>
-                    <div class="col-md-4"><label class="text-muted small">Responsable</label><p><strong>@(Model.Responsable ?? "—")</strong></p></div>
+                    <div class="col-md-4">
+                        <label class="detalle-label">Fecha Investigación</label>
+                        <p class="detalle-texto">@(Model.FechaInvestigacion.HasValue ? Model.FechaInvestigacion.Value.ToString("dd/MM/yyyy") : "—")</p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="detalle-label">Tiempo de Respuesta</label>
+                        <p class="detalle-texto">@(Model.DiasInvestigacion ?? 0) días</p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="detalle-label">Responsable</label>
+                        <p class="detalle-texto">@(Model.Responsable ?? "—")</p>
+                    </div>
                 </div>
-                <div class="row" style="margin-top:15px">
-                    <div class="col-md-6" style="border-left: 4px solid #3a86ff;"><label class="text-muted small">Causa Detectada</label><p style="font-weight: bold;">@Model.Causa</p></div>
-                    <div class="col-md-6" style="border-left: 4px solid #76b82a;"><label class="text-muted small">Actividad / Intervención</label><p>@(Model.ActividadARealizar ?? "—")</p></div>
+
+                <div class="row" style="margin-top:20px;">
+                    <div class="col-md-6">
+                        <div style="border-left: 4px solid #29235c; padding-left: 15px;">
+                            <label class="detalle-label">Causa Detectada</label>
+                            <p class="detalle-texto" style="font-weight: bold;">@Model.Causa</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div style="border-left: 4px solid #76b82a; padding-left: 15px;">
+                            <label class="detalle-label">Actividad / Intervención</label>
+                            <p class="detalle-texto">@(Model.ActividadARealizar ?? "—")</p>
+                        </div>
+                    </div>
                 </div>
 
                 @if (!string.IsNullOrEmpty(Model.NombreArchivoSeguimiento) || !string.IsNullOrEmpty(Model.NombreArchivoFurel))
                 {
                     <div style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
-                        <label class="text-muted small">Soportes Adjuntos</label><br />
-                        @if (!string.IsNullOrEmpty(Model.NombreArchivoSeguimiento))
-                        {
-                            <a href="@Url.Action("Descargar", "ReporteEnfermedadLaboral", new { ruta=Model.RutaArchivoSeguimiento, nombre=Model.NombreArchivoSeguimiento })" class="btn btn-link" style="color: #3a86ff; font-weight: bold;">
-                                <i class="glyphicon glyphicon-paperclip"></i> Ver Seguimiento
-                            </a>
-                        }
-                        @if (!string.IsNullOrEmpty(Model.NombreArchivoFurel))
-                        {
-                            <a href="@Url.Action("Descargar", "ReporteEnfermedadLaboral", new { ruta=Model.RutaArchivoFurel, nombre=Model.NombreArchivoFurel })" class="btn btn-link" style="color: #d9534f; font-weight: bold; margin-left: 10px;">
-                                <i class="glyphicon glyphicon-file"></i> Ver FUREL
-                            </a>
-                        }
+                        <label class="detalle-label">Soportes Adjuntos de Investigación</label>
+
+                        <div style="display: flex; gap: 15px; margin-top: 8px;">
+                            @if (!string.IsNullOrEmpty(Model.NombreArchivoSeguimiento))
+                            {
+                                <a href="@Url.Action("Descargar", "ReporteEnfermedadLaboral", new { ruta = Model.RutaArchivoSeguimiento, nombre = Model.NombreArchivoSeguimiento })"
+                                   class="btn btn-sm"
+                                   style="background-color: #76b82a; color: white; border-radius: 10px; font-weight: bold;">
+                                    <i class="glyphicon glyphicon-paperclip"></i> Ver Seguimiento
+                                </a>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.NombreArchivoFurel))
+                            {
+                                <a href="@Url.Action("Descargar", "ReporteEnfermedadLaboral", new { ruta = Model.RutaArchivoFurel, nombre = Model.NombreArchivoFurel })"
+                                   class="btn btn-sm"
+                                   style="background-color: #29235c; color: white; border-radius: 10px; font-weight: bold;">
+                                    <i class="glyphicon glyphicon-file"></i> Ver FUREL
+                                </a>
+                            }
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div style="margin-top: 20px;">
+                        <p class="text-muted"><i class="glyphicon glyphicon-ban-circle"></i> No se adjuntaron soportes de investigación.</p>
                     </div>
                 }
             </div>
@@ -129,28 +244,31 @@
 </div>
 
 <style>
-    
-    label.small {
+    .detalle-label {
+        color: #777;
+        font-size: 11px;
         text-transform: uppercase;
         letter-spacing: 1px;
         display: block;
         margin-bottom: 4px;
-        font-weight: bold; 
-        font-size: 11px; 
-        color: #777;
+        font-weight: bold;
     }
 
-    p {
+    .detalle-texto {
         margin-bottom: 0;
         font-size: 15px;
         color: #333;
+        font-weight: 600;
     }
 
-    .panel-heading {
-        padding: 12px 20px !important; 
+    .btn-verde-claro {
+        background-color: #76b82a;
+        color: white;
     }
 
-    .panel-title {
-        font-size: 28px;
-    }
+        .btn-verde-claro:hover {
+            background-color: #5f9821;
+            color: white;
+            text-decoration: none;
+        }
 </style>

@@ -8,7 +8,7 @@
 <p class="text-muted">Administre los elementos asignados y actualice la información del colaborador.</p>
 <hr />
 
-@* --- PANEL 1: DATOS DEL COLABORADOR  *@
+@* --- PANEL 1: DATOS DEL COLABORADOR --- *@
 <div class="panel panel-default" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; margin-bottom: 25px;">
     <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 15px 15px 0 0; padding: 12px 20px;">
         <h3 class="panel-title" style="font-weight: bold;"><i class="glyphicon glyphicon-user"></i> 1. Información del Colaborador</h3>
@@ -31,7 +31,9 @@
                     @(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : "N/A")
                 </small>
             </div>
-            <div class="col-md-4"><strong>Contratista:</strong><br />@Model.Contratista</div>
+            <div class="col-md-2"><strong>Contratista:</strong><br />@Model.Contratista</div>
+            @* SE AGREGA EL CAMPO FALTANTE AQUÍ *@
+            <div class="col-md-2"><strong>Tiempo Prestación:</strong><br />@Model.TiempoPrestacion meses</div>
         </div>
     </div>
 </div>
@@ -88,7 +90,7 @@
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="idElemento" value="@elem.IdElementoEPP" />
                                     <input type="hidden" name="idMatriz" value="@Model.IdMatrizEPP" />
-                                    <button type="submit" class="btn btn-link text-danger title="Excluir" onclick="return confirm('¿Desea dar de baja este EPP?')">
+                                    <button type="submit" class="btn btn-link text-danger" title="Excluir" onclick="return confirm('¿Desea dar de baja este EPP?')">
                                         <i class="glyphicon glyphicon-trash"></i> Excluir
                                     </button>
                                 }
@@ -101,7 +103,7 @@
     </div>
 </div>
 
-@* PANEL 3: AGREGAR NUEVO ELEMENTO *@
+@* --- PANEL 3: AGREGAR NUEVO ELEMENTO --- *@
 <div class="panel panel-default" style="border-radius: 15px; border: 1px dashed #29235c; margin-bottom: 25px; overflow: hidden;">
     <div class="panel-body" style="padding: 20px;">
         <h4 style="color: #29235c; font-weight: bold; margin-top: 0; margin-bottom: 20px;">
@@ -145,46 +147,24 @@
                         <p class="form-control-static text-primary" id="estimadoAgregar" style="font-weight:bold; padding-top: 7px;">—</p>
                     </div>
                 </div>
-                
-            <div class="col-md-1 col-sm-4">
-                <div class="form-group" style="margin-bottom: 0; padding-top: 25px;">
-                    <button type="submit"
-                            class="btn-verde-claro"
-                            style="width: 80px; border-radius: 20px; height: 34px; font-weight: bold; border: none;">
-                        Agregar
-                    </button>
+                <div class="col-md-2 col-sm-4">
+                    <div class="form-group" style="padding-top: 25px;">
+                        <button type="submit" class="btn-verde-claro" style="width: 100%; border-radius: 12px; height: 38px; font-weight: bold; border: none;">
+                            <i class="glyphicon glyphicon-plus"></i> Agregar
+                        </button>
+                    </div>
                 </div>
-            </div>
             </div>
         }
     </div>
 </div>
 
-@* --- PANEL 4: OBSERVACIONES Y ACCIONES FINALES --- *@
-<div class="panel panel-default" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; margin-bottom: 40px;">
-    <div class="panel-body">
-        @using (Html.BeginForm("GuardarObservaciones", "MatrizEpp", FormMethod.Post))
-        {
-            @Html.AntiForgeryToken()
-            <input type="hidden" name="idMatriz" value="@Model.IdMatrizEPP" />
-            <div class="form-group">
-                <label style="font-weight:bold; color: #29235c;">Observaciones de la Gestión</label>
-                @Html.TextAreaFor(m => m.ObservacionesFinales, new { @class = "form-control", rows = "3", style = "border-radius: 12px; resize:none; border: 1px solid #ccc;" })
-            </div>
-
-            <div class="row" style="margin-top: 20px;">
-                <div class="col-md-12">
-                    <button type="submit" class="btn-verde-claro" style="padding: 10px 25px; border-radius: 10px;">
-                        <i class="glyphicon glyphicon-floppy-disk"></i> Actualizar Observaciones
-                    </button>
-
-                    <a href="@Url.Action("Index", "MatrizEpp")" class="btn btn-default" style="border-radius: 10px; padding: 10px 25px; margin-left: 10px; border: 2px solid #29235c; color: #29235c; font-weight: bold; background: white;">
-                        <i class="glyphicon glyphicon-list-alt"></i> Volver al Listado
-                    </a>
-                </div>
-            </div>
-        }
-    </div>
+@* --- SECCIÓN FINAL: SOLO BOTÓN VOLVER --- *@
+<div style="margin-bottom: 50px;">
+    <a href="@Url.Action("Index", "MatrizEpp")" class="btn btn-default"
+       style="border: 2px solid #29235c; background: transparent; border-radius: 12px; color: #29235c; font-weight: bold; padding: 10px 25px;">
+        <i class="glyphicon glyphicon-list"></i> Volver al listado
+    </a>
 </div>
 
 @section Scripts {
