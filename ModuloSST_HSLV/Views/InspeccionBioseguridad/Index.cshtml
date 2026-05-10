@@ -1,74 +1,153 @@
 ﻿@model IEnumerable<ModuloSST_HSLV.Models.InspeccionBioseguridad>
-@{ ViewBag.Title = "Inspecciones de Bioseguridad"; }
+@{
+    ViewBag.Title = "Inspecciones de Bioseguridad";
+}
 
 <div class="row">
     <div class="col-md-12">
-        <h2 class="text-primary">Inspecciones de Bioseguridad</h2>
+
+        <h2 style="color: #29235c; font-weight: bold; margin-bottom: 5px;">
+            Inspecciones de Bioseguridad
+        </h2>
+
         <hr />
 
-        <p>
-            
-            @Html.ActionLink("+ Registrar inspección", "Registrar", "InspeccionBioseguridad",
-                null, new { @class = "btn-verde-claro" })
-            
+        @* --- BOTONES DE CABECERA --- *@
+        <div style="margin-bottom: 15px; display: flex; gap: 10px;">
+
+            <a href="@Url.Action("Registrar", "InspeccionBioseguridad")"
+               class="btn"
+               style="background-color: #76b82a; color: white; border-radius: 10px; font-weight: bold; padding: 8px 20px; border: none;">
+                + Registrar inspección
+            </a>
+
             <a href="@Url.Action("Dashboard", "InspeccionBioseguridad")" class="btn-dashboard">
                 <i class="glyphicon glyphicon-stats"></i> Ver Indicadores / Dashboard
             </a>
-        </p>
 
-        <div class="table-responsive">
-            
-            <table class="table table-striped table-hover">
-                <thead>
-                    
-                    <tr>
-                        <th>#</th>
-                        <th>Cédula</th>
-                        <th>Apellidos y Nombres</th>
-                        <th>Cargo</th>
-                        <th>Proceso</th>
-                        <th>Subproceso</th>
-                        <th>Fecha</th>
-                        <th class="text-center">C</th>
-                        <th class="text-center">NC</th>
-                        <th class="text-center">NA</th>
-                        <th style="width: 100px;" class="text-center">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (!Model.Any())
-                    {
-                        <tr><td colspan="11" class="text-center text-muted">No hay inspecciones registradas.</td></tr>
-                    }
-                    else
-                    {
-                        int i = 1;
-                        foreach (var item in Model)
+        </div>
+
+        <hr style="border-top: 1px solid #eee;" />
+
+        @* --- TABLA --- *@
+        <div class="panel panel-default"
+             style="border-radius: 15px;
+                    border: none;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    overflow: hidden;">
+
+            <div class="table-responsive">
+                <table class="table table-hover" style="margin-bottom: 0;">
+
+                    <thead style="background: #29235c; color: white;">
+                        <tr>
+                            <th class="text-center" style="padding: 15px;">#</th>
+                            <th style="padding: 15px;">Cédula</th>
+                            <th style="padding: 15px;">Apellidos y Nombres</th>
+                            <th style="padding: 15px;">Cargo</th>
+                            <th style="padding: 15px;">Proceso</th>
+                            <th style="padding: 15px;">Subproceso</th>
+                            <th style="padding: 15px;">Fecha</th>
+                            <th class="text-center" style="padding: 15px;">C</th>
+                            <th class="text-center" style="padding: 15px;">NC</th>
+                            <th class="text-center" style="padding: 15px;">NA</th>
+                            <th class="text-center" style="padding: 15px; width: 100px;">Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (!Model.Any())
                         {
                             <tr>
-                                <td>@i</td>
-                                <td style="font-weight:bold">@item.Cedula</td>
-                                <td>@item.NombreCompleto</td>
-                                <td>@item.Cargo</td>
-                                <td>@(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")</td>
-                                <td>@(item.Subproceso != null ? item.Subproceso.NombreSubproceso : "N/A")</td>
-                                <td>@item.FechaInspeccion.ToString("dd/MM/yyyy")</td>
-                                @* Números de colores para C, NC, NA *@
-                                <td class="text-center"><span class="text-success" style="font-size:1.1em"><strong>@item.TotalCumple</strong></span></td>
-                                <td class="text-center"><span class="text-danger" style="font-size:1.1em"><strong>@item.TotalNoCumple</strong></span></td>
-                                <td class="text-center text-muted">@item.TotalNoAplica</td>
-                                <td class="text-center">
-                                    <a href="@Url.Action("Detalle", "InspeccionBioseguridad", new { id = item.IdInspeccionBioseguridad })"
-                                       class="btn-ver">
-                                        Ver
-                                    </a>
+                                <td colspan="11" class="text-center" style="padding: 40px;">
+                                    <i class="glyphicon glyphicon-folder-open"
+                                       style="font-size: 30px; color: #ccc; margin-bottom: 10px;"></i><br />
+                                    <span class="text-muted">No hay inspecciones registradas.</span>
                                 </td>
                             </tr>
-                            i++;
                         }
-                    }
-                </tbody>
-            </table>
+                        else
+                        {
+                            int i = 1;
+                            foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td class="text-center"
+                                        style="vertical-align: middle; font-weight: bold; color: #666;">
+                                        @i
+                                    </td>
+
+                                    <td style="vertical-align: middle; font-weight: bold;">
+                                        @item.Cedula
+                                    </td>
+
+                                    <td style="vertical-align: middle; font-weight: bold;">
+                                        @item.NombreCompleto
+                                    </td>
+
+                                    <td style="vertical-align: middle;">
+                                        @item.Cargo
+                                    </td>
+
+                                    <td style="vertical-align: middle; color: #29235c; font-weight: 600;">
+                                        @(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")
+                                    </td>
+
+                                    <td style="vertical-align: middle;">
+                                        @(item.Subproceso != null ? item.Subproceso.NombreSubproceso : "N/A")
+                                    </td>
+
+                                    <td style="vertical-align: middle;">
+                                        @item.FechaInspeccion.ToString("dd/MM/yyyy")
+                                    </td>
+
+                                    <td class="text-center" style="vertical-align: middle;">
+                                        <span class="text-success" style="font-size: 1.1em;">
+                                            <strong>@item.TotalCumple</strong>
+                                        </span>
+                                    </td>
+
+                                    <td class="text-center" style="vertical-align: middle;">
+                                        <span class="text-danger" style="font-size: 1.1em;">
+                                            <strong>@item.TotalNoCumple</strong>
+                                        </span>
+                                    </td>
+
+                                    <td class="text-center text-muted" style="vertical-align: middle;">
+                                        @item.TotalNoAplica
+                                    </td>
+
+                                    <td class="text-center" style="vertical-align: middle;">
+                                        <a href="@Url.Action("Detalle", "InspeccionBioseguridad", new { id = item.IdInspeccionBioseguridad })"
+                                           class="btn btn-sm"
+                                           style="background-color: #76b82a; color: white; border-radius: 15px; font-weight: bold; width: 55px;">
+                                            Ver
+                                        </a>
+                                    </td>
+
+                                </tr>
+                                i++;
+                            }
+                        }
+                    </tbody>
+
+                </table>
+            </div>
         </div>
+
     </div>
 </div>
+
+<style>
+
+    .table-hover tbody tr:hover {
+        background-color: #f9f9ff !important;
+        transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>

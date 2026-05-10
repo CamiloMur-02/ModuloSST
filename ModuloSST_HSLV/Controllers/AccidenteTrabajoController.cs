@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace ModuloSST_HSLV.Controllers
 {
-    
+
     public class EstadisticaItem
     {
         public string Nombre { get; set; }

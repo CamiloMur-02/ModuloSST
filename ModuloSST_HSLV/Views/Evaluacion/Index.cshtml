@@ -1,62 +1,116 @@
 ﻿@model IEnumerable<ModuloSST_HSLV.Models.Evaluacion>
-@{ ViewBag.Title = "Evaluaciones"; }
+@{
+    ViewBag.Title = "Evaluaciones";
+}
 
 <div class="row">
     <div class="col-md-12">
-        
-        <h2 class="text-primary">Evaluaciones Cargadas</h2>
+
+        <h2 style="color: #29235c; font-weight: bold; margin-bottom: 5px;">
+            Evaluaciones Cargadas
+        </h2>
+
         <hr />
 
-        <p>
-            
-            @Html.ActionLink("+ Cargar nueva evaluación", "Crear", "Evaluacion",
-                null, new { @class = "btn-verde-claro" })
-        </p>
+        @* --- BOTONES DE CABECERA --- *@
+        <div style="margin-bottom: 15px; display: flex; gap: 10px;">
 
-        <div class="table-responsive">
-            
-            <table class="table table-striped table-hover">
-                <thead>
-                    
-                    <tr>
-                        <th class="text-center">#</th>
-                        <th>Tipo de Evaluación</th>
-                        <th>Nombre del Archivo</th>
-                        <th class="text-center">Fecha de Carga</th>
-                        <th class="text-center">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (!Model.Any())
-                    {
+            <a href="@Url.Action("Crear", "Evaluacion")"
+               class="btn"
+               style="background-color: #76b82a; color: white; border-radius: 10px; font-weight: bold; padding: 8px 20px; border: none;">
+                + Cargar nueva evaluación
+            </a>
+
+        </div>
+
+        <hr style="border-top: 1px solid #eee;" />
+
+        @* --- TABLA --- *@
+        <div class="panel panel-default"
+             style="border-radius: 15px;
+                    border: none;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    overflow: hidden;">
+
+            <div class="table-responsive">
+                <table class="table table-hover" style="margin-bottom: 0;">
+
+                    <thead style="background: #29235c; color: white;">
                         <tr>
-                            <td colspan="5" class="text-center text-muted">
-                                No hay evaluaciones cargadas todavía.
-                            </td>
+                            <th class="text-center" style="padding: 15px;">#</th>
+                            <th style="padding: 15px;">Tipo de Evaluación</th>
+                            <th style="padding: 15px;">Nombre del Archivo</th>
+                            <th class="text-center" style="padding: 15px;">Fecha de Carga</th>
+                            <th class="text-center" style="padding: 15px;">Acciones</th>
                         </tr>
-                    }
-                    else
-                    {
-                        int i = 1;
-                        foreach (var item in Model)
+                    </thead>
+
+                    <tbody>
+                        @if (!Model.Any())
                         {
                             <tr>
-                                <td class="text-center">@i</td>
-                                <td style="font-weight: bold;">@item.TipoEvaluacion</td>
-                                <td>@item.NombreArchivo</td>
-                                <td class="text-center">@item.FechaCarga.ToString("dd/MM/yyyy HH:mm")</td>
-                                <td class="text-center">
-                                    
-                                    @Html.ActionLink("Descargar", "VerArchivo", "Evaluacion",
-                                        new { id = item.IdEvaluacion },
-                                        new { @class = "btn-descargar", target = "_blank" })
+                                <td colspan="5" class="text-center" style="padding: 40px;">
+                                    <i class="glyphicon glyphicon-folder-open"
+                                       style="font-size: 30px; color: #ccc; margin-bottom: 10px;"></i><br />
+                                    <span class="text-muted">No hay evaluaciones cargadas todavía.</span>
                                 </td>
                             </tr>
-                            i++;
                         }
-                    }
-                </tbody>
-            </table>
+                        else
+                        {
+                            int i = 1;
+                            foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td class="text-center"
+                                        style="vertical-align: middle; font-weight: bold; color: #666;">
+                                        @i
+                                    </td>
+
+                                    <td style="vertical-align: middle; font-weight: bold;">
+                                        @item.TipoEvaluacion
+                                    </td>
+
+                                    <td style="vertical-align: middle;">
+                                        @item.NombreArchivo
+                                    </td>
+
+                                    <td class="text-center" style="vertical-align: middle;">
+                                        @item.FechaCarga.ToString("dd/MM/yyyy HH:mm")
+                                    </td>
+
+                                    <td class="text-center" style="vertical-align: middle;">
+                                        <a href="@Url.Action("VerArchivo", "Evaluacion", new { id = item.IdEvaluacion })"
+                                           class="btn btn-sm"
+                                           style="background-color: #76b82a; color: white; border-radius: 15px; font-weight: bold; width: 95px;"
+                                           target="_blank">
+                                            Descargar
+                                        </a>
+                                    </td>
+
+                                </tr>
+                                i++;
+                            }
+                        }
+                    </tbody>
+
+                </table>
+            </div>
         </div>
+
     </div>
 </div>
+
+<style>
+
+    .table-hover tbody tr:hover {
+        background-color: #f9f9ff !important;
+        transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>

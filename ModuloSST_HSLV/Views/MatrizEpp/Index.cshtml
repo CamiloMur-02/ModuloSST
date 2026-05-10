@@ -5,109 +5,173 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h2 class="text-primary">Matriz de Entrega de EPP</h2>
+
+        <h2 style="color: #29235c; font-weight: bold; margin-bottom: 5px;">
+            Matriz de Entrega de EPP
+        </h2>
+
         <hr />
 
-        <p>
-            @Html.ActionLink("+ Registrar entrega", "Registrar", "MatrizEpp", null, new { @class = "btn-verde-claro" })
+        @* --- BOTONES DE CABECERA --- *@
+        <div style="margin-bottom: 15px; display: flex; gap: 10px;">
 
-            <a href="@Url.Action("Index", "CatalogoEpp")" class="btn btn-default"
-               style="border: 2px solid #29235c; color: #29235c; border-radius: 12px; font-weight: 600; margin-left: 5px; padding: 8px 15px;">
+            <a href="@Url.Action("Registrar", "MatrizEpp")"
+               class="btn"
+               style="background-color: #76b82a; color: white; border-radius: 10px; font-weight: bold; padding: 8px 20px; border: none;">
+                + Registrar entrega
+            </a>
+
+            <a href="@Url.Action("Index", "CatalogoEpp")"
+               class="btn btn-default"
+               style="border: 2px solid #29235c; color: #29235c; border-radius: 10px; font-weight: bold; padding: 8px 20px;">
                 Catálogo EPP
             </a>
 
-            <a href="@Url.Action("Dashboard", "MatrizEpp")" class="btn-dashboard" style="margin-left: 5px;">
+            <a href="@Url.Action("Dashboard", "MatrizEpp")" class="btn-dashboard">
                 <i class="glyphicon glyphicon-stats"></i> Ver Indicadores / Dashboard
             </a>
-        </p>
 
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th class="text-center">#</th>
-                        <th>Cédula</th>
-                        <th>Apellidos y Nombres</th>
-                        <th>Cargo</th>
-                        <th>Proceso / Área</th>
-                        <th class="text-center">Fecha Registro</th>
-                        <th class="text-center">EPP Activos</th>
-                        <th class="text-center">Alertas / Estado</th>
-                        <th class="text-center" style="width: 120px;">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model == null || !Model.Any())
-                    {
-                        <tr><td colspan="9" class="text-center text-muted">No hay registros de entrega de EPP.</td></tr>
-                    }
-                    else
-                    {
-                        int i = 1;
-                        foreach (var item in Model)
+        </div>
+
+        <hr style="border-top: 1px solid #eee;" />
+
+        @* --- TABLA --- *@
+        <div class="panel panel-default"
+             style="border-radius: 15px;
+                    border: none;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    overflow: hidden;">
+
+            <div class="table-responsive">
+                <table class="table table-hover" style="margin-bottom: 0;">
+
+                    <thead style="background: #29235c; color: white;">
+                        <tr>
+                            <th class="text-center" style="padding: 15px;">#</th>
+                            <th style="padding: 15px;">Cédula</th>
+                            <th style="padding: 15px;">Apellidos y Nombres</th>
+                            <th style="padding: 15px;">Cargo</th>
+                            <th style="padding: 15px;">Proceso / Área</th>
+                            <th class="text-center" style="padding: 15px;">Fecha Registro</th>
+                            <th class="text-center" style="padding: 15px;">EPP Activos</th>
+                            <th class="text-center" style="padding: 15px;">Alertas / Estado</th>
+                            <th class="text-center" style="padding: 15px; width: 120px;">Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model == null || !Model.Any())
                         {
-                            
-                            var elementosLista = item.Elementos as IEnumerable<dynamic>;
-                            var activos = elementosLista != null ? elementosLista.Where(e => e.Activo).ToList() : new List<dynamic>();
-
-                            int vencidos = activos.Count(e => e.TiempoRestante <= 0);
-                            int porVencer = activos.Count(e => e.TiempoRestante > 0 && e.TiempoRestante <= 1);
-                            int totalActivos = activos.Count;
-
                             <tr>
-                                <td class="text-center">@i</td>
-                                <td style="font-weight:bold">@item.Cedula</td>
-                                <td>@item.NombreCompleto</td>
-                                <td><small>@item.Cargo</small></td>
-                                <td>
-                                    <small class="text-muted">
-                                        @(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")
-                                    </small>
-                                </td>
-                                <td class="text-center">@item.FechaRegistro.ToString("dd/MM/yyyy")</td>
-                                <td class="text-center">
-                                    <span style="background:#e8ecef; padding: 2px 10px; border-radius: 10px; font-weight: bold; color: #29235c;">
-                                        @totalActivos
-                                    </span>
-                                </td>
-                                <td class="text-center">
-                                    @if (vencidos > 0)
-                                    {
-                                        <span style="background-color: #dc3545; color: white; padding: 4px 8px; border-radius: 8px; font-size: 10px; display: block; margin-bottom: 2px; font-weight: bold;">
-                                            <i class="glyphicon glyphicon-remove-sign"></i> @vencidos VENCIDOS
-                                        </span>
-                                    }
-
-                                    @if (porVencer > 0)
-                                    {
-                                        <span style="background-color: #ffc107; color: #212529; padding: 4px 8px; border-radius: 8px; font-size: 10px; display: block; font-weight: bold;">
-                                            <i class="glyphicon glyphicon-warning-sign"></i> @porVencer POR VENCER
-                                        </span>
-                                    }
-
-                                    @if (vencidos == 0 && porVencer == 0 && totalActivos > 0)
-                                    {
-                                        <span style="background-color: #76b82a; color: white; padding: 4px 10px; border-radius: 8px; font-size: 10px; font-weight: bold;">
-                                            <i class="glyphicon glyphicon-ok"></i> AL DÍA
-                                        </span>
-                                    }
-                                    else if (totalActivos == 0)
-                                    {
-                                        <span class="text-muted small"><i>Sin EPP</i></span>
-                                    }
-                                </td>
-                                <td class="text-center">
-                                    <a href="@Url.Action("Editar", "MatrizEpp", new { id = item.IdMatrizEPP })"
-                                       class="btn-ver" style="text-decoration: none; display: inline-block;">
-                                        Gestionar
-                                    </a>
+                                <td colspan="9" class="text-center" style="padding: 40px;">
+                                    <i class="glyphicon glyphicon-folder-open"
+                                       style="font-size: 30px; color: #ccc; margin-bottom: 10px;"></i><br />
+                                    <span class="text-muted">No hay registros de entrega de EPP.</span>
                                 </td>
                             </tr>
-                            i++;
                         }
-                    }
-                </tbody>
-            </table>
+                        else
+                        {
+                            int i = 1;
+                            foreach (var item in Model)
+                            {
+                                var elementosLista = item.Elementos as IEnumerable<dynamic>;
+                                var activos = elementosLista != null ? elementosLista.Where(e => e.Activo).ToList() : new List<dynamic>();
+
+                                int vencidos = activos.Count(e => e.TiempoRestante <= 0);
+                                int porVencer = activos.Count(e => e.TiempoRestante > 0 && e.TiempoRestante <= 1);
+                                int totalActivos = activos.Count;
+
+                                <tr>
+
+                                    <td class="text-center"
+                                        style="vertical-align: middle; font-weight: bold; color: #666;">
+                                        @i
+                                    </td>
+
+                                    <td style="vertical-align: middle; font-weight: bold;">
+                                        @item.Cedula
+                                    </td>
+
+                                    <td style="vertical-align: middle; font-weight: bold;">
+                                        @item.NombreCompleto
+                                    </td>
+
+                                    <td style="vertical-align: middle;">
+                                        <small>@item.Cargo</small>
+                                    </td>
+
+                                    <td style="vertical-align: middle; color: #29235c; font-weight: 600;">
+                                        <small>@(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")</small>
+                                    </td>
+
+                                    <td class="text-center" style="vertical-align: middle;">
+                                        @item.FechaRegistro.ToString("dd/MM/yyyy")
+                                    </td>
+
+                                    <td class="text-center" style="vertical-align: middle;">
+                                        <span style="background:#e8ecef; padding: 2px 10px; border-radius: 10px; font-weight: bold; color: #29235c;">
+                                            @totalActivos
+                                        </span>
+                                    </td>
+
+                                    <td class="text-center" style="vertical-align: middle;">
+                                        @if (vencidos > 0)
+                                        {
+                                            <span style="background-color: #dc3545; color: white; padding: 4px 8px; border-radius: 8px; font-size: 10px; display: block; margin-bottom: 2px; font-weight: bold;">
+                                                <i class="glyphicon glyphicon-remove-sign"></i> @vencidos VENCIDOS
+                                            </span>
+                                        }
+
+                                        @if (porVencer > 0)
+                                        {
+                                            <span style="background-color: #ffc107; color: #212529; padding: 4px 8px; border-radius: 8px; font-size: 10px; display: block; font-weight: bold;">
+                                                <i class="glyphicon glyphicon-warning-sign"></i> @porVencer POR VENCER
+                                            </span>
+                                        }
+
+                                        @if (vencidos == 0 && porVencer == 0 && totalActivos > 0)
+                                        {
+                                            <span style="background-color: #76b82a; color: white; padding: 4px 10px; border-radius: 8px; font-size: 10px; font-weight: bold;">
+                                                <i class="glyphicon glyphicon-ok"></i> AL DÍA
+                                            </span>
+                                        }
+                                        else if (totalActivos == 0)
+                                        {
+                                            <span class="text-muted small"><i>Sin EPP</i></span>
+                                        }
+                                    </td>
+
+                                    <td class="text-center" style="vertical-align: middle;">
+                                        <a href="@Url.Action("Editar", "MatrizEpp", new { id = item.IdMatrizEPP })"
+                                           class="btn btn-sm"
+                                           style="background-color: #76b82a; color: white; border-radius: 15px; font-weight: bold; width: 90px;">
+                                            Gestionar
+                                        </a>
+                                    </td>
+
+                                </tr>
+                                i++;
+                            }
+                        }
+                    </tbody>
+
+                </table>
+            </div>
         </div>
+
     </div>
 </div>
+
+<style>
+
+    .table-hover tbody tr:hover {
+        background-color: #f9f9ff !important;
+        transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>

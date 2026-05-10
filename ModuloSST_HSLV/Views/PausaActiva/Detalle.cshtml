@@ -1,113 +1,321 @@
 ﻿@model ModuloSST_HSLV.Models.PausaActiva
+
 @{
     ViewBag.Title = "Detalle Pausa Activa";
 }
 
 <div class="container-fluid" style="padding: 20px;">
+
     @* --- CABECERA --- *@
     <div class="row">
+
         <div class="col-md-8">
-            <h2 style="color: #29235c; font-weight: bold; margin-bottom: 5px;">
-                <i class="glyphicon glyphicon-list-alt" style="color: #3182ce;"></i> Detalle del Registro
+
+            <h2 style="color: #29235c;
+                       font-weight: bold;
+                       margin-bottom: 5px;">
+
+                <i class="glyphicon glyphicon-list-alt"
+                   style="color: #3182ce;"></i>
+
+                Detalle del Registro
+
             </h2>
-            <p class="text-muted">Información completa de la pausa activa realizada.</p>
+
         </div>
-        <div class="col-md-4 text-right" style="padding-top: 20px;">
-            <span class="label" style="background-color: #3182ce; padding: 8px 15px; font-size: 13px; border-radius: 50px;">
-                ID Registro: #@Model.IdPausaActiva
-            </span>
-        </div>
+
     </div>
 
     <hr style="border-top: 1px solid #eee;" />
 
-    @* --- PANEL PRINCIPAL DE INFORMACIÓN --- *@
-    <div class="panel panel-default" style="border-radius: 15px; overflow: hidden; border: 1px solid #ddd; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-        <div class="panel-heading" style="background-color: #29235c; color: white; padding: 15px 25px;">
+    @* --- SECCIÓN 1: DATOS DEL COLABORADOR --- *@
+    <div class="panel panel-default"
+         style="border-radius: 15px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 30px;">
+
+        <div class="panel-heading"
+             style="background-color: #29235c;
+                color: white;
+                border-radius: 15px 15px 0 0;
+                padding: 15px 25px;">
+
             <h3 class="panel-title" style="font-weight: bold;">
-                <i class="glyphicon glyphicon-user"></i> Datos del Colaborador
+
+                <i class="glyphicon glyphicon-user"></i>
+                1. Información del Colaborador
+
             </h3>
+
         </div>
-        <div class="panel-body" style="padding: 30px; background-color: #fff;">
 
-            @* Fila 1: Básicos *@
-            <div class="row" style="margin-bottom: 25px;">
-                <div class="col-md-3">
-                    <label class="text-muted small" style="text-transform: uppercase;">Cédula</label>
-                    <p style="font-size: 16px; font-weight: bold; color: #333;">@Model.Cedula</p>
-                </div>
-                <div class="col-md-5">
-                    <label class="text-muted small" style="text-transform: uppercase;">Nombre Completo</label>
-                    <p style="font-size: 16px; font-weight: bold; color: #29235c;">@Model.NombreCompleto</p>
-                </div>
-                <div class="col-md-2">
-                    <label class="text-muted small" style="text-transform: uppercase;">Género</label>
-                    <p style="font-size: 15px; color: #444;">@Model.Genero</p>
-                </div>
-                <div class="col-md-2">
-                    <label class="text-muted small" style="text-transform: uppercase;">Edad</label>
-                    <p style="font-size: 15px; color: #444;">@Model.Edad años</p>
-                </div>
-            </div>
+        <div class="panel-body" style="padding: 25px;">
 
-            @* Fila 2: Laborales *@
-            <div class="row" style="margin-bottom: 25px; padding: 20px; background-color: #f8f9fa; border-radius: 10px;">
-                <div class="col-md-4">
-                    <label class="text-muted small" style="text-transform: uppercase;">Cargo</label>
-                    <p style="font-size: 15px; font-weight: 500;">@Model.Cargo</p>
-                </div>
-                <div class="col-md-4">
-                    <label class="text-muted small" style="text-transform: uppercase;">Contratista / Empresa</label>
-                    <p style="font-size: 15px; font-weight: 500;">@Model.Contratista</p>
-                </div>
-                <div class="col-md-4">
-                    <label class="text-muted small" style="text-transform: uppercase;">Tiempo de Prestación</label>
-                    <p style="font-size: 15px; font-weight: 500;">@Model.TiempoPrestacion</p>
-                </div>
-            </div>
-
-            @* Fila 3: Ubicación y Fecha *@
+            @* --- FILA 1 --- *@
             <div class="row">
-                <div class="col-md-4">
-                    <label class="text-muted small" style="text-transform: uppercase;">Proceso</label>
-                    <p style="font-size: 15px; color: #444;">
-                        <i class="glyphicon glyphicon-map-marker text-primary"></i>
-                        @(Model.Proceso != null ? Model.Proceso.NombreProceso : "N/A")
-                    </p>
+
+                <div class="col-md-2">
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c;
+                                  font-weight: 600;">
+
+                            Cédula
+
+                        </label>
+
+                        <p style="font-size: 16px;
+                              font-weight: 600;
+                              margin-top: 5px;">
+
+                            @Model.Cedula
+
+                        </p>
+
+                    </div>
+
                 </div>
+
                 <div class="col-md-4">
-                    <label class="text-muted small" style="text-transform: uppercase;">Subproceso / Área</label>
-                    <p style="font-size: 15px; color: #444;">
-                        @(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : "N/A")
-                    </p>
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c;
+                                  font-weight: 600;">
+
+                            Nombre Completo
+
+                        </label>
+
+                        <p style="font-size: 16px;
+                              font-weight: 600;
+                              margin-top: 5px;">
+
+                            @Model.NombreCompleto
+
+                        </p>
+
+                    </div>
+
                 </div>
-                <div class="col-md-4">
-                    <label class="text-muted small" style="text-transform: uppercase;">Fecha de Ejecución</label>
-                    <p style="font-size: 18px; font-weight: bold; color: #76b82a;">
-                        <i class="glyphicon glyphicon-calendar"></i> @Model.Fecha.ToString("dd / MM / yyyy")
-                    </p>
+
+                <div class="col-md-2">
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c;
+                                  font-weight: 600;">
+
+                            Género
+
+                        </label>
+
+                        <p style="margin-top: 5px;">
+
+                            @Model.Genero
+
+                        </p>
+
+                    </div>
+
                 </div>
+
+                <div class="col-md-2">
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c;
+                                  font-weight: 600;">
+
+                            Edad
+
+                        </label>
+
+                        <p style="margin-top: 5px;">
+
+                            @Model.Edad años
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c;
+                                  font-weight: 600;">
+
+                            Fecha de Ejecución
+
+                        </label>
+
+                        <p style="margin-top: 5px;
+                              color: #337ab7;
+                              font-weight: bold;">
+
+                            @Model.Fecha.ToString("dd / MMMM / yyyy")
+
+                        </p>
+
+                    </div>
+
+                </div>
+
             </div>
+
+            @* --- FILA 2 --- *@
+            <div class="row" style="margin-top: 15px;">
+
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c;
+                                  font-weight: 600;">
+
+                            Cargo
+
+                        </label>
+
+                        <p style="margin-top: 5px;">
+
+                            @Model.Cargo
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c;
+                                  font-weight: 600;">
+
+                            Contratista
+
+                        </label>
+
+                        <p style="margin-top: 5px;">
+
+                            @(string.IsNullOrEmpty(Model.Contratista)
+                            ? "Directo / Propio"
+                            : Model.Contratista)
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c;
+                                  font-weight: 600;">
+
+                            Tiempo Prestación (meses)
+
+                        </label>
+
+                        <p style="margin-top: 5px;">
+
+                            @Model.TiempoPrestacion
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            @* --- FILA 3 --- *@
+            <div class="row" style="margin-top: 15px;">
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c;
+                                  font-weight: 600;">
+
+                            Proceso
+
+                        </label>
+
+                        <p style="margin-top: 5px;">
+
+                            @(Model.Proceso != null
+                            ? Model.Proceso.NombreProceso
+                            : "—")
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c;
+                                  font-weight: 600;">
+
+                            Subproceso
+
+                        </label>
+
+                        <p style="margin-top: 5px;">
+
+                            @(Model.Subproceso != null
+                            ? Model.Subproceso.NombreSubproceso
+                            : "—")
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
+
     </div>
 
-    @* --- BOTONES DE RETORNO --- *@
-    <div class="text-center" style="margin-top: 30px;">
-        <a href="@Url.Action("Index", "PausaActiva")" class="btn btn-default"
-           style="border-radius: 25px; padding: 12px 40px; font-weight: bold; border: 2px solid #29235c; color: #29235c; transition: all 0.3s;">
-            <i class="glyphicon glyphicon-arrow-left"></i> VOLVER AL LISTADO
+    @* --- BOTÓN DE RETORNO --- *@
+    <div style="margin-top: 30px; margin-bottom: 50px;">
+
+        <a href="@Url.Action("Index", "PausaActiva")"
+           class="btn btn-default"
+           style="border: 2px solid #000;
+          background: transparent;
+          border-radius: 12px;
+          color: #000;
+          font-weight: bold;
+          padding: 10px 25px;">
+
+            <i class="glyphicon glyphicon-arrow-left"></i>
+            Volver al listado
+
         </a>
+
     </div>
-</div>
 
-<style>
-    .btn-default:hover {
-        background-color: #29235c !important;
-        color: white !important;
-    }
+    <style>
 
-    label {
-        margin-bottom: 2px;
-        letter-spacing: 0.5px;
-    }
-</style>
+        label {
+            margin-bottom: 2px;
+            letter-spacing: 0.5px;
+        }
+    </style>

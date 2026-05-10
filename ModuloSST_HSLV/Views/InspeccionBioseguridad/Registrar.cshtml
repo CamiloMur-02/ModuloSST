@@ -1,204 +1,541 @@
 ﻿@model ModuloSST_HSLV.Models.InspeccionBioseguridad
+
 @{
     ViewBag.Title = "Registrar Inspección de Bioseguridad";
+
     var procesos = ViewBag.Procesos as List<ModuloSST_HSLV.Models.Proceso>;
     var subprocesos = ViewBag.Subprocesos as List<ModuloSST_HSLV.Models.Subproceso>;
 }
 
 <div class="container-fluid">
+
     @* --- ENCABEZADO --- *@
     <div style="margin-top: 20px; margin-bottom: 25px;">
-        <h2 style="color: #29235c; font-weight: bold; margin-bottom: 5px;">
-            <i class="glyphicon glyphicon-edit"></i> Registrar Inspección de Bioseguridad
+
+        <h2 style="color: #29235c;
+                   font-weight: bold;
+                   margin-bottom: 5px;">
+
+            <i class="glyphicon glyphicon-edit"></i>
+            Registrar Inspección de Bioseguridad
+
         </h2>
-        <p class="text-muted">Diligencie la información del colaborador y la evaluación de los ítems observados.</p>
+
         <hr style="border-top: 1px solid #eee;" />
+
     </div>
 
     @if (!ViewData.ModelState.IsValid)
     {
-        <div class="alert alert-danger" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-            <i class="glyphicon glyphicon-exclamation-sign"></i> <strong>Corrija los siguientes errores antes de guardar:</strong>
+        <div class="alert alert-danger"
+             style="border-radius: 15px;
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+
+            <i class="glyphicon glyphicon-exclamation-sign"></i>
+
+            <strong>
+                Corrija los siguientes errores antes de guardar:
+            </strong>
+
             <ul style="margin-top: 10px;">
+
                 @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
                 {
                     <li>@error.ErrorMessage</li>
                 }
+
             </ul>
+
         </div>
     }
 
     @using (Html.BeginForm("Registrar", "InspeccionBioseguridad", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
+
         @Html.HiddenFor(m => m.IdEmpleado)
 
         @* --- SECCIÓN 1: DATOS DEL COLABORADOR --- *@
-        <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 30px;">
-            <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 15px 15px 0 0; padding: 15px 25px;">
-                <h3 class="panel-title" style="font-weight: bold;"><i class="glyphicon glyphicon-user"></i> 1. Información del Colaborador</h3>
+        <div class="panel panel-default"
+             style="border-radius: 15px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 30px;">
+
+            <div class="panel-heading"
+                 style="background-color: #29235c;
+                color: white;
+                border-radius: 15px 15px 0 0;
+                padding: 15px 25px;">
+
+                <h3 class="panel-title" style="font-weight: bold;">
+                    <i class="glyphicon glyphicon-user"></i>
+                    1. Información del Colaborador
+                </h3>
             </div>
+
             <div class="panel-body" style="padding: 25px;">
+
+                @* --- FILA 1 --- *@
                 <div class="row">
-                    <div class="col-md-3">
+
+                    <div class="col-md-2">
                         <div class="form-group">
-                            <label style="color: #29235c; font-weight: 600;">Cédula</label>
-                            @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", style = "border-radius: 10px; border: 1px solid #ddd;" })
+
+                            <label style="color: #29235c; font-weight: 600;">
+                                Cédula
+                            </label>
+
+                            @Html.TextBoxFor(m => m.Cedula, new
+                            {
+                                @class = "form-control",
+                                style = "border-radius: 10px; border: 1px solid #ddd;"
+                            })
+
                         </div>
                     </div>
-                    <div class="col-md-6">
+
+                    <div class="col-md-4">
                         <div class="form-group">
-                            <label style="color: #29235c; font-weight: 600;">Nombres Completo</label>
-                            @Html.TextBoxFor(m => m.NombreCompleto, new { @class = "form-control", style = "border-radius: 10px; border: 1px solid #ddd;" })
+
+                            <label style="color: #29235c; font-weight: 600;">
+                                Nombre Completo
+                            </label>
+
+                            @Html.TextBoxFor(m => m.NombreCompleto, new
+                            {
+                                @class = "form-control",
+                                style = "border-radius: 10px; border: 1px solid #ddd;"
+                            })
+
                         </div>
                     </div>
-                    <div class="col-md-3">
+
+                    <div class="col-md-2">
                         <div class="form-group">
-                            <label style="color: #29235c; font-weight: 600;">Género</label>
-                            <select name="Genero" class="form-control" style="border-radius: 10px; border: 1px solid #ddd;">
-                                <option value="">-- Seleccionar --</option>
+
+                            <label style="color: #29235c; font-weight: 600;">
+                                Género
+                            </label>
+
+                            <select name="Genero"
+                                    class="form-control"
+                                    style="border-radius: 10px; border: 1px solid #ddd;">
+
+                                <option value="">-- Género --</option>
+
                                 @foreach (var g in ViewBag.Generos as string[])
                                 {
                                     <option value="@g">@g</option>
                                 }
-                            </select>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="row" style="margin-top: 15px;">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label style="color: #29235c; font-weight: 600;">Cargo</label>
-                            @Html.TextBoxFor(m => m.Cargo, new { @class = "form-control", style = "border-radius: 10px; border: 1px solid #ddd;" })
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label style="color: #29235c; font-weight: 600;">Proceso / Área</label>
-                            <select name="IdProceso" class="form-control" style="border-radius: 10px; border: 1px solid #ddd;">
-                                <option value="">-- Seleccionar proceso --</option>
-                                @foreach (var p in procesos)
-                                {
-                                    <option value="@p.IdProceso">@p.NombreProceso</option>
-                                }
                             </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label style="color: #29235c; font-weight: 600;">Subproceso / Servicio</label>
-                            <select name="IdSubproceso" class="form-control" style="border-radius: 10px; border: 1px solid #ddd;">
-                                <option value="">-- Seleccionar subproceso --</option>
-                                @foreach (var s in subprocesos)
-                                {
-                                    <option value="@s.IdSubproceso">@s.NombreSubproceso</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="row" style="margin-top: 15px;">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label style="color: #29235c; font-weight: 600;">Contratista / Empresa</label>
-                            @Html.TextBoxFor(m => m.Contratista, new { @class = "form-control", style = "border-radius: 10px; border: 1px solid #ddd;" })
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label style="color: #29235c; font-weight: 600;">Fecha de Inspección</label>
-                            @Html.TextBoxFor(m => m.FechaInspeccion, "{0:yyyy-MM-dd}",
-         new { @class = "form-control", type = "date", style = "border-radius: 10px; border: 1px solid #ddd;" })
-                        </div>
-                    </div>
+
                     <div class="col-md-2">
                         <div class="form-group">
-                            <label style="color: #29235c; font-weight: 600;">Edad</label>
-                            @Html.TextBoxFor(m => m.Edad, new { @class = "form-control", type = "number", style = "border-radius: 10px; border: 1px solid #ddd;" })
+
+                            <label style="color: #29235c; font-weight: 600;">
+                                Edad
+                            </label>
+
+                            @Html.TextBoxFor(m => m.Edad, new
+                            {
+                                @class = "form-control",
+                                type = "number",
+                                min = "0",
+                                style = "border-radius: 10px; border: 1px solid #ddd;"
+                            })
+
                         </div>
                     </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+
+                            <label style="color: #29235c; font-weight: 600;">
+                                Fecha de Inspección
+                            </label>
+
+                            @Html.TextBoxFor(
+                                m => m.FechaInspeccion,
+                                "{0:yyyy-MM-dd}",
+                                new
+                                {
+                                    @class = "form-control",
+                                    type = "date",
+                                    style = "border-radius: 10px; border: 1px solid #ddd;"
+                                }
+                            )
+
+                        </div>
+                    </div>
+
                 </div>
+
+                @* --- FILA 2 --- *@
+                <div class="row" style="margin-top: 15px;">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+
+                            <label style="color: #29235c; font-weight: 600;">
+                                Cargo
+                            </label>
+
+                            @Html.TextBoxFor(m => m.Cargo, new
+                            {
+                                @class = "form-control",
+                                style = "border-radius: 10px; border: 1px solid #ddd;"
+                            })
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+
+                            <label style="color: #29235c; font-weight: 600;">
+                                Contratista
+                            </label>
+
+                            @Html.TextBoxFor(m => m.Contratista, new
+                            {
+                                @class = "form-control",
+                                style = "border-radius: 10px; border: 1px solid #ddd;"
+                            })
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+
+                            <label style="color: #29235c; font-weight: 600;">
+                                Tiempo Prestación (meses)
+                            </label>
+
+                            @Html.TextBoxFor(m => m.TiempoPrestacion, new
+                            {
+                                @class = "form-control",
+                                style = "border-radius: 10px; border: 1px solid #ddd;"
+                            })
+
+                        </div>
+                    </div>
+
+                </div>
+
+                @* --- FILA 3 --- *@
+                <div class="row" style="margin-top: 15px;">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+
+                            <label style="color: #29235c; font-weight: 600;">
+                                Proceso
+                            </label>
+
+                            <select name="IdProceso"
+                                    class="form-control"
+                                    style="border-radius: 10px; border: 1px solid #ddd;">
+
+                                <option value="">-- Seleccionar proceso --</option>
+
+                                @foreach (var p in procesos)
+                                {
+                                    <option value="@p.IdProceso">
+                                        @p.NombreProceso
+                                    </option>
+                                }
+
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+
+                            <label style="color: #29235c; font-weight: 600;">
+                                Subproceso
+                            </label>
+
+                            <select name="IdSubproceso"
+                                    class="form-control"
+                                    style="border-radius: 10px; border: 1px solid #ddd;">
+
+                                <option value="">-- Seleccionar subproceso --</option>
+
+                                @foreach (var s in subprocesos)
+                                {
+                                    <option value="@s.IdSubproceso">
+                                        @s.NombreSubproceso
+                                    </option>
+                                }
+
+                            </select>
+
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
 
         @* --- SECCIÓN 2: EVALUACIÓN --- *@
-        <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 30px;">
-            <div class="panel-heading" style="background-color: #76b82a; color: white; border-radius: 15px 15px 0 0; padding: 15px 25px;">
-                <h3 class="panel-title" style="font-weight: bold;"><i class="glyphicon glyphicon-check"></i> 2. Evaluación de ítems de bioseguridad</h3>
+        <div class="panel panel-default"
+             style="border-radius: 15px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 30px;">
+
+            <div class="panel-heading"
+                 style="background-color: #76b82a;
+                color: white;
+                border-radius: 15px 15px 0 0;
+                padding: 15px 25px;">
+
+                <h3 class="panel-title" style="font-weight: bold;">
+
+                    <i class="glyphicon glyphicon-check"></i>
+                    2. Evaluación de ítems de bioseguridad
+
+                </h3>
+
             </div>
+
             <div class="table-responsive">
+
                 <table class="table table-hover" style="margin-bottom: 0;">
+
                     <thead style="background: #f8f9fa;">
+
                         <tr>
-                            <th style="padding: 15px; padding-left: 25px;">Ítem Evaluado</th>
-                            <th class="text-center" style="width:120px; color: #76b82a; font-weight: bold;">C</th>
-                            <th class="text-center" style="width:120px; color: #d9534f; font-weight: bold;">NC</th>
-                            <th class="text-center" style="width:120px; color: #777; font-weight: bold;">NA</th>
+
+                            <th style="padding: 15px; padding-left: 25px;">
+                                Ítem Evaluado
+                            </th>
+
+                            <th class="text-center"
+                                style="width:120px;
+                               color: #76b82a;
+                               font-weight: bold;">
+
+                                C
+
+                            </th>
+
+                            <th class="text-center"
+                                style="width:120px;
+                               color: #d9534f;
+                               font-weight: bold;">
+
+                                NC
+
+                            </th>
+
+                            <th class="text-center"
+                                style="width:120px;
+                               color: #777;
+                               font-weight: bold;">
+
+                                NA
+
+                            </th>
+
                         </tr>
+
                     </thead>
+
                     <tbody>
-                        @{ var items = new[] {
-                            new { label="Higiene de Manos", campo="HigieneManos" },
-                            new { label="Protección Respiratoria", campo="ProteccionRespiratoria" },
-                            new { label="Uso de Guantes", campo="UsoGuantes" },
-                            new { label="Uso de Gorro", campo="UsoGorro" },
-                            new { label="Uso de Bata", campo="UsoBata" },
-                            new { label="Protección Visual", campo="ProteccionVisual" },
-                            new { label="Uso Delantal/Peto", campo="UsoDelantalPeto" },
-                            new { label="Calzado Adecuado", campo="CalzadoAdecuado" },
-                            new { label="Transporte de Muestras", campo="TransporteMuestras" },
-                            new { label="Manejo Corto Punzantes", campo="ManejoCorto" },
-                            new { label="Manejo de Residuos", campo="ManejoResiduos" },
-                        }; }
+
+                        @{
+                            var items = new[]
+                            {
+                        new { label = "Higiene de Manos", campo = "HigieneManos" },
+                        new { label = "Protección Respiratoria", campo = "ProteccionRespiratoria" },
+                        new { label = "Uso de Guantes", campo = "UsoGuantes" },
+                        new { label = "Uso de Gorro", campo = "UsoGorro" },
+                        new { label = "Uso de Bata", campo = "UsoBata" },
+                        new { label = "Protección Visual", campo = "ProteccionVisual" },
+                        new { label = "Uso Delantal/Peto", campo = "UsoDelantalPeto" },
+                        new { label = "Calzado Adecuado", campo = "CalzadoAdecuado" },
+                        new { label = "Transporte de Muestras", campo = "TransporteMuestras" },
+                        new { label = "Manejo Corto Punzantes", campo = "ManejoCorto" },
+                        new { label = "Manejo de Residuos", campo = "ManejoResiduos" },
+                    };
+                        }
+
                         @foreach (var item in items)
                         {
                             <tr>
-                                <td style="padding: 12px 25px; vertical-align: middle; font-weight: 500;">@item.label</td>
-                                <td class="text-center" style="vertical-align: middle;"><input type="radio" name="@item.campo" value="C" checked style="width: 20px; height: 20px; cursor: pointer;" /></td>
-                                <td class="text-center" style="vertical-align: middle;"><input type="radio" name="@item.campo" value="NC" style="width: 20px; height: 20px; cursor: pointer;" /></td>
-                                <td class="text-center" style="vertical-align: middle;"><input type="radio" name="@item.campo" value="NA" style="width: 20px; height: 20px; cursor: pointer;" /></td>
+
+                                <td style="padding: 12px 25px;
+                                   vertical-align: middle;
+                                   font-weight: 500;">
+
+                                    @item.label
+
+                                </td>
+
+                                <td class="text-center" style="vertical-align: middle;">
+
+                                    <input type="radio"
+                                           name="@item.campo"
+                                           value="C"
+                                           checked
+                                           style="width: 20px;
+                                          height: 20px;
+                                          cursor: pointer;" />
+
+                                </td>
+
+                                <td class="text-center" style="vertical-align: middle;">
+
+                                    <input type="radio"
+                                           name="@item.campo"
+                                           value="NC"
+                                           style="width: 20px;
+                                          height: 20px;
+                                          cursor: pointer;" />
+
+                                </td>
+
+                                <td class="text-center" style="vertical-align: middle;">
+
+                                    <input type="radio"
+                                           name="@item.campo"
+                                           value="NA"
+                                           style="width: 20px;
+                                          height: 20px;
+                                          cursor: pointer;" />
+
+                                </td>
+
                             </tr>
                         }
+
                     </tbody>
+
                 </table>
+
             </div>
-            <div class="panel-footer" style="background: #fdfdfd; padding: 15px 25px; border-radius: 0 0 15px 15px;">
-                <p class="text-muted" style="margin: 0; font-size: 13px;">
+
+            <div class="panel-footer"
+                 style="background: #fdfdfd;
+                padding: 15px 25px;
+                border-radius: 0 0 15px 15px;">
+
+                <p class="text-muted"
+                   style="margin: 0;
+                  font-size: 13px;">
+
                     <strong>Convenciones:</strong>
-                    <span class="label label-success">C</span> Cumple |
-                    <span class="label label-success">NC</span> No Cumple |
-                    <span class="label label-default">NA</span> No Aplica
+
+                    <span class="label label-success">C</span>
+                    Cumple |
+
+                    <span class="label label-success">NC</span>
+                    No Cumple |
+
+                    <span class="label label-default">NA</span>
+                    No Aplica
+
                 </p>
+
             </div>
+
         </div>
 
-            @* --- SECCIÓN 3: OBSERVACIONES Y BOTONES --- *@
-            <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 40px;">
-                <div class="panel-body" style="padding: 25px;">
+        @* --- SECCIÓN 3: OBSERVACIONES --- *@
+        <div class="panel panel-default"
+             style="border-radius: 15px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 30px;">
 
-                    <div class="form-group" style="margin-bottom: 25px;">
-                        <label style="color: #29235c; font-weight: 600;">Observaciones Generales</label>
-                        
-                        <textarea name="Observaciones" class="form-control" rows="4" placeholder="Describa hallazgos..." style="border-radius: 12px; border: 1px solid #ddd; resize: none;"></textarea>
-                    </div>
+            <div class="panel-heading"
+                 style="background-color: #f39c12;
+                color: white;
+                border-radius: 15px 15px 0 0;
+                padding: 15px 25px;">
 
-                    <div style="display: flex; gap: 15px; justify-content: flex-start;">
-                        <button type="submit" class="btn-verde-claro" style="padding: 12px 30px; border-radius: 12px; font-weight: bold; border: none; font-size: 15px;">
-                            <i class="glyphicon glyphicon-floppy-disk"></i> Guardar
-                        </button>
+                <h3 class="panel-title" style="font-weight: bold;">
 
-                        <a href="@Url.Action("Index", "InspeccionBioseguridad")"
-                           class="btn btn-default" style="border: 2px solid #29235c; background: transparent; border-radius: 12px; color: #29235c; font-weight: bold; padding: 10px 25px;">
-                            <i class="glyphicon glyphicon-list"></i> Volver al listado
-                        </a>
-                    </div>
-                </div>
+                    <i class="glyphicon glyphicon-comment"></i>
+                    3. Observaciones Generales
+
+                </h3>
+
             </div>
-        }
-    </div>
+
+            <div class="panel-body" style="padding: 25px;">
+
+                <div class="form-group" style="margin-bottom: 0;">
+
+                    <label style="color: #29235c; font-weight: 600;">
+                        Observaciones
+                    </label>
+
+                    <textarea name="Observaciones"
+                              class="form-control"
+                              rows="4"
+                              placeholder="Describa hallazgos..."
+                              style="border-radius: 12px;
+                             border: 1px solid #ddd;
+                             resize: none;">
+            </textarea>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        @* --- BOTONES DE ACCIÓN --- *@
+        <div style="display: flex;
+            gap: 15px;
+            justify-content: flex-start;
+            margin-bottom: 40px;">
+
+            <button type="submit"
+                    class="btn-verde-claro"
+                    style="padding: 12px 30px;
+                   border-radius: 12px;
+                   font-weight: bold;
+                   border: none;
+                   font-size: 15px;">
+
+                <i class="glyphicon glyphicon-floppy-disk"></i>
+                Guardar
+
+            </button>
+
+            <a href="@Url.Action("Index", "InspeccionBioseguridad")"
+               class="btn btn-default"
+               style="border: 2px solid #29235c;
+              background: transparent;
+              border-radius: 12px;
+              color: #29235c;
+              font-weight: bold;
+              padding: 10px 25px;">
+
+                <i class="glyphicon glyphicon-list"></i>
+                Volver al listado
+
+            </a>
+
+        </div>
+
+    }
+</div>
+
 <style>
+
     /* Estilo para los inputs al enfocar */
     .form-control:focus {
         border-color: #76b82a !important;

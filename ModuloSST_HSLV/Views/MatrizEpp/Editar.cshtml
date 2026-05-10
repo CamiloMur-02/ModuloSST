@@ -1,194 +1,660 @@
 ﻿@model ModuloSST_HSLV.Models.MatrizEpp
+
 @{
     ViewBag.Title = "Gestionar Entrega de EPP";
     var catalogo = ViewBag.CatalogoEPP as List<ModuloSST_HSLV.Models.CatalogoEpp>;
 }
 
-<h2 class="text-primary">Gestionar Entrega de EPP</h2>
-<p class="text-muted">Administre los elementos asignados y actualice la información del colaborador.</p>
-<hr />
+<div class="container-fluid">
 
-@* --- PANEL 1: DATOS DEL COLABORADOR --- *@
-<div class="panel panel-default" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; margin-bottom: 25px;">
-    <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 15px 15px 0 0; padding: 12px 20px;">
-        <h3 class="panel-title" style="font-weight: bold;"><i class="glyphicon glyphicon-user"></i> 1. Información del Colaborador</h3>
+    @* --- ENCABEZADO --- *@
+    <div style="margin-top: 20px; margin-bottom: 25px;">
+
+        <h2 style="color: #29235c;
+                   font-weight: bold;
+                   margin-bottom: 5px;">
+
+            <i class="glyphicon glyphicon-edit"></i>
+            Gestionar Entrega de EPP
+
+        </h2>
+
+        <hr style="border-top: 1px solid #eee;" />
+
     </div>
-    <div class="panel-body" style="background-color: #fcfcfc;">
-        <div class="row">
-            <div class="col-md-2"><strong>Cédula:</strong><br />@Model.Cedula</div>
-            <div class="col-md-4"><strong>Apellidos y Nombres:</strong><br /><span class="text-primary" style="font-weight:bold;">@Model.NombreCompleto</span></div>
-            <div class="col-md-2"><strong>Género:</strong><br />@Model.Genero</div>
-            <div class="col-md-2"><strong>Edad:</strong><br />@Model.Edad años</div>
-            <div class="col-md-2"><strong>Registro:</strong><br />@Model.FechaRegistro.ToString("dd/MM/yyyy")</div>
+
+    @* --- SECCIÓN 1: DATOS DEL COLABORADOR --- *@
+    <div class="panel panel-default"
+         style="border-radius: 15px;
+                border: none;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                margin-bottom: 30px;">
+
+        <div class="panel-heading"
+             style="background-color: #29235c;
+                    color: white;
+                    border-radius: 15px 15px 0 0;
+                    padding: 15px 25px;">
+
+            <h3 class="panel-title" style="font-weight: bold;">
+
+                <i class="glyphicon glyphicon-user"></i>
+                1. Información del Colaborador
+
+            </h3>
+
         </div>
-        <hr style="margin: 10px 0;" />
-        <div class="row">
-            <div class="col-md-4"><strong>Cargo:</strong><br />@Model.Cargo</div>
-            <div class="col-md-4">
-                <strong>Proceso / Área:</strong><br />
-                <small class="text-muted">
-                    @(Model.Proceso != null ? Model.Proceso.NombreProceso : "N/A") /
-                    @(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : "N/A")
-                </small>
+
+        <div class="panel-body" style="padding: 25px;">
+
+            @* --- FILA 1 --- *@
+            <div class="row">
+
+                <div class="col-md-2">
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c; font-weight: 600;">
+                            Cédula
+                        </label>
+
+                        <p style="font-size: 16px;
+                                  font-weight: 600;
+                                  margin-top: 5px;">
+
+                            @Model.Cedula
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c; font-weight: 600;">
+                            Nombre Completo
+                        </label>
+
+                        <p style="font-size: 16px;
+                                  font-weight: 600;
+                                  margin-top: 5px;">
+
+                            @Model.NombreCompleto
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c; font-weight: 600;">
+                            Género
+                        </label>
+
+                        <p style="margin-top: 5px;">
+                            @Model.Genero
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c; font-weight: 600;">
+                            Edad
+                        </label>
+
+                        <p style="margin-top: 5px;">
+                            @Model.Edad años
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c; font-weight: 600;">
+                            Fecha de Registro
+                        </label>
+
+                        <p style="margin-top: 5px;
+                                  color: #337ab7;
+                                  font-weight: bold;">
+
+                            @Model.FechaRegistro.ToString("dd / MMMM / yyyy")
+
+                        </p>
+
+                    </div>
+
+                </div>
+
             </div>
-            <div class="col-md-2"><strong>Contratista:</strong><br />@Model.Contratista</div>
-            @* SE AGREGA EL CAMPO FALTANTE AQUÍ *@
-            <div class="col-md-2"><strong>Tiempo Prestación:</strong><br />@Model.TiempoPrestacion meses</div>
+
+            @* --- FILA 2 --- *@
+            <div class="row" style="margin-top: 15px;">
+
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c; font-weight: 600;">
+                            Cargo
+                        </label>
+
+                        <p style="margin-top: 5px;">
+                            @Model.Cargo
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c; font-weight: 600;">
+                            Contratista
+                        </label>
+
+                        <p style="margin-top: 5px;">
+
+                            @(string.IsNullOrEmpty(Model.Contratista)
+                                ? "Directo / Propio"
+                                : Model.Contratista)
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c; font-weight: 600;">
+                            Tiempo Prestación (meses)
+                        </label>
+
+                        <p style="margin-top: 5px;">
+                            @Model.TiempoPrestacion meses
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            @* --- FILA 3 --- *@
+            <div class="row" style="margin-top: 15px;">
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c; font-weight: 600;">
+                            Proceso
+                        </label>
+
+                        <p style="margin-top: 5px;">
+
+                            @(Model.Proceso != null
+                                ? Model.Proceso.NombreProceso
+                                : "—")
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c; font-weight: 600;">
+                            Subproceso
+                        </label>
+
+                        <p style="margin-top: 5px;">
+
+                            @(Model.Subproceso != null
+                                ? Model.Subproceso.NombreSubproceso
+                                : "—")
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
+
     </div>
+
 </div>
 
-@* --- PANEL 2: TABLA DE ELEMENTOS ACTIVOS --- *@
-<div class="panel panel-default" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; margin-bottom: 25px;">
-    <div class="panel-heading" style="background-color: #76b82a; color: white; border-radius: 15px 15px 0 0; padding: 12px 20px;">
-        <h3 class="panel-title" style="font-weight: bold;"><i class="glyphicon glyphicon-ok-circle"></i> 2. Elementos Entregados Actualmente</h3>
+@* --- SECCIÓN 2: TABLA DE ELEMENTOS ACTIVOS --- *@
+<div class="panel panel-default"
+     style="border-radius: 15px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 30px;">
+
+    <div class="panel-heading"
+         style="background-color: #76b82a;
+                color: white;
+                border-radius: 15px 15px 0 0;
+                padding: 15px 25px;">
+
+        <h3 class="panel-title" style="font-weight: bold;">
+            <i class="glyphicon glyphicon-ok-circle"></i>
+            2. Elementos Entregados Actualmente
+        </h3>
+
     </div>
-    <div class="panel-body" style="padding: 0;">
-        <div class="table-responsive">
-            <table class="table table-hover" style="margin-bottom:0;">
-                <thead style="background-color: #f8f9fa;">
+
+    <div class="table-responsive">
+
+        <table class="table table-hover" style="margin-bottom: 0;">
+
+            <thead style="background: #f8f9fa;">
+
+                <tr>
+
+                    <th style="padding: 15px; padding-left: 25px;">
+                        EPP
+                    </th>
+
+                    <th class="text-center" style="padding: 15px;">
+                        Fecha Entrega
+                    </th>
+
+                    <th class="text-center" style="padding: 15px;">
+                        Alerta (meses)
+                    </th>
+
+                    <th class="text-center" style="padding: 15px;">
+                        Próximo Cambio
+                    </th>
+
+                    <th class="text-center" style="padding: 15px;">
+                        Tiempo restante
+                    </th>
+
+                    <th class="text-center" style="padding: 15px;">
+                        Acción
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @foreach (var elem in Model.Elementos.Where(e => e.Activo))
+                {
+                    double dias = elem.FechaEntrega.HasValue
+                        ? (DateTime.Today - elem.FechaEntrega.Value).TotalDays
+                        : 0;
+
+                    decimal restante = elem.FechaEntrega.HasValue
+                        ? (decimal)(elem.TiempoAlerta - (dias / 30))
+                        : 0;
+
+                    DateTime? estimada = elem.FechaEntrega.HasValue
+                        ? elem.FechaEntrega.Value.AddMonths(elem.TiempoAlerta)
+                        : (DateTime?)null;
+
                     <tr>
-                        <th style="padding-left:20px;">EPP</th>
-                        <th class="text-center">Fecha Entrega</th>
-                        <th class="text-center">Alerta (Meses)</th>
-                        <th class="text-center">Próximo Cambio</th>
-                        <th class="text-center">Estado / Restante</th>
-                        <th class="text-center">Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var elem in Model.Elementos.Where(e => e.Activo))
-                    {
-                        double dias = elem.FechaEntrega.HasValue ? (DateTime.Today - elem.FechaEntrega.Value).TotalDays : 0;
-                        decimal restante = elem.FechaEntrega.HasValue ? (decimal)(elem.TiempoAlerta - (dias / 30)) : 0;
-                        DateTime? estimada = elem.FechaEntrega.HasValue ? elem.FechaEntrega.Value.AddMonths(elem.TiempoAlerta) : (DateTime?)null;
 
-                        <tr>
-                            <td style="padding-left:20px; vertical-align:middle;"><strong>@elem.CatalogoEpp.NombreEPP</strong></td>
-                            <td class="text-center" style="vertical-align:middle;">@(elem.FechaEntrega.HasValue ? elem.FechaEntrega.Value.ToString("dd/MM/yyyy") : "—")</td>
-                            <td class="text-center" style="vertical-align:middle;">@elem.TiempoAlerta meses</td>
-                            <td class="text-center" style="vertical-align:middle; font-weight:bold;">
-                                @(estimada.HasValue ? estimada.Value.ToString("dd/MM/yyyy") : "—")
-                            </td>
-                            <td class="text-center" style="vertical-align:middle;">
-                                @if (restante <= 0)
-                                {
-                                    <span class="label label-danger" style="padding: 5px 10px; border-radius:10px;">VENCIDO</span>
-                                }
-                                else if (restante <= 1)
-                                {
-                                    <span class="label label-warning" style="padding: 5px 10px; border-radius:10px; color:#333;">@restante.ToString("0.0") meses</span>
-                                }
-                                else
-                                {
-                                    <span class="label label-success" style="padding: 5px 10px; border-radius:10px;">@restante.ToString("0.0") meses</span>
-                                }
-                            </td>
-                            <td class="text-center" style="vertical-align:middle;">
-                                @using (Html.BeginForm("ExcluirElemento", "MatrizEpp", FormMethod.Post))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    <input type="hidden" name="idElemento" value="@elem.IdElementoEPP" />
-                                    <input type="hidden" name="idMatriz" value="@Model.IdMatrizEPP" />
-                                    <button type="submit" class="btn btn-link text-danger" title="Excluir" onclick="return confirm('¿Desea dar de baja este EPP?')">
-                                        <i class="glyphicon glyphicon-trash"></i> Excluir
-                                    </button>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                        <td style="padding: 12px 25px;
+                                   vertical-align: middle;
+                                   font-weight: 500;">
+
+                            @elem.CatalogoEpp.NombreEPP
+
+                        </td>
+
+                        <td class="text-center"
+                            style="vertical-align: middle;">
+
+                            @(elem.FechaEntrega.HasValue
+                                ? elem.FechaEntrega.Value.ToString("dd/MM/yyyy")
+                                : "—")
+
+                        </td>
+
+                        <td class="text-center"
+                            style="vertical-align: middle;">
+
+                            @elem.TiempoAlerta meses
+
+                        </td>
+
+                        <td class="text-center"
+                            style="vertical-align: middle;
+                                   font-weight: bold;
+                                   color: #337ab7;">
+
+                            @(estimada.HasValue
+                                ? estimada.Value.ToString("dd/MM/yyyy")
+                                : "—")
+
+                        </td>
+
+                        <td class="text-center"
+                            style="vertical-align: middle;">
+
+                            @if (restante <= 0)
+                            {
+                                <span class="label label-danger"
+                                      style="padding: 6px 12px;
+                                             border-radius: 12px;
+                                             font-size: 12px;">
+
+                                    VENCIDO
+
+                                </span>
+                            }
+                            else if (restante <= 1)
+                            {
+                                <span class="label label-warning"
+                                      style="padding: 6px 12px;
+                                             border-radius: 12px;
+                                             font-size: 12px;
+                                             color: #333;">
+
+                                    @restante.ToString("0.0") meses
+
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="label label-success"
+                                      style="padding: 6px 12px;
+                                             border-radius: 12px;
+                                             font-size: 12px;">
+
+                                    @restante.ToString("0.0") meses
+
+                                </span>
+                            }
+
+                        </td>
+
+                        <td class="text-center"
+                            style="vertical-align: middle;">
+
+                            @using (Html.BeginForm("ExcluirElemento", "MatrizEpp", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <input type="hidden"
+                                       name="idElemento"
+                                       value="@elem.IdElementoEPP" />
+
+                                <input type="hidden"
+                                       name="idMatriz"
+                                       value="@Model.IdMatrizEPP" />
+
+                                <button type="submit"
+                                        class="btn btn-link text-danger"
+                                        title="Excluir"
+                                        onclick="return confirm('¿Desea dar de baja este EPP?')">
+
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    Excluir
+
+                                </button>
+                            }
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
     </div>
+
 </div>
 
-@* --- PANEL 3: AGREGAR NUEVO ELEMENTO --- *@
-<div class="panel panel-default" style="border-radius: 15px; border: 1px dashed #29235c; margin-bottom: 25px; overflow: hidden;">
-    <div class="panel-body" style="padding: 20px;">
-        <h4 style="color: #29235c; font-weight: bold; margin-top: 0; margin-bottom: 20px;">
-            <i class="glyphicon glyphicon-plus"></i> Asignar Nuevo Elemento
-        </h4>
+@* --- SECCIÓN 3: AGREGAR NUEVO ELEMENTO --- *@
+<div class="panel panel-default"
+     style="border-radius: 15px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 40px;">
+
+    <div class="panel-heading"
+         style="background-color: #29235c;
+                color: white;
+                border-radius: 15px 15px 0 0;
+                padding: 15px 25px;">
+
+        <h3 class="panel-title" style="font-weight: bold;">
+            <i class="glyphicon glyphicon-plus"></i>
+            3. Asignar Nuevo Elemento
+        </h3>
+
+    </div>
+
+    <div class="panel-body" style="padding: 25px;">
+
         @using (Html.BeginForm("AgregarElemento", "MatrizEpp", FormMethod.Post, new { onsubmit = "return validarAgregar()" }))
         {
             @Html.AntiForgeryToken()
-            <input type="hidden" name="idMatriz" value="@Model.IdMatrizEPP" />
+
+            <input type="hidden"
+                   name="idMatriz"
+                   value="@Model.IdMatrizEPP" />
 
             <div class="row">
+
                 <div class="col-md-3 col-sm-6">
+
                     <div class="form-group">
-                        <label>Tipo de EPP</label>
-                        <select name="idCatalogo" class="form-control" style="border-radius:10px;">
+
+                        <label style="color: #29235c; font-weight: 600;">
+                            Tipo de EPP
+                        </label>
+
+                        <select name="idCatalogo"
+                                class="form-control"
+                                style="border-radius: 10px;
+                                       border: 1px solid #ddd;">
+
                             @if (catalogo != null)
                             {
                                 foreach (var epp in catalogo)
                                 {
-                                    <option value="@epp.IdCatalogoEPP">@epp.NombreEPP</option>
+                                    <option value="@epp.IdCatalogoEPP">
+                                        @epp.NombreEPP
+                                    </option>
                                 }
                             }
+
                         </select>
+
                     </div>
+
                 </div>
+
                 <div class="col-md-3 col-sm-6">
+
                     <div class="form-group">
-                        <label>Fecha Entrega</label>
-                        <input type="date" name="fechaEntrega" id="fechaAgregar" class="form-control" style="border-radius:10px;" onchange="calcularEstimadoAgregar()" />
+
+                        <label style="color: #29235c; font-weight: 600;">
+                            Fecha Entrega
+                        </label>
+
+                        <input type="date"
+                               name="fechaEntrega"
+                               id="fechaAgregar"
+                               class="form-control"
+                               style="border-radius: 10px;
+                                      border: 1px solid #ddd;"
+                               onchange="calcularEstimadoAgregar()" />
+
                     </div>
+
                 </div>
+
                 <div class="col-md-2 col-sm-4">
+
                     <div class="form-group">
-                        <label>Alerta (Meses)</label>
-                        <input type="number" name="tiempoAlerta" id="alertaAgregar" class="form-control" style="border-radius:10px;" value="12" min="1" onchange="calcularEstimadoAgregar()" />
+
+                        <label style="color: #29235c; font-weight: 600;">
+                            Alerta (Meses)
+                        </label>
+
+                        <input type="number"
+                               name="tiempoAlerta"
+                               id="alertaAgregar"
+                               class="form-control"
+                               value="12"
+                               min="1"
+                               style="border-radius: 10px;
+                                      border: 1px solid #ddd;"
+                               onchange="calcularEstimadoAgregar()" />
+
                     </div>
+
                 </div>
-                <div class="col-md-2 col-sm-4 text-center">
-                    <div class="form-group">
-                        <label>Fecha Cambio</label>
-                        <p class="form-control-static text-primary" id="estimadoAgregar" style="font-weight:bold; padding-top: 7px;">—</p>
-                    </div>
-                </div>
+
                 <div class="col-md-2 col-sm-4">
-                    <div class="form-group" style="padding-top: 25px;">
-                        <button type="submit" class="btn-verde-claro" style="width: 100%; border-radius: 12px; height: 38px; font-weight: bold; border: none;">
-                            <i class="glyphicon glyphicon-plus"></i> Agregar
+
+                    <div class="form-group">
+
+                        <label style="color: #29235c; font-weight: 600;">
+                            Fecha Cambio
+                        </label>
+
+                        <p id="estimadoAgregar"
+                           style="margin-top: 8px;
+                                  font-weight: bold;
+                                  color: #337ab7;">
+
+                            —
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-2 col-sm-4">
+
+                    <div class="form-group text-center" style="padding-top: 24px;">
+
+                        <button type="submit"
+                                class="btn-verde-claro"
+                                style="padding: 10px 22px;
+                                border-radius: 12px;
+                                font-weight: bold;
+                                border: none;
+                                font-size: 14px;">
+
+                            <i class="glyphicon glyphicon-plus"></i>
+                            Agregar
+
                         </button>
+
                     </div>
+
                 </div>
+
             </div>
         }
+
     </div>
+
 </div>
 
 @* --- SECCIÓN FINAL: SOLO BOTÓN VOLVER --- *@
 <div style="margin-bottom: 50px;">
-    <a href="@Url.Action("Index", "MatrizEpp")" class="btn btn-default"
-       style="border: 2px solid #29235c; background: transparent; border-radius: 12px; color: #29235c; font-weight: bold; padding: 10px 25px;">
-        <i class="glyphicon glyphicon-list"></i> Volver al listado
+
+    <a href="@Url.Action("Index", "MatrizEpp")"
+       class="btn btn-default"
+       style="border: 2px solid #29235c;
+              background: transparent;
+              border-radius: 12px;
+              color: #29235c;
+              font-weight: bold;
+              padding: 10px 25px;">
+
+        <i class="glyphicon glyphicon-list"></i>
+        Volver al listado
+
     </a>
+
 </div>
 
 @section Scripts {
+
     <script>
+
         function calcularEstimadoAgregar() {
+
             var fecha = document.getElementById('fechaAgregar').value;
             var alerta = parseInt(document.getElementById('alertaAgregar').value);
             var celda = document.getElementById('estimadoAgregar');
+
             if (fecha && alerta) {
+
                 var f = new Date(fecha);
+
                 f.setMonth(f.getUTCMonth() + alerta);
+
                 var d = String(f.getUTCDate()).padStart(2, '0');
                 var m = String(f.getUTCMonth() + 1).padStart(2, '0');
+
                 celda.innerHTML = d + '/' + m + '/' + f.getUTCFullYear();
-            } else {
+
+            }
+            else {
+
                 celda.innerHTML = '—';
+
             }
+
         }
+
         function validarAgregar() {
+
             if (!document.getElementById('fechaAgregar').value) {
+
                 alert('⚠️ Debe ingresar la fecha de entrega del nuevo elemento.');
+
                 return false;
+
             }
+
             return true;
+
         }
+
     </script>
+
 }

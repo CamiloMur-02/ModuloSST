@@ -1,122 +1,358 @@
 ﻿@model IEnumerable<ModuloSST_HSLV.Models.ReporteAccidenteTrabajo>
+
 @{
     ViewBag.Title = "Reportes de Accidente de Trabajo";
 }
 
-    @* --- ENCABEZADO Y BOTONES DE ACCIÓN  *@
-<div class="row">
-    <div class="col-md-12">
-        <h2 style="color: #29235c; font-weight: bold; margin-bottom: 15px;">
-            Reportes de Accidente de Trabajo
-        </h2>
-        <hr />
+<div class="container-fluid page-wrapper">
 
-        <div style="margin-bottom: 15px; display: flex; gap: 10px;">
-            @* Botón Registrar  *@
-            <a href="@Url.Action("Registrar", "ReporteAccidenteTrabajo")"
-               class="btn"
-               style="background-color: #76b82a; color: white; border-radius: 10px; font-weight: bold; padding: 8px 20px; border: none;">
-                + Registrar accidente
-            </a>
+    @* ===================================================== *@
+    @* --- ENCABEZADO --- *@
+    @* ===================================================== *@
 
-            @* Botón Dashboard  *@
-            
-            <a href="@Url.Action("Dashboard", "ReporteAccidenteTrabajo")" class="btn-dashboard">
-                <i class="glyphicon glyphicon-stats"></i> Ver Indicadores / Dashboard
-            </a>
-        </div>
-        <hr style="border-top: 1px solid #eee;" />
-    </div>
+    <div class="row">
+        <div class="col-md-12">
 
-    @* --- TABLA DE REPORTES --- *@
-    <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden;">
-        <div class="table-responsive">
-            <table class="table table-hover" style="margin-bottom: 0;">
-                <thead style="background: #29235c; color: white;">
-                    <tr>
-                        <th class="text-center" style="padding: 15px;">#</th>
-                        <th style="padding: 15px;">N° Reporte</th>
-                        <th style="padding: 15px;">Cédula</th>
-                        <th style="padding: 15px;">Apellidos y Nombre</th>
-                        <th style="padding: 15px;">Cargo</th>
-                        <th style="padding: 15px;">Proceso</th>
-                        <th class="text-center" style="padding: 15px;">Fecha AT</th>
-                        <th style="padding: 15px;">Tipo Peligro</th>
-                        <th class="text-center" style="padding: 15px;">Días Incap.</th>
-                        <th class="text-center" style="padding: 15px;">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (!Model.Any())
-                    {
-                        <tr>
-                            <td colspan="10" class="text-center" style="padding: 40px;">
-                                <i class="glyphicon glyphicon-folder-open" style="font-size: 30px; color: #ccc; margin-bottom: 10px;"></i><br />
-                                <span class="text-muted">No hay reportes registrados actualmente.</span>
-                            </td>
-                        </tr>
-                    }
-                    else
-                    {
-                        int i = 1;
-                        foreach (var item in Model)
-                        {
+            <h2 class="page-title">
+                <i class="glyphicon glyphicon-warning-sign icon-accent"></i>
+                Reportes de Accidente de Trabajo
+            </h2>
+
+            <hr class="separator" />
+
+            @* ===================================================== *@
+            @* --- BOTONES DE ACCIÓN --- *@
+            @* ===================================================== *@
+
+            <div class="botones-wrapper">
+
+                <a href="@Url.Action("Registrar", "ReporteAccidenteTrabajo")"
+                   class="btn btn-guardar-custom">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    Registrar accidente
+                </a>
+
+                <a href="@Url.Action("Dashboard", "ReporteAccidenteTrabajo")"
+                   class="btn-dashboard">
+                    <i class="glyphicon glyphicon-stats"></i>
+                    Ver Indicadores / Dashboard
+                </a>
+
+            </div>
+
+            <hr class="separator" />
+
+            @* ===================================================== *@
+            @* --- TABLA DE REPORTES --- *@
+            @* ===================================================== *@
+
+            <div class="panel panel-seccion tabla-wrapper">
+
+                <div class="table-responsive">
+                    <table class="table table-hover tabla-custom">
+
+                        <thead class="tabla-thead">
                             <tr>
-                                <td class="text-center" style="vertical-align: middle; font-weight: bold; color: #666;">@i</td>
-                                <td style="vertical-align: middle;">
-                                    <span class="label label-default" style="background-color: #eee; color: #333; font-size: 11px; border: 1px solid #ddd;">@item.NumeroReporte</span>
-                                </td>
-                                <td style="vertical-align: middle;">@item.Cedula</td>
-                                <td style="vertical-align: middle; font-weight: bold;">@item.NombreCompleto</td>
-                                <td style="vertical-align: middle;">@item.Cargo</td>
-                                <td style="vertical-align: middle; color: #29235c; font-weight: 600;">
-                                    @(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")
-                                </td>
-                                <td class="text-center" style="vertical-align: middle;">
-                                    @item.FechaAT.ToString("dd/MM/yyyy")
-                                </td>
-                                <td style="vertical-align: middle; color: #d9534f; font-weight: 500;">@item.TipoPeligro</td>
-                                <td class="text-center" style="vertical-align: middle;">
-                                    @if (item.DiasIncapacidad > 0)
-                                    {
-                                        <span class="badge" style="background-color: #f39c12; padding: 6px 10px;">@item.DiasIncapacidad</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="text-muted">0</span>
-                                    }
-                                </td>
-                                <td class="text-center" style="vertical-align: middle;">
-                                    <div style="display: flex; justify-content: center; gap: 5px;">
-                                        <a href="@Url.Action("Detalle", "ReporteAccidenteTrabajo", new { id = item.IdReporteAccidenteTrabajo })"
-                                           class="btn btn-sm" style="background-color: #76b82a; color: white; border-radius: 15px; font-weight: bold; width: 55px;">
-                                            Ver
-                                        </a>
-                                        <a href="@Url.Action("Editar", "ReporteAccidenteTrabajo", new { id = item.IdReporteAccidenteTrabajo })"
-                                           class="btn btn-sm" style="background-color: #29235c; color: white; border-radius: 15px; font-weight: bold; width: 55px;">
-                                            Editar
-                                        </a>
-                                    </div>
-                                </td>
+                                <th class="text-center col-num">#</th>
+                                <th>Cédula</th>
+                                <th>Apellidos y Nombre</th>
+                                <th>Cargo</th>
+                                <th>Proceso</th>
+                                <th class="text-center">Fecha AT</th>
+                                <th>Tipo Peligro</th>
+                                <th class="text-center">Días Incap.</th>
+                                <th class="text-center">Acciones</th>
                             </tr>
-                            i++;
-                        }
-                    }
-                </tbody>
-            </table>
+                        </thead>
+
+                        <tbody>
+
+                            @if (!Model.Any())
+                            {
+                                <tr>
+                                    <td colspan="9" class="text-center celda-vacia">
+                                        <i class="glyphicon glyphicon-folder-open icono-vacio"></i><br />
+                                        <span class="text-muted">No hay reportes registrados actualmente.</span>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                int i = 1;
+
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+
+                                        @* ── Numeral ── *@
+                                        <td class="text-center celda-media col-num">
+                                            @i
+                                        </td>
+
+                                        @* ── Cédula ── *@
+                                        <td class="celda-media">
+                                            @item.Cedula
+                                        </td>
+
+                                        @* ── Nombre ── *@
+                                        <td class="celda-media celda-nombre">
+                                            @item.NombreCompleto
+                                        </td>
+
+                                        @* ── Cargo ── *@
+                                        <td class="celda-media">
+                                            @item.Cargo
+                                        </td>
+
+                                        @* ── Proceso ── *@
+                                        <td class="celda-media celda-proceso">
+                                            @(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")
+                                        </td>
+
+                                        @* ── Fecha AT ── *@
+                                        <td class="text-center celda-media">
+                                            @item.FechaAT.ToString("dd/MM/yyyy")
+                                        </td>
+
+                                        @* ── Tipo Peligro ── *@
+                                        <td class="celda-media celda-peligro">
+                                            @item.TipoPeligro
+                                        </td>
+
+                                        @* ── Días Incapacidad ── *@
+                                        <td class="text-center celda-media">
+                                            @if (item.DiasIncapacidad > 0)
+                                            {
+                                                <span class="badge-incapacidad">
+                                                    @item.DiasIncapacidad
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">0</span>
+                                            }
+                                        </td>
+
+                                        @* ── Acciones ── *@
+                                        <td class="text-center celda-media">
+                                            <div class="acciones-wrapper">
+
+                                                <a href="@Url.Action("Detalle", "ReporteAccidenteTrabajo", new { id = item.IdReporteAccidenteTrabajo })"
+                                                   class="btn btn-sm btn-accion btn-ver">
+                                                    <i class="glyphicon glyphicon-eye-open"></i>
+                                                    Ver
+                                                </a>
+
+                                                <a href="@Url.Action("Editar", "ReporteAccidenteTrabajo", new { id = item.IdReporteAccidenteTrabajo })"
+                                                   class="btn btn-sm btn-accion btn-editar">
+                                                    <i class="glyphicon glyphicon-edit"></i>
+                                                    Editar
+                                                </a>
+
+                                            </div>
+                                        </td>
+
+                                    </tr>
+
+                                    i++;
+                                }
+                            }
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+
         </div>
     </div>
+
 </div>
 
 <style>
-    
+
+    /* ── Página ── */
+    .page-wrapper {
+        padding: 20px;
+    }
+
+    .page-title {
+        color: #29235c;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .icon-accent {
+        color: #76b82a;
+    }
+
+    .separator {
+        border-top: 1px solid #eee;
+    }
+
+    /* ── Botones de acción superiores ── */
+    .botones-wrapper {
+        margin-bottom: 15px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .btn-guardar-custom {
+        background-color: #76b82a;
+        color: white;
+        border-radius: 10px;
+        font-weight: bold;
+        padding: 8px 20px;
+        border: none;
+        transition: all 0.3s;
+    }
+
+        .btn-guardar-custom:hover {
+            background-color: #5f9821;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+    .btn-dashboard {
+        display: inline-block;
+        background-color: #29235c;
+        color: white;
+        border-radius: 10px;
+        font-weight: bold;
+        padding: 8px 20px;
+        border: none;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+
+        .btn-dashboard:hover {
+            background-color: #1e1a47;
+            color: white;
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+    /* ── Panel tabla ── */
+    .panel-seccion {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+    }
+
+    .tabla-wrapper {
+        overflow: hidden;
+    }
+
+    /* ── Tabla ── */
+    .tabla-custom {
+        margin-bottom: 0;
+    }
+
+    .tabla-thead {
+        background-color: #29235c;
+        color: white;
+    }
+
+        .tabla-thead th {
+            padding: 15px;
+            font-weight: 600;
+            border: none;
+        }
+
+    /* ── Celdas ── */
+    .celda-media {
+        vertical-align: middle !important;
+    }
+
+    .col-num {
+        color: #333;
+        font-weight: 600;
+        width: 40px;
+    }
+
+    .celda-nombre {
+        font-weight: bold;
+    }
+
+    .celda-proceso {
+        color: #29235c;
+        font-weight: 600;
+    }
+
+    .celda-peligro {
+        color: #d9534f;
+        font-weight: 500;
+    }
+
+    /* ── Badge días incapacidad ── */
+    .badge-incapacidad {
+        display: inline-block;
+        background-color: #f39c12;
+        color: white;
+        font-weight: bold;
+        border-radius: 8px;
+        padding: 4px 10px;
+        font-size: 12px;
+    }
+
+    /* ── Estado vacío ── */
+    .celda-vacia {
+        padding: 40px !important;
+    }
+
+    .icono-vacio {
+        font-size: 30px;
+        color: #ccc;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    /* ── Acciones ── */
+    .acciones-wrapper {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    /* Base común para ambos botones: mismo alto, misma fuente, ancho automático */
+    .btn-accion {
+        height: 30px;
+        line-height: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        border-radius: 15px;
+        padding: 4px 12px;
+        border: none;
+        white-space: nowrap;
+        transition: all 0.3s;
+    }
+
+    .btn-ver {
+        background-color: #76b82a;
+        color: white;
+    }
+
+        .btn-ver:hover {
+            background-color: #5f9821;
+            color: white;
+        }
+
+    .btn-editar {
+        background-color: #29235c;
+        color: white;
+    }
+
+        .btn-editar:hover {
+            background-color: #1e1a47;
+            color: white;
+        }
+
+    /* ── Hover fila ── */
     .table-hover tbody tr:hover {
         background-color: #f9f9ff !important;
         transition: all 0.2s ease;
-    }
-    
-    .btn:hover {
-        opacity: 0.9;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 </style>

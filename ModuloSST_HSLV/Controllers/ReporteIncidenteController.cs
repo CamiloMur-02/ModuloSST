@@ -12,7 +12,7 @@ namespace ModuloSST_HSLV.Controllers
 {
     public class ReporteIncidenteController : Controller
     {
-        
+
         private readonly SSTContext db = new SSTContext();
 
         // --- [GET] Listado Principal ---
@@ -28,7 +28,7 @@ namespace ModuloSST_HSLV.Controllers
         // --- [GET] Mostrar formulario de registro ---
         public ActionResult Registrar()
         {
-            CargarListas(); 
+            CargarListas();
 
             // Creamos un modelo con la fecha de hoy por defecto
             var nuevoReporte = new ReporteIncidente
@@ -201,7 +201,7 @@ namespace ModuloSST_HSLV.Controllers
             return View();
         }
 
-        
+
         public class EstadisticaItemIncidente
         {
             public string Nombre { get; set; }

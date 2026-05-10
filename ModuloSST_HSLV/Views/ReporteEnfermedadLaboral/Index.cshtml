@@ -3,85 +3,150 @@
     ViewBag.Title = "Reportes de Enfermedad Laboral";
 }
 
-    @* --- TITULO --- *@
+@* --- TITULO --- *@
 <div class="row">
     <div class="col-md-12">
+
         <h2 style="color: #29235c; font-weight: bold; margin-bottom: 5px;">
             Reportes de Enfermedad Laboral
         </h2>
+
         <hr />
 
-
-        @* --- BOTONES DE CABECERA  *@
+        @* --- BOTONES DE CABECERA --- *@
         <div style="margin-bottom: 25px;">
-            <a href="@Url.Action("Registrar", "ReporteEnfermedadLaboral")" class="btn" style="background-color: #76b82a; color: white; border-radius: 8px; font-weight: bold; padding: 8px 20px; margin-right: 10px;">
+
+            <a href="@Url.Action("Registrar", "ReporteEnfermedadLaboral")"
+               class="btn"
+               style="background-color: #76b82a; color: white; border-radius: 10px; font-weight: bold; padding: 8px 20px; border: none;">
                 + Registrar enfermedad
             </a>
+
             <a href="@Url.Action("Dashboard", "ReporteEnfermedadLaboral")" class="btn-dashboard">
-                Ver Indicadores / Dashboard
+                <i class="glyphicon glyphicon-stats"></i> Ver Indicadores / Dashboard
             </a>
+
         </div>
 
-        @* --- TABLA ESTILO ACCIDENTES --- *@
-        <div class="table-responsive" style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid #eee;">
-            <table class="table" style="margin-bottom: 0;">
-                <thead style="background-color: #29235c; color: white;">
-                    <tr>
-                        <th class="text-center">#</th>
-                        <th>Cédula</th>
-                        <th>Apellidos y Nombre</th>
-                        <th>Cargo</th>
-                        <th>Tipo Enfermedad</th>
-                        <th class="text-center">Fecha Diagnóstico</th>
-                        <th class="text-center">Días Incap.</th>
-                        <th class="text-center">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (!Model.Any())
-                    {
+        <hr style="border-top: 1px solid #eee;" />
+
+        @* --- TABLA --- *@
+        <div class="panel panel-default"
+             style="border-radius: 15px;
+                    border: none;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    overflow: hidden;">
+
+            <div class="table-responsive">
+                <table class="table table-hover" style="margin-bottom: 0;">
+
+                    <thead style="background: #29235c; color: white;">
                         <tr>
-                            <td colspan="8" class="text-center" style="padding: 30px; color: #999;">No hay reportes registrados.</td>
+                            <th class="text-center" style="padding: 15px;">#</th>
+                            <th style="padding: 15px;">Cédula</th>
+                            <th style="padding: 15px;">Apellidos y Nombre</th>
+                            <th style="padding: 15px;">Cargo</th>
+                            <th style="padding: 15px;">Tipo Enfermedad</th>
+                            <th class="text-center" style="padding: 15px;">Fecha Diagnóstico</th>
+                            <th class="text-center" style="padding: 15px;">Días Incap.</th>
+                            <th class="text-center" style="padding: 15px;">Acciones</th>
                         </tr>
-                    }
-                    else
-                    {
-                        int i = 1;
-                        foreach (var item in Model)
+                    </thead>
+
+                    <tbody>
+                        @if (!Model.Any())
                         {
                             <tr>
-                                <td class="text-center" style="vertical-align: middle;">@i</td>
-                                <td style="vertical-align: middle; font-weight: bold;">@item.Cedula</td>
-                                <td style="vertical-align: middle; font-weight: bold;">@item.NombreCompleto</td>
-                                <td style="vertical-align: middle; color: #666;">@item.Cargo</td>
-                                <td style="vertical-align: middle; color: #29235c; font-weight: 500;">
-
-                                    @item.TipoEnfermedad
-                                </td>
-                                <td class="text-center" style="vertical-align: middle;">
-                                    @item.FechaDiagnostico.ToString("dd/MM/yyyy")
-                                </td>
-                                <td class="text-center" style="vertical-align: middle;">
-                                    <span style="background-color: #29235c; color: white; padding: 5px 12px; border-radius: 15px; font-weight: bold; font-size: 12px;">
-                                        @item.DiasIncapacidad
-                                    </span>
-                                </td>
-                                <td class="text-center" style="vertical-align: middle;">
-                                    <a href="@Url.Action("Detalle", "ReporteEnfermedadLaboral", new { id = item.IdReporteEnfermedadLaboral })"
-                                       class="btn btn-sm" style="background-color: #76b82a; color: white; border-radius: 15px; font-weight: bold; padding: 2px 15px;">
-                                        Ver
-                                    </a>
-                                    <a href="@Url.Action("Editar", "ReporteEnfermedadLaboral", new { id = item.IdReporteEnfermedadLaboral })"
-                                       class="btn btn-sm" style="background-color: #29235c; color: white; border-radius: 15px; font-weight: bold; padding: 2px 15px; margin-left: 5px;">
-                                        Editar
-                                    </a>
+                                <td colspan="8" class="text-center" style="padding: 40px;">
+                                    <i class="glyphicon glyphicon-folder-open"
+                                       style="font-size: 30px; color: #ccc; margin-bottom: 10px;"></i><br />
+                                    <span class="text-muted">No hay reportes registrados actualmente.</span>
                                 </td>
                             </tr>
-                            i++;
                         }
-                    }
-                </tbody>
-            </table>
+                        else
+                        {
+                            int i = 1;
+                            foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td class="text-center"
+                                        style="vertical-align: middle; font-weight: bold; color: #666;">
+                                        @i
+                                    </td>
+
+                                    <td style="vertical-align: middle;">
+                                        @item.Cedula
+                                    </td>
+
+                                    <td style="vertical-align: middle; font-weight: bold;">
+                                        @item.NombreCompleto
+                                    </td>
+
+                                    <td style="vertical-align: middle;">
+                                        @item.Cargo
+                                    </td>
+
+                                    <td style="vertical-align: middle; color: #29235c; font-weight: 600;">
+                                        @item.TipoEnfermedad
+                                    </td>
+
+                                    <td class="text-center" style="vertical-align: middle;">
+                                        @item.FechaDiagnostico.ToString("dd/MM/yyyy")
+                                    </td>
+
+                                    <td class="text-center" style="vertical-align: middle;">
+                                        @if (item.DiasIncapacidad > 0)
+                                        {
+                                            <span class="badge"
+                                                  style="background-color: #f39c12; padding: 6px 10px;">
+                                                @item.DiasIncapacidad
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">0</span>
+                                        }
+                                    </td>
+
+                                    <td class="text-center" style="vertical-align: middle;">
+                                        <div style="display: flex; justify-content: center; gap: 5px;">
+                                            <a href="@Url.Action("Detalle", "ReporteEnfermedadLaboral", new { id = item.IdReporteEnfermedadLaboral })"
+                                               class="btn btn-sm"
+                                               style="background-color: #76b82a; color: white; border-radius: 15px; font-weight: bold; width: 55px;">
+                                                Ver
+                                            </a>
+                                            <a href="@Url.Action("Editar", "ReporteEnfermedadLaboral", new { id = item.IdReporteEnfermedadLaboral })"
+                                               class="btn btn-sm"
+                                               style="background-color: #29235c; color: white; border-radius: 15px; font-weight: bold; width: 55px;">
+                                                Editar
+                                            </a>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                i++;
+                            }
+                        }
+                    </tbody>
+
+                </table>
+            </div>
         </div>
-      </div>
+
     </div>
+</div>
+
+<style>
+
+    .table-hover tbody tr:hover {
+        background-color: #f9f9ff !important;
+        transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>
