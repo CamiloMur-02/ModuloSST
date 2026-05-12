@@ -31,20 +31,6 @@
 
     <hr style="border-top: 1px solid #eee;" />
 
-    @if (TempData["Exito"] != null)
-    {
-        <div class="alert alert-success alert-dismissible"
-             role="alert"
-             style="border-radius: 15px;
-                    border: none;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            <strong><i class="glyphicon glyphicon-ok"></i></strong> @TempData["Exito"]
-        </div>
-    }
-
     @if (!ViewData.ModelState.IsValid)
     {
         <div class="alert alert-danger"
@@ -77,6 +63,12 @@
         @Html.HiddenFor(m => m.IdReporteIncidente)
         @Html.HiddenFor(m => m.FechaCreacion)
         @Html.HiddenFor(m => m.IdEmpleado)
+        @Html.HiddenFor(m => m.NombreArchivoIncidente)
+        @Html.HiddenFor(m => m.RutaArchivoIncidente)
+        @Html.HiddenFor(m => m.NombreArchivoInvestigacion)
+        @Html.HiddenFor(m => m.RutaArchivoInvestigacion)
+        @Html.HiddenFor(m => m.NombreArchivoPlan)
+        @Html.HiddenFor(m => m.RutaArchivoPlan)
         @Html.HiddenFor(m => m.IdProceso)
         @Html.HiddenFor(m => m.IdSubproceso)
 

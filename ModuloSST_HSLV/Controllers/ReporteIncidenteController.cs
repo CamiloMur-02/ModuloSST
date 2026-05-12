@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ModuloSST_HSLV.DAL; // Referencia al contexto
+using ModuloSST_HSLV.DAL; 
 using ModuloSST_HSLV.Models;
 
 namespace ModuloSST_HSLV.Controllers
@@ -43,21 +43,31 @@ namespace ModuloSST_HSLV.Controllers
         // --- [POST] Guardar el registro en la BD ---
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Registrar(ReporteIncidente reporte, HttpPostedFileBase archivoIncidente)
+        public ActionResult Registrar(ReporteIncidente reporte, HttpPostedFileBase archivoIncidente, HttpPostedFileBase archivoInvestigacion, HttpPostedFileBase archivoPlan)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // Procesar el PDF si el usuario subió uno
                     if (archivoIncidente != null && archivoIncidente.ContentLength > 0)
                     {
                         reporte.RutaArchivoIncidente = GuardarArchivo(archivoIncidente, "Incidentes");
                         reporte.NombreArchivoIncidente = archivoIncidente.FileName;
                     }
 
-                    reporte.FechaCreacion = DateTime.Now;
+                    if (archivoInvestigacion != null && archivoInvestigacion.ContentLength > 0)
+                    {
+                        reporte.RutaArchivoInvestigacion = GuardarArchivo(archivoInvestigacion, "Incidentes");
+                        reporte.NombreArchivoInvestigacion = archivoInvestigacion.FileName;
+                    }
 
+                    if (archivoPlan != null && archivoPlan.ContentLength > 0)
+                    {
+                        reporte.RutaArchivoPlan = GuardarArchivo(archivoPlan, "Incidentes");
+                        reporte.NombreArchivoPlan = archivoPlan.FileName;
+                    }
+
+                    reporte.FechaCreacion = DateTime.Now;
                     db.ReportesIncidente.Add(reporte);
                     db.SaveChanges();
 
@@ -70,7 +80,6 @@ namespace ModuloSST_HSLV.Controllers
                 }
             }
 
-            // Si algo falló, recargamos las listas y devolvemos la vista
             CargarListas();
             return View(reporte);
         }
@@ -111,25 +120,25 @@ namespace ModuloSST_HSLV.Controllers
             {
                 try
                 {
-                    // Procesar archivos (Solo si el usuario selecciona uno nuevo)
-                    if (archivoIncidente != null)
+                    if (archivoIncidente != null && archivoIncidente.ContentLength > 0)
                     {
                         reporte.RutaArchivoIncidente = GuardarArchivo(archivoIncidente, "Incidentes");
                         reporte.NombreArchivoIncidente = archivoIncidente.FileName;
                     }
 
-                    if (archivoInvestigacion != null)
+                    if (archivoInvestigacion != null && archivoInvestigacion.ContentLength > 0)
                     {
-                        reporte.RutaArchivoInvestigacion = GuardarArchivo(archivoInvestigacion, "Investigaciones");
+                        reporte.RutaArchivoInvestigacion = GuardarArchivo(archivoInvestigacion, "Incidentes");
                         reporte.NombreArchivoInvestigacion = archivoInvestigacion.FileName;
                     }
 
-                    if (archivoPlan != null)
+                    if (archivoPlan != null && archivoPlan.ContentLength > 0)
                     {
-                        reporte.RutaArchivoPlan = GuardarArchivo(archivoPlan, "Planes");
+                        reporte.RutaArchivoPlan = GuardarArchivo(archivoPlan, "Incidentes");
                         reporte.NombreArchivoPlan = archivoPlan.FileName;
                     }
 
+                    reporte.FechaModificacion = DateTime.Now;
                     db.Entry(reporte).State = EntityState.Modified;
                     db.SaveChanges();
 
@@ -151,13 +160,11 @@ namespace ModuloSST_HSLV.Controllers
         {
             if (string.IsNullOrEmpty(ruta)) return HttpNotFound();
 
-            string pathBase = Server.MapPath("~/App_Data/Uploads");
-            string fullPath = Path.Combine(pathBase, ruta);
+            string rutaFisica = Server.MapPath(ruta);
 
-            if (!System.IO.File.Exists(fullPath))
-                return Content("El archivo físico no se encuentra en el servidor.");
+            if (!System.IO.File.Exists(rutaFisica)) return HttpNotFound();
 
-            return File(fullPath, "application/pdf", nombre);
+            return File(rutaFisica, "application/pdf", nombre);
         }
 
         // --- [GET] Dashboard de Indicadores ---
@@ -232,14 +239,17 @@ namespace ModuloSST_HSLV.Controllers
         private string GuardarArchivo(HttpPostedFileBase file, string carpeta)
         {
             if (file == null || file.ContentLength == 0) return null;
+
+            string subPath = "~/Uploads/" + carpeta + "/";
+            string folderPath = Server.MapPath(subPath);
+
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+
             string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            string relPath = carpeta + "/" + fileName;
-            string fullPath = Path.Combine(Server.MapPath("~/App_Data/Uploads"), carpeta);
+            file.SaveAs(Path.Combine(folderPath, fileName));
 
-            if (!Directory.Exists(fullPath)) Directory.CreateDirectory(fullPath);
-            file.SaveAs(Path.Combine(fullPath, fileName));
-
-            return relPath;
+            return subPath + fileName;
         }
 
         protected override void Dispose(bool disposing)

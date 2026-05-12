@@ -242,10 +242,18 @@
     <Content Include="Views\InspeccionBioseguridad\Dashboard.cshtml" />
     <Content Include="Views\MatrizEpp\Dashboard.cshtml" />
     <Content Include="Views\ReporteEnfermedadLaboral\Dashboard.cshtml" />
+    <Content Include="Uploads\Accidentes\.gitkeep" />
+    <Content Include="Uploads\Enfermedades\.gitkeep" />
+    <Content Include="Uploads\Incidentes\.gitkeep" />
+    <Content Include="Uploads\EnfermedadLaboral\0e4c618f-6045-45d5-b6b6-82607cf2ca45_Certificado Bachiller.pdf" />
+    <Content Include="Uploads\EnfermedadLaboral\1271447f-8bd6-45a4-879d-6aebf53629d1_Certificado Bachiller.pdf" />
+    <Content Include="Uploads\EnfermedadLaboral\2383d45e-b456-4ccf-aea1-1b8977f5ca6f_Carta Solicitud Propuesta de Grado.pdf" />
+    <Content Include="Uploads\EnfermedadLaboral\96ee2a9d-c361-4beb-a41b-1ed4516d444f_Certificado Bachiller.pdf" />
+    <Content Include="Uploads\EnfermedadLaboral\c4fe46c8-f874-445a-a24e-0a8f4bd25f0f_Carta Solicitud Propuesta de Grado.pdf" />
+    <Content Include="Uploads\EnfermedadLaboral\fd458a2a-24aa-40a8-9a35-6e9a08506495_Carta Solicitud Propuesta de Grado.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Uploads\Accidentes\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

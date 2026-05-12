@@ -155,20 +155,55 @@ namespace ModuloSST_HSLV.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar(ReporteAccidenteTrabajo modelo)
+        public ActionResult Editar(ReporteAccidenteTrabajo modelo,
+            HttpPostedFileBase archivoAccidente,
+            HttpPostedFileBase archivoInvestigacion,
+            HttpPostedFileBase archivoPlan)
         {
-            // PRIMERO: Limpiamos el error para que el "if" de abajo sea verdadero
             ModelState.Remove("TiempoPrestacion");
 
-            // SEGUNDO: Le ponemos el "0" para que SQL no de error
             if (string.IsNullOrEmpty(modelo.TiempoPrestacion))
-            {
                 modelo.TiempoPrestacion = "0";
-            }
 
-            // TERCERO: Recién ahora preguntamos si es válido
             if (ModelState.IsValid)
             {
+                string subPath = "~/Uploads/Accidentes/";
+                string folderPath = Server.MapPath(subPath);
+
+                if (!Directory.Exists(folderPath))
+                    Directory.CreateDirectory(folderPath);
+
+                // Procesar Archivo 1
+                if (archivoAccidente != null && archivoAccidente.ContentLength > 0)
+                {
+                    string nombreUnico = "FURAT_" + DateTime.Now.Ticks +
+                                         Path.GetExtension(archivoAccidente.FileName);
+                    archivoAccidente.SaveAs(Path.Combine(folderPath, nombreUnico));
+                    modelo.NombreArchivoAccidente = archivoAccidente.FileName;
+                    modelo.RutaArchivoAccidente = subPath + nombreUnico;
+                }
+
+                // Procesar Archivo 2
+                if (archivoInvestigacion != null && archivoInvestigacion.ContentLength > 0)
+                {
+                    string nombreUnico = "INV_" + DateTime.Now.Ticks +
+                                         Path.GetExtension(archivoInvestigacion.FileName);
+                    archivoInvestigacion.SaveAs(Path.Combine(folderPath, nombreUnico));
+                    modelo.NombreArchivoInvestigacion = archivoInvestigacion.FileName;
+                    modelo.RutaArchivoInvestigacion = subPath + nombreUnico;
+                }
+
+                // Procesar Archivo 3
+                if (archivoPlan != null && archivoPlan.ContentLength > 0)
+                {
+                    string nombreUnico = "PLAN_" + DateTime.Now.Ticks +
+                                         Path.GetExtension(archivoPlan.FileName);
+                    archivoPlan.SaveAs(Path.Combine(folderPath, nombreUnico));
+                    modelo.NombreArchivoPlan = archivoPlan.FileName;
+                    modelo.RutaArchivoPlan = subPath + nombreUnico;
+                }
+
+                modelo.FechaModificacion = DateTime.Now;
                 db.Entry(modelo).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -198,6 +233,19 @@ namespace ModuloSST_HSLV.Controllers
             ViewBag.TiposPeligro = new string[] { "Físico", "Químico", "Biológico", "Biomecánico", "Psicosocial", "Mecánico", "Locativo", "Público", "Otro" };
             ViewBag.Turnos = new string[] { "Mañana", "Tarde", "Noche", "Rotativo" };
             ViewBag.CausasSubcausas = ModuloSST_HSLV.Helpers.CausasHelper.ObtenerCausasSubcausas() ?? new Dictionary<string, string[]>();
+        }
+
+        public ActionResult Descargar(string ruta, string nombre)
+        {
+            if (string.IsNullOrEmpty(ruta))
+                return HttpNotFound();
+
+            string rutaFisica = Server.MapPath(ruta);
+
+            if (!System.IO.File.Exists(rutaFisica))
+                return HttpNotFound();
+
+            return File(rutaFisica, "application/pdf", nombre);
         }
 
         protected override void Dispose(bool disposing)
