@@ -4,603 +4,673 @@
     ViewBag.Title = "Registrar Entrega de EPP";
 
     var catalogo = ViewBag.CatalogoEPP as List<ModuloSST_HSLV.Models.CatalogoEpp>;
-    var procesos = ViewBag.Procesos as List<ModuloSST_HSLV.Models.Proceso>;
-    var subprocesos = ViewBag.Subprocesos as List<ModuloSST_HSLV.Models.Subproceso>;
 }
 
-<div class="container-fluid">
+<div class="container-fluid page-wrapper">
 
+    @* ===================================================== *@
     @* --- ENCABEZADO --- *@
-    <div style="margin-top: 20px; margin-bottom: 25px;">
+    @* ===================================================== *@
 
-        <h2 style="color: #29235c;
-                   font-weight: bold;
-                   margin-bottom: 5px;">
+    <h2 class="page-title">
+        <i class="glyphicon glyphicon-briefcase icon-accent"></i>
+        Registrar entrega de EPP
+    </h2>
 
-            <i class="glyphicon glyphicon-edit"></i>
-            Registrar Entrega de EPP
+    <hr class="separator" />
 
-        </h2>
-
-        <hr style="border-top: 1px solid #eee;" />
-
-    </div>
+    @* ===================================================== *@
+    @* --- ERRORES DE VALIDACIÓN --- *@
+    @* ===================================================== *@
 
     @if (!ViewData.ModelState.IsValid)
     {
-        <div class="alert alert-danger"
-             style="border-radius: 15px;
-                    box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-
+        <div class="alert alert-error alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+            </button>
             <i class="glyphicon glyphicon-exclamation-sign"></i>
-
-            <strong>
-                Corrija los siguientes errores antes de guardar:
-            </strong>
-
-            <ul style="margin-top: 10px;">
-
-                @foreach (var e in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                {
-                    <li>@e.ErrorMessage</li>
-                }
-
-            </ul>
-
+            <strong>Corrija los siguientes errores antes de guardar:</strong>
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
         </div>
     }
 
-    @using (Html.BeginForm("Registrar", "MatrizEpp", FormMethod.Post, new { onsubmit = "return validarFormulario()" }))
+    @using (Html.BeginForm(
+        "Registrar",
+        "MatrizEpp",
+        FormMethod.Post,
+        new { onsubmit = "return validarFormulario()" }))
     {
         @Html.AntiForgeryToken()
-
         @Html.HiddenFor(m => m.IdEmpleado)
 
+        @* ===================================================== *@
         @* --- SECCIÓN 1: DATOS DEL COLABORADOR --- *@
-        <div class="panel panel-default"
-             style="border-radius: 15px;
-                    border: none;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                    margin-bottom: 30px;">
+        @* ===================================================== *@
 
-            <div class="panel-heading"
-                 style="background-color: #29235c;
-                        color: white;
-                        border-radius: 15px 15px 0 0;
-                        padding: 15px 25px;">
-
-                <h3 class="panel-title" style="font-weight: bold;">
-
+        <div class="panel panel-seccion">
+            <div class="panel-heading panel-heading-morado">
+                <h3 class="panel-title">
                     <i class="glyphicon glyphicon-user"></i>
-                    1. Información del Colaborador
-
+                    1. Datos del colaborador
                 </h3>
-
             </div>
-
-            <div class="panel-body" style="padding: 25px;">
+            <div class="panel-body panel-body-custom">
 
                 <div class="row">
-
                     <div class="col-md-2">
-
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Cédula
-                            </label>
-
-                            @Html.TextBoxFor(
-                                m => m.Cedula,
-                                new
-                                {
-                                    @class = "form-control",
-                                    style = "border-radius: 10px; border: 1px solid #ddd;"
-                                }
-                            )
-
-                            @Html.ValidationMessageFor(
-                                m => m.Cedula,
-                                "",
-                                new { @class = "text-danger" }
-                            )
-
+                            <label class="label-form">Cédula</label>
+                            @Html.TextBoxFor(m => m.Cedula, new
+                            {
+                                @class = "form-control input-custom",
+                                id = "inputCedula",
+                                placeholder = "Ingrese la cédula y presione Tab"
+                            })
+                            @Html.ValidationMessageFor(m => m.Cedula, "", new { @class = "text-danger" })
+                            <span id="spnEstadoBusqueda" class="help-block" style="display:none;"></span>
                         </div>
-
                     </div>
-
                     <div class="col-md-4">
-
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Nombre Completo
-                            </label>
-
-                            @Html.TextBoxFor(
-                                m => m.NombreCompleto,
-                                new
-                                {
-                                    @class = "form-control",
-                                    style = "border-radius: 10px; border: 1px solid #ddd;"
-                                }
-                            )
-
-                            @Html.ValidationMessageFor(
-                                m => m.NombreCompleto,
-                                "",
-                                new { @class = "text-danger" }
-                            )
-
+                            <label class="label-form">Apellidos y nombre</label>
+                            @Html.TextBoxFor(m => m.NombreCompleto, new
+                            {
+                                @class = "form-control input-custom input-autocompletado",
+                                id = "inputNombreCompleto",
+                                @readonly = "readonly"
+                            })
+                            @Html.ValidationMessageFor(m => m.NombreCompleto, "", new { @class = "text-danger" })
                         </div>
-
                     </div>
-
                     <div class="col-md-2">
-
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Género
-                            </label>
-
-                            <select name="Genero"
-                                    class="form-control"
-                                    style="border-radius: 10px;
-                                           border: 1px solid #ddd;">
-
-                                <option value="">
-                                    -- Género --
-                                </option>
-
-                                @foreach (var g in ViewBag.Generos as string[])
-                                {
-                                    <option value="@g">
-                                        @g
-                                    </option>
-                                }
-
-                            </select>
-
+                            <label class="label-form">Género</label>
+                            @Html.TextBoxFor(m => m.Genero, new
+                            {
+                                @class = "form-control input-custom input-autocompletado",
+                                id = "inputGenero",
+                                @readonly = "readonly"
+                            })
+                            @Html.ValidationMessageFor(m => m.Genero, "", new { @class = "text-danger" })
                         </div>
-
                     </div>
-
                     <div class="col-md-2">
-
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Edad
-                            </label>
-
-                            @Html.TextBoxFor(
-                                m => m.Edad,
-                                new
-                                {
-                                    @class = "form-control",
-                                    type = "number",
-                                    min = "0",
-                                    style = "border-radius: 10px; border: 1px solid #ddd;"
-                                }
-                            )
-
+                            <label class="label-form">Edad</label>
+                            @Html.TextBoxFor(m => m.Edad, new
+                            {
+                                @class = "form-control input-custom input-autocompletado",
+                                id = "inputEdad",
+                                @readonly = "readonly"
+                            })
                         </div>
-
                     </div>
-
                     <div class="col-md-2">
-
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Fecha de Registro
-                            </label>
-
-                            @Html.TextBoxFor(
-                                m => m.FechaRegistro,
-                                "{0:yyyy-MM-dd}",
-                                new
-                                {
-                                    @class = "form-control",
-                                    type = "date",
-                                    style = "border-radius: 10px; border: 1px solid #ddd;"
-                                }
-                            )
-
+                            <label class="label-form">Fecha de registro</label>
+                            @Html.TextBoxFor(m => m.FechaRegistro, "{0:yyyy-MM-dd}", new
+                            {
+                                @class = "form-control input-custom",
+                                type = "date"
+                            })
                         </div>
-
                     </div>
-
                 </div>
 
-                <div class="row" style="margin-top: 15px;">
-
+                <div class="row">
                     <div class="col-md-4">
-
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Cargo
-                            </label>
-
-                            @Html.TextBoxFor(
-                                m => m.Cargo,
-                                new
-                                {
-                                    @class = "form-control",
-                                    style = "border-radius: 10px; border: 1px solid #ddd;"
-                                }
-                            )
-
+                            <label class="label-form">Cargo</label>
+                            @Html.TextBoxFor(m => m.Cargo, new
+                            {
+                                @class = "form-control input-custom input-autocompletado",
+                                id = "inputCargo",
+                                @readonly = "readonly"
+                            })
+                            @Html.ValidationMessageFor(m => m.Cargo, "", new { @class = "text-danger" })
                         </div>
-
                     </div>
-
                     <div class="col-md-4">
-
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Contratista
-                            </label>
-
-                            @Html.TextBoxFor(
-                                m => m.Contratista,
-                                new
-                                {
-                                    @class = "form-control",
-                                    style = "border-radius: 10px; border: 1px solid #ddd;"
-                                }
-                            )
-
+                            <label class="label-form">Contratista</label>
+                            @Html.TextBoxFor(m => m.Contratista, new
+                            {
+                                @class = "form-control input-custom input-autocompletado",
+                                id = "inputContratista",
+                                @readonly = "readonly"
+                            })
+                            @Html.ValidationMessageFor(m => m.Contratista, "", new { @class = "text-danger" })
                         </div>
-
                     </div>
-
                     <div class="col-md-4">
-
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Tiempo Prestación (meses)
-                            </label>
-
-                            @Html.TextBoxFor(
-                                m => m.TiempoPrestacion,
-                                new
-                                {
-                                    @class = "form-control",
-                                    style = "border-radius: 10px; border: 1px solid #ddd;"
-                                }
-                            )
-
+                            <label class="label-form">Tiempo de prestación (meses)</label>
+                            @Html.TextBoxFor(m => m.TiempoPrestacion, new
+                            {
+                                @class = "form-control input-custom input-autocompletado",
+                                id = "inputTiempoPrestacion",
+                                @readonly = "readonly"
+                            })
+                            @Html.ValidationMessageFor(m => m.TiempoPrestacion, "", new { @class = "text-danger" })
                         </div>
-
                     </div>
-
                 </div>
 
-                <div class="row" style="margin-top: 15px;">
-
+                <div class="row">
                     <div class="col-md-6">
-
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Proceso
-                            </label>
-
-                            <select name="IdProceso"
-                                    class="form-control"
-                                    style="border-radius: 10px;
-                                           border: 1px solid #ddd;">
-
-                                <option value="">
-                                    -- Seleccionar proceso --
-                                </option>
-
-                                @if (procesos != null)
-                                {
-                                    foreach (var p in procesos)
-                                    {
-                                        <option value="@p.IdProceso">
-                                            @p.NombreProceso
-                                        </option>
-                                    }
-                                }
-
+                            <label class="label-form">Proceso</label>
+                            <select id="selectProceso"
+                                    class="form-control input-custom input-autocompletado"
+                                    disabled="disabled">
+                                <option value="">-- Se autocompleta con la cédula --</option>
                             </select>
-
+                            @Html.Hidden("IdProceso", null, new { id = "hiddenIdProceso" })
                         </div>
-
                     </div>
-
                     <div class="col-md-6">
-
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Subproceso
-                            </label>
-
+                            <label class="label-form">Subproceso / servicio / área</label>
                             <select name="IdSubproceso"
-                                    class="form-control"
-                                    style="border-radius: 10px;
-                                           border: 1px solid #ddd;">
-
-                                <option value="">
-                                    -- Seleccionar subproceso --
-                                </option>
-
-                                @if (subprocesos != null)
-                                {
-                                    foreach (var s in subprocesos)
-                                    {
-                                        <option value="@s.IdSubproceso">
-                                            @s.NombreSubproceso
-                                        </option>
-                                    }
-                                }
-
+                                    id="selectSubproceso"
+                                    class="form-control input-custom">
+                                <option value="">-- Seleccionar subproceso --</option>
                             </select>
-
                         </div>
-
                     </div>
-
                 </div>
 
             </div>
-
         </div>
 
-        @* --- SECCIÓN 2: ELEMENTOS DE PROTECCIÓN --- *@
-        <div class="panel panel-default"
-             style="border-radius: 15px;
-            border: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            margin-bottom: 30px;">
+        @* ===================================================== *@
+        @* --- SECCIÓN 2: ELEMENTOS DE PROTECCIÓN PERSONAL --- *@
+        @* ===================================================== *@
 
-            <div class="panel-heading"
-                 style="background-color: #76b82a;
-                color: white;
-                border-radius: 15px 15px 0 0;
-                padding: 15px 25px;">
-
-                <h3 class="panel-title" style="font-weight: bold;">
+        <div class="panel panel-seccion">
+            <div class="panel-heading panel-heading-verde">
+                <h3 class="panel-title">
                     <i class="glyphicon glyphicon-th-list"></i>
-                    2. Elementos de Protección Personal Entregados
+                    2. Elementos de protección personal entregados
                 </h3>
-
             </div>
 
             <div class="table-responsive">
+                <table class="table table-hover tabla-epp">
 
-                <table class="table table-hover" style="margin-bottom: 0;">
-
-                    <thead style="background: #f8f9fa;">
-
+                    <thead class="tabla-epp-thead">
                         <tr>
-
-                            <th class="text-center"
-                                style="padding: 15px; width: 140px;">
-
-                                Seleccionar
-
-                            </th>
-
-                            <th style="padding: 15px; padding-left: 25px;">
-
-                                EPP
-
-                            </th>
-
-                            <th style="padding: 15px; width: 220px;">
-
-                                Fecha de Entrega
+                            <th class="text-center col-check">Seleccionar</th>
+                            <th>EPP</th>
+                            <th class="text-center col-fecha">
+                                Fecha de entrega
                                 <span class="text-danger">*</span>
-
                             </th>
-
-                            <th style="padding: 15px; width: 180px;">
-
+                            <th class="text-center col-alerta">
                                 Alerta (meses)
                                 <span class="text-danger">*</span>
-
                             </th>
-
-                            <th style="padding: 15px; width: 260px;">
-
-                                Fecha Estimada de Cambio
-
+                            <th class="text-center col-estimado">
+                                Fecha estimada de cambio
                             </th>
-
                         </tr>
-
                     </thead>
 
                     <tbody>
-
                         @if (catalogo != null)
                         {
                             foreach (var epp in catalogo)
                             {
                                 <tr>
 
-                                    <td class="text-center"
-                                        style="vertical-align: middle;">
-
+                                    @* ── Checkbox ── *@
+                                    <td class="text-center celda-media">
                                         <input type="checkbox"
                                                name="idsEppSeleccionados"
                                                value="@epp.IdCatalogoEPP"
                                                id="epp_@epp.IdCatalogoEPP"
-                                               style="width: 20px;
-                                              height: 20px;
-                                              cursor: pointer;" />
-
+                                               class="check-epp" />
                                     </td>
 
-                                    <td style="padding: 12px 25px;
-                                       vertical-align: middle;
-                                       font-weight: 500;">
-
+                                    @* ── Nombre EPP ── *@
+                                    <td class="celda-media">
                                         <label for="epp_@epp.IdCatalogoEPP"
-                                               style="cursor: pointer;
-                                              font-weight: 500;
-                                              margin-bottom: 0;">
-
+                                               class="label-epp">
                                             @epp.NombreEPP
-
                                         </label>
-
                                     </td>
 
-                                    <td style="vertical-align: middle;">
-
+                                    @* ── Fecha de entrega ── *@
+                                    <td class="celda-media">
                                         <input type="date"
                                                name="fecha_@epp.IdCatalogoEPP"
                                                id="fecha_@epp.IdCatalogoEPP"
-                                               class="form-control"
-                                               style="border-radius: 10px;
-                                              border: 1px solid #ddd;"
+                                               class="form-control input-custom"
                                                onchange="calcularEstimado('@epp.IdCatalogoEPP')" />
-
                                     </td>
 
-                                    <td style="vertical-align: middle;">
-
+                                    @* ── Tiempo de alerta ── *@
+                                    <td class="celda-media">
                                         <input type="number"
                                                name="alerta_@epp.IdCatalogoEPP"
                                                id="alerta_@epp.IdCatalogoEPP"
-                                               class="form-control"
+                                               class="form-control input-custom"
                                                value="12"
                                                min="1"
-                                               style="border-radius: 10px;
-                                              border: 1px solid #ddd;"
                                                onchange="calcularEstimado('@epp.IdCatalogoEPP')" />
-
                                     </td>
 
-                                    <td id="estimado_@epp.IdCatalogoEPP"
-                                        style="vertical-align: middle;
-                                       font-weight: bold;
-                                       color: #337ab7;">
-
+                                    @* ── Fecha estimada de cambio ── *@
+                                    <td class="text-center celda-media text-muted"
+                                        id="estimado_@epp.IdCatalogoEPP">
                                         —
-
                                     </td>
 
                                 </tr>
                             }
                         }
-
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center celda-vacia">
+                                    <i class="glyphicon glyphicon-folder-open icono-vacio"></i><br />
+                                    <span class="text-muted">No hay elementos EPP disponibles en el catálogo.</span>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
 
                 </table>
-
             </div>
-
         </div>
 
+        @* ===================================================== *@
+        @* --- SECCIÓN 3: OBSERVACIONES FINALES --- *@
+        @* ===================================================== *@
 
-        @* --- SECCIÓN DE BOTONES --- *@
-        <div style="margin-bottom: 50px;
-                display: flex;
-                gap: 15px;
-                align-items: center;">
+        <div class="panel panel-seccion">
+            <div class="panel-heading panel-heading-naranja">
+                <h3 class="panel-title">
+                    <i class="glyphicon glyphicon-comment"></i>
+                    3. Observaciones finales
+                </h3>
+            </div>
+            <div class="panel-body panel-body-custom">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="label-form">Observaciones finales</label>
+                    @Html.TextAreaFor(m => m.ObservacionesFinales, new
+                    {
+                        @class = "form-control textarea-custom",
+                        rows = "4"
+                    })
+                </div>
+            </div>
+        </div>
 
-            <button type="submit"
-                    class="btn-verde-claro"
-                    style="padding: 12px 30px;
-                       border-radius: 12px;
-                       font-weight: bold;
-                       border: none;
-                       font-size: 15px;">
+        @* ===================================================== *@
+        @* --- BOTONES --- *@
+        @* ===================================================== *@
 
+        <div class="botones-form-wrapper">
+            <button type="submit" class="btn btn-guardar-custom">
                 <i class="glyphicon glyphicon-floppy-disk"></i>
                 Guardar
-
             </button>
-
             <a href="@Url.Action("Index", "MatrizEpp")"
-               class="btn btn-default"
-               style="border: 2px solid #29235c;
-                  background: transparent;
-                  border-radius: 12px;
-                  color: #29235c;
-                  font-weight: bold;
-                  padding: 10px 25px;">
-
+               class="btn btn-cancelar-custom">
                 <i class="glyphicon glyphicon-remove"></i>
                 Cancelar
-
             </a>
-
         </div>
-
     }
 
-    @section Scripts {
+</div>
 
-        <script>
+@* ===================================================== *@
+@* --- SCRIPTS --- *@
+@* ===================================================== *@
 
-            function calcularEstimado(idEpp) {
+@section Scripts {
+    <script>
 
-                var fecha = document.getElementById('fecha_' + idEpp).value;
-                var alerta = parseInt(document.getElementById('alerta_' + idEpp).value);
-                var celda = document.getElementById('estimado_' + idEpp);
+        // ── Carga dinámica de subprocesos por proceso ─────────────────
+        function cargarSubprocesos(idProceso) {
+            var sel = document.getElementById('selectSubproceso');
+            sel.innerHTML = '<option value="">Cargando...</option>';
 
-                if (fecha && alerta) {
+            fetch('/Empleado/SubprocesosPorProceso?idProceso=' + idProceso)
+                .then(function (r) { return r.json(); })
+                .then(function (lista) {
+                    sel.innerHTML =
+                        '<option value="">-- Seleccionar subproceso --</option>';
+                    lista.forEach(function (s) {
+                        var opt = document.createElement('option');
+                        opt.value = s.id;
+                        opt.text = s.nombre;
+                        sel.appendChild(opt);
+                    });
+                });
+        }
 
-                    var f = new Date(fecha);
+        // ── Autocompletado de empleado por cédula ─────────────────────
+        document.getElementById('inputCedula')
+            .addEventListener('blur', function () {
 
-                    f.setMonth(f.getUTCMonth() + alerta);
+                var cedula = this.value.trim();
+                if (!cedula) return;
 
-                    var d = String(f.getUTCDate()).padStart(2, '0');
-                    var m = String(f.getUTCMonth() + 1).padStart(2, '0');
+                var spn = document.getElementById('spnEstadoBusqueda');
+                spn.style.display = 'inline';
+                spn.style.color = '#888';
+                spn.textContent = 'Buscando empleado...';
 
-                    celda.innerHTML = d + '/' + m + '/' + f.getUTCFullYear();
-                    celda.className = "text-success";
+                fetch('/Empleado/BuscarPorCedula?cedula=' + encodeURIComponent(cedula))
+                    .then(function (r) { return r.json(); })
+                    .then(function (data) {
+                        if (!data.encontrado) {
+                            spn.style.color = '#d9534f';
+                            spn.textContent = '⚠ ' + data.mensaje;
+                            return;
+                        }
 
-                } else {
+                        var e = data.empleado;
 
-                    celda.innerHTML = '—';
-                    celda.className = "text-muted";
+                        // ── Llenar campos del empleado ────────────────────
+                        document.getElementById('inputNombreCompleto').value = e.NombreCompleto;
+                        document.getElementById('inputGenero').value = e.Genero;
+                        document.getElementById('inputEdad').value = e.Edad;
+                        document.getElementById('inputCargo').value = e.Cargo;
+                        document.getElementById('inputContratista').value = e.Contratista;
+                        document.getElementById('inputTiempoPrestacion').value = e.TiempoPrestacion;
 
-                }
+                        // ── Llenar proceso ────────────────────────────────
+                        document.getElementById('hiddenIdProceso').value = e.IdProceso || '';
+                        var selProceso = document.getElementById('selectProceso');
+                        selProceso.innerHTML =
+                            '<option value="' + e.IdProceso + '">' + e.NombreProceso + '</option>';
 
+                        // ── Cargar subprocesos del proceso detectado ──────
+                        if (e.IdProceso) {
+                            cargarSubprocesos(e.IdProceso);
+                        }
+
+                        spn.style.color = '#76b82a';
+                        spn.textContent = '✔ Datos del empleado cargados correctamente.';
+                    })
+                    .catch(function () {
+                        spn.style.color = '#d9534f';
+                        spn.textContent = 'Error al consultar el servidor.';
+                    });
+            });
+
+        // ── Cálculo de fecha estimada de cambio EPP ───────────────────
+        function calcularEstimado(idEpp) {
+            var fecha = document.getElementById('fecha_' + idEpp).value;
+            var alerta = parseInt(document.getElementById('alerta_' + idEpp).value);
+            var celda = document.getElementById('estimado_' + idEpp);
+
+            if (fecha && alerta) {
+                var f = new Date(fecha);
+                f.setUTCMonth(f.getUTCMonth() + alerta);
+
+                var d = String(f.getUTCDate()).padStart(2, '0');
+                var m = String(f.getUTCMonth() + 1).padStart(2, '0');
+
+                celda.innerHTML = d + '/' + m + '/' + f.getUTCFullYear();
+                celda.className = 'text-center celda-media texto-estimado-ok';
+            } else {
+                celda.innerHTML = '—';
+                celda.className = 'text-center celda-media text-muted';
+            }
+        }
+
+        // ── Validación del formulario ─────────────────────────────────
+        function validarFormulario() {
+            var checks = document.querySelectorAll('input[name="idsEppSeleccionados"]:checked');
+
+            if (checks.length === 0) {
+                alert('Debe seleccionar al menos un elemento EPP para registrar la entrega.');
+                return false;
             }
 
-            function validarFormulario() {
-
-                var checks = document.querySelectorAll('input[name="idsEppSeleccionados"]:checked');
-
-                if (checks.length === 0) {
-
-                    alert('⚠️ Debe seleccionar al menos un elemento EPP para registrar la entrega.');
+            for (var i = 0; i < checks.length; i++) {
+                if (!document.getElementById('fecha_' + checks[i].value).value) {
+                    alert('Debe ingresar la fecha de entrega para todos los EPP seleccionados.');
+                    document.getElementById('fecha_' + checks[i].value).focus();
                     return false;
-
                 }
-
-                for (var i = 0; i < checks.length; i++) {
-
-                    if (!document.getElementById('fecha_' + checks[i].value).value) {
-
-                        alert('⚠️ Por favor, ingrese la fecha de entrega para el EPP seleccionado.');
-
-                        document.getElementById('fecha_' + checks[i].value).focus();
-
-                        return false;
-
-                    }
-
-                }
-
-                return true;
-
             }
 
-        </script>
+            return true;
+        }
 
+    </script>
+}
+
+@* ===================================================== *@
+@* --- ESTILOS --- *@
+@* ===================================================== *@
+
+<style>
+
+    /* ── Página ── */
+    .page-wrapper {
+        padding: 20px;
     }
+
+    .page-title {
+        color: #29235c;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .icon-accent {
+        color: #76b82a;
+    }
+
+    .separator {
+        border-top: 1px solid #eee;
+        margin-bottom: 25px;
+    }
+
+    /* ── Paneles ── */
+    .panel-seccion {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .panel-heading-morado {
+        background-color: #29235c;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-verde {
+        background-color: #76b82a;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-naranja {
+        background-color: #f39c12;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-seccion .panel-title {
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .panel-body-custom {
+        padding: 25px;
+    }
+
+    /* ── Alertas ── */
+    .alert-error {
+        background-color: #f2dede;
+        border-color: #d9534f;
+        color: #a94442;
+        border-radius: 10px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    /* ── Labels ── */
+    .label-form {
+        color: #000;
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .label-epp {
+        font-weight: 500;
+        margin-bottom: 0;
+        cursor: pointer;
+    }
+
+    /* ── Inputs ── */
+    .input-custom {
+        border-radius: 12px !important;
+        border: 1px solid #ddd !important;
+        height: 42px;
+        box-shadow: none !important;
+    }
+
+        .input-custom:focus {
+            border-color: #76b82a !important;
+            box-shadow: 0 0 5px rgba(118,184,42,0.3) !important;
+        }
+
+    .textarea-custom {
+        border-radius: 12px !important;
+        border: 1px solid #ddd !important;
+        resize: none;
+    }
+
+        .textarea-custom:focus {
+            border-color: #76b82a !important;
+            box-shadow: 0 0 5px rgba(118,184,42,0.3) !important;
+        }
+
+    /* ── Campos autocompletados desde HOJAVIDA ───────────────────── */
+    .input-autocompletado {
+        background-color: #f8f9fa !important;
+        color: #555 !important;
+        cursor: not-allowed;
+    }
+
+    /* ── Tabla EPP ── */
+    .tabla-epp {
+        margin-bottom: 0;
+    }
+
+    .tabla-epp-thead {
+        background-color: #f8f9fa;
+    }
+
+        .tabla-epp-thead th {
+            padding: 15px;
+            font-weight: 600;
+            color: #29235c;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+    .col-check {
+        width: 120px;
+    }
+
+    .col-fecha {
+        width: 200px;
+    }
+
+    .col-alerta {
+        width: 160px;
+    }
+
+    .col-estimado {
+        width: 200px;
+    }
+
+    .celda-media {
+        vertical-align: middle !important;
+        padding: 12px 15px;
+    }
+
+    .check-epp {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    .texto-estimado-ok {
+        font-weight: bold;
+        color: #76b82a;
+    }
+
+    /* ── Estado vacío ── */
+    .celda-vacia {
+        padding: 40px !important;
+    }
+
+    .icono-vacio {
+        font-size: 30px;
+        color: #ccc;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    /* ── Botones ── */
+    .botones-form-wrapper {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        margin-bottom: 50px;
+    }
+
+    .btn-guardar-custom {
+        background-color: #76b82a;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 12px 30px;
+        font-size: 15px;
+        transition: all 0.3s;
+    }
+
+        .btn-guardar-custom:hover {
+            background-color: #5f9821;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+    .btn-cancelar-custom {
+        background-color: transparent;
+        color: #29235c;
+        border: 2px solid #29235c;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 10px 25px;
+        transition: all 0.3s;
+    }
+
+        .btn-cancelar-custom:hover {
+            background-color: #29235c;
+            color: white;
+        }
+
+    /* ── Hover fila tabla EPP ── */
+    .table-hover tbody tr:hover {
+        background-color: #f9f9ff !important;
+        transition: all 0.2s ease;
+    }
+</style>

@@ -7,6 +7,32 @@
 <div class="container-fluid page-wrapper">
 
     @* ===================================================== *@
+    @* --- MENSAJES DE NOTIFICACIÓN --- *@
+    @* ===================================================== *@
+
+    @if (TempData["Exito"] != null)
+    {
+        <div class="alert alert-exito alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <i class="glyphicon glyphicon-ok-circle"></i>
+            @TempData["Exito"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-error alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <i class="glyphicon glyphicon-exclamation-sign"></i>
+            @TempData["Error"]
+        </div>
+    }
+
+    @* ===================================================== *@
     @* --- ENCABEZADO --- *@
     @* ===================================================== *@
 
@@ -172,6 +198,25 @@
 
 <style>
 
+    /* ── Alertas ── */
+    .alert-exito {
+        background-color: #dff0d8;
+        border-color: #76b82a;
+        color: #3c763d;
+        border-radius: 10px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    .alert-error {
+        background-color: #f2dede;
+        border-color: #d9534f;
+        color: #a94442;
+        border-radius: 10px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
     /* ── Página ── */
     .page-wrapper {
         padding: 20px;
@@ -317,7 +362,6 @@
         gap: 5px;
     }
 
-    /* Base común para ambos botones: mismo alto, misma fuente, ancho automático */
     .btn-accion {
         height: 30px;
         line-height: 20px;

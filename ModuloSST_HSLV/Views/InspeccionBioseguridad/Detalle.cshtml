@@ -4,309 +4,148 @@
     ViewBag.Title = "Detalle — Inspección de Bioseguridad";
 }
 
-<div class="container-fluid">
+<div class="container-fluid page-wrapper">
 
+    @* ===================================================== *@
     @* --- ENCABEZADO --- *@
-    <div style="margin-top: 20px; margin-bottom: 25px;">
+    @* ===================================================== *@
 
-        <div class="row" style="display: flex; align-items: center;">
+    <div class="detalle-encabezado">
+
+        <div class="row">
 
             <div class="col-md-8">
-                <h2 style="color: #29235c; font-weight: bold; margin-bottom: 5px;">
-                    <i class="glyphicon glyphicon-check"></i>
-                    Detalle de Inspección de Bioseguridad
+                <h2 class="page-title">
+                    <i class="glyphicon glyphicon-eye-open icon-accent"></i>
+                    Detalle de inspección de bioseguridad
                 </h2>
-
             </div>
 
             <div class="col-md-4 text-right">
                 <a href="@Url.Action("Index", "InspeccionBioseguridad")"
-                   class="btn btn-default"
-                   style="border-radius: 8px;
-                          font-weight: bold;
-                          border: 2px solid #ccc;
-                          padding: 8px 20px;">
-
-                    <i class="glyphicon glyphicon-arrow-left"></i>
+                   class="btn btn-cancelar-custom">
+                    <i class="glyphicon glyphicon-list"></i>
                     Volver al listado
-
                 </a>
             </div>
 
         </div>
 
-        <hr style="border-top: 1px solid #eee;" />
+        <hr class="separator" />
 
     </div>
 
+    @* ===================================================== *@
     @* --- SECCIÓN 1: DATOS DEL COLABORADOR --- *@
-    <div class="panel panel-default"
-         style="border-radius: 15px;
-            border: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            margin-bottom: 30px;">
+    @* ===================================================== *@
 
-        <div class="panel-heading"
-             style="background-color: #29235c;
-                color: white;
-                border-radius: 15px 15px 0 0;
-                padding: 15px 25px;">
-
-            <h3 class="panel-title" style="font-weight: bold;">
+    <div class="panel panel-seccion">
+        <div class="panel-heading panel-heading-morado">
+            <h3 class="panel-title">
                 <i class="glyphicon glyphicon-user"></i>
-                1. Información del Colaborador
+                1. Datos del colaborador
             </h3>
-
         </div>
-
-        <div class="panel-body" style="padding: 25px;">
+        <div class="panel-body panel-body-custom">
 
             @* --- FILA 1 --- *@
             <div class="row">
 
                 <div class="col-md-2">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c; font-weight: 600;">
-                            Cédula
-                        </label>
-
-                        <p style="font-size: 16px;
-                              font-weight: 600;
-                              margin-top: 5px;">
-
-                            @Model.Cedula
-
-                        </p>
-
-                    </div>
-
+                    <label class="detalle-label">Cédula</label>
+                    <p class="detalle-texto detalle-destacado">@Model.Cedula</p>
                 </div>
 
                 <div class="col-md-4">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c; font-weight: 600;">
-                            Nombre Completo
-                        </label>
-
-                        <p style="font-size: 16px;
-                              font-weight: 600;
-                              margin-top: 5px;">
-
-                            @Model.NombreCompleto
-
-                        </p>
-
-                    </div>
-
+                    <label class="detalle-label">Apellidos y nombre</label>
+                    <p class="detalle-texto detalle-destacado">@Model.NombreCompleto</p>
                 </div>
 
                 <div class="col-md-2">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c; font-weight: 600;">
-                            Género
-                        </label>
-
-                        <p style="margin-top: 5px;">
-                            @Model.Genero
-                        </p>
-
-                    </div>
-
+                    <label class="detalle-label">Género</label>
+                    <p class="detalle-texto">
+                        @(string.IsNullOrEmpty(Model.Genero) ? "—" : Model.Genero)
+                    </p>
                 </div>
 
                 <div class="col-md-2">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c; font-weight: 600;">
-                            Edad
-                        </label>
-
-                        <p style="margin-top: 5px;">
-                            @Model.Edad años
-                        </p>
-
-                    </div>
-
+                    <label class="detalle-label">Edad</label>
+                    <p class="detalle-texto">@Model.Edad años</p>
                 </div>
 
                 <div class="col-md-2">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c; font-weight: 600;">
-                            Fecha de Inspección
-                        </label>
-
-                        <p style="margin-top: 5px;
-                              color: #337ab7;
-                              font-weight: bold;">
-
-                            @Model.FechaInspeccion.ToString("dd / MMMM / yyyy")
-
-                        </p>
-
-                    </div>
-
+                    <label class="detalle-label">Fecha de inspección</label>
+                    <p class="detalle-texto detalle-fecha">
+                        @Model.FechaInspeccion.ToString("dd/MM/yyyy")
+                    </p>
                 </div>
 
             </div>
 
             @* --- FILA 2 --- *@
-            <div class="row" style="margin-top: 15px;">
+            <div class="row detalle-fila">
 
                 <div class="col-md-4">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c; font-weight: 600;">
-                            Cargo
-                        </label>
-
-                        <p style="margin-top: 5px;">
-                            @Model.Cargo
-                        </p>
-
-                    </div>
-
+                    <label class="detalle-label">Cargo</label>
+                    <p class="detalle-texto">
+                        @(string.IsNullOrEmpty(Model.Cargo) ? "—" : Model.Cargo)
+                    </p>
                 </div>
 
                 <div class="col-md-4">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c; font-weight: 600;">
-                            Contratista
-                        </label>
-
-                        <p style="margin-top: 5px;">
-
-                            @(string.IsNullOrEmpty(Model.Contratista)
-                            ? "Directo / Propio"
-                            : Model.Contratista)
-
-                        </p>
-
-                    </div>
-
+                    <label class="detalle-label">Contratista</label>
+                    <p class="detalle-texto">
+                        @(string.IsNullOrEmpty(Model.Contratista) ? "Directo / Propio" : Model.Contratista)
+                    </p>
                 </div>
 
                 <div class="col-md-4">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c; font-weight: 600;">
-                            Tiempo Prestación (meses)
-                        </label>
-
-                        <p style="margin-top: 5px;">
-                            @Model.TiempoPrestacion
-                        </p>
-
-                    </div>
-
+                    <label class="detalle-label">Tiempo de prestación (meses)</label>
+                    <p class="detalle-texto">
+                        @(string.IsNullOrEmpty(Model.TiempoPrestacion) ? "—" : Model.TiempoPrestacion)
+                    </p>
                 </div>
 
             </div>
 
             @* --- FILA 3 --- *@
-            <div class="row" style="margin-top: 15px;">
+            <div class="row detalle-fila">
 
                 <div class="col-md-6">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c; font-weight: 600;">
-                            Proceso
-                        </label>
-
-                        <p style="margin-top: 5px;">
-
-                            @(Model.Proceso != null
-                            ? Model.Proceso.NombreProceso
-                            : "—")
-
-                        </p>
-
-                    </div>
-
+                    <label class="detalle-label">Proceso</label>
+                    <p class="detalle-texto">@(Model.Proceso?.NombreProceso ?? "—")</p>
                 </div>
 
                 <div class="col-md-6">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c; font-weight: 600;">
-                            Subproceso
-                        </label>
-
-                        <p style="margin-top: 5px;">
-
-                            @(Model.Subproceso != null
-                            ? Model.Subproceso.NombreSubproceso
-                            : "—")
-
-                        </p>
-
-                    </div>
-
+                    <label class="detalle-label">Subproceso / servicio / área</label>
+                    <p class="detalle-texto">@(Model.Subproceso?.NombreSubproceso ?? "—")</p>
                 </div>
 
             </div>
 
         </div>
-
     </div>
 
-    @* --- SECCIÓN 2: EVALUACIÓN --- *@
-    <div class="panel panel-default"
-         style="border-radius: 15px;
-                border: none;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                margin-bottom: 30px;">
+    @* ===================================================== *@
+    @* --- SECCIÓN 2: EVALUACIÓN DE ÍTEMS --- *@
+    @* ===================================================== *@
 
-        <div class="panel-heading"
-             style="background-color: #76b82a;
-                    color: white;
-                    border-radius: 15px 15px 0 0;
-                    padding: 15px 25px;">
-
-            <h3 class="panel-title" style="font-weight: bold;">
+    <div class="panel panel-seccion">
+        <div class="panel-heading panel-heading-verde">
+            <h3 class="panel-title">
                 <i class="glyphicon glyphicon-check"></i>
-                2. Evaluación de Ítems de Bioseguridad
+                2. Evaluación de ítems de bioseguridad
             </h3>
-
         </div>
 
         <div class="table-responsive">
+            <table class="table table-hover tabla-items">
 
-            <table class="table table-hover" style="margin-bottom: 0;">
-
-                <thead style="background: #f8f9fa;">
-
+                <thead class="tabla-items-thead">
                     <tr>
-
-                        <th style="padding: 15px; padding-left: 25px;">
-                            Ítem Evaluado
-                        </th>
-
-                        <th class="text-center"
-                            style="width: 180px;
-                                   color: #29235c;
-                                   font-weight: bold;">
-
-                            Resultado
-
-                        </th>
-
+                        <th class="col-item">Ítem evaluado</th>
+                        <th class="text-center col-resultado">Resultado</th>
                     </tr>
-
                 </thead>
 
                 <tbody>
@@ -314,17 +153,17 @@
                     @{
                         var items = new[]
                         {
-                            new { nombre = "Higiene de Manos", valor = Model.HigieneManos },
-                            new { nombre = "Protección Respiratoria", valor = Model.ProteccionRespiratoria },
-                            new { nombre = "Uso de Guantes", valor = Model.UsoGuantes },
-                            new { nombre = "Uso de Gorro", valor = Model.UsoGorro },
-                            new { nombre = "Uso de Bata", valor = Model.UsoBata },
-                            new { nombre = "Protección Visual", valor = Model.ProteccionVisual },
-                            new { nombre = "Uso Delantal/Peto", valor = Model.UsoDelantalPeto },
-                            new { nombre = "Calzado Adecuado", valor = Model.CalzadoAdecuado },
-                            new { nombre = "Transporte de Muestras", valor = Model.TransporteMuestras },
-                            new { nombre = "Manejo Corto Punzantes", valor = Model.ManejoCorto },
-                            new { nombre = "Manejo de Residuos", valor = Model.ManejoResiduos }
+                            new { nombre = "Higiene de manos",         valor = Model.HigieneManos },
+                            new { nombre = "Protección respiratoria",  valor = Model.ProteccionRespiratoria },
+                            new { nombre = "Uso de guantes",           valor = Model.UsoGuantes },
+                            new { nombre = "Uso de gorro",             valor = Model.UsoGorro },
+                            new { nombre = "Uso de bata",              valor = Model.UsoBata },
+                            new { nombre = "Protección visual",        valor = Model.ProteccionVisual },
+                            new { nombre = "Uso delantal/peto",        valor = Model.UsoDelantalPeto },
+                            new { nombre = "Calzado adecuado",         valor = Model.CalzadoAdecuado },
+                            new { nombre = "Transporte de muestras",   valor = Model.TransporteMuestras },
+                            new { nombre = "Manejo corto punzantes",   valor = Model.ManejoCorto },
+                            new { nombre = "Manejo de residuos",       valor = Model.ManejoResiduos }
                         };
                     }
 
@@ -332,36 +171,23 @@
                     {
                         <tr>
 
-                            <td style="padding: 12px 25px;
-                                       vertical-align: middle;
-                                       font-weight: 500;">
-
+                            <td class="celda-media celda-item">
                                 @item.nombre
-
                             </td>
 
-                            <td class="text-center"
-                                style="vertical-align: middle;">
-
+                            <td class="text-center celda-media">
                                 @if (item.valor == "C")
                                 {
-                                    <span class="badge-custom-cumple">
-                                        CUMPLE
-                                    </span>
+                                    <span class="badge-convencion badge-cumple">CUMPLE</span>
                                 }
                                 else if (item.valor == "NC")
                                 {
-                                    <span class="badge-custom-nocumple">
-                                        NO CUMPLE
-                                    </span>
+                                    <span class="badge-convencion badge-no-cumple">NO CUMPLE</span>
                                 }
                                 else
                                 {
-                                    <span class="badge-custom-na">
-                                        N/A
-                                    </span>
+                                    <span class="badge-convencion badge-na">NO APLICA</span>
                                 }
-
                             </td>
 
                         </tr>
@@ -370,121 +196,287 @@
                 </tbody>
 
                 <tfoot>
-
-                    <tr style="background-color: #29235c; color: white;">
-
-                        <td style="padding: 15px 25px;
-                                   font-weight: bold;">
-
-                            TOTALES DE EVALUACIÓN
-
+                    <tr class="tfoot-totales">
+                        <td class="celda-media celda-item">
+                            <strong>Totales de evaluación</strong>
                         </td>
-
-                        <td class="text-center"
-                            style="font-weight: bold;">
-
-                            C: @Model.TotalCumple |
-                            NC: @Model.TotalNoCumple |
-                            NA: @Model.TotalNoAplica
-
+                        <td class="text-center celda-media">
+                            <span class="badge-convencion badge-cumple">C: @Model.TotalCumple</span>
+                            &nbsp;
+                            <span class="badge-convencion badge-no-cumple">NC: @Model.TotalNoCumple</span>
+                            &nbsp;
+                            <span class="badge-convencion badge-na">NA: @Model.TotalNoAplica</span>
                         </td>
-
                     </tr>
-
                 </tfoot>
 
             </table>
+        </div>
 
+        <div class="panel-footer convenciones-footer">
+            <p class="text-muted convenciones-texto">
+                <strong>Convenciones:</strong>
+                &nbsp;
+                <span class="badge-convencion badge-cumple">C</span> Cumple
+                &nbsp;|&nbsp;
+                <span class="badge-convencion badge-no-cumple">NC</span> No cumple
+                &nbsp;|&nbsp;
+                <span class="badge-convencion badge-na">NA</span> No aplica
+            </p>
         </div>
 
     </div>
 
-    @* --- SECCIÓN 3: OBSERVACIONES --- *@
-    <div class="panel panel-default"
-         style="border-radius: 15px;
-                border: none;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                margin-bottom: 40px;">
+    @* ===================================================== *@
+    @* --- SECCIÓN 3: OBSERVACIONES FINALES --- *@
+    @* ===================================================== *@
 
-        <div class="panel-heading"
-             style="background-color: #f39c12;
-                    color: white;
-                    border-radius: 15px 15px 0 0;
-                    padding: 15px 25px;">
-
-            <h3 class="panel-title" style="font-weight: bold;">
+    <div class="panel panel-seccion">
+        <div class="panel-heading panel-heading-naranja">
+            <h3 class="panel-title">
                 <i class="glyphicon glyphicon-comment"></i>
-                3. Observaciones Generales
+                3. Observaciones finales
             </h3>
-
         </div>
-
-        <div class="panel-body" style="padding: 25px;">
+        <div class="panel-body panel-body-custom">
 
             @if (!string.IsNullOrEmpty(Model.ObservacionesFinales))
             {
-                <div style="background: #fdfdfd;
-                            padding: 20px;
-                            border-radius: 12px;
-                            border-left: 5px solid #29235c;
-                            font-size: 15px;
-                            color: #555;
-                            line-height: 1.7;">
-
-                    @Model.ObservacionesFinales
-
+                <div class="detalle-bloque-destacado detalle-bloque-naranja">
+                    <p class="detalle-texto">@Model.ObservacionesFinales</p>
                 </div>
             }
             else
             {
-                <p class="text-muted"
-                   style="margin: 0;
-                          font-size: 15px;">
-
-                    No se registraron observaciones adicionales en esta inspección.
-
+                <p class="detalle-sin-archivo">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    Sin observaciones finales registradas.
                 </p>
             }
 
         </div>
-
     </div>
 
 </div>
 
 <style>
 
+    /* ── Página ── */
+    .page-wrapper {
+        padding: 20px;
+    }
+
+    .page-title {
+        color: #29235c;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .icon-accent {
+        color: #76b82a;
+    }
+
+    .separator {
+        border-top: 1px solid #eee;
+        margin-bottom: 25px;
+    }
+
+    /* ── Encabezado ── */
+    .detalle-encabezado {
+        margin-bottom: 10px;
+    }
+
+    /* ── Paneles ── */
+    .panel-seccion {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .panel-heading-morado {
+        background-color: #29235c;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-verde {
+        background-color: #76b82a;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-naranja {
+        background-color: #f39c12;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-seccion .panel-title {
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .panel-body-custom {
+        padding: 25px;
+    }
+
+    /* ── Texto de detalle ── */
+    .detalle-label {
+        color: #29235c;
+        font-size: 12px;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 4px;
+        text-transform: none;
+        letter-spacing: 0.5px;
+    }
+
+    .detalle-texto {
+        font-size: 14px;
+        margin-top: 2px;
+        margin-bottom: 0;
+        color: #333;
+    }
+
+    .detalle-destacado {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .detalle-fecha {
+        font-weight: bold;
+    }
+
+    .detalle-fila {
+        margin-top: 15px;
+    }
+
+    /* ── Bloques destacados ── */
+    .detalle-bloque-destacado {
+        border-radius: 10px;
+        padding: 15px 20px;
+        background-color: #f8f9fa;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .detalle-bloque-naranja {
+        border-left: 4px solid #f39c12;
+    }
+
+    /* ── Sin contenido ── */
+    .detalle-sin-archivo {
+        color: #aaa;
+        font-size: 13px;
+        margin-top: 5px;
+        margin-bottom: 0;
+    }
+
+    /* ── Tabla de ítems ── */
+    .tabla-items {
+        margin-bottom: 0;
+    }
+
+    .tabla-items-thead {
+        background-color: #f8f9fa;
+    }
+
+        .tabla-items-thead th {
+            padding: 15px;
+            font-weight: 700;
+            color: #29235c;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+    .col-item {
+        padding-left: 25px !important;
+    }
+
+    .col-resultado {
+        width: 200px;
+    }
+
+    .celda-media {
+        vertical-align: middle !important;
+        padding: 12px 15px;
+    }
+
+    .celda-item {
+        font-weight: 500;
+        padding-left: 25px !important;
+    }
+
+    /* ── Fila de totales ── */
+    .tfoot-totales {
+        background-color: #f8f9fa;
+        border-top: 2px solid #dee2e6;
+    }
+
+    /* ── Footer de convenciones ── */
+    .convenciones-footer {
+        background-color: #fdfdfd;
+        padding: 12px 25px;
+        border-top: 1px solid #eee;
+    }
+
+    .convenciones-texto {
+        margin: 0;
+        font-size: 13px;
+    }
+
+    /* ── Badges de resultado ── */
+    .badge-convencion {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: bold;
+        color: white;
+    }
+
+    .badge-cumple {
+        background-color: #76b82a;
+    }
+
+    .badge-no-cumple {
+        background-color: #d9534f;
+    }
+
+    .badge-na {
+        background-color: #777;
+    }
+
+    /* ── Hover fila tabla ── */
     .table-hover tbody tr:hover {
-        background-color: #f4f9f4 !important;
+        background-color: #f9f9ff !important;
+        transition: all 0.2s ease;
     }
 
-    .badge-custom-cumple {
-        background-color: #28a745;
-        color: white;
-        padding: 6px 14px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: bold;
-        display: inline-block;
+    /* ── Botones ── */
+    .botones-form-wrapper {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        margin-bottom: 50px;
     }
 
-    .badge-custom-nocumple {
-        background-color: #dc3545;
-        color: white;
-        padding: 6px 14px;
-        border-radius: 20px;
-        font-size: 11px;
+    .btn-cancelar-custom {
+        background-color: transparent;
+        color: #29235c;
+        border: 2px solid #29235c;
+        border-radius: 12px;
         font-weight: bold;
-        display: inline-block;
+        padding: 10px 25px;
+        transition: all 0.3s;
     }
 
-    .badge-custom-na {
-        background-color: #6c757d;
-        color: white;
-        padding: 6px 14px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: bold;
-        display: inline-block;
-    }
+        .btn-cancelar-custom:hover {
+            background-color: #29235c;
+            color: white;
+        }
 </style>

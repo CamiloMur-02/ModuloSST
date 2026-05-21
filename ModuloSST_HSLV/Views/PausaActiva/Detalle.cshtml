@@ -4,318 +4,221 @@
     ViewBag.Title = "Detalle Pausa Activa";
 }
 
-<div class="container-fluid" style="padding: 20px;">
+<div class="container-fluid page-wrapper">
 
-    @* --- CABECERA --- *@
+    @* ===================================================== *@
+    @* --- ENCABEZADO --- *@
+    @* ===================================================== *@
+
     <div class="row">
-
         <div class="col-md-8">
-
-            <h2 style="color: #29235c;
-                       font-weight: bold;
-                       margin-bottom: 5px;">
-
-                <i class="glyphicon glyphicon-list-alt"
-                   style="color: #3182ce;"></i>
-
-                Detalle del Registro
-
+            <h2 class="page-title">
+                <i class="glyphicon glyphicon-hourglass icon-accent"></i>
+                Detalle de la pausa activa
             </h2>
-
         </div>
-
+        <div class="col-md-4 text-right botones-encabezado">
+            <a href="@Url.Action("Index", "PausaActiva")"
+               class="btn btn-volver-custom">
+                <i class="glyphicon glyphicon-list"></i>
+                Volver al listado
+            </a>
+        </div>
     </div>
 
-    <hr style="border-top: 1px solid #eee;" />
+    <hr class="separator" />
 
+    @* ===================================================== *@
     @* --- SECCIÓN 1: DATOS DEL COLABORADOR --- *@
-    <div class="panel panel-default"
-         style="border-radius: 15px;
-            border: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            margin-bottom: 30px;">
+    @* ===================================================== *@
 
-        <div class="panel-heading"
-             style="background-color: #29235c;
-                color: white;
-                border-radius: 15px 15px 0 0;
-                padding: 15px 25px;">
-
-            <h3 class="panel-title" style="font-weight: bold;">
-
+    <div class="panel panel-seccion">
+        <div class="panel-heading panel-heading-morado">
+            <h3 class="panel-title">
                 <i class="glyphicon glyphicon-user"></i>
-                1. Información del Colaborador
-
+                1. Datos del colaborador
             </h3>
-
         </div>
+        <div class="panel-body panel-body-custom">
 
-        <div class="panel-body" style="padding: 25px;">
-
-            @* --- FILA 1 --- *@
             <div class="row">
-
+                <div class="col-md-3">
+                    <label class="detalle-label">Cédula</label>
+                    <p class="detalle-texto">@Model.Cedula</p>
+                </div>
+                <div class="col-md-5">
+                    <label class="detalle-label">Apellidos y nombre</label>
+                    <p class="detalle-texto">@Model.NombreCompleto</p>
+                </div>
                 <div class="col-md-2">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c;
-                                  font-weight: 600;">
-
-                            Cédula
-
-                        </label>
-
-                        <p style="font-size: 16px;
-                              font-weight: 600;
-                              margin-top: 5px;">
-
-                            @Model.Cedula
-
-                        </p>
-
-                    </div>
-
+                    <label class="detalle-label">Género</label>
+                    <p class="detalle-texto">@Model.Genero</p>
                 </div>
-
-                <div class="col-md-4">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c;
-                                  font-weight: 600;">
-
-                            Nombre Completo
-
-                        </label>
-
-                        <p style="font-size: 16px;
-                              font-weight: 600;
-                              margin-top: 5px;">
-
-                            @Model.NombreCompleto
-
-                        </p>
-
-                    </div>
-
-                </div>
-
                 <div class="col-md-2">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c;
-                                  font-weight: 600;">
-
-                            Género
-
-                        </label>
-
-                        <p style="margin-top: 5px;">
-
-                            @Model.Genero
-
-                        </p>
-
-                    </div>
-
+                    <label class="detalle-label">Edad</label>
+                    <p class="detalle-texto">@Model.Edad años</p>
                 </div>
-
-                <div class="col-md-2">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c;
-                                  font-weight: 600;">
-
-                            Edad
-
-                        </label>
-
-                        <p style="margin-top: 5px;">
-
-                            @Model.Edad años
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-2">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c;
-                                  font-weight: 600;">
-
-                            Fecha de Ejecución
-
-                        </label>
-
-                        <p style="margin-top: 5px;
-                              color: #337ab7;
-                              font-weight: bold;">
-
-                            @Model.Fecha.ToString("dd / MMMM / yyyy")
-
-                        </p>
-
-                    </div>
-
-                </div>
-
             </div>
 
-            @* --- FILA 2 --- *@
-            <div class="row" style="margin-top: 15px;">
-
+            <div class="row fila-separada">
                 <div class="col-md-4">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c;
-                                  font-weight: 600;">
-
-                            Cargo
-
-                        </label>
-
-                        <p style="margin-top: 5px;">
-
-                            @Model.Cargo
-
-                        </p>
-
-                    </div>
-
+                    <label class="detalle-label">Cargo</label>
+                    <p class="detalle-texto">@Model.Cargo</p>
                 </div>
-
                 <div class="col-md-4">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c;
-                                  font-weight: 600;">
-
-                            Contratista
-
-                        </label>
-
-                        <p style="margin-top: 5px;">
-
-                            @(string.IsNullOrEmpty(Model.Contratista)
-                            ? "Directo / Propio"
-                            : Model.Contratista)
-
-                        </p>
-
-                    </div>
-
+                    <label class="detalle-label">Contratista</label>
+                    <p class="detalle-texto">@(string.IsNullOrEmpty(Model.Contratista) ? "—" : Model.Contratista)</p>
                 </div>
-
                 <div class="col-md-4">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c;
-                                  font-weight: 600;">
-
-                            Tiempo Prestación (meses)
-
-                        </label>
-
-                        <p style="margin-top: 5px;">
-
-                            @Model.TiempoPrestacion
-
-                        </p>
-
-                    </div>
-
+                    <label class="detalle-label">Tiempo de prestación (meses)</label>
+                    <p class="detalle-texto">@(Model.TiempoPrestacion ?? "—")</p>
                 </div>
-
             </div>
 
-            @* --- FILA 3 --- *@
-            <div class="row" style="margin-top: 15px;">
-
+            <div class="row fila-separada">
                 <div class="col-md-6">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c;
-                                  font-weight: 600;">
-
-                            Proceso
-
-                        </label>
-
-                        <p style="margin-top: 5px;">
-
-                            @(Model.Proceso != null
-                            ? Model.Proceso.NombreProceso
-                            : "—")
-
-                        </p>
-
-                    </div>
-
+                    <label class="detalle-label">Proceso</label>
+                    <p class="detalle-texto">@(Model.Proceso != null ? Model.Proceso.NombreProceso : "—")</p>
                 </div>
-
                 <div class="col-md-6">
-
-                    <div class="form-group">
-
-                        <label style="color: #29235c;
-                                  font-weight: 600;">
-
-                            Subproceso
-
-                        </label>
-
-                        <p style="margin-top: 5px;">
-
-                            @(Model.Subproceso != null
-                            ? Model.Subproceso.NombreSubproceso
-                            : "—")
-
-                        </p>
-
-                    </div>
-
+                    <label class="detalle-label">Subproceso / servicio / área</label>
+                    <p class="detalle-texto">@(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : "—")</p>
                 </div>
-
             </div>
 
         </div>
-
     </div>
 
-    @* --- BOTÓN DE RETORNO --- *@
-    <div style="margin-top: 30px; margin-bottom: 50px;">
+    @* ===================================================== *@
+    @* --- SECCIÓN 2: DETALLES DE LA PAUSA ACTIVA --- *@
+    @* ===================================================== *@
 
-        <a href="@Url.Action("Index", "PausaActiva")"
-           class="btn btn-default"
-           style="border: 2px solid #000;
-          background: transparent;
-          border-radius: 12px;
-          color: #000;
-          font-weight: bold;
-          padding: 10px 25px;">
+    <div class="panel panel-seccion">
+        <div class="panel-heading panel-heading-verde">
+            <h3 class="panel-title">
+                <i class="glyphicon glyphicon-calendar"></i>
+                2. Detalles de la pausa activa
+            </h3>
+        </div>
+        <div class="panel-body panel-body-custom">
 
-            <i class="glyphicon glyphicon-arrow-left"></i>
-            Volver al listado
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="detalle-label">Fecha de la pausa activa</label>
+                    <p class="detalle-texto">@Model.Fecha.ToString("dd/MM/yyyy")</p>
+                </div>
+            </div>
 
-        </a>
-
+        </div>
     </div>
 
-    <style>
+</div>
 
-        label {
-            margin-bottom: 2px;
-            letter-spacing: 0.5px;
+<style>
+
+    /* ── Página ── */
+    .page-wrapper {
+        padding: 20px;
+    }
+
+    .page-title {
+        color: #29235c;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .icon-accent {
+        color: #76b82a;
+    }
+
+    .separator {
+        border-top: 1px solid #eee;
+        margin-bottom: 25px;
+    }
+
+    /* ── Botones encabezado ── */
+    .botones-encabezado {
+        padding-top: 8px;
+    }
+
+    .btn-volver-custom {
+        background-color: transparent;
+        color: #29235c;
+        border: 2px solid #29235c;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 8px 20px;
+        transition: all 0.3s;
+    }
+
+        .btn-volver-custom:hover {
+            background-color: #29235c;
+            color: white;
         }
-    </style>
+
+    /* ── Paneles ── */
+    .panel-seccion {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .panel-heading-morado {
+        background-color: #29235c;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-verde {
+        background-color: #76b82a;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-seccion .panel-title {
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .panel-body-custom {
+        padding: 25px;
+    }
+
+    /* ── Tipografía de detalle ── */
+    .detalle-label {
+        color: #29235c;
+        font-size: 12px;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 4px;
+        text-transform: none;
+        letter-spacing: 0.5px;
+    }
+
+    .detalle-texto {
+        font-size: 15px;
+        color: #333;
+        font-weight: 500;
+        margin-bottom: 0;
+    }
+
+    /* ── Filas con separación ── */
+    .fila-separada {
+        margin-top: 15px;
+    }
+
+    /* ── Bloques de observación ── */
+    .bloque-observacion {
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+    }
+
+    .bloque-verde {
+        border-left: 4px solid #76b82a;
+    }
+</style>

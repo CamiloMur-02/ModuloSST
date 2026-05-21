@@ -21,7 +21,7 @@ namespace ModuloSST_HSLV.Models
     /// Reglas de negocio:
     /// - Solo cuando TipoEnfermedad = "Enfermedad Laboral" se habilitan
     ///   los campos de investigación, seguimiento y plan de mejora.
-    /// - Los días de investigación se calculan en el controlador.
+    /// - Los días de investigación los ingresa el usuario manualmente.
     /// - Los archivos se almacenan en el servidor y se referencian por ruta.
     /// </summary>
     [Table("ReporteEnfermedadLaboral")]
@@ -177,7 +177,8 @@ namespace ModuloSST_HSLV.Models
         public DateTime? FechaInvestigacion { get; set; }
 
         /// <summary>
-        /// Días entre diagnóstico e investigación (calculado en controlador).
+        /// Días entre diagnóstico e investigación.
+        /// Lo ingresa manualmente el usuario.
         /// </summary>
         [Display(Name = "Días de Investigación")]
         public int? DiasInvestigacion { get; set; }
@@ -261,14 +262,23 @@ namespace ModuloSST_HSLV.Models
         #endregion
 
 
-        #region [7] Observaciones finales
+        #region [7] Observaciones
 
         /// <summary>
-        /// Observaciones finales del proceso.
+        /// Observaciones del proceso de investigación.
+        /// Solo aplica para Enfermedad Laboral.
         /// </summary>
         [StringLength(500)]
         [Display(Name = "Observaciones")]
         public string Observaciones { get; set; }
+
+        /// <summary>
+        /// Observaciones finales del registro.
+        /// Aplica para todos los tipos de enfermedad.
+        /// </summary>
+        [StringLength(500)]
+        [Display(Name = "Observaciones Finales")]
+        public string ObservacionesFinales { get; set; }
 
         #endregion
 

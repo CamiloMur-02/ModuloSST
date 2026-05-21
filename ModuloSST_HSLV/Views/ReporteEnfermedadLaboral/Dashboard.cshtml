@@ -1,94 +1,120 @@
-﻿@using ModuloSST_HSLV.Models.ViewModels
+﻿@using ModuloSST_HSLV.Controllers
 @{
-    ViewBag.Title = "Estadísticas de Salud";
+    ViewBag.Title = "Dashboard Epidemiológico";
 }
 
-<div class="container-fluid" style="padding: 20px;">
-    @* --- TÍTULO --- *@
-    
-    <div class="row" style="margin-bottom: 20px; display: flex; align-items: center;">
+<div class="container-fluid page-wrapper">
+
+    @* ===================================================== *@
+    @* --- ENCABEZADO --- *@
+    @* ===================================================== *@
+
+    <div class="row">
         <div class="col-md-8">
-            <h2 style="color: #29235c; font-weight: bold; margin: 0;">
-                <i class="glyphicon glyphicon-stats" style="color: #76b82a;"></i> Dashboard Epidemiológico @DateTime.Now.Year
+            <h2 class="page-title">
+                <i class="glyphicon glyphicon-stats icon-accent"></i>
+                Dashboard epidemiológico @DateTime.Now.Year
             </h2>
         </div>
-        
-        <div class="col-md-4 text-right">
-            <a href="@Url.Action("Index")" class="btn btn-default"
-               style="background-color: #29235c; color: white; border-radius: 10px; font-weight: bold; padding: 10px 20px; border: none; transition: all 0.3s;">
-                <i class="glyphicon glyphicon-list"></i> Volver al Listado
+        <div class="col-md-4 text-right botones-encabezado">
+            <a href="@Url.Action("Index")" class="btn btn-volver-custom">
+                <i class="glyphicon glyphicon-list"></i>
+                Volver al listado
             </a>
         </div>
     </div>
- <hr/>
+
+    <hr class="separator" />
+
+    @* ===================================================== *@
+    @* --- FILA 1: DISTRIBUCIÓN POR SISTEMAS + TOP DIAGNÓSTICOS --- *@
+    @* ===================================================== *@
 
     <div class="row">
-        <div class="col-md-5">
-            <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                <div class="panel-heading" style="background-color: #29235c; color: white; border-radius: 12px 12px 0 0; padding: 12px 15px;">
-                    <strong style="text-transform: uppercase; font-size: 0.9em; letter-spacing: 0.5px;">
-                        <i class="glyphicon glyphicon-th-list"></i> Distribución por Sistemas
-                    </strong>
-                </div>
-                <div class="panel-body" style="max-height: 450px; overflow-y: auto; padding: 0;">
-                    <div class="list-group" style="margin-bottom: 0;">
-                        @if (ViewBag.Sistemas != null && ((List<SistemaViewModel>)ViewBag.Sistemas).Any())
-                        {
-                            foreach (SistemaViewModel s in ViewBag.Sistemas)
-                            {
-                                <div class="list-group-item" style="border-left: none; border-right: none; padding: 18px 20px; border-bottom: 1px solid #f0f0f0;">
 
-                                    <span class="badge" style="background-color: #29235c; font-size: 1.1em; padding: 7px 12px; border-radius: 8px;">
-                                        @s.TotalCasos <small style="color: rgba(255,255,255,0.8); font-size: 0.7em; font-weight: normal;">@(s.TotalCasos == 1 ? "caso" : "casos")</small>
+        @* ── Distribución por sistemas CIE-10 ── *@
+        <div class="col-md-5">
+            <div class="panel panel-seccion">
+                <div class="panel-heading panel-heading-morado">
+                    <h3 class="panel-title">
+                        <i class="glyphicon glyphicon-th-list"></i>
+                        Distribución por sistemas - Enfermedad general
+                    </h3>
+                </div>
+                <div class="panel-body panel-body-scroll">
+                    <div class="list-group lista-sistemas">
+
+                        @if (ViewBag.Sistemas != null &&
+                             ((List<ReporteEnfermedadLaboralController.EstadisticaSistema>)ViewBag.Sistemas).Any())
+                        {
+                            foreach (ReporteEnfermedadLaboralController.EstadisticaSistema s in ViewBag.Sistemas)
+                            {
+                                <div class="list-group-item item-sistema">
+
+                                    <span class="badge badge-sistema">
+                                        @s.TotalCasos
+                                        <small class="badge-sistema-sub">
+                                            @(s.TotalCasos == 1 ? "caso" : "casos")
+                                        </small>
                                     </span>
 
-                                    <h5 style="margin: 0; color: #29235c; font-weight: bold; font-size: 1.1em;">@s.NombreSistema</h5>
-                                    <p style="margin: 6px 0 0 0; font-size: 0.9em;" class="text-muted">
-                                        Total días incapacidad: <strong style="color: #d9534f;">@s.TotalDias</strong>
+                                    <h5 class="sistema-nombre">@s.NombreSistema</h5>
+
+                                    <p class="sistema-dias">
+                                        Total días incapacidad:
+                                        <strong class="sistema-dias-valor">@s.TotalDias</strong>
                                     </p>
+
                                 </div>
                             }
                         }
                         else
                         {
-                            <div class="text-center" style="padding: 40px;">
-                                <i class="glyphicon glyphicon-folder-open" style="font-size: 2em; color: #ccc;"></i>
-                                <p class="text-muted" style="margin-top: 10px;">No hay datos registrados en el periodo.</p>
+                            <div class="empty-state">
+                                <i class="glyphicon glyphicon-folder-open empty-state-icono"></i>
+                                <p class="text-muted empty-state-texto">
+                                    No hay datos registrados en el periodo.
+                                </p>
                             </div>
                         }
+
                     </div>
                 </div>
             </div>
         </div>
 
+        @* ── Top 5 diagnósticos por días de incapacidad ── *@
         <div class="col-md-7">
-            <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                <div class="panel-heading" style="background-color: #f8f9fa; border-bottom: 1px solid #eee; padding: 12px 15px;">
-                    <strong style="color: #29235c;"><i class="glyphicon glyphicon-alert" style="color: #d9534f;"></i> Top 5 Diagnósticos</strong>
+            <div class="panel panel-seccion">
+                <div class="panel-heading panel-heading-verde">
+                    <h3 class="panel-title">
+                        <i class="glyphicon glyphicon-alert"></i>
+                        Diagnósticos por días de incapacidad (Top 5)
+                    </h3>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-hover" style="margin-bottom: 0;">
+                    <table class="table table-hover tabla-diagnosticos">
                         <thead>
-                            <tr style="background-color: #fcfcfc;">
-                                <th style="border-bottom: none; color: #777; font-size: 0.8em; text-transform: uppercase;">CIE-10</th>
-                                <th style="border-bottom: none; color: #777; font-size: 0.8em; text-transform: uppercase;">Descripción</th>
-                                <th class="text-center" style="border-bottom: none; color: #777; font-size: 0.8em; text-transform: uppercase;">Días</th>
+                            <tr class="tabla-thead">
+                                <th class="tabla-th">Códigos de diagnóstico</th>
+                                <th class="tabla-th">Descripción del diagnóstico</th>
+                                <th class="tabla-th text-center">Días de incapacidad</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if (ViewBag.TopDiagnosticos != null)
                             {
-                                foreach (DiagnosticoViewModel d in ViewBag.TopDiagnosticos)
+                                foreach (ReporteEnfermedadLaboralController.EstadisticaDiagnostico d in ViewBag.TopDiagnosticos)
                                 {
                                     <tr>
-                                        <td style="vertical-align: middle; padding: 12px;">
-                                            <b style="color: #29235c; background: #eef2f7; padding: 4px 8px; border-radius: 4px; font-family: monospace;">@d.Codigo</b>
+                                        <td class="tabla-td tabla-td-codigo">
+                                            <span class="codigo-cie">@d.Codigo</span>
                                         </td>
-                                        <td style="vertical-align: middle;">
-                                            <div style="font-size: 0.9em; font-weight: 500; color: #444; line-height: 1.2;">@d.Detalle</div>
+                                        <td class="tabla-td tabla-td-detalle">
+                                            @d.Detalle
                                         </td>
-                                        <td class="text-center" style="vertical-align: middle;">
-                                            <span style="font-size: 1.1em; font-weight: bold; color: #d9534f;">@d.Dias</span>
+                                        <td class="tabla-td text-center">
+                                            <span class="dias-badge">@d.Dias</span>
                                         </td>
                                     </tr>
                                 }
@@ -98,24 +124,29 @@
                 </div>
             </div>
         </div>
+
     </div>
 
-    @* --- SECCIÓN CASOS LABORALES --- *@
-    <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-top: 10px;">
-        <div class="panel-heading" style="background-color: #29235c; color: white; padding: 12px 15px;">
-            <strong style="text-transform: uppercase; font-size: 0.9em; letter-spacing: 0.5px;">
-                <i class="glyphicon glyphicon-list-alt"></i> Seguimiento de Casos Laborales
-            </strong>
+    @* ===================================================== *@
+    @* --- SECCIÓN: SEGUIMIENTO DE CASOS LABORALES --- *@
+    @* ===================================================== *@
+
+    <div class="panel panel-seccion" style="margin-top: 10px;">
+        <div class="panel-heading panel-heading-naranja">
+            <h3 class="panel-title">
+                <i class="glyphicon glyphicon-list-alt"></i>
+                Seguimiento de casos laborales - Enfermedad laboral
+            </h3>
         </div>
         <div class="table-responsive">
-            <table class="table" style="margin-bottom: 0;">
-                <thead style="background-color: #eef2f7;">
-                    <tr>
-                        <th class="text-center" style="color: #29235c; width: 110px;">Mes</th>
-                        <th style="color: #29235c;">Colaborador</th>
-                        <th style="color: #29235c;">Ubicación / Proceso</th>
-                        <th style="color: #29235c;">Diagnóstico y Análisis</th>
-                        <th class="text-center" style="color: #29235c; width: 90px;">Días</th>
+            <table class="table tabla-casos">
+                <thead>
+                    <tr class="tabla-casos-thead">
+                        <th class="tabla-casos-th text-center" style="width: 110px;">Fecha</th>
+                        <th class="tabla-casos-th">Colaborador / Cargo</th>
+                        <th class="tabla-casos-th">Proceso / Subproceso</th>
+                        <th class="tabla-casos-th">Diagnóstico / Causa</th>
+                        <th class="tabla-casos-th text-center" style="width: 90px;">Días de incapacidad</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -123,33 +154,52 @@
                     {
                         foreach (var item in ViewBag.LaboralesDetalle)
                         {
-                            <tr style="border-bottom: 1px solid #eee;">
-                                <td class="text-center" style="vertical-align: middle; border-right: 1px solid #f9f9f9;">
-                                    <div style="color: #29235c; font-weight: bold; font-size: 1em; text-transform: uppercase;">@item.FechaDiagnostico.ToString("MMMM")</div>
-                                    <span class="label" style="background-color: #76b82a; padding: 3px 8px; border-radius: 4px;">Trim @(((item.FechaDiagnostico.Month - 1) / 3) + 1)</span>
+                            <tr class="tabla-casos-fila">
+
+                                @* ── Mes y trimestre ── *@
+                                <td class="tabla-casos-td text-center celda-mes">
+                                    <div class="mes-nombre">
+                                        @item.FechaDiagnostico.ToString("MMMM")
+                                    </div>
+                                    <div class="trimestre-texto">
+                                        Trim @(((item.FechaDiagnostico.Month - 1) / 3) + 1)
+                                    </div>
                                 </td>
-                                <td style="vertical-align: middle;">
-                                    <div style="font-weight: bold; color: #333;">@item.NombreCompleto</div>
-                                    <div style="font-size: 0.85em; color: #777;">@item.Cargo</div>
+
+                                @* ── Colaborador ── *@
+                                <td class="tabla-casos-td">
+                                    <div class="colaborador-nombre">@item.NombreCompleto</div>
+                                    <div class="colaborador-cargo">@item.Cargo</div>
                                 </td>
-                                <td style="vertical-align: middle;">
-                                    <div style="font-weight: 500; font-size: 0.9em;">@(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")</div>
-                                    <div style="font-size: 0.8em; color: #888;">@(item.Subproceso != null ? item.Subproceso.NombreSubproceso : "N/A")</div>
+
+                                @* ── Proceso / subproceso ── *@
+                                <td class="tabla-casos-td">
+                                    <div class="proceso-nombre">
+                                        @(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")
+                                    </div>
+                                    <div class="proceso-sub">
+                                        @(item.Subproceso != null ? item.Subproceso.NombreSubproceso : "N/A")
+                                    </div>
                                 </td>
-                                <td style="vertical-align: middle;">
-                                    <div style="font-size: 0.9em; margin-bottom: 3px; color: #444;">
-                                        <i class="glyphicon glyphicon-tag" style="color: #ccc; font-size: 0.8em;"></i> @item.DetallesDiagnostico
+
+                                @* ── Diagnóstico y causa ── *@
+                                <td class="tabla-casos-td">
+                                    <div class="diagnostico-detalle">
+                                        @item.DetallesDiagnostico
                                     </div>
                                     @if (!string.IsNullOrEmpty(item.Causa))
                                     {
-                                        <div style="background: #fff8e1; border-left: 3px solid #ffc107; padding: 2px 8px; font-size: 0.85em; display: inline-block; border-radius: 0 4px 4px 0;">
-                                            <strong style="color: #856404;">Causa:</strong> @item.Causa
+                                        <div class="causa-texto">
+                                            @item.Causa
                                         </div>
                                     }
                                 </td>
-                                <td class="text-center" style="vertical-align: middle;">
-                                    <span class="badge" style="background: #d9534f; font-weight: bold; padding: 5px 10px;">@item.DiasIncapacidad</span>
+
+                                @* ── Días de incapacidad ── *@
+                                <td class="tabla-casos-td text-center">
+                                    <span class="dias-badge">@item.DiasIncapacidad</span>
                                 </td>
+
                             </tr>
                         }
                     }
@@ -157,20 +207,325 @@
             </table>
         </div>
     </div>
+
 </div>
 
+@* ===================================================== *@
+@* --- ESTILOS --- *@
+@* ===================================================== *@
+
 <style>
-    
-    .panel-body::-webkit-scrollbar {
-        width: 6px;
+
+    /* ── Página ─────────────────────────────────────────────────── */
+    .page-wrapper {
+        padding: 20px;
     }
 
-    .panel-body::-webkit-scrollbar-thumb {
-        background-color: #ccc;
-        border-radius: 10px;
+    .page-title {
+        color: #29235c;
+        font-weight: bold;
+        margin-bottom: 15px;
     }
 
-    .list-group-item:hover {
+    .icon-accent {
+        color: #76b82a;
+    }
+
+    .separator {
+        border-top: 1px solid #eee;
+        margin-bottom: 25px;
+    }
+
+    /* ── Botón encabezado ────────────────────────────────────────── */
+    .botones-encabezado {
+        padding-top: 8px;
+    }
+
+    .btn-volver-custom {
+        background-color: transparent;
+        color: #29235c;
+        border: 2px solid #29235c;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 8px 20px;
+        transition: all 0.3s;
+    }
+
+        .btn-volver-custom:hover {
+            background-color: #29235c;
+            color: white;
+        }
+
+    /* ── Paneles / secciones ─────────────────────────────────────── */
+    .panel-seccion {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .panel-heading-morado {
+        background-color: #29235c;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-verde {
+        background-color: #76b82a;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-naranja {
+        background-color: #f39c12;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-seccion .panel-title {
+        font-weight: bold;
+        font-size: 15px;
+        color: white;
+        margin: 0;
+    }
+
+    /* ── Panel con scroll (sistemas) ────────────────────────────── */
+    .panel-body-scroll {
+        max-height: 450px;
+        overflow-y: auto;
+        padding: 0;
+    }
+
+        .panel-body-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .panel-body-scroll::-webkit-scrollbar-thumb {
+            background-color: #ccc;
+            border-radius: 10px;
+        }
+
+    /* ── Lista de sistemas CIE-10 ────────────────────────────────── */
+    .lista-sistemas {
+        margin-bottom: 0;
+    }
+
+    .item-sistema {
+        border-left: none;
+        border-right: none;
+        border-top: none;
+        border-bottom: 1px solid #f0f0f0;
+        padding: 18px 20px;
+        transition: background-color 0.2s;
+    }
+
+        .item-sistema:hover {
+            background-color: #fcfcfc;
+        }
+
+        .item-sistema:last-child {
+            border-bottom: none;
+        }
+
+    .badge-sistema {
+        background-color: #29235c;
+        font-size: 1em;
+        padding: 6px 12px;
+        border-radius: 8px;
+        float: right;
+    }
+
+    .badge-sistema-sub {
+        color: rgba(255,255,255,0.75);
+        font-size: 0.7em;
+        font-weight: normal;
+    }
+
+    .sistema-nombre {
+        margin: 0;
+        color: #29235c;
+        font-weight: bold;
+        font-size: 1em;
+    }
+
+    .sistema-dias {
+        margin: 6px 0 0 0;
+        font-size: 0.88em;
+        color: #888;
+    }
+
+    /* [1] Días de incapacidad del mismo color que el texto gris */
+    .sistema-dias-valor {
+        color: #888;
+    }
+
+    /* ── Estado vacío ────────────────────────────────────────────── */
+    .empty-state {
+        text-align: center;
+        padding: 40px;
+    }
+
+    .empty-state-icono {
+        font-size: 2em;
+        color: #ccc;
+    }
+
+    .empty-state-texto {
+        margin-top: 10px;
+    }
+
+    /* ── Tabla: Top 5 diagnósticos ───────────────────────────────── */
+    .tabla-diagnosticos {
+        margin-bottom: 0;
+    }
+
+    .tabla-thead {
         background-color: #fcfcfc;
+    }
+
+    .tabla-th {
+        padding: 15px;
+        color: #666;
+        font-weight: 600;
+        font-size: 13px;
+        border-bottom: 1px solid #eee;
+        text-transform: none;
+    }
+
+    .tabla-td {
+        vertical-align: middle;
+        border-top: 1px solid #f5f5f5;
+        padding: 12px 15px;
+    }
+
+    .tabla-td-codigo {
+        width: 90px;
+    }
+
+    .tabla-td-detalle {
+        font-size: 0.9em;
+        font-weight: 500;
+        color: #444;
+        line-height: 1.3;
+    }
+
+    /* [2] Código CIE sin fondo gris redondeado, solo texto plano */
+    .codigo-cie {
+        color: #29235c;
+        font-family: monospace;
+        font-weight: bold;
+        font-size: 0.95em;
+    }
+
+    /* [3] Badge gris redondeado para días de incapacidad */
+    .dias-badge {
+        display: inline-block;
+        background-color: #e8e8e8;
+        color: #555;
+        font-weight: bold;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.95em;
+        min-width: 36px;
+        text-align: center;
+    }
+
+    /* ── Tabla: Seguimiento de casos laborales ───────────────────── */
+    .tabla-casos {
+        margin-bottom: 0;
+    }
+
+    .tabla-casos-thead {
+        background-color: #eef2f7;
+    }
+
+    .tabla-casos-th {
+        color: #29235c;
+        font-weight: 600;
+        font-size: 13px;
+        padding: 14px 15px;
+        border-bottom: 1px solid #dde4ef;
+    }
+
+    .tabla-casos-fila {
+        border-bottom: 1px solid #eee;
+    }
+
+        .tabla-casos-fila:last-child {
+            border-bottom: none;
+        }
+
+    .tabla-casos-td {
+        vertical-align: middle;
+        border-top: none;
+        padding: 12px 15px;
+    }
+
+    /* ── Celda mes / trimestre ───────────────────────────────────── */
+    .celda-mes {
+        border-right: 1px solid #f0f0f0;
+    }
+
+    .mes-nombre {
+        color: #29235c;
+        font-weight: bold;
+        font-size: 0.95em;
+        text-transform: capitalize;
+    }
+
+    /* [4] Trimestre sin badge verde, texto plano igual que cargo/supervisor */
+    .trimestre-texto {
+        font-size: 0.82em;
+        color: #888;
+        margin-top: 2px;
+    }
+
+    /* ── Celda colaborador ───────────────────────────────────────── */
+    .colaborador-nombre {
+        font-weight: bold;
+        color: #333;
+        font-size: 0.95em;
+    }
+
+    .colaborador-cargo {
+        font-size: 0.82em;
+        color: #888;
+        margin-top: 2px;
+    }
+
+    /* ── Celda proceso ───────────────────────────────────────────── */
+    .proceso-nombre {
+        font-weight: 500;
+        font-size: 0.9em;
+        color: #444;
+    }
+
+    .proceso-sub {
+        font-size: 0.8em;
+        color: #999;
+        margin-top: 2px;
+    }
+
+    /* ── Celda diagnóstico ───────────────────────────────────────── */
+    .diagnostico-detalle {
+        font-size: 0.88em;
+        color: #444;
+        margin-bottom: 3px;
+    }
+
+    /* [4] Causa sin badge amarillo, texto plano igual que cargo/supervisor */
+    .causa-texto {
+        font-size: 0.82em;
+        color: #888;
+        margin-top: 2px;
+    }
+
+    .causa-label {
+        color: #888;
+        font-weight: 600;
     }
 </style>

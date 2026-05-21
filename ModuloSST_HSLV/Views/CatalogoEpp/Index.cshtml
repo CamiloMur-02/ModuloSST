@@ -1,117 +1,387 @@
 ﻿@model IEnumerable<ModuloSST_HSLV.Models.CatalogoEpp>
+
 @{
     ViewBag.Title = "Catálogo de EPP";
 }
 
-<div class="container-fluid">
+<div class="container-fluid page-wrapper">
+
+    @* ===================================================== *@
+    @* --- MENSAJES DE NOTIFICACIÓN --- *@
+    @* ===================================================== *@
+
+    @if (TempData["Exito"] != null)
+    {
+        <div class="alert alert-exito alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <i class="glyphicon glyphicon-ok-circle"></i>
+            @TempData["Exito"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-error alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <i class="glyphicon glyphicon-exclamation-sign"></i>
+            @TempData["Error"]
+        </div>
+    }
+
+    @* ===================================================== *@
     @* --- ENCABEZADO --- *@
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 25px;">
-        <div>
-            <h2 class="text-primary" style="margin:0; font-weight:bold;">
-                <i class="glyphicon glyphicon-book"></i> Catálogo de Elementos (EPP)
+    @* ===================================================== *@
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <h2 class="page-title">
+                <i class="glyphicon glyphicon-book icon-accent"></i>
+                Catálogo de Elementos (EPP)
             </h2>
-        </div>
-        <div>
-            @Html.ActionLink("+ Nuevo EPP", "Crear", "CatalogoEpp",
-                null, new { @class = "btn-verde-claro", style = "text-decoration:none; display:inline-block; padding: 10px 20px; border-radius:10px; font-weight:bold;" })
 
-            <a href="@Url.Action("Index", "MatrizEpp")"
-               class="btn btn-default" style="border-radius:10px; border: 2px solid #29235c; color: #29235c; font-weight:bold; padding: 9px 20px; margin-left:10px;">
-                <i class="glyphicon glyphicon-arrow-left"></i> Volver a Matriz
-            </a>
-        </div>
-    </div>
+            <hr class="separator" />
 
-    @* --- TABLA DE GESTIÓN --- *@
-    <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden;">
-        <div class="table-responsive">
-            <table class="table table-hover" style="margin-bottom: 0;">
-                <thead style="background: #29235c; color: white;">
-                    <tr>
-                        <th style="padding: 15px; width: 80px;" class="text-center">#</th>
-                        <th style="padding: 15px;">Nombre del Elemento</th>
-                        <th style="padding: 15px;" class="text-center">Estado</th>
-                        <th style="padding: 15px; width: 250px;" class="text-center">Acciones de Gestión</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (!Model.Any())
-                    {
-                        <tr>
-                            <td colspan="4" class="text-center" style="padding: 30px;">
-                                <i class="glyphicon glyphicon-info-sign" style="font-size: 20px; color: #ccc;"></i><br />
-                                <span class="text-muted">No hay tipos de EPP registrados en el sistema.</span>
-                            </td>
-                        </tr>
-                    }
-                    else
-                    {
-                        int i = 1;
-                        foreach (var item in Model)
-                        {
+            @* ===================================================== *@
+            @* --- BOTONES DE ACCIÓN --- *@
+            @* ===================================================== *@
+
+            <div class="botones-wrapper">
+
+                <a href="@Url.Action("Crear", "CatalogoEpp")"
+                   class="btn btn-guardar-custom">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    Nuevo EPP
+                </a>
+
+                <a href="@Url.Action("Index", "MatrizEpp")"
+                   class="btn btn-catalogo-custom">
+                    <i class="glyphicon glyphicon-arrow-left"></i>
+                    Volver a Matriz
+                </a>
+
+            </div>
+
+            <hr class="separator" />
+
+            @* ===================================================== *@
+            @* --- TABLA DE REGISTROS --- *@
+            @* ===================================================== *@
+
+            <div class="panel panel-seccion tabla-wrapper">
+
+                <div class="table-responsive">
+                    <table class="table table-hover tabla-custom">
+
+                        <thead class="tabla-thead">
                             <tr>
-                                <td class="text-center" style="vertical-align: middle; font-weight: bold; color: #666;">@i</td>
-                                <td style="vertical-align: middle; font-size: 15px; font-weight: 500;">
-                                    @item.NombreEPP
-                                </td>
-                                <td class="text-center" style="vertical-align: middle;">
-                                    @if (item.Estado)
-                                    {
-                                        <span class="label" style="background-color: #76b82a; padding: 6px 12px; border-radius: 10px; font-size: 11px;">ACTIVO</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="label label-danger" style="padding: 6px 12px; border-radius: 10px; font-size: 11px;">INACTIVO</span>
-                                    }
-                                </td>
-                                <td class="text-center" style="vertical-align: middle;">
-                                    <div style="display: flex; justify-content: center; gap: 8px;">
-                                        @Html.ActionLink(" Editar", "Editar", "CatalogoEpp", 
-                                            new { id = item.IdCatalogoEPP }, 
-                                            new { @class = "btn btn-sm", style = "background-color: #29235c; color: white; border-radius: 8px; font-weight: bold; padding: 5px 15px;" })
-
-
-                                        @using (Html.BeginForm("CambiarEstado", "CatalogoEpp",
-                                            new { id = item.IdCatalogoEPP }, FormMethod.Post,
-                                            new { style = "display:inline" }))
-                                        {
-                                            @Html.AntiForgeryToken()
-                                            <button type="submit"
-                                                    class="btn btn-sm @(item.Estado ? "btn-danger" : "btn-success")"
-                                                    style="border-radius: 8px; font-weight: bold; padding: 5px 15px; min-width: 100px;">
-                                                <i class="glyphicon @(item.Estado ? "glyphicon-remove" : "glyphicon-ok")"></i>
-                                                @(item.Estado ? "Desactivar" : "Activar")
-                                            </button>
-                                        }
-                                    </div>
-                                </td>
+                                <th class="text-center col-num">#</th>
+                                <th>Nombre del Elemento</th>
+                                <th class="text-center">Estado</th>
+                                <th class="text-center">Acciones</th>
                             </tr>
-                            i++;
-                        }
-                    }
-                </tbody>
-            </table>
+                        </thead>
+
+                        <tbody>
+
+                            @if (!Model.Any())
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center celda-vacia">
+                                        <i class="glyphicon glyphicon-folder-open icono-vacio"></i><br />
+                                        <span class="text-muted">No hay tipos de EPP registrados en el sistema.</span>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                int i = 1;
+
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+
+                                        @* ── Numeral ── *@
+                                        <td class="text-center celda-media col-num">
+                                            @i
+                                        </td>
+
+                                        @* ── Nombre EPP ── *@
+                                        <td class="celda-media celda-nombre">
+                                            @item.NombreEPP
+                                        </td>
+
+                                        @* ── Estado ── *@
+                                        <td class="text-center celda-media">
+                                            @if (item.Estado)
+                                            {
+                                                <span class="badge-activo">ACTIVO</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge-inactivo">INACTIVO</span>
+                                            }
+                                        </td>
+
+                                        @* ── Acciones ── *@
+                                        <td class="text-center celda-media">
+                                            <div class="acciones-wrapper">
+
+                                                <a href="@Url.Action("Editar", "CatalogoEpp", new { id = item.IdCatalogoEPP })"
+                                                   class="btn btn-sm btn-accion btn-editar"
+                                                   title="Editar">
+                                                    <i class="glyphicon glyphicon-edit"></i>
+                                                    Editar
+                                                </a>
+
+                                                @using (Html.BeginForm("CambiarEstado", "CatalogoEpp",
+                                                    new { id = item.IdCatalogoEPP }, FormMethod.Post,
+                                                    new { style = "display:inline" }))
+                                                {
+                                                    @Html.AntiForgeryToken()
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-accion @(item.Estado ? "btn-desactivar" : "btn-activar")">
+                                                        <i class="glyphicon @(item.Estado ? "glyphicon-remove" : "glyphicon-ok")"></i>
+                                                        @(item.Estado ? "Desactivar" : "Activar")
+                                                    </button>
+                                                }
+
+                                            </div>
+                                        </td>
+
+                                    </tr>
+
+                                    i++;
+                                }
+                            }
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+
         </div>
     </div>
+
 </div>
 
 <style>
-    
+
+    /* ── Alertas ── */
+    .alert-exito {
+        background-color: #dff0d8;
+        border-color: #76b82a;
+        color: #3c763d;
+        border-radius: 10px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    .alert-error {
+        background-color: #f2dede;
+        border-color: #d9534f;
+        color: #a94442;
+        border-radius: 10px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    /* ── Página ── */
+    .page-wrapper {
+        padding: 20px;
+    }
+
+    .page-title {
+        color: #29235c;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .icon-accent {
+        color: #76b82a;
+    }
+
+    .separator {
+        border-top: 1px solid #eee;
+    }
+
+    /* ── Botones de acción superiores ── */
+    .botones-wrapper {
+        margin-bottom: 15px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .btn-guardar-custom {
+        background-color: #76b82a;
+        color: white;
+        border-radius: 10px;
+        font-weight: bold;
+        padding: 8px 20px;
+        border: none;
+        transition: all 0.3s;
+    }
+
+        .btn-guardar-custom:hover {
+            background-color: #5f9821;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+    .btn-catalogo-custom {
+        display: inline-block;
+        background-color: transparent;
+        color: #29235c;
+        border: 2px solid #29235c;
+        border-radius: 10px;
+        font-weight: bold;
+        padding: 8px 20px;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+
+        .btn-catalogo-custom:hover {
+            background-color: #29235c;
+            color: white;
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+    /* ── Panel tabla ── */
+    .panel-seccion {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+    }
+
+    .tabla-wrapper {
+        overflow: hidden;
+    }
+
+    /* ── Tabla ── */
+    .tabla-custom {
+        margin-bottom: 0;
+    }
+
+    .tabla-thead {
+        background-color: #29235c;
+        color: white;
+    }
+
+        .tabla-thead th {
+            padding: 15px;
+            font-weight: 600;
+            border: none;
+        }
+
+    /* ── Celdas ── */
+    .celda-media {
+        vertical-align: middle !important;
+    }
+
+    .col-num {
+        color: #333;
+        font-weight: 600;
+        width: 40px;
+    }
+
+    .celda-nombre {
+        font-weight: bold;
+    }
+
+    /* ── Badges de estado ── */
+    .badge-activo {
+        display: inline-block;
+        background-color: #76b82a;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 10px;
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    .badge-inactivo {
+        display: inline-block;
+        background-color: #d9534f;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 10px;
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    /* ── Estado vacío ── */
+    .celda-vacia {
+        padding: 40px !important;
+    }
+
+    .icono-vacio {
+        font-size: 30px;
+        color: #ccc;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    /* ── Acciones ── */
+    .acciones-wrapper {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .btn-accion {
+        height: 30px;
+        line-height: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        border-radius: 15px;
+        padding: 4px 12px;
+        border: none;
+        white-space: nowrap;
+        transition: all 0.3s;
+    }
+
+    .btn-editar {
+        background-color: #29235c;
+        color: white;
+    }
+
+        .btn-editar:hover {
+            background-color: #1e1a47;
+            color: white;
+        }
+
+    .btn-activar {
+        background-color: #76b82a;
+        color: white;
+    }
+
+        .btn-activar:hover {
+            background-color: #5f9821;
+            color: white;
+        }
+
+    .btn-desactivar {
+        background-color: #d9534f;
+        color: white;
+    }
+
+        .btn-desactivar:hover {
+            background-color: #c9302c;
+            color: white;
+        }
+
+    /* ── Hover fila ── */
     .table-hover tbody tr:hover {
         background-color: #f9f9ff !important;
         transition: all 0.2s ease;
     }
-    
-    .btn-verde-claro {
-        background-color: #76b82a;
-        color: white;
-        border: none;
-        transition: 0.3s;
-    }
-
-        .btn-verde-claro:hover {
-            background-color: #659d24;
-            color: white;
-            box-shadow: 0 4px 8px rgba(118, 184, 42, 0.3);
-        }
 </style>

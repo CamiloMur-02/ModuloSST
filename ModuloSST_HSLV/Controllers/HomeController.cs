@@ -1,5 +1,4 @@
-﻿// Controllers/HomeController.cs
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace ModuloSST_HSLV.Controllers
 {

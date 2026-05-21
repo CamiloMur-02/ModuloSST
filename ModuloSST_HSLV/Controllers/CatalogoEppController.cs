@@ -96,7 +96,7 @@ namespace ModuloSST_HSLV.Controllers
                 return View(modelo);
             }
 
-            TempData["Exito"] = "Tipo de EPP '" + modelo.NombreEPP + "' creado correctamente.";
+            TempData["Exito"] = "Tipo de EPP registrado correctamente.";
             return RedirectToAction("Index");
         }
 
@@ -125,7 +125,7 @@ namespace ModuloSST_HSLV.Controllers
                 return View(modelo);
             }
 
-            TempData["Exito"] = "Tipo de EPP '" + modelo.NombreEPP + "' actualizado correctamente.";
+            TempData["Exito"] = "Tipo de EPP actualizado correctamente.";
             return RedirectToAction("Index");
         }
 

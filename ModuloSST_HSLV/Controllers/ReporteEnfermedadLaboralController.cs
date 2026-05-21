@@ -1,12 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Data.Entity;
 using ModuloSST_HSLV.DAL;
 using ModuloSST_HSLV.Models;
-using ModuloSST_HSLV.Models.ViewModels;
 
 namespace ModuloSST_HSLV.Controllers
 {
@@ -29,10 +28,10 @@ namespace ModuloSST_HSLV.Controllers
         private readonly SSTContext db = new SSTContext();
 
         /// <summary>Nombre de subcarpeta física.</summary>
-        private const string SubCarpeta = "EnfermedadLaboral";
+        private const string SubCarpeta = "Enfermedades";
 
         /// <summary>Ruta virtual donde se almacenan los archivos.</summary>
-        private const string CarpetaVirtual = "~/Uploads/EnfermedadLaboral/";
+        private const string CarpetaVirtual = "~/Uploads/Enfermedades/";
 
         #endregion
 
@@ -44,91 +43,15 @@ namespace ModuloSST_HSLV.Controllers
         public ActionResult Index()
         {
             var reportes = db.ReportesEnfermedadLaboral
-                .Include(r => r.Proceso)
-                .Include(r => r.Subproceso)
+                .Include("Proceso")
+                .Include("Subproceso")
                 .OrderByDescending(r => r.FechaDiagnostico)
                 .ToList();
 
             return View(reportes);
         }
 
-        public ActionResult Dashboard()
-        {
-            var hoy = DateTime.Today;
-
-            // 1. Obtener datos con relaciones
-            var reportes = db.ReportesEnfermedadLaboral
-                .Include(r => r.Proceso)
-                .Include(r => r.Subproceso)
-                .Where(r => r.FechaDiagnostico.Year == hoy.Year)
-                .ToList();
-
-            // 2. CLASIFICACIÓN POR SISTEMAS (Enfermedad General)
-            ViewBag.Sistemas = reportes
-                .Where(r => r.TipoEnfermedad == "Enfermedad General")
-                .Select(r => new
-                {
-                    Sistema = ClasificarSistemaCIE10(r.Codigo),
-                    Dias = r.DiasIncapacidad
-                })
-                .GroupBy(x => x.Sistema)
-                .Select(g => new ModuloSST_HSLV.Models.ViewModels.SistemaViewModel
-                {
-                    NombreSistema = g.Key,
-                    TotalCasos = g.Count(),
-                    TotalDias = g.Sum(x => x.Dias)
-                })
-                .OrderByDescending(x => x.TotalDias)
-                .ToList();
-
-            // 3. TOP DIAGNÓSTICOS (✅ SOLO UNA VEZ Y BIEN TIPADO)
-            ViewBag.TopDiagnosticos = reportes
-                .GroupBy(r => new
-                {
-                    Cod = string.IsNullOrEmpty(r.Codigo) ? "S/D" : r.Codigo,
-                    Det = string.IsNullOrEmpty(r.DetallesDiagnostico) ? "Sin Detalle" : r.DetallesDiagnostico
-                })
-                .Select(g => new ModuloSST_HSLV.Models.ViewModels.DiagnosticoViewModel
-                {
-                    Codigo = g.Key.Cod,
-                    Detalle = g.Key.Det,
-                    Dias = g.Sum(x => x.DiasIncapacidad)
-                })
-                .OrderByDescending(x => x.Dias)
-                .Take(5)
-                .ToList();
-
-            // 4. ENFERMEDAD LABORAL - FILTROS
-            var laborales = reportes
-                .Where(r => r.TipoEnfermedad == "Enfermedad Laboral")
-                .ToList();
-
-            ViewBag.Mensual = laborales
-                .GroupBy(r => r.FechaDiagnostico.Month)
-                .Select(g => new
-                {
-                    Mes = g.Key,
-                    Cantidad = g.Count()
-                })
-                .OrderBy(x => x.Mes)
-                .ToList();
-
-            ViewBag.Trimestral = laborales
-                .GroupBy(r => (r.FechaDiagnostico.Month - 1) / 3 + 1)
-                .Select(g => new
-                {
-                    Trimestre = g.Key,
-                    Cantidad = g.Count()
-                })
-                .OrderBy(x => x.Trimestre)
-                .ToList();
-
-            // 5. DETALLE
-            ViewBag.LaboralesDetalle = laborales;
-
-            return View();
-        }
-
+        /// <summary>
         /// [2.2] Muestra el formulario de registro.
         /// </summary>
         public ActionResult Registrar()
@@ -148,8 +71,8 @@ namespace ModuloSST_HSLV.Controllers
         public ActionResult Editar(int id)
         {
             var reporte = db.ReportesEnfermedadLaboral
-                .Include(r => r.Proceso)
-                .Include(r => r.Subproceso)
+                .Include("Proceso")
+                .Include("Subproceso")
                 .FirstOrDefault(r => r.IdReporteEnfermedadLaboral == id);
 
             if (reporte == null)
@@ -168,8 +91,8 @@ namespace ModuloSST_HSLV.Controllers
         public ActionResult Detalle(int id)
         {
             var reporte = db.ReportesEnfermedadLaboral
-                .Include(r => r.Proceso)
-                .Include(r => r.Subproceso)
+                .Include("Proceso")
+                .Include("Subproceso")
                 .FirstOrDefault(r => r.IdReporteEnfermedadLaboral == id);
 
             if (reporte == null)
@@ -203,6 +126,95 @@ namespace ModuloSST_HSLV.Controllers
             }
 
             return File(rutaFisica, "application/pdf", nombre ?? "archivo.pdf");
+        }
+
+        /// <summary>
+        /// [2.6] Dashboard de indicadores del año en curso.
+        /// </summary>
+        /// <remarks>
+        /// Muestra:
+        ///  - Clasificación por sistemas CIE-10 (Enfermedad General)
+        ///  - Top 5 diagnósticos por días de incapacidad
+        ///  - Distribución mensual y trimestral de Enfermedad Laboral
+        ///  - Detalle de casos de Enfermedad Laboral
+        /// </remarks>
+        public ActionResult Dashboard()
+        {
+            int anioActual = DateTime.Today.Year;
+
+            // --- Consulta base del año en curso ---
+            var reportes = db.ReportesEnfermedadLaboral
+                .Include("Proceso")
+                .Include("Subproceso")
+                .Where(r => r.FechaDiagnostico.Year == anioActual)
+                .ToList();
+
+            // --- Clasificación por sistemas CIE-10 (solo Enfermedad General) ---
+            ViewBag.Sistemas = reportes
+                .Where(r => r.TipoEnfermedad == "Enfermedad General")
+                .GroupBy(r => ClasificarSistemaCIE10(r.Codigo))
+                .Select(g => new EstadisticaSistema
+                {
+                    NombreSistema = g.Key,
+                    TotalCasos = g.Count(),
+                    TotalDias = g.Sum(x => x.DiasIncapacidad)
+                })
+                .OrderByDescending(x => x.TotalDias)
+                .ToList();
+
+            // --- Top 5 diagnósticos por días de incapacidad (todos los tipos) ---
+            ViewBag.TopDiagnosticos = reportes
+                .GroupBy(r => new
+                {
+                    Cod = string.IsNullOrWhiteSpace(r.Codigo) ? "S/D" : r.Codigo,
+                    Det = string.IsNullOrWhiteSpace(r.DetallesDiagnostico) ? "Sin detalle" : r.DetallesDiagnostico
+                })
+                .Select(g => new EstadisticaDiagnostico
+                {
+                    Codigo = g.Key.Cod,
+                    Detalle = g.Key.Det,
+                    Dias = g.Sum(x => x.DiasIncapacidad)
+                })
+                .OrderByDescending(x => x.Dias)
+                .Take(5)
+                .ToList();
+
+            // --- Filtro: solo Enfermedad Laboral ---
+            var laborales = reportes
+                .Where(r => r.TipoEnfermedad == "Enfermedad Laboral")
+                .ToList();
+
+            // --- Distribución mensual de Enfermedad Laboral ---
+            ViewBag.DistribucionMensual = Enumerable.Range(1, 12)
+                .Select(m => new EstadisticaPeriodo
+                {
+                    Etiqueta = System.Globalization.CultureInfo
+                                   .CurrentCulture.DateTimeFormat
+                                   .GetAbbreviatedMonthName(m),
+                    Cantidad = laborales.Count(r => r.FechaDiagnostico.Month == m)
+                })
+                .ToList();
+
+            // --- Distribución trimestral de Enfermedad Laboral ---
+            ViewBag.DistribucionTrimestral = Enumerable.Range(1, 4)
+                .Select(t => new EstadisticaPeriodo
+                {
+                    Etiqueta = "T" + t,
+                    Cantidad = laborales.Count(r =>
+                        (r.FechaDiagnostico.Month - 1) / 3 + 1 == t)
+                })
+                .ToList();
+
+            // --- Detalle de casos laborales (para tabla) ---
+            ViewBag.LaboralesDetalle = laborales;
+
+            // --- Indicadores rápidos ---
+            ViewBag.AnioActual = anioActual;
+            ViewBag.TotalReportes = reportes.Count;
+            ViewBag.TotalLaborales = laborales.Count;
+            ViewBag.TotalDiasIncapacidad = reportes.Sum(r => r.DiasIncapacidad);
+
+            return View();
         }
 
         #endregion
@@ -284,8 +296,7 @@ namespace ModuloSST_HSLV.Controllers
                 return View(modelo);
             }
 
-            TempData["Exito"] = "Reporte de enfermedad registrado correctamente para " +
-                                 modelo.NombreCompleto + ".";
+            TempData["Exito"] = "Reporte registrado correctamente.";
 
             return RedirectToAction("Index");
         }
@@ -335,7 +346,6 @@ namespace ModuloSST_HSLV.Controllers
             ActualizarPdf(archivoPlan, carpeta, SubCarpeta,
                 original.RutaArchivoPlan, original.NombreArchivoPlan,
                 out rutaP, out nomP);
-
             modelo.RutaArchivoPlan = rutaP;
             modelo.NombreArchivoPlan = nomP;
 
@@ -343,7 +353,6 @@ namespace ModuloSST_HSLV.Controllers
             ActualizarPdf(archivoSeguimiento, carpeta, SubCarpeta,
                 original.RutaArchivoSeguimiento, original.NombreArchivoSeguimiento,
                 out rutaS, out nomS);
-
             modelo.RutaArchivoSeguimiento = rutaS;
             modelo.NombreArchivoSeguimiento = nomS;
 
@@ -351,7 +360,6 @@ namespace ModuloSST_HSLV.Controllers
             ActualizarPdf(archivoFurel, carpeta, SubCarpeta,
                 original.RutaArchivoFurel, original.NombreArchivoFurel,
                 out rutaF, out nomF);
-
             modelo.RutaArchivoFurel = rutaF;
             modelo.NombreArchivoFurel = nomF;
 
@@ -397,8 +405,6 @@ namespace ModuloSST_HSLV.Controllers
         /// <summary>[4.2] Carga listas para formularios.</summary>
         private void CargarListas()
         {
-            ViewBag.Procesos = db.Procesos.OrderBy(p => p.NombreProceso).ToList();
-            ViewBag.Subprocesos = db.Subprocesos.OrderBy(s => s.NombreSubproceso).ToList();
             ViewBag.Generos = new[] { "Masculino", "Femenino", "Otro" };
             ViewBag.TiposEnfermedad = new[]
             {
@@ -463,66 +469,66 @@ namespace ModuloSST_HSLV.Controllers
             }
         }
 
-        private string ClasificarSistemaCIE10(string codigo)
+        /// <summary>[4.6] Clasifica un código CIE-10 en su sistema orgánico (Codigo del diagnóstico).</summary>
+        private static string ClasificarSistemaCIE10(string codigo)
         {
             if (string.IsNullOrWhiteSpace(codigo))
                 return "No registrado";
 
             char letra = char.ToUpper(codigo[0]);
 
-            if (letra >= 'A' && letra <= 'B')
-                return "Enfermedades Infecciosas";
-
-            if (letra == 'C')
-                return "Neoplasias";
-
-            if (letra == 'D')
-                return "Enfermedades de la Sangre";
-
-            if (letra == 'E')
-                return "Sistema Endocrino";
-
-            if (letra == 'F')
-                return "Trastornos Mentales";
-
-            if (letra == 'G')
-                return "Sistema Nervioso";
-
-            if (letra == 'H')
-                return "Ojo y Oído";
-
-            if (letra == 'I')
-                return "Sistema Circulatorio";
-
-            if (letra == 'J')
-                return "Sistema Respiratorio";
-
-            if (letra == 'K')
-                return "Sistema Digestivo";
-
-            if (letra == 'L')
-                return "Piel y Faneras";
-
-            if (letra == 'M')
-                return "Sistema Osteomuscular";
-
-            if (letra == 'N')
-                return "Sistema Genitourinario";
-
-            if (letra >= 'S' && letra <= 'T')
-                return "Traumatismos / Causas Externas";
+            if (letra >= 'A' && letra <= 'B') return "Enfermedades Infecciosas";
+            if (letra == 'C') return "Neoplasias";
+            if (letra == 'D') return "Enfermedades de la Sangre";
+            if (letra == 'E') return "Sistema Endocrino";
+            if (letra == 'F') return "Trastornos Mentales";
+            if (letra == 'G') return "Sistema Nervioso";
+            if (letra == 'H') return "Ojo y Oído";
+            if (letra == 'I') return "Sistema Circulatorio";
+            if (letra == 'J') return "Sistema Respiratorio";
+            if (letra == 'K') return "Sistema Digestivo";
+            if (letra == 'L') return "Piel y Faneras";
+            if (letra == 'M') return "Sistema Osteomuscular";
+            if (letra == 'N') return "Sistema Genitourinario";
+            if (letra >= 'S' && letra <= 'T') return "Traumatismos / Causas Externas";
 
             return "Otros Sistemas";
         }
 
         #endregion
 
-        #region [5] Liberación de Recursos
+        #region [5] Clases de Soporte
+
+        /// <summary>Ítem estadístico por sistema CIE-10.</summary>
+        public class EstadisticaSistema
+        {
+            public string NombreSistema { get; set; }
+            public int TotalCasos { get; set; }
+            public int TotalDias { get; set; }
+        }
+
+        /// <summary>Ítem estadístico por diagnóstico.</summary>
+        public class EstadisticaDiagnostico
+        {
+            public string Codigo { get; set; }
+            public string Detalle { get; set; }
+            public int Dias { get; set; }
+        }
+
+        /// <summary>Ítem estadístico por período (mes o trimestre).</summary>
+        public class EstadisticaPeriodo
+        {
+            public string Etiqueta { get; set; }
+            public int Cantidad { get; set; }
+        }
+
+        #endregion
+
+        #region [6] Liberación de Recursos
 
         /// <summary>
-        /// [5.1] Libera los recursos del contexto.
+        /// [6.1] Libera los recursos del contexto.
         /// </summary>
-
         protected override void Dispose(bool disposing)
         {
             if (disposing) db.Dispose();

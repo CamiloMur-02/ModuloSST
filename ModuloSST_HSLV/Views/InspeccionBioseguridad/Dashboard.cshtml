@@ -1,163 +1,589 @@
 ﻿@using ModuloSST_HSLV.Controllers
+
 @{
     ViewBag.Title = "Dashboard de Bioseguridad";
+
     var estadisticasItems = ViewBag.EstadisticasItems as List<InspeccionBioseguridadController.EstadisticaBioseguridad>;
 }
 
-<div class="container-fluid">
-    <div class="row" style="margin-top: 20px;">
+<div class="container-fluid page-wrapper">
+
+    @* ===================================================== *@
+    @* --- ENCABEZADO --- *@
+    @* ===================================================== *@
+
+    <div class="row">
         <div class="col-md-8">
-            <h2 class="text-primary"><i class="glyphicon glyphicon-shield"></i> Indicadores de Bioseguridad</h2>
+            <h2 class="page-title">
+                <i class="glyphicon glyphicon-eye-open icon-accent"></i>
+                Indicadores de inspecciones de bioseguridad
+            </h2>
         </div>
-        <div class="col-md-4 text-right">
-            <a href="@Url.Action("Index")" class="btn btn-default"
-               style="background-color: #29235c; color: white; border-radius: 10px; font-weight: bold; padding: 10px 20px;">
-                <i class="glyphicon glyphicon-list"></i> Volver al Listado
+        <div class="col-md-4 text-right botones-encabezado">
+            <a href="@Url.Action("Index", "InspeccionBioseguridad")"
+               class="btn btn-volver-custom">
+                <i class="glyphicon glyphicon-list"></i>
+                Volver al listado
             </a>
         </div>
     </div>
-    <hr />
 
-    @* Filtros *@
-    <div class="panel panel-default">
-        <div class="panel-body">
+    <hr class="separator" />
+
+    @* ===================================================== *@
+    @* --- FILTROS --- *@
+    @* ===================================================== *@
+
+    <div class="panel panel-seccion" style="margin-bottom: 25px;">
+        <div class="panel-heading panel-heading-morado">
+            <h3 class="panel-title">
+                <i class="glyphicon glyphicon-filter"></i>
+                Filtros
+            </h3>
+        </div>
+        <div class="panel-body panel-body-custom">
             @using (Html.BeginForm("Dashboard", "InspeccionBioseguridad", FormMethod.Get, new { @class = "form-inline" }))
             {
-                <label>Año: </label>
-                <input type="number" name="anio" class="form-control" value="@ViewBag.AnioActual" style="width: 100px; margin-right:15px;" />
+                <div class="form-group filtro-grupo">
+                    <label class="label-form filtro-label">Año fiscal</label>
+                    <select name="anio" class="form-control input-custom filtro-select-anio">
+                        @if (ViewBag.AniosDisponibles != null)
+                        {
+                            foreach (int a in (List<int>)ViewBag.AniosDisponibles)
+                            {
+                                <option value="@a" @(ViewBag.AnioActual == a ? "selected" : "")>@a</option>
+                            }
+                        }
+                    </select>
+                </div>
 
-                <label>Trimestre: </label>
-                <select name="trimestre" class="form-control" style="margin-right:15px;">
-                    <option value="">-- Todos los Trimestres --</option>
-                    <option value="1" @(ViewBag.TrimestreActual == 1 ? "selected" : "")>T1 (Ene-Mar)</option>
-                    <option value="2" @(ViewBag.TrimestreActual == 2 ? "selected" : "")>T2 (Abr-Jun)</option>
-                    <option value="3" @(ViewBag.TrimestreActual == 3 ? "selected" : "")>T3 (Jul-Sep)</option>
-                    <option value="4" @(ViewBag.TrimestreActual == 4 ? "selected" : "")>T4 (Oct-Dic)</option>
-                </select>
+                <div class="form-group filtro-grupo">
+                    <label class="label-form filtro-label">Periodo (trimestre)</label>
+                    <select name="trimestre" class="form-control input-custom filtro-select">
+                        <option value="">Todos los trimestres</option>
+                        <option value="1" @(ViewBag.TrimestreActual == 1 ? "selected" : "")>T1 (Ene-Mar)</option>
+                        <option value="2" @(ViewBag.TrimestreActual == 2 ? "selected" : "")>T2 (Abr-Jun)</option>
+                        <option value="3" @(ViewBag.TrimestreActual == 3 ? "selected" : "")>T3 (Jul-Sep)</option>
+                        <option value="4" @(ViewBag.TrimestreActual == 4 ? "selected" : "")>T4 (Oct-Dic)</option>
+                    </select>
+                </div>
 
-                <button type="submit" class="btn" style="background-color: #76b82a; color: white; border-radius: 8px; font-weight: bold; padding: 6px 25px;">
-                    <i class="glyphicon glyphicon-filter"></i> Aplicar Filtros
-                </button>
+                <div class="form-group filtro-grupo filtro-boton-wrapper">
+                    <button type="submit" class="btn btn-guardar-custom">
+                        <i class="glyphicon glyphicon-filter"></i>
+                        Aplicar filtros
+                    </button>
+                </div>
             }
         </div>
     </div>
 
-    @* Tabla de Adherencia por Ítem (Cantidad Exacta) *@
+    @* ===================================================== *@
+    @* --- TARJETA DE RESUMEN (KPI) --- *@
+    @* ===================================================== *@
+
     <div class="row">
+
         <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading" style="background-color: #f5f5f5;">
-                    <h3 class="panel-title"><strong>Cumplimiento Normativo por Ítem Evaluado</strong></h3>
+            <div class="kpi-card kpi-card-morado">
+                <p class="kpi-etiqueta">Frecuencia total</p>
+                <div class="kpi-contenido">
+                    <h2 class="kpi-numero">@ViewBag.TotalInspecciones</h2>
+                    <i class="glyphicon glyphicon-eye-open kpi-icono kpi-icono-morado"></i>
                 </div>
-                <div class="panel-body">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>Norma / Ítem de Bioseguridad</th>
-                                <th class="text-center">Cumple (C)</th>
-                                <th class="text-center">No Cumple (NC)</th>
-                                <th style="width: 40%;">Porcentaje de Adherencia</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in estadisticasItems)
-                            {
-                                
-                                var colorBarra = item.PorcentajeAdherencia >= 80 ? "#76b82a" : // Verde hospital
-                                                (item.PorcentajeAdherencia >= 60 ? "#f0ad4e" : "#d9534f");
-                                <tr>
-                                    <td>@item.Nombre</td>
-                                    @* Círculos de color sólido para C y NC *@
-                                    <td class="text-center">
-                                        <span style="background-color: #28a745; color: white; padding: 4px 10px; border-radius: 50%; font-weight: bold;">@item.Cumple</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <span style="background-color: #dc3545; color: white; padding: 4px 10px; border-radius: 50%; font-weight: bold;">@item.NoCumple</span>
-                                    </td>
-                                    <td>
-                                        <div class="progress" style="margin-bottom:0; height: 18px; border-radius: 10px; background-color: #f1f1f1;">
-                                            <div class="progress-bar" role="progressbar"
-                                                 style="width: @item.PorcentajeAdherencia.ToString("0")%; background-color: @colorBarra;">
-                                                @item.PorcentajeAdherencia.ToString("0.0")%
-                                            </div>
-                                        </div>
-                                    </td>
+                <p class="kpi-descripcion kpi-descripcion-morado">Total de inspecciones de bioseguridad registradas</p>
+            </div>
+        </div>
+
+    </div>
+
+    @* ===================================================== *@
+    @* --- TABLA DE CUMPLIMIENTO POR ÍTEM --- *@
+    @* ===================================================== *@
+
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12">
+            <div class="panel panel-seccion">
+                <div class="panel-heading panel-heading-verde">
+                    <h3 class="panel-title">
+                        <i class="glyphicon glyphicon-check"></i>
+                        Cumplimiento normativo por ítem evaluado
+                    </h3>
+                </div>
+                <div class="panel-body" style="padding: 0;">
+                    <div class="table-responsive">
+                        <table class="table table-hover tabla-items">
+                            <thead>
+                                <tr class="tabla-thead">
+                                    <th class="tabla-th">Norma / ítem de bioseguridad</th>
+                                    <th class="tabla-th text-center cumple-header">Cumple (C)</th>
+                                    <th class="tabla-th text-center no-cumple-header">No cumple (NC)</th>
+                                    <th class="tabla-th tabla-th-barra">Porcentaje de adherencia</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @if (estadisticasItems != null)
+                                {
+                                    foreach (var item in estadisticasItems)
+                                    {
+                                        var pct = item.PorcentajeAdherencia;
+                                        var pctFormato = pct.ToString("0");
+                                        var colorBarra = pct >= 80 ? "#76b82a"
+                                                         : pct >= 60 ? "#f39c12"
+                                                                     : "#d9534f";
+
+                                        <tr>
+                                            <td class="tabla-td tabla-td-nombre">@item.Nombre</td>
+                                            <td class="tabla-td text-center tabla-td-badge">
+                                                <span class="badge-cumple-item">@item.Cumple</span>
+                                            </td>
+                                            <td class="tabla-td text-center tabla-td-badge">
+                                                <span class="badge-nocumple-item">@item.NoCumple</span>
+                                            </td>
+                                            <td class="tabla-td tabla-td-barra">
+                                                <div class="progress barra-progreso">
+                                                    <div class="progress-bar barra-relleno"
+                                                         role="progressbar"
+                                                         style="width: @pctFormato%; background-color: @colorBarra;">
+                                                        @pct.ToString("0.0")%
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    @* ── Leyenda de semáforo ── *@
+                    <div class="leyenda-footer">
+                        <p class="leyenda-texto">
+                            <strong>Semáforo de adherencia:</strong>
+                            &nbsp;
+                            <span class="badge-leyenda" style="background-color: #76b82a;">≥ 80%</span> Óptimo
+                            &nbsp;|&nbsp;
+                            <span class="badge-leyenda" style="background-color: #f39c12;">60–79%</span> En riesgo
+                            &nbsp;|&nbsp;
+                            <span class="badge-leyenda" style="background-color: #d9534f;">&lt; 60%</span> Crítico
+                        </p>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 
-    @* Gráficas de Procesos y Subprocesos *@
-    <div class="row">
+    @* ===================================================== *@
+    @* --- GRÁFICOS DE ADHERENCIA --- *@
+    @* ===================================================== *@
+
+    <div class="row" style="margin-top: 10px;">
+
         <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading"><strong>Adherencia por Proceso (%)</strong></div>
-                <div class="panel-body">
+            <div class="panel panel-seccion">
+                <div class="panel-heading panel-heading-morado">
+                    <h3 class="panel-title">
+                        <i class="glyphicon glyphicon-th-list"></i>
+                        Adherencia por proceso (%)
+                    </h3>
+                </div>
+                <div class="panel-body panel-body-custom">
                     <canvas id="chartProcesos" height="200"></canvas>
                 </div>
             </div>
         </div>
+
         <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading"><strong>Adherencia por Subproceso (%)</strong></div>
-                <div class="panel-body">
+            <div class="panel panel-seccion">
+                <div class="panel-heading panel-heading-verde">
+                    <h3 class="panel-title">
+                        <i class="glyphicon glyphicon-th-list"></i>
+                        Adherencia por subproceso (%)
+                    </h3>
+                </div>
+                <div class="panel-body panel-body-custom">
                     <canvas id="chartSubprocesos" height="200"></canvas>
                 </div>
             </div>
         </div>
+
     </div>
+
 </div>
 
-@* Scripts para Gráficas *@
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    // Configuración común para ambos gráficos
-    const commonOptions = {
-        indexAxis: 'y',
-        responsive: true,
-        plugins: {
-            legend: { display: false } 
-        },
-        scales: {
-            x: {
-                beginAtZero: true,
-                max: 100,
-                title: { display: false } 
+@* ===================================================== *@
+@* --- SCRIPTS --- *@
+@* ===================================================== *@
+
+@section Scripts {
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+
+        // ── Opciones comunes para ambos gráficos de barras ────────────
+        var opcionesComunes = {
+            indexAxis: 'y',
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    max: 100,
+                    grid: { color: '#f0f0f0' },
+                    ticks: { color: '#666', font: { size: 12 } }
+                },
+                y: {
+                    grid: { display: false },
+                    ticks: { color: '#333', font: { size: 12, weight: "600" } }
+                }
             }
+        };
+
+        // ── Gráfico de adherencia por proceso ─────────────────────────
+        var dataProc = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.AdherenciaProceso));
+
+        new Chart(document.getElementById('chartProcesos'), {
+            type: 'bar',
+            data: {
+                labels: dataProc.map(function (x) { return x.Nombre; }),
+                datasets: [{
+                    data: dataProc.map(function (x) { return x.PorcentajeAdherencia.toFixed(1); }),
+                    backgroundColor: '#29235c',
+                    borderRadius: 6
+                }]
+            },
+            options: opcionesComunes
+        });
+
+        // ── Gráfico de adherencia por subproceso ──────────────────────
+        var dataSub = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.AdherenciaSubproceso));
+
+        new Chart(document.getElementById('chartSubprocesos'), {
+            type: 'bar',
+            data: {
+                labels: dataSub.map(function (x) { return x.Nombre; }),
+                datasets: [{
+                    data: dataSub.map(function (x) { return x.PorcentajeAdherencia.toFixed(1); }),
+                    backgroundColor: '#76b82a',
+                    borderRadius: 6
+                }]
+            },
+            options: opcionesComunes
+        });
+
+    </script>
+}
+
+@* ===================================================== *@
+@* --- ESTILOS --- *@
+@* ===================================================== *@
+
+<style>
+
+    /* ── Página ──────────────────────────────────────────────────── */
+    .page-wrapper {
+        padding: 20px;
+    }
+
+    .page-title {
+        color: #29235c;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .icon-accent {
+        color: #76b82a;
+    }
+
+    .separator {
+        border-top: 1px solid #eee;
+        margin-bottom: 25px;
+    }
+
+    /* ── Botones encabezado ──────────────────────────────────────── */
+    .botones-encabezado {
+        padding-top: 8px;
+    }
+
+    .btn-volver-custom {
+        background-color: transparent;
+        color: #29235c;
+        border: 2px solid #29235c;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 8px 20px;
+        transition: all 0.3s;
+    }
+
+        .btn-volver-custom:hover {
+            background-color: #29235c;
+            color: white;
         }
-    };
 
-    // Datos Procesos (Azul Oscuro Institucional)
-    var dataProc = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.AdherenciaProceso));
-    new Chart(document.getElementById('chartProcesos'), {
-        type: 'bar',
-        data: {
-            labels: dataProc.map(x => x.Nombre),
-            datasets: [{
-                data: dataProc.map(x => x.Porcentaje),
-                backgroundColor: '#29235c', // Azul oscuro oficial
-                borderRadius: 8
-            }]
-        },
-        options: commonOptions
-    });
+    /* ── Paneles / Secciones ─────────────────────────────────────── */
+    .panel-seccion {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
 
-    // Datos Subprocesos (Verde Institucional)
-    var dataSub = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.AdherenciaSubproceso));
-    new Chart(document.getElementById('chartSubprocesos'), {
-        type: 'bar',
-        data: {
-            labels: dataSub.map(x => x.Nombre),
-            datasets: [{
-                data: dataSub.map(x => x.Porcentaje),
-                backgroundColor: '#76b82a', 
-                borderRadius: 8
-            }]
-        },
-        options: commonOptions
-    });
-</script>
+    .panel-heading-morado {
+        background-color: #29235c;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-verde {
+        background-color: #76b82a;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-naranja {
+        background-color: #f39c12;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-seccion .panel-title {
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .panel-body-custom {
+        padding: 25px;
+    }
+
+    /* ── Filtros ─────────────────────────────────────────────────── */
+    .filtro-grupo {
+        margin-right: 20px;
+        display: inline-flex;
+        flex-direction: column;
+        vertical-align: top;
+    }
+
+    .filtro-label {
+        margin-bottom: 6px;
+        font-size: 13px;
+    }
+
+    .filtro-select-anio {
+        width: 110px;
+    }
+
+    .filtro-select {
+        min-width: 200px;
+    }
+
+    .filtro-boton-wrapper {
+        justify-content: flex-end;
+        padding-top: 23px;
+    }
+
+    /* ── Inputs ──────────────────────────────────────────────────── */
+    .input-custom {
+        border-radius: 12px !important;
+        border: 1px solid #ddd !important;
+        height: 42px;
+        box-shadow: none !important;
+    }
+
+        .input-custom:focus {
+            border-color: #76b82a !important;
+            box-shadow: 0 0 5px rgba(118,184,42,0.3) !important;
+        }
+
+    /* ── Botón aplicar filtros ───────────────────────────────────── */
+    .btn-guardar-custom {
+        background-color: #76b82a;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 12px 30px;
+        font-size: 15px;
+        transition: all 0.3s;
+    }
+
+        .btn-guardar-custom:hover {
+            background-color: #5f9821;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+    /* ── Tarjeta KPI ─────────────────────────────────────────────── */
+    .kpi-card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        margin-bottom: 25px;
+        border-left: 8px solid transparent;
+    }
+
+    .kpi-card-morado {
+        border-left-color: #d9534f;
+    }
+
+    .kpi-etiqueta {
+        color: #888;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+        font-size: 12px;
+    }
+
+    .kpi-contenido {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .kpi-numero {
+        margin: 0;
+        font-weight: 800;
+        color: #333;
+        font-size: 40px;
+    }
+
+    .kpi-icono {
+        font-size: 35px;
+        opacity: 0.25;
+    }
+
+    .kpi-icono-morado {
+        color: #29235c;
+    }
+
+    .kpi-descripcion {
+        margin-top: 10px;
+        font-weight: 600;
+        margin-bottom: 0;
+        font-size: 14px;
+    }
+
+    .kpi-descripcion-morado {
+        color: #d9534f;
+    }
+
+    /* ── Tabla de ítems ──────────────────────────────────────────── */
+    .tabla-items {
+        margin-bottom: 0;
+    }
+
+    .tabla-thead {
+        background-color: #fcfcfc;
+    }
+
+    .tabla-th {
+        padding: 15px;
+        color: #666;
+        font-weight: 600;
+        font-size: 13px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .tabla-th-barra {
+        width: 40%;
+    }
+
+    .cumple-header {
+        color: #76b82a;
+    }
+
+    .no-cumple-header {
+        color: #d9534f;
+    }
+
+    .tabla-td {
+        vertical-align: middle;
+        border-top: 1px solid #f5f5f5;
+    }
+
+    .tabla-td-nombre {
+        padding: 12px 15px;
+        font-weight: 600;
+        color: #444;
+    }
+
+    .tabla-td-badge {
+        padding: 12px 15px;
+    }
+
+    .tabla-td-barra {
+        padding: 12px 15px;
+        min-width: 200px;
+    }
+
+    /* ── Badges de C / NC ────────────────────────────────────────── */
+    .badge-cumple-item {
+        background-color: #eee;
+        color: #555;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    .badge-nocumple-item {
+        background-color: #eee;
+        color: #555;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    /* ── Barra de progreso ───────────────────────────────────────── */
+    .barra-progreso {
+        height: 18px;
+        margin-bottom: 0;
+        border-radius: 10px;
+        background-color: #f0f0f0;
+        box-shadow: none;
+    }
+
+    .barra-relleno {
+        line-height: 18px;
+        font-weight: bold;
+        font-size: 11px;
+        box-shadow: none;
+        border-radius: 10px;
+    }
+
+    /* ── Leyenda de semáforo ─────────────────────────────────────── */
+    .leyenda-footer {
+        background-color: #fdfdfd;
+        padding: 12px 25px;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .leyenda-texto {
+        margin: 0;
+        font-size: 13px;
+        color: #666;
+    }
+
+    .badge-leyenda {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: bold;
+        color: white;
+    }
+
+    /* ── Hover fila ──────────────────────────────────────────────── */
+    .table-hover tbody tr:hover {
+        background-color: #f9f9ff !important;
+        transition: all 0.2s ease;
+    }
+</style>

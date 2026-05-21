@@ -108,7 +108,7 @@ namespace ModuloSST_HSLV.Controllers
                 return View();
             }
 
-            TempData["Exito"] = $"Evaluación '{tipoEvaluacion}' cargada correctamente.";
+            TempData["Exito"] = "Evaluación registrada correctamente.";
             return RedirectToAction("Index");
         }
 

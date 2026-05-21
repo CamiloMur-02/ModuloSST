@@ -2,34 +2,55 @@
     ViewBag.Title = "Dashboard Accidentes de Trabajo";
 }
 
-<div class="container-fluid" style="background-color: #f4f7f6; min-height: 100vh; padding-bottom: 50px;">
+<div class="container-fluid page-wrapper">
+
+    @* ===================================================== *@
     @* --- ENCABEZADO --- *@
-    <div class="row" style="padding-top: 20px; margin-bottom: 20px;">
+    @* ===================================================== *@
+
+    <div class="row">
         <div class="col-md-8">
-            <h2 style="color: #29235c; font-weight: bold;">
-                <i class="glyphicon glyphicon-stats"></i> Indicadores de Accidentes de Trabajo
+            <h2 class="page-title">
+                <i class="glyphicon glyphicon-stats icon-accent"></i>
+                Indicadores de accidentes de trabajo
             </h2>
         </div>
-        <div class="col-md-4 text-right">
-            <a href="@Url.Action("Index", "ReporteAccidenteTrabajo")" class="btn"
-               style="background-color: #29235c; color: white; border-radius: 10px; font-weight: bold; padding: 10px 20px;">
-                <i class="glyphicon glyphicon-arrow-left"></i> Volver al Listado
+        <div class="col-md-4 text-right botones-encabezado">
+            <a href="@Url.Action("Index", "ReporteAccidenteTrabajo")"
+               class="btn btn-volver-custom">
+                <i class="glyphicon glyphicon-list"></i>
+                Volver al listado
             </a>
         </div>
     </div>
 
+    <hr class="separator" />
+
+    @* ===================================================== *@
     @* --- FILTROS --- *@
-    <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px;">
-        <div class="panel-body" style="padding: 20px;">
+    @* ===================================================== *@
+
+    <div class="panel panel-seccion" style="margin-bottom: 25px;">
+        <div class="panel-heading panel-heading-morado">
+            <h3 class="panel-title">
+                <i class="glyphicon glyphicon-filter"></i>
+                Filtros
+            </h3>
+        </div>
+        <div class="panel-body panel-body-custom">
             @using (Html.BeginForm("Dashboard", "ReporteAccidenteTrabajo", FormMethod.Get, new { @class = "form-inline" }))
             {
-                <div class="form-group" style="margin-right: 20px;">
-                    <label style="color: #666; margin-right: 10px;">Año Fiscal: </label>
-                    <input type="number" name="anio" class="form-control" value="@ViewBag.AnioActual" style="width: 100px; border-radius: 8px;" />
+                <div class="form-group filtro-grupo">
+                    <label class="label-form filtro-label">Año fiscal</label>
+                    <input type="number"
+                           name="anio"
+                           class="form-control input-custom filtro-input-anio"
+                           value="@ViewBag.AnioActual" />
                 </div>
-                <div class="form-group" style="margin-right: 20px;">
-                    <label style="color: #666; margin-right: 10px;">Periodo (Trimestre): </label>
-                    <select name="trimestre" class="form-control" style="border-radius: 8px;">
+
+                <div class="form-group filtro-grupo">
+                    <label class="label-form filtro-label">Periodo (trimestre)</label>
+                    <select name="trimestre" class="form-control input-custom filtro-select">
                         <option value="">Todos los trimestres</option>
                         <option value="1" @(ViewBag.TrimestreActual == 1 ? "selected" : "")>T1 (Ene-Mar)</option>
                         <option value="2" @(ViewBag.TrimestreActual == 2 ? "selected" : "")>T2 (Abr-Jun)</option>
@@ -37,76 +58,104 @@
                         <option value="4" @(ViewBag.TrimestreActual == 4 ? "selected" : "")>T4 (Oct-Dic)</option>
                     </select>
                 </div>
-                <button type="submit" class="btn" style="background-color: #76b82a; color: white; border-radius: 8px; font-weight: bold; padding: 6px 25px;">
-                    <i class="glyphicon glyphicon-filter"></i> Aplicar Filtros
-                </button>
+
+                <div class="form-group filtro-grupo filtro-boton-wrapper">
+                    <button type="submit" class="btn btn-guardar-custom">
+                        <i class="glyphicon glyphicon-filter"></i>
+                        Aplicar filtros
+                    </button>
+                </div>
             }
         </div>
     </div>
 
+    @* ===================================================== *@
     @* --- TARJETAS DE RESUMEN (KPIs) --- *@
+    @* ===================================================== *@
+
     <div class="row">
+
         <div class="col-md-6">
-            <div style="background: white; border-radius: 15px; padding: 25px; border-left: 8px solid #d9534f; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 25px;">
-                <p style="color: #888; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; font-size: 12px;">Frecuencia Total</p>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <h2 style="margin: 0; font-weight: 800; color: #333; font-size: 40px;">@ViewBag.TotalAccidentes</h2>
-                    <i class="glyphicon glyphicon-warning-sign" style="font-size: 35px; color: #d9534f; opacity: 0.3;"></i>
+            <div class="kpi-card kpi-card-rojo">
+                <p class="kpi-etiqueta">Frecuencia total</p>
+                <div class="kpi-contenido">
+                    <h2 class="kpi-numero">@ViewBag.TotalAccidentes</h2>
+                    <i class="glyphicon glyphicon-warning-sign kpi-icono kpi-icono-rojo"></i>
                 </div>
-                <p style="margin-top: 10px; color: #d9534f; font-weight: 600; margin-bottom: 0;">Total Accidentes Registrados</p>
+                <p class="kpi-descripcion kpi-descripcion-rojo">Total accidentes registrados</p>
             </div>
         </div>
+
         <div class="col-md-6">
-            <div style="background: white; border-radius: 15px; padding: 25px; border-left: 8px solid #f0ad4e; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 25px;">
-                <p style="color: #888; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; font-size: 12px;">Severidad Acumulada</p>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <h2 style="margin: 0; font-weight: 800; color: #333; font-size: 40px;">@ViewBag.TotalIncapacidad</h2>
-                    <i class="glyphicon glyphicon-time" style="font-size: 35px; color: #f0ad4e; opacity: 0.3;"></i>
+            <div class="kpi-card kpi-card-naranja">
+                <p class="kpi-etiqueta">Severidad acumulada</p>
+                <div class="kpi-contenido">
+                    <h2 class="kpi-numero">@ViewBag.TotalIncapacidad</h2>
+                    <i class="glyphicon glyphicon-time kpi-icono kpi-icono-naranja"></i>
                 </div>
-                <p style="margin-top: 10px; color: #f0ad4e; font-weight: 600; margin-bottom: 0;">Días de Incapacidad Totales</p>
+                <p class="kpi-descripcion kpi-descripcion-naranja">Días de incapacidad totales</p>
             </div>
         </div>
+
     </div>
 
+    @* ===================================================== *@
     @* --- GRÁFICOS --- *@
-    <div class="row">
+    @* ===================================================== *@
+
+    <div class="row" style="margin-top: 10px;">
+
         <div class="col-md-7">
-            <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-                <div class="panel-heading" style="background: white; border-bottom: 1px solid #eee; padding: 15px;">
-                    <h4 style="margin: 0; color: #29235c; font-weight: bold;">Accidentes por Proceso (Top 5)</h4>
+            <div class="panel panel-seccion">
+                <div class="panel-heading panel-heading-morado">
+                    <h3 class="panel-title">
+                        <i class="glyphicon glyphicon-th-list"></i>
+                        Accidentes por proceso (Top 5)
+                    </h3>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body panel-body-custom">
                     <canvas id="chartProcesos" height="150"></canvas>
                 </div>
             </div>
         </div>
+
         <div class="col-md-5">
-            <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-                <div class="panel-heading" style="background: white; border-bottom: 1px solid #eee; padding: 15px;">
-                    <h4 style="margin: 0; color: #29235c; font-weight: bold;">Distribución por Peligro</h4>
+            <div class="panel panel-seccion">
+                <div class="panel-heading panel-heading-verde">
+                    <h3 class="panel-title">
+                        <i class="glyphicon glyphicon-dashboard"></i>
+                        Distribución por tipo de peligro
+                    </h3>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body panel-body-custom">
                     <canvas id="chartPeligros" height="215"></canvas>
                 </div>
             </div>
         </div>
+
     </div>
 
+    @* ===================================================== *@
     @* --- TABLA DE CAUSAS --- *@
+    @* ===================================================== *@
+
     <div class="row" style="margin-top: 10px;">
         <div class="col-md-12">
-            <div class="panel panel-default" style="border-radius: 15px; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-                <div class="panel-heading" style="background: #29235c; color: white; border-radius: 15px 15px 0 0; padding: 15px;">
-                    <h4 style="margin: 0; font-weight: bold;"><i class="glyphicon glyphicon-search"></i> Análisis de Causas Raíz</h4>
+            <div class="panel panel-seccion">
+                <div class="panel-heading panel-heading-naranja">
+                    <h3 class="panel-title">
+                        <i class="glyphicon glyphicon-search"></i>
+                        Análisis de causas raíz
+                    </h3>
                 </div>
                 <div class="panel-body" style="padding: 0;">
                     <div class="table-responsive">
-                        <table class="table table-hover" style="margin-bottom: 0;">
+                        <table class="table table-hover tabla-causas">
                             <thead>
-                                <tr style="background: #fcfcfc; color: #666;">
-                                    <th style="padding: 15px;">Nombre de la Causa</th>
-                                    <th class="text-center" style="padding: 15px;">Cantidad</th>
-                                    <th style="padding: 15px;">Frecuencia Relativa (%)</th>
+                                <tr class="tabla-thead">
+                                    <th class="tabla-th">Nombre de la causa</th>
+                                    <th class="tabla-th text-center">Cantidad</th>
+                                    <th class="tabla-th">(%) Sobre el total</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -118,15 +167,17 @@
                                     foreach (var item in listaCausas)
                                     {
                                         var pct = totalAcc > 0 ? (item.Cantidad * 100) / totalAcc : 0;
+
                                         <tr>
-                                            <td style="padding: 12px 15px; font-weight: 600; color: #444;">@item.Nombre</td>
-                                            <td class="text-center" style="vertical-align: middle;">
-                                                <span style="background: #eee; padding: 5px 12px; border-radius: 20px; font-weight: bold;">@item.Cantidad</span>
+                                            <td class="tabla-td tabla-td-nombre">@item.Nombre</td>
+                                            <td class="tabla-td text-center tabla-td-cantidad">
+                                                <span class="badge-cantidad">@item.Cantidad</span>
                                             </td>
-                                            <td style="padding: 12px 15px; vertical-align: middle;">
-                                                <div class="progress" style="height: 18px; margin-bottom: 0; border-radius: 10px; background-color: #f0f0f0;">
-                                                    <div class="progress-bar" role="progressbar"
-                                                         style="width: @pct%; background-color: #3a86ff; line-height: 18px; font-weight: bold; box-shadow: none;">
+                                            <td class="tabla-td tabla-td-barra">
+                                                <div class="progress barra-progreso">
+                                                    <div class="progress-bar barra-relleno"
+                                                         role="progressbar"
+                                                         style="width: @pct%;">
                                                         @pct%
                                                     </div>
                                                 </div>
@@ -141,48 +192,354 @@
             </div>
         </div>
     </div>
+
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    // Gráfico Procesos (Barras Horizontales con Azul Institucional)
-    var dataProcesos = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.TopProcesos));
-    new Chart(document.getElementById('chartProcesos'), {
-        type: 'bar',
-        data: {
-            labels: dataProcesos.map(x => x.Nombre),
-            datasets: [{
-                label: 'Accidentes',
-                data: dataProcesos.map(x => x.Cantidad),
-                backgroundColor: '#29235c',
-                borderRadius: 5
-            }]
-        },
-        options: {
-            indexAxis: 'y',
-            responsive: true,
-            plugins: { legend: { display: false } }
-        }
-    });
+@* ===================================================== *@
+@* --- SCRIPTS --- *@
+@* ===================================================== *@
 
-    // Gráfico Peligros (Dona con paleta hospitalaria)
-    var dataPeligros = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.EstadisticasPeligros));
-    new Chart(document.getElementById('chartPeligros'), {
-        type: 'doughnut',
-        data: {
-            labels: dataPeligros.map(x => x.Nombre),
-            datasets: [{
-                data: dataPeligros.map(x => x.Cantidad),
-                backgroundColor: ['#d9534f', '#76b82a', '#3a86ff', '#f0ad4e', '#9b59b6', '#7f8c8d'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { position: 'bottom' }
+@section Scripts {
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+
+        // ── Gráfico de procesos (barras horizontales) ─────────────────
+        var dataProcesos = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.TopProcesos));
+
+        new Chart(document.getElementById('chartProcesos'), {
+            type: 'bar',
+            data: {
+                labels: dataProcesos.map(function (x) { return x.Nombre; }),
+                datasets: [{
+                    label: 'Accidentes',
+                    data: dataProcesos.map(function (x) { return x.Cantidad; }),
+                    backgroundColor: '#29235c',
+                    borderRadius: 6
+                }]
             },
-            cutout: '60%'
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        grid: { color: '#f0f0f0' },
+                        ticks: { color: '#666', font: { size: 12 } }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: { color: '#333', font: { size: 12, weight: "600" } }
+                    }
+                }
+            }
+        });
+
+        // ── Gráfico de peligros (dona) ────────────────────────────────
+        var dataPeligros = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.EstadisticasPeligros));
+
+        new Chart(document.getElementById('chartPeligros'), {
+            type: 'doughnut',
+            data: {
+                labels: dataPeligros.map(function (x) { return x.Nombre; }),
+                datasets: [{
+                    data: dataPeligros.map(function (x) { return x.Cantidad; }),
+                    backgroundColor: ['#29235c', '#76b82a', '#d9534f', '#f39c12', '#3a86ff', '#7f8c8d'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#333',
+                            font: { size: 12 },
+                            padding: 16,
+                            boxWidth: 14,
+                            borderRadius: 4
+                        }
+                    }
+                },
+                cutout: '62%'
+            }
+        });
+
+    </script>
+}
+
+@* ===================================================== *@
+@* --- ESTILOS --- *@
+@* ===================================================== *@
+
+<style>
+
+    /* ── Página ──────────────────────────────────────────────────── */
+    .page-wrapper {
+        padding: 20px;
+    }
+
+    .page-title {
+        color: #29235c;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .icon-accent {
+        color: #76b82a;
+    }
+
+    .separator {
+        border-top: 1px solid #eee;
+        margin-bottom: 25px;
+    }
+
+    /* ── Botones encabezado ──────────────────────────────────────── */
+    .botones-encabezado {
+        padding-top: 8px;
+    }
+
+    .btn-volver-custom {
+        background-color: transparent;
+        color: #29235c;
+        border: 2px solid #29235c;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 8px 20px;
+        transition: all 0.3s;
+    }
+
+        .btn-volver-custom:hover {
+            background-color: #29235c;
+            color: white;
         }
-    });
-</script>
+
+    /* ── Paneles / Secciones ─────────────────────────────────────── */
+    .panel-seccion {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .panel-heading-morado {
+        background-color: #29235c;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-verde {
+        background-color: #76b82a;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-naranja {
+        background-color: #f39c12;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-seccion .panel-title {
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .panel-body-custom {
+        padding: 25px;
+    }
+
+    /* ── Filtros ─────────────────────────────────────────────────── */
+    .filtro-grupo {
+        margin-right: 20px;
+        display: inline-flex;
+        flex-direction: column;
+        vertical-align: top;
+    }
+
+    .filtro-label {
+        margin-bottom: 6px;
+        font-size: 13px;
+    }
+
+    .filtro-input-anio {
+        width: 110px;
+    }
+
+    .filtro-select {
+        min-width: 200px;
+    }
+
+    .filtro-boton-wrapper {
+        justify-content: flex-end;
+        padding-top: 23px;
+    }
+
+    /* ── Inputs ──────────────────────────────────────────────────── */
+    .input-custom {
+        border-radius: 12px !important;
+        border: 1px solid #ddd !important;
+        height: 42px;
+        box-shadow: none !important;
+    }
+
+        .input-custom:focus {
+            border-color: #76b82a !important;
+            box-shadow: 0 0 5px rgba(118,184,42,0.3) !important;
+        }
+
+    /* ── Botón guardar / aplicar ─────────────────────────────────── */
+    .btn-guardar-custom {
+        background-color: #76b82a;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 12px 30px;
+        font-size: 15px;
+        transition: all 0.3s;
+    }
+
+        .btn-guardar-custom:hover {
+            background-color: #5f9821;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+    /* ── Tarjetas KPI ────────────────────────────────────────────── */
+    .kpi-card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        margin-bottom: 25px;
+        border-left: 8px solid transparent;
+        border-radius: 15px;
+    }
+
+    .kpi-card-rojo {
+        border-left-color: #d9534f;
+    }
+
+    .kpi-card-naranja {
+        border-left-color: #f39c12;
+    }
+
+    .kpi-etiqueta {
+        color: #888;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+        font-size: 12px;
+    }
+
+    .kpi-contenido {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .kpi-numero {
+        margin: 0;
+        font-weight: 800;
+        color: #333;
+        font-size: 40px;
+    }
+
+    .kpi-icono {
+        font-size: 35px;
+        opacity: 0.25;
+    }
+
+    .kpi-icono-rojo {
+        color: #d9534f;
+    }
+
+    .kpi-icono-naranja {
+        color: #f39c12;
+    }
+
+    .kpi-descripcion {
+        margin-top: 10px;
+        font-weight: 600;
+        margin-bottom: 0;
+        font-size: 14px;
+    }
+
+    .kpi-descripcion-rojo {
+        color: #d9534f;
+    }
+
+    .kpi-descripcion-naranja {
+        color: #f39c12;
+    }
+
+    /* ── Tabla de causas ─────────────────────────────────────────── */
+    .tabla-causas {
+        margin-bottom: 0;
+    }
+
+    .tabla-thead {
+        background-color: #fcfcfc;
+    }
+
+    .tabla-th {
+        padding: 15px;
+        color: #666;
+        font-weight: 600;
+        font-size: 13px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .tabla-td {
+        vertical-align: middle;
+        border-top: 1px solid #f5f5f5;
+    }
+
+    .tabla-td-nombre {
+        padding: 12px 15px;
+        font-weight: 600;
+        color: #444;
+    }
+
+    .tabla-td-cantidad {
+        padding: 12px 15px;
+    }
+
+    .tabla-td-barra {
+        padding: 12px 15px;
+        min-width: 200px;
+    }
+
+    .badge-cantidad {
+        background-color: #eee;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-weight: bold;
+        color: #555;
+        font-size: 13px;
+    }
+
+    .barra-progreso {
+        height: 18px;
+        margin-bottom: 0;
+        border-radius: 10px;
+        background-color: #f0f0f0;
+        box-shadow: none;
+    }
+
+    .barra-relleno {
+        background-color: #29235c;
+        line-height: 18px;
+        font-weight: bold;
+        font-size: 11px;
+        box-shadow: none;
+    }
+</style>

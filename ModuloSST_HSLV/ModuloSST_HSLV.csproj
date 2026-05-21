@@ -127,6 +127,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccidenteTrabajoController.cs" />
     <Compile Include="Controllers\CatalogoEppController.cs" />
+    <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\EvaluacionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InspeccionBioseguridadController.cs" />
@@ -140,14 +141,21 @@
     </Compile>
     <Compile Include="Helpers\CausaHelper.cs" />
     <Compile Include="Models\CatalogoEpp.cs" />
+    <Compile Include="Models\HojaVida\EmpleadoDto.cs" />
+    <Compile Include="Models\HojaVida\HvCargo.cs" />
+    <Compile Include="Models\HojaVida\HvDatosLaborales.cs" />
+    <Compile Include="Models\HojaVida\HvFuncionario.cs" />
+    <Compile Include="Models\HojaVida\HvProceso.cs" />
+    <Compile Include="Models\HojaVida\HvSindicato.cs" />
+    <Compile Include="Models\HojaVida\HvSubproceso.cs" />
     <Compile Include="Models\PausaActiva.cs" />
+    <Compile Include="Models\Proceso.cs" />
     <Compile Include="Models\ReporteIncidente.cs" />
     <Compile Include="Models\ReporteEnfermedadLaboral.cs" />
     <Compile Include="Models\ElementoEpp.cs" />
     <Compile Include="Models\Evaluacion.cs" />
     <Compile Include="Models\InspeccionBioseguridad.cs" />
     <Compile Include="Models\MatrizEpp.cs" />
-    <Compile Include="Models\Proceso.cs" />
     <Compile Include="Models\ReporteAccidenteTrabajo.cs" />
     <Compile Include="Models\Subproceso.cs" />
     <Compile Include="Models\ViewModels\Class1.cs" />
@@ -205,8 +213,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Uploads\Evaluaciones\.gitkeep" />
     <Content Include="Views\Evaluacion\Crear.cshtml" />
@@ -245,15 +251,10 @@
     <Content Include="Uploads\Accidentes\.gitkeep" />
     <Content Include="Uploads\Enfermedades\.gitkeep" />
     <Content Include="Uploads\Incidentes\.gitkeep" />
-    <Content Include="Uploads\EnfermedadLaboral\0e4c618f-6045-45d5-b6b6-82607cf2ca45_Certificado Bachiller.pdf" />
-    <Content Include="Uploads\EnfermedadLaboral\1271447f-8bd6-45a4-879d-6aebf53629d1_Certificado Bachiller.pdf" />
-    <Content Include="Uploads\EnfermedadLaboral\2383d45e-b456-4ccf-aea1-1b8977f5ca6f_Carta Solicitud Propuesta de Grado.pdf" />
-    <Content Include="Uploads\EnfermedadLaboral\96ee2a9d-c361-4beb-a41b-1ed4516d444f_Certificado Bachiller.pdf" />
-    <Content Include="Uploads\EnfermedadLaboral\c4fe46c8-f874-445a-a24e-0a8f4bd25f0f_Carta Solicitud Propuesta de Grado.pdf" />
-    <Content Include="Uploads\EnfermedadLaboral\fd458a2a-24aa-40a8-9a35-6e9a08506495_Carta Solicitud Propuesta de Grado.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Empleado\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

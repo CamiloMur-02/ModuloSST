@@ -4,65 +4,66 @@
     ViewBag.Title = "Detalle — Incidente";
 }
 
-<div class="container-fluid">
+<div class="container-fluid page-wrapper">
 
-    @* ===================== ENCABEZADO ===================== *@
-    <div style="margin-top: 20px; margin-bottom: 25px;">
+    @* ===================================================== *@
+    @* --- ENCABEZADO --- *@
+    @* ===================================================== *@
 
-        <div class="row" style="display: flex; align-items: center;">
+    <div class="detalle-encabezado">
+
+        <div class="row">
 
             <div class="col-md-8">
-
-                <h2 style="color: #29235c; font-weight: bold; margin-bottom: 5px;">
-                    <i class="glyphicon glyphicon-file"></i>
-                    Detalle del Reporte de Incidente
+                <h2 class="page-title">
+                    <i class="glyphicon glyphicon-file icon-accent"></i>
+                    Detalle del reporte de incidente
                 </h2>
-
             </div>
 
             <div class="col-md-4 text-right">
-
                 <a href="@Url.Action("Index", "ReporteIncidente")"
-                   class="btn btn-default"
-                   style="border-radius: 8px; font-weight: bold; border: 2px solid #ccc; padding: 8px 20px;">
-                    <i class="glyphicon glyphicon-list"></i> Volver al listado
+                   class="btn btn-cancelar-custom">
+                    <i class="glyphicon glyphicon-list"></i>
+                    Volver al listado
                 </a>
-
                 <a href="@Url.Action("Editar", "ReporteIncidente", new { id = Model.IdReporteIncidente })"
-                   class="btn"
-                   style="background-color:#76b82a;color:white;border-radius:8px;font-weight:bold;padding:8px 20px;margin-left:5px;border:none;">
-                    <i class="glyphicon glyphicon-edit"></i> Editar
+                   class="btn btn-editar-custom">
+                    <i class="glyphicon glyphicon-edit"></i>
+                    Editar
                 </a>
-
             </div>
 
         </div>
 
-        <hr style="border-top: 1px solid #eee;" />
+        <hr class="separator" />
 
     </div>
 
-    @* ===================== 1. INVOLUCRADO ===================== *@
-    <div class="panel panel-default"
-         style="border-radius:15px;border:none;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin-bottom:30px;">
+    @* ===================================================== *@
+    @* --- SECCIÓN 1: DATOS DEL INVOLUCRADO --- *@
+    @* ===================================================== *@
 
-        <div class="panel-heading"
-             style="background-color:#29235c;color:white;border-radius:15px 15px 0 0;padding:15px 25px;">
-            <h3 class="panel-title"><i class="glyphicon glyphicon-user"></i> 1. Información del Empleado</h3>
+    <div class="panel panel-seccion">
+        <div class="panel-heading panel-heading-morado">
+            <h3 class="panel-title">
+                <i class="glyphicon glyphicon-user"></i>
+                1. Datos del involucrado
+            </h3>
         </div>
+        <div class="panel-body panel-body-custom">
 
-        <div class="panel-body" style="padding:25px;">
-
+            @* --- FILA 1 --- *@
             <div class="row">
 
                 <div class="col-md-3">
                     <label class="detalle-label">Cédula</label>
-                    <p class="detalle-texto">@Model.Cedula</p>
+                    <p class="detalle-texto detalle-destacado">@Model.Cedula</p>
                 </div>
 
                 <div class="col-md-5">
-                    <label class="detalle-label">Nombre Completo</label>
-                    <p class="detalle-texto">@Model.NombreCompleto</p>
+                    <label class="detalle-label">Apellidos y nombre</label>
+                    <p class="detalle-texto detalle-destacado">@Model.NombreCompleto</p>
                 </div>
 
                 <div class="col-md-2">
@@ -72,12 +73,13 @@
 
                 <div class="col-md-2">
                     <label class="detalle-label">Edad</label>
-                    <p class="detalle-texto">@Model.Edad</p>
+                    <p class="detalle-texto">@Model.Edad años</p>
                 </div>
 
             </div>
 
-            <div class="row" style="margin-top:15px;">
+            @* --- FILA 2 --- *@
+            <div class="row detalle-fila">
 
                 <div class="col-md-4">
                     <label class="detalle-label">Cargo</label>
@@ -86,17 +88,20 @@
 
                 <div class="col-md-4">
                     <label class="detalle-label">Contratista</label>
-                    <p class="detalle-texto">@(Model.Contratista ?? "Directo")</p>
+                    <p class="detalle-texto">
+                        @(string.IsNullOrEmpty(Model.Contratista) ? "Directo / Propio" : Model.Contratista)
+                    </p>
                 </div>
 
                 <div class="col-md-4">
-                    <label class="detalle-label">Tiempo Prestación(meses)</label>
+                    <label class="detalle-label">Tiempo de prestación (meses)</label>
                     <p class="detalle-texto">@Model.TiempoPrestacion</p>
                 </div>
 
             </div>
 
-            <div class="row" style="margin-top:15px;">
+            @* --- FILA 3 --- *@
+            <div class="row detalle-fila">
 
                 <div class="col-md-6">
                     <label class="detalle-label">Proceso</label>
@@ -104,7 +109,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label class="detalle-label">Subproceso</label>
+                    <label class="detalle-label">Subproceso / servicio / área</label>
                     <p class="detalle-texto">@(Model.Subproceso?.NombreSubproceso ?? "—")</p>
                 </div>
 
@@ -113,87 +118,108 @@
         </div>
     </div>
 
-    @* ===================== 2. INCIDENTE ===================== *@
-    <div class="panel panel-default"
-         style="border-radius:15px;border:none;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin-bottom:30px;">
+    @* ===================================================== *@
+    @* --- SECCIÓN 2: INFORMACIÓN DEL INCIDENTE --- *@
+    @* ===================================================== *@
 
-        <div class="panel-heading"
-             style="background-color:#76b82a;color:white;border-radius:15px 15px 0 0;padding:15px 25px;">
-            <h3 class="panel-title"><i class="glyphicon glyphicon-exclamation-sign"></i> 2. Información del Incidente</h3>
+    <div class="panel panel-seccion">
+        <div class="panel-heading panel-heading-verde">
+            <h3 class="panel-title">
+                <i class="glyphicon glyphicon-exclamation-sign"></i>
+                2. Información del incidente
+            </h3>
         </div>
+        <div class="panel-body panel-body-custom">
 
-        <div class="panel-body" style="padding:25px;">
-
+            @* --- FILA 1 --- *@
             <div class="row">
 
                 <div class="col-md-3">
-                    <label class="detalle-label">Fecha del Incidente</label>
-                    <p class="detalle-texto">@Model.FechaIncidente.ToString("dd/MM/yyyy")</p>
-                </div>
-
-                <div class="col-md-3">
-                    <label class="detalle-label">Hora del Incidente</label>
-                    <p class="detalle-texto">
-                        @(Model.HoraIncidente.HasValue ? DateTime.Today.Add(Model.HoraIncidente.Value).ToString("hh:mm tt") : "—")
+                    <label class="detalle-label">Fecha del incidente</label>
+                    <p class="detalle-texto detalle-fecha">
+                        @Model.FechaIncidente.ToString("dd/MM/yyyy")
                     </p>
                 </div>
 
                 <div class="col-md-3">
-                    <label class="detalle-label">Tipo de Peligro</label>
-                    <p class="detalle-texto">@Model.TipoPeligro</p>
+                    <label class="detalle-label">Hora del incidente</label>
+                    <p class="detalle-texto">
+                        @(Model.HoraIncidente.HasValue
+                            ? Model.HoraIncidente.Value.ToString(@"hh\:mm")
+                            : "—")
+                    </p>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="detalle-label">Tipo de peligro</label>
+                    <p class="detalle-texto">@(Model.TipoPeligro ?? "—")</p>
                 </div>
 
             </div>
 
-            <div style="margin-top:20px;border-left:4px solid #76b82a;padding:15px;background:#f8f9fa;border-radius:10px;">
-                <label class="detalle-label">Observaciones</label>
-                <p class="detalle-texto">@Model.Observaciones</p>
-            </div>
+            @* --- OBSERVACIONES --- *@
+            @if (!string.IsNullOrEmpty(Model.Observaciones))
+            {
+                <div class="detalle-bloque-destacado detalle-bloque-verde">
+                    <label class="detalle-label">Observaciones</label>
+                    <p class="detalle-texto">@Model.Observaciones</p>
+                </div>
+            }
 
+            @* --- ARCHIVO PDF --- *@
             @if (!string.IsNullOrEmpty(Model.NombreArchivoIncidente))
             {
-                <a class="btn btn-sm"
-                   style="margin-top:15px;background:#76b82a;color:white;font-weight:bold;border-radius:10px;"
-                   href="@Url.Action("Descargar","ReporteIncidente", new { ruta = Model.RutaArchivoIncidente, nombre = Model.NombreArchivoIncidente })">
-                    Descargar Incidente PDF
+                <a class="btn btn-descarga-custom"
+                   href="@Url.Action("Descargar", "ReporteIncidente",
+                       new { ruta = Model.RutaArchivoIncidente, nombre = Model.NombreArchivoIncidente })">
+                    <i class="glyphicon glyphicon-download-alt"></i>
+                    @Model.NombreArchivoIncidente
                 </a>
+            }
+            else
+            {
+                <p class="detalle-sin-archivo">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    Sin archivo de incidente adjunto.
+                </p>
             }
 
         </div>
     </div>
 
-    @* ===================== 3. INVESTIGACIÓN ===================== *@
-    <div class="panel panel-default"
-         style="border-radius:15px;border:none;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin-bottom:30px;">
+    @* ===================================================== *@
+    @* --- SECCIÓN 3: INVESTIGACIÓN Y SEGUIMIENTO --- *@
+    @* ===================================================== *@
 
-        <div class="panel-heading"
-             style="background-color:#29235c;color:white;border-radius:15px 15px 0 0;padding:15px 25px;">
+    <div class="panel panel-seccion">
+        <div class="panel-heading panel-heading-morado">
             <h3 class="panel-title">
-                <i class="glyphicon glyphicon-search"></i> 3. Investigación y Seguimiento
+                <i class="glyphicon glyphicon-search"></i>
+                3. Investigación y seguimiento
             </h3>
         </div>
+        <div class="panel-body panel-body-custom">
 
-        <div class="panel-body" style="padding:25px;">
-
+            @* --- FILA 1 --- *@
             <div class="row">
 
-                <div class="col-md-4">
-                    <label class="detalle-label">Fecha de Investigación</label>
-                    <p class="detalle-texto">
+                <div class="col-md-3">
+                    <label class="detalle-label">Fecha de investigación</label>
+                    <p class="detalle-texto detalle-fecha">
                         @(Model.FechaInvestigacion.HasValue
-                        ? Model.FechaInvestigacion.Value.ToString("dd/MM/yyyy")
-                        : "—")
+                            ? Model.FechaInvestigacion.Value.ToString("dd/MM/yyyy")
+                            : "—")
                     </p>
                 </div>
 
-                <div class="col-md-4">
-                    <label class="detalle-label">Días de Investigación</label>
+                <div class="col-md-3">
+                    <label class="detalle-label">Días de investigación</label>
                     <p class="detalle-texto">
-                        @(Model.DiasInvestigacion ?? 0)
+                        @(Model.DiasInvestigacion.HasValue ? Model.DiasInvestigacion.Value.ToString() : "—")
                     </p>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label class="detalle-label">Turno</label>
                     <p class="detalle-texto">
                         @(string.IsNullOrEmpty(Model.Turno) ? "—" : Model.Turno)
@@ -202,17 +228,18 @@
 
             </div>
 
-            <div class="row" style="margin-top:15px;">
+            @* --- FILA 2 --- *@
+            <div class="row detalle-fila">
 
                 <div class="col-md-6">
-                    <label class="detalle-label">Causa Principal</label>
+                    <label class="detalle-label">Causa principal</label>
                     <p class="detalle-texto">
                         @(string.IsNullOrEmpty(Model.Causa) ? "—" : Model.Causa)
                     </p>
                 </div>
 
                 <div class="col-md-6">
-                    <label class="detalle-label">Subcausa Específica</label>
+                    <label class="detalle-label">Subcausa específica</label>
                     <p class="detalle-texto">
                         @(string.IsNullOrEmpty(Model.Subcausa) ? "—" : Model.Subcausa)
                     </p>
@@ -220,111 +247,306 @@
 
             </div>
 
+            @* --- ARCHIVO PDF --- *@
             @if (!string.IsNullOrEmpty(Model.NombreArchivoInvestigacion))
             {
-                <a class="btn btn-sm"
-                   style="margin-top:15px;background:#76b82a;color:white;font-weight:bold;border-radius:10px;"
-                   href="@Url.Action("Descargar","ReporteIncidente", new { ruta = Model.RutaArchivoInvestigacion, nombre = Model.NombreArchivoInvestigacion })">
-
-                    <i class="glyphicon glyphicon-paperclip"></i>
-                    Descargar Investigación PDF
-
+                <a class="btn btn-descarga-custom"
+                   href="@Url.Action("Descargar", "ReporteIncidente",
+                       new { ruta = Model.RutaArchivoInvestigacion, nombre = Model.NombreArchivoInvestigacion })">
+                    <i class="glyphicon glyphicon-download-alt"></i>
+                    @Model.NombreArchivoInvestigacion
                 </a>
             }
             else
             {
-                <p class="text-muted" style="margin-top:15px;">
+                <p class="detalle-sin-archivo">
                     <i class="glyphicon glyphicon-ban-circle"></i>
-                    No hay archivo de investigación adjunto.
+                    Sin archivo de investigación adjunto.
                 </p>
             }
 
         </div>
     </div>
 
-    @* ===================== 4. PLAN ===================== *@
-    <div class="panel panel-default"
-         style="border-radius:15px;border:none;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin-bottom:30px;">
+    @* ===================================================== *@
+    @* --- SECCIÓN 4: PLAN DE MEJORA --- *@
+    @* ===================================================== *@
 
-        <div class="panel-heading"
-             style="background-color:#76b82a;color:white;border-radius:15px 15px 0 0;padding:15px 25px;">
+    <div class="panel panel-seccion">
+        <div class="panel-heading panel-heading-verde">
             <h3 class="panel-title">
-                <i class="glyphicon glyphicon-ok"></i> 4. Plan de Mejora
+                <i class="glyphicon glyphicon-ok"></i>
+                4. Plan de mejora
             </h3>
         </div>
+        <div class="panel-body panel-body-custom">
 
-        <div class="panel-body" style="padding:25px;">
-
+            @* --- FILA 1 --- *@
             <div class="row">
 
                 <div class="col-md-4">
                     <label class="detalle-label">Responsable</label>
-                    <p class="detalle-texto">@Model.Responsable</p>
+                    <p class="detalle-texto">
+                        @(string.IsNullOrEmpty(Model.Responsable) ? "—" : Model.Responsable)
+                    </p>
                 </div>
 
                 <div class="col-md-8">
-                    <label class="detalle-label">Actividad a Realizar</label>
-                    <p class="detalle-texto">@Model.ActividadARealizar</p>
+                    <label class="detalle-label">Actividad a realizar</label>
+                    <p class="detalle-texto">
+                        @(string.IsNullOrEmpty(Model.ActividadARealizar) ? "—" : Model.ActividadARealizar)
+                    </p>
                 </div>
 
             </div>
 
-            <div class="row" style="margin-top:15px;">
+            @* --- FILA 2 --- *@
+            <div class="row detalle-fila">
 
-                <div class="col-md-4">
-                    <label class="detalle-label">Fecha Planeada</label>
-                    <p class="detalle-texto">
+                <div class="col-md-3">
+                    <label class="detalle-label">Fecha planeada</label>
+                    <p class="detalle-texto detalle-fecha">
                         @(Model.FechaPlaneada.HasValue
-                        ? Model.FechaPlaneada.Value.ToString("dd/MM/yyyy")
-                        : "—")
+                            ? Model.FechaPlaneada.Value.ToString("dd/MM/yyyy")
+                            : "—")
                     </p>
                 </div>
 
-                <div class="col-md-4">
-                    <label class="detalle-label">Fecha de Ejecución</label>
-                    <p class="detalle-texto">
+                <div class="col-md-3">
+                    <label class="detalle-label">Fecha de ejecución</label>
+                    <p class="detalle-texto detalle-fecha">
                         @(Model.FechaEjecucion.HasValue
-                        ? Model.FechaEjecucion.Value.ToString("dd/MM/yyyy")
-                        : "—")
+                            ? Model.FechaEjecucion.Value.ToString("dd/MM/yyyy")
+                            : "—")
                     </p>
                 </div>
 
             </div>
 
+            @* --- ARCHIVO PDF --- *@
             @if (!string.IsNullOrEmpty(Model.NombreArchivoPlan))
             {
-                <a class="btn btn-sm"
-                   style="margin-top:15px;background:#76b82a;color:white;font-weight:bold;border-radius:10px;"
-                   href="@Url.Action("Descargar","ReporteIncidente",
-                   new { ruta = Model.RutaArchivoPlan, nombre = Model.NombreArchivoPlan })">
-
-                    Descargar Plan PDF
-
+                <a class="btn btn-descarga-custom"
+                   href="@Url.Action("Descargar", "ReporteIncidente",
+                       new { ruta = Model.RutaArchivoPlan, nombre = Model.NombreArchivoPlan })">
+                    <i class="glyphicon glyphicon-download-alt"></i>
+                    @Model.NombreArchivoPlan
                 </a>
+            }
+            else
+            {
+                <p class="detalle-sin-archivo">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    Sin archivo de plan de mejora adjunto.
+                </p>
             }
 
         </div>
     </div>
 
-    @* ===================== 5. OBSERVACIONES FINALES ===================== *@
-    <div class="panel panel-default"
-         style="border-radius:15px;border:none;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin-bottom:30px;">
+    @* ===================================================== *@
+    @* --- SECCIÓN 5: OBSERVACIONES FINALES --- *@
+    @* ===================================================== *@
 
-        <div class="panel-heading"
-             style="background-color:#f39c12;color:white;border-radius:15px 15px 0 0;padding:15px 25px;">
-            <h3 class="panel-title"><i class="glyphicon glyphicon-comment"></i> 5. Observaciones Generales</h3>
+    <div class="panel panel-seccion">
+        <div class="panel-heading panel-heading-naranja">
+            <h3 class="panel-title">
+                <i class="glyphicon glyphicon-comment"></i>
+                5. Observaciones finales
+            </h3>
         </div>
+        <div class="panel-body panel-body-custom">
 
-        <div class="panel-body" style="padding:25px;">
-
-            <div style="border-left:4px solid #f39c12;padding:15px;background:#f8f9fa;border-radius:10px;">
-
-                <label class="detalle-label"></label>
-                <p class="detalle-texto">@Model.ObservacionesFinales</p>
-
+            <div class="detalle-bloque-destacado detalle-bloque-naranja">
+                <p class="detalle-texto">
+                    @(string.IsNullOrEmpty(Model.ObservacionesFinales)
+                        ? "Sin observaciones finales."
+                        : Model.ObservacionesFinales)
+                </p>
             </div>
 
         </div>
     </div>
 
 </div>
+
+<style>
+
+    /* ── Página ── */
+    .page-wrapper {
+        padding: 20px;
+    }
+
+    .page-title {
+        color: #29235c;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .icon-accent {
+        color: #76b82a;
+    }
+
+    .separator {
+        border-top: 1px solid #eee;
+        margin-bottom: 25px;
+    }
+
+    /* ── Encabezado ── */
+    .detalle-encabezado {
+        margin-bottom: 10px;
+    }
+
+    /* ── Paneles ── */
+    .panel-seccion {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .panel-heading-morado {
+        background-color: #29235c;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-verde {
+        background-color: #76b82a;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-naranja {
+        background-color: #f39c12;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-seccion .panel-title {
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .panel-body-custom {
+        padding: 25px;
+    }
+
+    /* ── Texto de detalle ── */
+    .detalle-label {
+        color: #29235c;
+        font-size: 12px;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 4px;
+        text-transform: none;
+        letter-spacing: 0.5px;
+    }
+
+    .detalle-texto {
+        font-size: 14px;
+        margin-top: 2px;
+        margin-bottom: 0;
+        color: #333;
+    }
+
+    .detalle-destacado {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .detalle-fecha {
+        font-weight: bold;
+    }
+
+    .detalle-fila {
+        margin-top: 15px;
+    }
+
+    /* ── Bloques destacados ── */
+    .detalle-bloque-destacado {
+        border-radius: 10px;
+        padding: 15px 20px;
+        background-color: #f8f9fa;
+        margin-top: 20px;
+        margin-bottom: 15px;
+    }
+
+    .detalle-bloque-verde {
+        border-left: 4px solid #76b82a;
+    }
+
+    .detalle-bloque-naranja {
+        border-left: 4px solid #f39c12;
+    }
+
+    /* ── Sin archivo ── */
+    .detalle-sin-archivo {
+        color: #aaa;
+        font-size: 13px;
+        margin-top: 15px;
+        margin-bottom: 0;
+    }
+
+    /* ── Botón descarga ── */
+    .btn-descarga-custom {
+        background-color: #76b82a;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-weight: bold;
+        padding: 8px 20px;
+        font-size: 13px;
+        margin-top: 15px;
+        transition: all 0.3s;
+        display: inline-block;
+    }
+
+        .btn-descarga-custom:hover {
+            background-color: #5f9821;
+            color: white;
+        }
+
+    /* ── Botones ── */
+    .botones-form-wrapper {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        margin-bottom: 50px;
+    }
+
+    .btn-editar-custom {
+        background-color: #76b82a;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 10px 25px;
+        transition: all 0.3s;
+    }
+
+        .btn-editar-custom:hover {
+            background-color: #5f9821;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+    .btn-cancelar-custom {
+        background-color: transparent;
+        color: #29235c;
+        border: 2px solid #29235c;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 10px 25px;
+        transition: all 0.3s;
+    }
+
+        .btn-cancelar-custom:hover {
+            background-color: #29235c;
+            color: white;
+        }
+</style>

@@ -1,72 +1,295 @@
 ﻿@model ModuloSST_HSLV.Models.Evaluacion
-@{ ViewBag.Title = "Cargar Evaluación"; }
 
-@* Título principal *@
-<h2 class="text-primary">Cargar Evaluación</h2>
-<hr />
-
-@if (ViewBag.Error != null)
-{
-    <div class="alert alert-danger">
-        <strong>Error:</strong> @ViewBag.Error
-    </div>
+@{
+    ViewBag.Title = "Cargar evaluación";
 }
 
-@using (Html.BeginForm("Crear", "Evaluacion", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
+<div class="container-fluid page-wrapper">
 
-    
-    <div class="form-container">
-        <h3 class="text-primary" style="font-size: 1.5em; margin-bottom: 20px;">
-            Seleccionar tipo de evaluación
-        </h3>
+    @* ===================================================== *@
+    @* --- ENCABEZADO --- *@
+    @* ===================================================== *@
 
-        <div class="form-group" style="margin-left: 10px;">
-            <div class="radio mb-3">
-                <label style="font-weight: 500; cursor: pointer;">
-                    <input type="radio" name="tipoEvaluacion" value="Inspeccion de areas y/o puesto de trabajo" required />
-                    Inspección de áreas y/o puesto de trabajo
-                </label>
+    <h2 class="page-title">
+        <i class="glyphicon glyphicon-file icon-accent"></i>
+        Cargar evaluación
+    </h2>
+
+    <hr class="separator" />
+
+    @* ===================================================== *@
+    @* --- ERRORES DE VALIDACIÓN --- *@
+    @* ===================================================== *@
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-error alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <i class="glyphicon glyphicon-exclamation-sign"></i>
+            <strong>Error:</strong> @ViewBag.Error
+        </div>
+    }
+
+    @using (Html.BeginForm(
+        "Crear",
+        "Evaluacion",
+        FormMethod.Post,
+        new { enctype = "multipart/form-data", id = "formRegistrar" }))
+    {
+        @Html.AntiForgeryToken()
+
+        @* ===================================================== *@
+        @* --- SECCIÓN 1: TIPO DE EVALUACIÓN --- *@
+        @* ===================================================== *@
+
+        <div class="panel panel-seccion">
+            <div class="panel-heading panel-heading-morado">
+                <h3 class="panel-title">
+                    <i class="glyphicon glyphicon-list-alt"></i>
+                    1. Tipo de evaluación
+                </h3>
             </div>
-            <div class="radio mb-3">
-                <label style="font-weight: 500; cursor: pointer;">
-                    <input type="radio" name="tipoEvaluacion" value="Evaluacion de Riesgo Psicosocial" />
-                    Evaluación de Riesgo Psicosocial
-                </label>
-            </div>
-            <div class="radio mb-3">
-                <label style="font-weight: 500; cursor: pointer;">
-                    <input type="radio" name="tipoEvaluacion" value="Analisis de puesto de trabajo" />
-                    Análisis de puesto de trabajo
-                </label>
-            </div>
-            <div class="radio mb-3">
-                <label style="font-weight: 500; cursor: pointer;">
-                    <input type="radio" name="tipoEvaluacion" value="Registro de inspeccion de bioseguridad" />
-                    Registro de inspección de bioseguridad
-                </label>
+            <div class="panel-body panel-body-custom">
+
+                <div class="form-group">
+                    <div class="radio radio-custom">
+                        <label class="label-radio">
+                            <input type="radio"
+                                   name="tipoEvaluacion"
+                                   value="Inspeccion de areas y/o puesto de trabajo"
+                                   required />
+                            Inspección de áreas y/o puesto de trabajo
+                        </label>
+                    </div>
+                    <div class="radio radio-custom">
+                        <label class="label-radio">
+                            <input type="radio"
+                                   name="tipoEvaluacion"
+                                   value="Evaluacion de Riesgo Psicosocial" />
+                            Evaluación de riesgo psicosocial
+                        </label>
+                    </div>
+                    <div class="radio radio-custom">
+                        <label class="label-radio">
+                            <input type="radio"
+                                   name="tipoEvaluacion"
+                                   value="Analisis de puesto de trabajo" />
+                            Análisis de puesto de trabajo
+                        </label>
+                    </div>
+                    <div class="radio radio-custom">
+                        <label class="label-radio">
+                            <input type="radio"
+                                   name="tipoEvaluacion"
+                                   value="Registro de inspeccion de bioseguridad" />
+                            Registro de inspección de bioseguridad
+                        </label>
+                    </div>
+                </div>
+
             </div>
         </div>
 
-        <div class="form-group mt-4">
-            <label for="archivo" style="font-weight: bold; color: #2e4053;">
-                Adjuntar archivo PDF <span class="text-danger">*</span>
-            </label>
-            
-            <input type="file" name="archivo" id="archivo" accept=".pdf" class="form-control" style="border-radius: 10px; max-width: 100%;" />
-            <span class="help-block text-muted" style="font-size: 0.9em;">Solo se permiten archivos en formato PDF.</span>
+        @* ===================================================== *@
+        @* --- SECCIÓN 2: ARCHIVO PDF --- *@
+        @* ===================================================== *@
+
+        <div class="panel panel-seccion">
+            <div class="panel-heading panel-heading-verde">
+                <h3 class="panel-title">
+                    <i class="glyphicon glyphicon-paperclip"></i>
+                    2. Archivo PDF
+                </h3>
+            </div>
+            <div class="panel-body panel-body-custom">
+
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="label-form-verde">
+                        Adjuntar archivo PDF
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="file"
+                           name="archivo"
+                           id="archivo"
+                           accept=".pdf"
+                           class="form-control input-custom input-file" />
+                    <span class="help-block text-muted">
+                        Solo se permiten archivos en formato PDF.
+                    </span>
+                </div>
+
+            </div>
         </div>
 
-        <div class="mt-4">
-            @* Botón Cargar*@
-            <button type="submit" class="btn-verde-claro">Cargar</button>
+        @* ===================================================== *@
+        @* --- BOTONES --- *@
+        @* ===================================================== *@
 
-            @* Botón Ver listado*@
-            <a href="@Url.Action("Index", "Evaluacion")" class="btn btn-default"
-               style="border: 2px solid #29235c; background: transparent; border-radius: 12px; color: #29235c; font-weight: 600; padding: 8px 20px;">
-                Ver listado
+        <div class="botones-form-wrapper">
+            <button type="submit" class="btn btn-guardar-custom">
+                <i class="glyphicon glyphicon-upload"></i>
+                Cargar
+            </button>
+            <a href="@Url.Action("Index", "Evaluacion")"
+               class="btn btn-cancelar-custom">
+                <i class="glyphicon glyphicon-remove"></i>
+                Cancelar
             </a>
         </div>
-    </div>
-}
+    }
+
+</div>
+
+<style>
+
+    /* ── Página ── */
+    .page-wrapper {
+        padding: 20px;
+    }
+
+    .page-title {
+        color: #29235c;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .icon-accent {
+        color: #76b82a;
+    }
+
+    .separator {
+        border-top: 1px solid #eee;
+        margin-bottom: 25px;
+    }
+
+    /* ── Paneles ── */
+    .panel-seccion {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .panel-heading-morado {
+        background-color: #29235c;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-verde {
+        background-color: #76b82a;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-seccion .panel-title {
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .panel-body-custom {
+        padding: 25px;
+    }
+
+    /* ── Alertas ── */
+    .alert-error {
+        background-color: #f2dede;
+        border-color: #d9534f;
+        color: #a94442;
+        border-radius: 10px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    /* ── Labels ── */
+    .label-form-verde {
+        color: #000;
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    /* ── Radio buttons ── */
+    .radio-custom {
+        margin-bottom: 12px;
+    }
+
+    .label-radio {
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #333;
+    }
+
+        .label-radio input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #76b82a;
+        }
+
+    /* ── Inputs ── */
+    .input-custom {
+        border-radius: 12px !important;
+        border: 1px solid #ddd !important;
+        height: 42px;
+        box-shadow: none !important;
+    }
+
+        .input-custom:focus {
+            border-color: #76b82a !important;
+            box-shadow: 0 0 5px rgba(118,184,42,0.3) !important;
+        }
+
+    .input-file {
+        height: auto !important;
+        padding: 8px 12px;
+    }
+
+    /* ── Botones ── */
+    .botones-form-wrapper {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        margin-bottom: 50px;
+    }
+
+    .btn-guardar-custom {
+        background-color: #76b82a;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 12px 30px;
+        font-size: 15px;
+        transition: all 0.3s;
+    }
+
+        .btn-guardar-custom:hover {
+            background-color: #5f9821;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+    .btn-cancelar-custom {
+        background-color: transparent;
+        color: #29235c;
+        border: 2px solid #29235c;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 10px 25px;
+        transition: all 0.3s;
+    }
+
+        .btn-cancelar-custom:hover {
+            background-color: #29235c;
+            color: white;
+        }
+</style>

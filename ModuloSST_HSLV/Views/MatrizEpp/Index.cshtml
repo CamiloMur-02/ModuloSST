@@ -1,177 +1,459 @@
 ﻿@model IEnumerable<ModuloSST_HSLV.Models.MatrizEpp>
+
 @{
     ViewBag.Title = "Matriz de Entrega de EPP";
 }
 
-<div class="row">
-    <div class="col-md-12">
+<div class="container-fluid page-wrapper">
 
-        <h2 style="color: #29235c; font-weight: bold; margin-bottom: 5px;">
-            Matriz de Entrega de EPP
-        </h2>
+    @* ===================================================== *@
+    @* --- MENSAJES DE NOTIFICACIÓN --- *@
+    @* ===================================================== *@
 
-        <hr />
-
-        @* --- BOTONES DE CABECERA --- *@
-        <div style="margin-bottom: 15px; display: flex; gap: 10px;">
-
-            <a href="@Url.Action("Registrar", "MatrizEpp")"
-               class="btn"
-               style="background-color: #76b82a; color: white; border-radius: 10px; font-weight: bold; padding: 8px 20px; border: none;">
-                + Registrar entrega
-            </a>
-
-            <a href="@Url.Action("Index", "CatalogoEpp")"
-               class="btn btn-default"
-               style="border: 2px solid #29235c; color: #29235c; border-radius: 10px; font-weight: bold; padding: 8px 20px;">
-                Catálogo EPP
-            </a>
-
-            <a href="@Url.Action("Dashboard", "MatrizEpp")" class="btn-dashboard">
-                <i class="glyphicon glyphicon-stats"></i> Ver Indicadores / Dashboard
-            </a>
-
+    @if (TempData["Exito"] != null)
+    {
+        <div class="alert alert-exito alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <i class="glyphicon glyphicon-ok-circle"></i>
+            @TempData["Exito"]
         </div>
+    }
 
-        <hr style="border-top: 1px solid #eee;" />
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-error alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <i class="glyphicon glyphicon-exclamation-sign"></i>
+            @TempData["Error"]
+        </div>
+    }
 
-        @* --- TABLA --- *@
-        <div class="panel panel-default"
-             style="border-radius: 15px;
-                    border: none;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                    overflow: hidden;">
+    @* ===================================================== *@
+    @* --- ENCABEZADO --- *@
+    @* ===================================================== *@
 
-            <div class="table-responsive">
-                <table class="table table-hover" style="margin-bottom: 0;">
+    <div class="row">
+        <div class="col-md-12">
 
-                    <thead style="background: #29235c; color: white;">
-                        <tr>
-                            <th class="text-center" style="padding: 15px;">#</th>
-                            <th style="padding: 15px;">Cédula</th>
-                            <th style="padding: 15px;">Apellidos y Nombres</th>
-                            <th style="padding: 15px;">Cargo</th>
-                            <th style="padding: 15px;">Proceso / Área</th>
-                            <th class="text-center" style="padding: 15px;">Fecha Registro</th>
-                            <th class="text-center" style="padding: 15px;">EPP Activos</th>
-                            <th class="text-center" style="padding: 15px;">Alertas / Estado</th>
-                            <th class="text-center" style="padding: 15px; width: 120px;">Acciones</th>
-                        </tr>
-                    </thead>
+            <h2 class="page-title">
+                <i class="glyphicon glyphicon-briefcase icon-accent"></i>
+                Matriz de Entrega de EPP
+            </h2>
 
-                    <tbody>
-                        @if (Model == null || !Model.Any())
-                        {
-                            <tr>
-                                <td colspan="9" class="text-center" style="padding: 40px;">
-                                    <i class="glyphicon glyphicon-folder-open"
-                                       style="font-size: 30px; color: #ccc; margin-bottom: 10px;"></i><br />
-                                    <span class="text-muted">No hay registros de entrega de EPP.</span>
-                                </td>
-                            </tr>
-                        }
-                        else
-                        {
-                            int i = 1;
-                            foreach (var item in Model)
-                            {
-                                var elementosLista = item.Elementos as IEnumerable<dynamic>;
-                                var activos = elementosLista != null ? elementosLista.Where(e => e.Activo).ToList() : new List<dynamic>();
+            <hr class="separator" />
 
-                                int vencidos = activos.Count(e => e.TiempoRestante <= 0);
-                                int porVencer = activos.Count(e => e.TiempoRestante > 0 && e.TiempoRestante <= 1);
-                                int totalActivos = activos.Count;
+            @* ===================================================== *@
+            @* --- BOTONES DE ACCIÓN --- *@
+            @* ===================================================== *@
 
-                                <tr>
+            <div class="botones-wrapper">
 
-                                    <td class="text-center"
-                                        style="vertical-align: middle; font-weight: bold; color: #666;">
-                                        @i
-                                    </td>
+                <a href="@Url.Action("Registrar", "MatrizEpp")"
+                   class="btn btn-guardar-custom">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    Registrar entrega
+                </a>
 
-                                    <td style="vertical-align: middle; font-weight: bold;">
-                                        @item.Cedula
-                                    </td>
+                <a href="@Url.Action("Index", "CatalogoEpp")"
+                   class="btn btn-catalogo-custom">
+                    <i class="glyphicon glyphicon-list-alt"></i>
+                    Catálogo EPP
+                </a>
 
-                                    <td style="vertical-align: middle; font-weight: bold;">
-                                        @item.NombreCompleto
-                                    </td>
+                <a href="@Url.Action("Dashboard", "MatrizEpp")"
+                   class="btn-dashboard">
+                    <i class="glyphicon glyphicon-stats"></i>
+                    Ver Indicadores / Dashboard
+                </a>
 
-                                    <td style="vertical-align: middle;">
-                                        <small>@item.Cargo</small>
-                                    </td>
-
-                                    <td style="vertical-align: middle; color: #29235c; font-weight: 600;">
-                                        <small>@(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")</small>
-                                    </td>
-
-                                    <td class="text-center" style="vertical-align: middle;">
-                                        @item.FechaRegistro.ToString("dd/MM/yyyy")
-                                    </td>
-
-                                    <td class="text-center" style="vertical-align: middle;">
-                                        <span style="background:#e8ecef; padding: 2px 10px; border-radius: 10px; font-weight: bold; color: #29235c;">
-                                            @totalActivos
-                                        </span>
-                                    </td>
-
-                                    <td class="text-center" style="vertical-align: middle;">
-                                        @if (vencidos > 0)
-                                        {
-                                            <span style="background-color: #dc3545; color: white; padding: 4px 8px; border-radius: 8px; font-size: 10px; display: block; margin-bottom: 2px; font-weight: bold;">
-                                                <i class="glyphicon glyphicon-remove-sign"></i> @vencidos VENCIDOS
-                                            </span>
-                                        }
-
-                                        @if (porVencer > 0)
-                                        {
-                                            <span style="background-color: #ffc107; color: #212529; padding: 4px 8px; border-radius: 8px; font-size: 10px; display: block; font-weight: bold;">
-                                                <i class="glyphicon glyphicon-warning-sign"></i> @porVencer POR VENCER
-                                            </span>
-                                        }
-
-                                        @if (vencidos == 0 && porVencer == 0 && totalActivos > 0)
-                                        {
-                                            <span style="background-color: #76b82a; color: white; padding: 4px 10px; border-radius: 8px; font-size: 10px; font-weight: bold;">
-                                                <i class="glyphicon glyphicon-ok"></i> AL DÍA
-                                            </span>
-                                        }
-                                        else if (totalActivos == 0)
-                                        {
-                                            <span class="text-muted small"><i>Sin EPP</i></span>
-                                        }
-                                    </td>
-
-                                    <td class="text-center" style="vertical-align: middle;">
-                                        <a href="@Url.Action("Editar", "MatrizEpp", new { id = item.IdMatrizEPP })"
-                                           class="btn btn-sm"
-                                           style="background-color: #76b82a; color: white; border-radius: 15px; font-weight: bold; width: 90px;">
-                                            Gestionar
-                                        </a>
-                                    </td>
-
-                                </tr>
-                                i++;
-                            }
-                        }
-                    </tbody>
-
-                </table>
             </div>
-        </div>
 
+            <hr class="separator" />
+
+            @* ===================================================== *@
+            @* --- TABLA DE REGISTROS --- *@
+            @* ===================================================== *@
+
+            <div class="panel panel-seccion tabla-wrapper">
+
+                <div class="table-responsive">
+                    <table class="table table-hover tabla-custom">
+
+                        <thead class="tabla-thead">
+                            <tr>
+                                <th class="text-center col-num">#</th>
+                                <th>Cédula</th>
+                                <th>Apellidos y Nombres</th>
+                                <th>Cargo</th>
+                                <th>Proceso</th>
+                                <th class="text-center">Fecha Registro</th>
+                                <th class="text-center">EPP Activos</th>
+                                <th class="text-center">Alertas / Estado</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @if (Model == null || !Model.Any())
+                            {
+                                <tr>
+                                    <td colspan="9" class="text-center celda-vacia">
+                                        <i class="glyphicon glyphicon-folder-open icono-vacio"></i><br />
+                                        <span class="text-muted">No hay registros de entrega de EPP.</span>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                int i = 1;
+
+                                foreach (var item in Model)
+                                {
+                                    var elementosLista = item.Elementos as IEnumerable<dynamic>;
+                                    var activos = elementosLista != null
+                                        ? elementosLista.Where(e => e.Activo).ToList()
+                                        : new List<dynamic>();
+
+                                    int vencidos = activos.Count(e => e.TiempoRestante <= 0);
+                                    int porVencer = activos.Count(e => e.TiempoRestante > 0 && e.TiempoRestante <= 1);
+                                    int totalActivos = activos.Count;
+
+                                    <tr>
+
+                                        @* ── Numeral ── *@
+                                        <td class="text-center celda-media col-num">
+                                            @i
+                                        </td>
+
+                                        @* ── Cédula ── *@
+                                        <td class="celda-media celda-nombre">
+                                            @item.Cedula
+                                        </td>
+
+                                        @* ── Nombre ── *@
+                                        <td class="celda-media celda-nombre">
+                                            @item.NombreCompleto
+                                        </td>
+
+                                        @* ── Cargo ── *@
+                                        <td class="celda-media">
+                                            <small>@item.Cargo</small>
+                                        </td>
+
+                                        @* ── Proceso ── *@
+                                        <td class="celda-media celda-proceso">
+                                            <small>@(item.Proceso != null ? item.Proceso.NombreProceso : "N/A")</small>
+                                        </td>
+
+                                        @* ── Fecha Registro ── *@
+                                        <td class="text-center celda-media">
+                                            @item.FechaRegistro.ToString("dd/MM/yyyy")
+                                        </td>
+
+                                        @* ── EPP Activos ── *@
+                                        <td class="text-center celda-media">
+                                            <span class="badge-activos">
+                                                @totalActivos
+                                            </span>
+                                        </td>
+
+                                        @* ── Alertas / Estado ── *@
+                                        <td class="text-center celda-media">
+                                            @if (vencidos > 0)
+                                            {
+                                                <span class="badge-vencido">
+                                                    <i class="glyphicon glyphicon-remove-sign"></i>
+                                                    @vencidos VENCIDOS
+                                                </span>
+                                            }
+                                            @if (porVencer > 0)
+                                            {
+                                                <span class="badge-por-vencer">
+                                                    <i class="glyphicon glyphicon-warning-sign"></i>
+                                                    @porVencer POR VENCER
+                                                </span>
+                                            }
+                                            @if (vencidos == 0 && porVencer == 0 && totalActivos > 0)
+                                            {
+                                                <span class="badge-al-dia">
+                                                    <i class="glyphicon glyphicon-ok"></i>
+                                                    AL DÍA
+                                                </span>
+                                            }
+                                            else if (totalActivos == 0)
+                                            {
+                                                <span class="text-muted small"><i>Sin EPP</i></span>
+                                            }
+                                        </td>
+
+                                        @* ── Acciones ── *@
+                                        <td class="text-center celda-media">
+                                            <a href="@Url.Action("Editar", "MatrizEpp", new { id = item.IdMatrizEPP })"
+                                               class="btn btn-sm btn-accion btn-ver">
+                                                <i class="glyphicon glyphicon-cog"></i>
+                                                Gestionar
+                                            </a>
+                                        </td>
+
+                                    </tr>
+
+                                    i++;
+                                }
+                            }
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
     </div>
+
 </div>
 
 <style>
 
+    /* ── Alertas ── */
+    .alert-exito {
+        background-color: #dff0d8;
+        border-color: #76b82a;
+        color: #3c763d;
+        border-radius: 10px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    .alert-error {
+        background-color: #f2dede;
+        border-color: #d9534f;
+        color: #a94442;
+        border-radius: 10px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    /* ── Página ── */
+    .page-wrapper {
+        padding: 20px;
+    }
+
+    .page-title {
+        color: #29235c;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .icon-accent {
+        color: #76b82a;
+    }
+
+    .separator {
+        border-top: 1px solid #eee;
+    }
+
+    /* ── Botones de acción superiores ── */
+    .botones-wrapper {
+        margin-bottom: 15px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .btn-guardar-custom {
+        background-color: #76b82a;
+        color: white;
+        border-radius: 10px;
+        font-weight: bold;
+        padding: 8px 20px;
+        border: none;
+        transition: all 0.3s;
+    }
+
+        .btn-guardar-custom:hover {
+            background-color: #5f9821;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+    .btn-catalogo-custom {
+        display: inline-block;
+        background-color: transparent;
+        color: #29235c;
+        border: 2px solid #29235c;
+        border-radius: 10px;
+        font-weight: bold;
+        padding: 8px 20px;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+
+        .btn-catalogo-custom:hover {
+            background-color: #29235c;
+            color: white;
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+    .btn-dashboard {
+        display: inline-block;
+        background-color: #29235c;
+        color: white;
+        border-radius: 10px;
+        font-weight: bold;
+        padding: 8px 20px;
+        border: none;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+
+        .btn-dashboard:hover {
+            background-color: #1e1a47;
+            color: white;
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+    /* ── Panel tabla ── */
+    .panel-seccion {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+    }
+
+    .tabla-wrapper {
+        overflow: hidden;
+    }
+
+    /* ── Tabla ── */
+    .tabla-custom {
+        margin-bottom: 0;
+    }
+
+    .tabla-thead {
+        background-color: #29235c;
+        color: white;
+    }
+
+        .tabla-thead th {
+            padding: 15px;
+            font-weight: 600;
+            border: none;
+        }
+
+    /* ── Celdas ── */
+    .celda-media {
+        vertical-align: middle !important;
+    }
+
+    .col-num {
+        color: #333;
+        font-weight: 600;
+        width: 40px;
+    }
+
+    .celda-nombre {
+        font-weight: bold;
+    }
+
+    .celda-proceso {
+        color: #29235c;
+        font-weight: 600;
+    }
+
+    /* ── Badge EPP activos ── */
+    .badge-activos {
+        display: inline-block;
+        background-color: #e8ecef;
+        color: #29235c;
+        font-weight: bold;
+        border-radius: 10px;
+        padding: 2px 10px;
+    }
+
+    /* ── Badges de estado ── */
+    .badge-vencido {
+        display: block;
+        background-color: #dc3545;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 8px;
+        font-size: 10px;
+        font-weight: bold;
+        margin-bottom: 2px;
+    }
+
+    .badge-por-vencer {
+        display: block;
+        background-color: #ffc107;
+        color: #212529;
+        padding: 4px 8px;
+        border-radius: 8px;
+        font-size: 10px;
+        font-weight: bold;
+    }
+
+    .badge-al-dia {
+        display: inline-block;
+        background-color: #76b82a;
+        color: white;
+        padding: 4px 10px;
+        border-radius: 8px;
+        font-size: 10px;
+        font-weight: bold;
+    }
+
+    /* ── Estado vacío ── */
+    .celda-vacia {
+        padding: 40px !important;
+    }
+
+    .icono-vacio {
+        font-size: 30px;
+        color: #ccc;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    /* ── Acciones ── */
+    .acciones-wrapper {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .btn-accion {
+        height: 30px;
+        line-height: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        border-radius: 15px;
+        padding: 4px 12px;
+        border: none;
+        white-space: nowrap;
+        transition: all 0.3s;
+    }
+
+    .btn-ver {
+        background-color: #76b82a;
+        color: white;
+    }
+
+        .btn-ver:hover {
+            background-color: #5f9821;
+            color: white;
+        }
+
+    /* ── Hover fila ── */
     .table-hover tbody tr:hover {
         background-color: #f9f9ff !important;
         transition: all 0.2s ease;
-    }
-
-    .btn:hover {
-        opacity: 0.9;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 </style>

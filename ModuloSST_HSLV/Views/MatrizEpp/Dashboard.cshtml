@@ -1,88 +1,123 @@
 ﻿@using ModuloSST_HSLV.Controllers
 @{
-    ViewBag.Title = "Indicadores de Suministros EPP";
+    ViewBag.Title = "Dashboard Matriz EPP";
     var listaElementos = ViewBag.TopElementos as List<EstadisticaEpp>;
     int[] datosMensuales = ViewBag.DatosMensuales as int[];
     int[] datosTrimestrales = ViewBag.DatosTrimestrales as int[];
     int totalGeneral = datosTrimestrales != null ? datosTrimestrales.Sum() : 0;
 }
 
-<div class="container-fluid">
+<div class="container-fluid page-wrapper">
 
-    @* --- SECCIÓN SUPERIOR: FILTRO, TÍTULO Y VOLVER --- *@
-    <div class="row" style="margin-bottom: 30px; margin-top: 10px;">
-        
-        <div class="col-md-3">
-            <div class="panel panel-default" style="border-radius:15px; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.05); height: 90px; display: flex; align-items: center; margin-bottom:0;">
-                <div class="panel-body" style="width: 100%;">
-                    @using (Html.BeginForm("Dashboard", "MatrizEpp", FormMethod.Get, new { @class = "form-inline", style = "display:flex; justify-content:center; gap:10px;" }))
-                    {
-                        <div class="form-group" style="margin:0;">
-                            <label style="color:#666;">Año: </label>
-                            <input type="number" name="anio" class="form-control" value="@ViewBag.AnioActual" style="width:85px; border-radius:10px; font-weight:bold; border: 1px solid #ddd;" />
-                        </div>
-                        <button type="submit" class="btn-verde-claro" style="border-radius:10px; padding: 6px 20px;">
-                            <i class="glyphicon glyphicon-filter"></i> Filtrar
-                        </button>
-                    }
-                </div>
-            </div>
-        </div>
+    @* ===================================================== *@
+    @* --- ENCABEZADO --- *@
+    @* ===================================================== *@
 
-        
-        <div class="col-md-6 text-center" style="display: flex; flex-direction: column; justify-content: center; height: 90px;">
-            <h2 style="color: #29235c; font-weight: bold; margin: 0; text-transform: uppercase; letter-spacing: 1px; font-size: 24px;">
-                Análisis Estadístico de Suministros
+    <div class="row">
+        <div class="col-md-8">
+            <h2 class="page-title">
+                <i class="glyphicon glyphicon-briefcase icon-accent"></i>
+                Indicadores de suministros EPP
             </h2>
-            <p style="color: #76b82a; font-weight: bold; margin-top: 5px; font-size: 16px; margin-bottom:0;">
-                Gestión Institucional de EPP - Periodo @ViewBag.AnioActual
-            </p>
         </div>
-
-        
-        <div class="col-md-3 text-right" style="display: flex; align-items: center; justify-content: flex-end; height: 90px;">
-            <a href="@Url.Action("Index")" class="btn btn-default" style="background-color: #29235c; color: white; border-radius: 10px; font-weight: bold; padding: 10px 20px;">
-                <i class="glyphicon glyphicon-list"></i> Volver al Listado
+        <div class="col-md-4 text-right botones-encabezado">
+            <a href="@Url.Action("Index")" class="btn btn-volver-custom">
+                <i class="glyphicon glyphicon-list"></i>
+                Volver al listado
             </a>
         </div>
     </div>
 
-    @* --- GRÁFICOS --- *@
-    <div class="row">
-        <div class="col-md-8">
-            <div class="panel panel-default" style="border-radius:15px; border:none; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                <div class="panel-heading" style="background:white; border-radius:15px 15px 0 0; font-weight:bold; color:#29235c; border-bottom: 1px solid #f0f0f0;">
-                    <i class="glyphicon glyphicon-signal" style="color:#76b82a;"></i> Tendencia Mensual de Entregas
+    <hr class="separator" />
+
+    @* ===================================================== *@
+    @* --- FILTRO POR AÑO --- *@
+    @* ===================================================== *@
+
+    <div class="panel panel-seccion" style="margin-bottom: 25px;">
+        <div class="panel-heading panel-heading-morado">
+            <h3 class="panel-title">
+                <i class="glyphicon glyphicon-filter"></i>
+                Filtros
+            </h3>
+        </div>
+        <div class="panel-body panel-body-custom">
+            @using (Html.BeginForm("Dashboard", "MatrizEpp", FormMethod.Get, new { @class = "form-inline" }))
+            {
+                <div class="form-group filtro-grupo">
+                    <label class="label-form filtro-label">Año fiscal</label>
+                    <input type="number"
+                           name="anio"
+                           class="form-control input-custom filtro-input-anio"
+                           value="@ViewBag.AnioActual" />
                 </div>
-                <div class="panel-body">
+
+                <div class="form-group filtro-grupo filtro-boton-wrapper">
+                    <button type="submit" class="btn btn-guardar-custom">
+                        <i class="glyphicon glyphicon-filter"></i>
+                        Aplicar filtros
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+
+    @* ===================================================== *@
+    @* --- GRÁFICOS: TENDENCIA MENSUAL Y DISTRIBUCIÓN TRIMESTRAL --- *@
+    @* ===================================================== *@
+
+    <div class="row" style="margin-top: 10px;">
+
+        @* ── Gráfico de línea: tendencia mensual ── *@
+        <div class="col-md-8">
+            <div class="panel panel-seccion">
+                <div class="panel-heading panel-heading-morado">
+                    <h3 class="panel-title">
+                        <i class="glyphicon glyphicon-signal"></i>
+                        Tendencia mensual de entregas
+                    </h3>
+                </div>
+                <div class="panel-body panel-body-custom">
                     <canvas id="chartMensual" height="120"></canvas>
                 </div>
             </div>
         </div>
+
+        @* ── Gráfico dona: distribución trimestral ── *@
         <div class="col-md-4">
-            <div class="panel panel-default" style="border-radius:15px; border:none; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                <div class="panel-heading" style="background:white; border-radius:15px 15px 0 0; font-weight:bold; color:#29235c; border-bottom: 1px solid #f0f0f0;">
-                    <i class="glyphicon glyphicon-adjust" style="color:#76b82a;"></i> Distribución por Trimestre
+            <div class="panel panel-seccion">
+                <div class="panel-heading panel-heading-verde">
+                    <h3 class="panel-title">
+                        <i class="glyphicon glyphicon-adjust"></i>
+                        Distribución por trimestre
+                    </h3>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body panel-body-custom">
                     <canvas id="chartTrimestre" height="270"></canvas>
                 </div>
             </div>
         </div>
+
     </div>
 
-    @* --- TABLA TOP ELEMENTOS --- *@
-    <div class="panel panel-default" style="border-radius:15px; border:none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 40px;">
-        <div class="panel-heading" style="background:#29235c; color:white; border-radius:15px 15px 0 0; font-weight:bold;">
-            <i class="glyphicon glyphicon-list-alt"></i> Elementos más Entregados
+    @* ===================================================== *@
+    @* --- TABLA: TOP 10 ELEMENTOS MÁS ENTREGADOS --- *@
+    @* ===================================================== *@
+
+    <div class="panel panel-seccion">
+        <div class="panel-heading panel-heading-naranja">
+            <h3 class="panel-title">
+                <i class="glyphicon glyphicon-list-alt"></i>
+                Elementos más entregados
+            </h3>
         </div>
         <div class="table-responsive">
-            <table class="table table-hover" style="margin-bottom:0;">
-                <thead style="background:#f8f9fa;">
-                    <tr>
-                        <th style="padding-left:25px;">Nombre del Elemento</th>
-                        <th class="text-center">Cantidad Total</th>
-                        <th>% Participación Anual</th>
+            <table class="table table-hover tabla-epp">
+                <thead>
+                    <tr class="tabla-thead">
+                        <th class="tabla-th">Nombre del elemento</th>
+                        <th class="tabla-th text-center">Cantidad total</th>
+                        <th class="tabla-th">(%) Sobre el total anual</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -90,76 +125,356 @@
                     {
                         foreach (EstadisticaEpp item in listaElementos)
                         {
-                            double porc = totalGeneral > 0 ? (double)item.Cantidad * 100 / totalGeneral : 0;
+                            double porc = totalGeneral > 0
+                                ? (double)item.Cantidad * 100 / totalGeneral
+                                : 0;
+
                             <tr>
-                                <td style="padding-left:25px; vertical-align:middle;"><strong>@item.Nombre</strong></td>
-                                <td class="text-center" style="vertical-align:middle;">
-                                    <span class="badge" style="background:#76b82a; padding: 5px 10px;">@item.Cantidad</span>
+                                <td class="tabla-td tabla-td-nombre">@item.Nombre</td>
+                                <td class="tabla-td text-center">
+                                    <span class="badge-cantidad">@item.Cantidad</span>
                                 </td>
-                                <td style="width: 45%; vertical-align:middle; padding-right:25px;">
-                                    <div style="display:flex; align-items:center;">
-                                        <div class="progress" style="margin-bottom:0; flex-grow:1; height:12px; border-radius:10px; background:#eee;">
-                                            <div class="progress-bar" style="width: @porc.ToString("0")%; background-color:#3a86ff; box-shadow:none;"></div>
+                                <td class="tabla-td tabla-td-barra">
+                                    <div class="barra-wrapper">
+                                        <div class="progress barra-progreso">
+                                            <div class="progress-bar barra-relleno"
+                                                 role="progressbar"
+                                                 style="width: @porc.ToString("0")%;">
+                                            </div>
                                         </div>
-                                        <span style="margin-left:10px; font-weight:bold; color:#29235c; min-width:45px;">@porc.ToString("0.0")%</span>
+                                        <span class="barra-porcentaje">@porc.ToString("0.0")%</span>
                                     </div>
                                 </td>
                             </tr>
                         }
                     }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3" class="empty-state">
+                                <i class="glyphicon glyphicon-folder-open empty-state-icono"></i>
+                                <p class="text-muted empty-state-texto">
+                                    No hay elementos registrados en el periodo.
+                                </p>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
     </div>
+
 </div>
 
+@* ===================================================== *@
 @* --- SCRIPTS DE GRÁFICOS --- *@
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    Chart.defaults.font.family = "'Segoe UI', 'Helvetica', 'Arial', sans-serif";
-    Chart.defaults.color = "#666";
+@* ===================================================== *@
 
-    new Chart(document.getElementById('chartMensual'), {
-        type: 'line',
-        data: {
-            labels: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
-            datasets: [{
-                label: 'EPP Entregados',
-                data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(datosMensuales)),
-                borderColor: '#29235c',
-                backgroundColor: 'rgba(41, 35, 92, 0.05)',
-                fill: true,
-                tension: 0.4,
-                pointRadius: 5,
-                pointBackgroundColor: '#76b82a'
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: { legend: { display: false } },
-            scales: {
-                y: { beginAtZero: true, grid: { drawBorder: false } },
-                x: { grid: { display: false } }
-            }
-        }
-    });
+@section Scripts {
 
-    new Chart(document.getElementById('chartTrimestre'), {
-        type: 'doughnut',
-        data: {
-            labels: ['Trim 1','Trim 2','Trim 3','Trim 4'],
-            datasets: [{
-                data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(datosTrimestrales)),
-                backgroundColor: ['#29235c','#76b82a','#3a86ff','#f7b731'],
-                borderWidth: 0,
-                hoverOffset: 15
-            }]
-        },
-        options: {
-            cutout: '70%',
-            plugins: {
-                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } }
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+
+        // ── Gráfico de línea: tendencia mensual ──────────────────────
+        new Chart(document.getElementById('chartMensual'), {
+            type: 'line',
+            data: {
+                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+                         'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                datasets: [{
+                    label: 'EPP entregados',
+                    data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(datosMensuales)),
+                    borderColor: '#29235c',
+                    backgroundColor: 'rgba(41, 35, 92, 0.05)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 5,
+                    pointBackgroundColor: '#76b82a'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#f0f0f0' },
+                        ticks: { color: '#666', font: { size: 12 } }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#333', font: { size: 12, weight: "600" } }
+                    }
+                }
             }
+        });
+
+        // ── Gráfico dona: distribución trimestral ────────────────────
+        new Chart(document.getElementById('chartTrimestre'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Trim 1', 'Trim 2', 'Trim 3', 'Trim 4'],
+                datasets: [{
+                    data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(datosTrimestrales)),
+                    backgroundColor: ['#29235c', '#76b82a', '#f39c12', '#d9534f'],
+                    borderWidth: 0,
+                    hoverOffset: 15
+                }]
+            },
+            options: {
+                cutout: '70%',
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#333',
+                            font: { size: 12 },
+                            padding: 16,
+                            boxWidth: 14,
+                            usePointStyle: true
+                        }
+                    }
+                }
+            }
+        });
+
+    </script>
+}
+
+@* ===================================================== *@
+@* --- ESTILOS --- *@
+@* ===================================================== *@
+
+<style>
+
+    /* ── Página ─────────────────────────────────────────────────── */
+    .page-wrapper {
+        padding: 20px;
+    }
+
+    .page-title {
+        color: #29235c;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .icon-accent {
+        color: #76b82a;
+    }
+
+    .separator {
+        border-top: 1px solid #eee;
+        margin-bottom: 25px;
+    }
+
+    /* ── Botón encabezado ────────────────────────────────────────── */
+    .botones-encabezado {
+        padding-top: 8px;
+    }
+
+    .btn-volver-custom {
+        background-color: transparent;
+        color: #29235c;
+        border: 2px solid #29235c;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 8px 20px;
+        transition: all 0.3s;
+    }
+
+        .btn-volver-custom:hover {
+            background-color: #29235c;
+            color: white;
         }
-    });
-</script>
+
+    /* ── Paneles / secciones ─────────────────────────────────────── */
+    .panel-seccion {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .panel-heading-morado {
+        background-color: #29235c;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-verde {
+        background-color: #76b82a;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-naranja {
+        background-color: #f39c12;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-seccion .panel-title {
+        font-weight: bold;
+        font-size: 15px;
+        color: white;
+        margin: 0;
+    }
+
+    .panel-body-custom {
+        padding: 25px;
+    }
+
+    /* ── Filtros ─────────────────────────────────────────────────── */
+    .filtro-grupo {
+        margin-right: 20px;
+        display: inline-flex;
+        flex-direction: column;
+        vertical-align: top;
+    }
+
+    .filtro-label {
+        margin-bottom: 6px;
+        font-size: 13px;
+    }
+
+    .filtro-input-anio {
+        width: 110px;
+    }
+
+    .filtro-boton-wrapper {
+        justify-content: flex-end;
+        padding-top: 23px;
+    }
+
+    /* ── Inputs ──────────────────────────────────────────────────── */
+    .input-custom {
+        border-radius: 12px !important;
+        border: 1px solid #ddd !important;
+        height: 42px;
+        box-shadow: none !important;
+    }
+
+        .input-custom:focus {
+            border-color: #76b82a !important;
+            box-shadow: 0 0 5px rgba(118,184,42,0.3) !important;
+        }
+
+    /* ── Botón aplicar filtros ───────────────────────────────────── */
+    .btn-guardar-custom {
+        background-color: #76b82a;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 12px 30px;
+        font-size: 15px;
+        transition: all 0.3s;
+    }
+
+        .btn-guardar-custom:hover {
+            background-color: #5f9821;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+    /* ── Tabla: top elementos ────────────────────────────────────── */
+    .tabla-epp {
+        margin-bottom: 0;
+    }
+
+    .tabla-thead {
+        background-color: #fcfcfc;
+    }
+
+    .tabla-th {
+        padding: 15px;
+        color: #666;
+        font-weight: 600;
+        font-size: 13px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .tabla-td {
+        vertical-align: middle;
+        border-top: 1px solid #f5f5f5;
+        padding: 12px 15px;
+    }
+
+    .tabla-td-nombre {
+        font-weight: 600;
+        color: #444;
+    }
+
+    .tabla-td-barra {
+        width: 45%;
+    }
+
+    /* ── Badge cantidad ──────────────────────────────────────────── */
+    .badge-cantidad {
+        background-color: #76b82a;
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    /* ── Barra de participación ──────────────────────────────────── */
+    .barra-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .barra-progreso {
+        flex-grow: 1;
+        height: 18px;
+        margin-bottom: 0;
+        border-radius: 10px;
+        background-color: #f0f0f0;
+        box-shadow: none;
+    }
+
+    .barra-relleno {
+        background-color: #29235c;
+        border-radius: 10px;
+        box-shadow: none;
+    }
+
+    .barra-porcentaje {
+        font-weight: bold;
+        color: #29235c;
+        min-width: 45px;
+        font-size: 13px;
+    }
+
+    /* ── Estado vacío ────────────────────────────────────────────── */
+    .empty-state {
+        text-align: center;
+        padding: 40px !important;
+    }
+
+    .empty-state-icono {
+        font-size: 2em;
+        color: #ccc;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .empty-state-texto {
+        margin: 0;
+    }
+
+    /* ── Hover fila tabla EPP ────────────────────────────────────── */
+    .table-hover tbody tr:hover {
+        background-color: #f9f9ff;
+        transition: background-color 0.2s ease;
+    }
+</style>

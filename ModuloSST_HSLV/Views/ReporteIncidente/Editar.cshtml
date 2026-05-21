@@ -2,50 +2,36 @@
 
 @{
     ViewBag.Title = "Editar Incidente";
-    var procesos = ViewBag.Procesos as List<ModuloSST_HSLV.Models.Proceso>;
-    var subprocesos = ViewBag.Subprocesos as List<ModuloSST_HSLV.Models.Subproceso>;
-    var causas = ViewBag.CausasSubcausas as System.Collections.Generic.Dictionary<string, string[]>;
+
+    var causas = ViewBag.CausasSubcausas as Dictionary<string, string[]>;
 }
 
-<div class="container-fluid" style="padding: 20px;">
+<div class="container-fluid page-wrapper">
 
-    @* --- CABECERA --- *@
-    <div class="row">
+    @* ===================================================== *@
+    @* --- ENCABEZADO --- *@
+    @* ===================================================== *@
 
-        <div class="col-md-8">
+    <h2 class="page-title">
+        <i class="glyphicon glyphicon-edit icon-accent"></i>
+        Editar reporte de incidente
+    </h2>
 
-            <h2 style="color: #29235c;
-                       font-weight: bold;
-                       margin-bottom: 5px;">
+    <hr class="separator" />
 
-                <i class="glyphicon glyphicon-edit"
-                   style="color: #76b82a;"></i>
-
-                Editar Reporte de Incidente
-
-            </h2>
-
-        </div>
-
-    </div>
-
-    <hr style="border-top: 1px solid #eee;" />
+    @* ===================================================== *@
+    @* --- ERRORES DE VALIDACIÓN --- *@
+    @* ===================================================== *@
 
     @if (!ViewData.ModelState.IsValid)
     {
-        <div class="alert alert-danger"
-             style="border-radius: 15px;
-                    border: none;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-
+        <div class="alert alert-error alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+            </button>
             <i class="glyphicon glyphicon-exclamation-sign"></i>
-
-            <strong>
-                Corrija los siguientes errores:
-            </strong>
-
+            <strong>Corrija los siguientes errores antes de guardar:</strong>
             @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-
         </div>
     }
 
@@ -53,238 +39,172 @@
         "Editar",
         "ReporteIncidente",
         FormMethod.Post,
-        new
-        {
-            enctype = "multipart/form-data",
-            id = "formEditar"
-        }))
+        new { enctype = "multipart/form-data", id = "formEditar" }))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.IdReporteIncidente)
-        @Html.HiddenFor(m => m.FechaCreacion)
         @Html.HiddenFor(m => m.IdEmpleado)
+        @Html.HiddenFor(m => m.FechaCreacion)
         @Html.HiddenFor(m => m.NombreArchivoIncidente)
         @Html.HiddenFor(m => m.RutaArchivoIncidente)
         @Html.HiddenFor(m => m.NombreArchivoInvestigacion)
         @Html.HiddenFor(m => m.RutaArchivoInvestigacion)
         @Html.HiddenFor(m => m.NombreArchivoPlan)
         @Html.HiddenFor(m => m.RutaArchivoPlan)
-        @Html.HiddenFor(m => m.IdProceso)
-        @Html.HiddenFor(m => m.IdSubproceso)
 
         @* ===================================================== *@
         @* --- SECCIÓN 1: DATOS DEL INVOLUCRADO --- *@
         @* ===================================================== *@
 
-        <div class="panel panel-default"
-             style="border-radius: 15px;
-            border: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            margin-bottom: 30px;">
-
-            <div class="panel-heading"
-                 style="background-color: #29235c;
-                color: white;
-                border-radius: 15px 15px 0 0;
-                padding: 15px 25px;">
-
-                <h3 class="panel-title"
-                    style="font-weight: bold;">
-
+        <div class="panel panel-seccion">
+            <div class="panel-heading panel-heading-morado">
+                <h3 class="panel-title">
                     <i class="glyphicon glyphicon-user"></i>
-                    1. Información del Involucrado
-
+                    1. Datos del involucrado
                 </h3>
-
             </div>
+            <div class="panel-body panel-body-custom">
 
-            <div class="panel-body" style="padding: 25px;">
+                @* Campos hidden para que los datos lleguen al POST *@
+                @Html.HiddenFor(m => m.Cedula)
+                @Html.HiddenFor(m => m.NombreCompleto)
+                @Html.HiddenFor(m => m.Genero)
+                @Html.HiddenFor(m => m.Edad)
+                @Html.HiddenFor(m => m.Cargo)
+                @Html.HiddenFor(m => m.Contratista)
+                @Html.HiddenFor(m => m.TiempoPrestacion)
 
-                @* --- FILA 1 --- *@
                 <div class="row">
-
                     <div class="col-md-3">
-                        <div class="form-group">
-                            <label class="label-form">Cédula</label>
-                            @Html.TextBoxFor(m => m.Cedula, new
-                            {
-                                @class = "form-control input-custom",
-                                @readonly = "readonly",
-                                style = "font-weight: 600;"
-                            })
-                        </div>
+                        <label class="label-form">Cédula</label>
+                        <p class="dato-readonly dato-destacado">@Model.Cedula</p>
                     </div>
-
                     <div class="col-md-5">
-                        <div class="form-group">
-                            <label class="label-form">Nombre Completo</label>
-                            @Html.TextBoxFor(m => m.NombreCompleto, new
-                            {
-                                @class = "form-control input-custom",
-                                @readonly = "readonly",
-                                style = "font-weight: 600;"
-                            })
-                        </div>
+                        <label class="label-form">Apellidos y nombre</label>
+                        <p class="dato-readonly dato-destacado">@Model.NombreCompleto</p>
                     </div>
-
                     <div class="col-md-2">
-                        <div class="form-group">
-                            <label class="label-form">Género</label>
-                            @Html.TextBoxFor(m => m.Genero, new
-                            {
-                                @class = "form-control input-custom",
-                                @readonly = "readonly"
-                            })
-                        </div>
+                        <label class="label-form">Género</label>
+                        <p class="dato-readonly">@Model.Genero</p>
                     </div>
-
                     <div class="col-md-2">
-                        <div class="form-group">
-                            <label class="label-form">Edad</label>
-                            @Html.TextBoxFor(m => m.Edad, new
-                            {
-                                @class = "form-control input-custom",
-                                @readonly = "readonly"
-                            })
-                        </div>
+                        <label class="label-form">Edad</label>
+                        <p class="dato-readonly">@Model.Edad años</p>
                     </div>
-
                 </div>
 
-                @* --- FILA 2 --- *@
-                <div class="row">
-
+                <div class="row" style="margin-top: 15px;">
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="label-form">Cargo</label>
-                            @Html.TextBoxFor(m => m.Cargo, new
-                            {
-                                @class = "form-control input-custom",
-                                @readonly = "readonly"
-                            })
-                        </div>
+                        <label class="label-form">Cargo</label>
+                        <p class="dato-readonly">@Model.Cargo</p>
                     </div>
-
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="label-form">Contratista</label>
-                            @Html.TextBoxFor(m => m.Contratista, new
-                            {
-                                @class = "form-control input-custom",
-                                @readonly = "readonly"
-                            })
-                        </div>
+                        <label class="label-form">Contratista</label>
+                        <p class="dato-readonly">
+                            @(string.IsNullOrEmpty(Model.Contratista) ? "Directo / Propio" : Model.Contratista)
+                        </p>
                     </div>
-
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="label-form">Tiempo de Prestación (meses)</label>
-                            @Html.TextBoxFor(m => m.TiempoPrestacion, new
-                            {
-                                @class = "form-control input-custom",
-                                @readonly = "readonly"
-                            })
-                        </div>
+                        <label class="label-form">Tiempo de prestación (meses)</label>
+                        <p class="dato-readonly">@Model.TiempoPrestacion meses</p>
                     </div>
-
                 </div>
 
-                @* --- FILA 3 --- *@
-                <div class="row">
-
+                <div class="row" style="margin-top: 15px;">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="label-form">Proceso</label>
-                            <input type="text"
-                                   class="form-control input-custom"
-                                   readonly
-                                   value="@(Model.Proceso != null ? Model.Proceso.NombreProceso : "—")" />
-                        </div>
+                        <label class="label-form">Proceso</label>
+                        <p class="dato-readonly">
+                            @(Model.Proceso != null ? Model.Proceso.NombreProceso : "—")
+                        </p>
+                        @Html.Hidden("IdProceso", Model.IdProceso, new { id = "hiddenIdProceso" })
                     </div>
-
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="label-form">Subproceso</label>
-                            <input type="text"
-                                   class="form-control input-custom"
-                                   readonly
-                                   value="@(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : "—")" />
-                        </div>
+                        <label class="label-form">Subproceso / servicio / área</label>
+                        <p class="dato-readonly">
+                            @(Model.Subproceso != null ? Model.Subproceso.NombreSubproceso : "—")
+                        </p>
+                        @Html.Hidden("IdSubproceso", Model.IdSubproceso)
                     </div>
-
                 </div>
 
             </div>
-
         </div>
 
         @* ===================================================== *@
         @* --- SECCIÓN 2: INFORMACIÓN DEL INCIDENTE --- *@
         @* ===================================================== *@
 
-        <div class="panel panel-default"
-             style="border-radius: 15px;
-                    border: none;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                    margin-bottom: 30px;">
-
-            <div class="panel-heading"
-                 style="background-color: #76b82a;
-                        color: white;
-                        border-radius: 15px 15px 0 0;
-                        padding: 15px 25px;">
-
-                <h3 class="panel-title"
-                    style="font-weight: bold;">
-
+        <div class="panel panel-seccion">
+            <div class="panel-heading panel-heading-verde">
+                <h3 class="panel-title">
                     <i class="glyphicon glyphicon-exclamation-sign"></i>
-                    2. Información del Incidente
-
+                    2. Información del incidente
                 </h3>
-
             </div>
-
-            <div class="panel-body" style="padding: 25px;">
+            <div class="panel-body panel-body-custom">
 
                 <div class="row">
-
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="label-form-verde">Fecha del Incidente</label>
+                            <label class="label-form-verde">Fecha del incidente</label>
                             @Html.TextBoxFor(m => m.FechaIncidente, "{0:yyyy-MM-dd}", new
                             {
                                 @class = "form-control input-custom",
                                 type = "date",
                                 id = "fechaIncidente"
                             })
+                            @Html.ValidationMessageFor(m => m.FechaIncidente, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="label-form-verde">Hora del Incidente</label>
+                            <label class="label-form-verde">Hora del incidente</label>
                             <input type="time"
                                    name="HoraIncidente"
                                    class="form-control input-custom"
                                    value="@(Model.HoraIncidente.HasValue ? Model.HoraIncidente.Value.ToString(@"hh\:mm") : "")" />
                         </div>
                     </div>
-
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="label-form-verde">Tipo de Peligro</label>
-                            @Html.DropDownListFor(m => m.TipoPeligro,
-                                new SelectList(ViewBag.TiposPeligro as string[]),
-                                "-- Seleccionar --",
-                                new { @class = "form-control input-custom" })
+                            <label class="label-form-verde">Tipo de peligro</label>
+                            <select name="TipoPeligro" class="form-control input-custom">
+                                <option value="">-- Seleccionar --</option>
+                                @if (ViewBag.TiposPeligro != null)
+                                {
+                                    foreach (string t in (string[])ViewBag.TiposPeligro)
+                                    {
+                                        <option value="@t" @(Model.TipoPeligro == t ? "selected" : "")>@t</option>
+                                    }
+                                }
+                            </select>
+                            @Html.ValidationMessageFor(m => m.TipoPeligro, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="label-form-verde">Adjuntar / reemplazar incidente (PDF)</label>
+                            <input type="file"
+                                   name="archivoIncidente"
+                                   accept=".pdf"
+                                   class="form-control input-custom" />
+                            @if (!string.IsNullOrEmpty(Model.NombreArchivoIncidente))
+                            {
+                                <p class="archivo-actual">
+                                    Archivo actual: <strong>@Model.NombreArchivoIncidente</strong>
+                                </p>
+                            }
+                            <span class="help-block text-muted">
+                                @(string.IsNullOrEmpty(Model.NombreArchivoIncidente)
+                                    ? "Sin archivo adjunto."
+                                    : "Sube un PDF nuevo para reemplazar el actual.")
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">
-
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label class="label-form-verde">Observaciones</label>
                             @Html.TextAreaFor(m => m.Observaciones, new
@@ -294,62 +214,28 @@
                             })
                         </div>
                     </div>
-
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="label-form-verde">Adjuntar / Reemplazar PDF del Incidente</label>
-                            <input type="file"
-                                   name="archivoIncidente"
-                                   accept=".pdf"
-                                   class="form-control input-custom" />
-                            @if (!string.IsNullOrEmpty(Model.NombreArchivoIncidente))
-                            {
-                                <p class="text-muted" style="margin-top: 8px; font-size: 12px;">
-                                    Archivo actual: <strong>@Model.NombreArchivoIncidente</strong>
-                                </p>
-                            }
-                        </div>
-                    </div>
-
                 </div>
 
             </div>
-
         </div>
 
         @* ===================================================== *@
         @* --- SECCIÓN 3: INVESTIGACIÓN Y SEGUIMIENTO --- *@
         @* ===================================================== *@
 
-        <div class="panel panel-default"
-             style="border-radius: 15px;
-                    border: none;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                    margin-bottom: 30px;">
-
-            <div class="panel-heading"
-                 style="background-color: #29235c;
-                        color: white;
-                        border-radius: 15px 15px 0 0;
-                        padding: 15px 25px;">
-
-                <h3 class="panel-title"
-                    style="font-weight: bold;">
-
+        <div class="panel panel-seccion">
+            <div class="panel-heading panel-heading-morado">
+                <h3 class="panel-title">
                     <i class="glyphicon glyphicon-search"></i>
-                    3. Investigación y Seguimiento
-
+                    3. Investigación y seguimiento
                 </h3>
-
             </div>
-
-            <div class="panel-body" style="padding: 25px;">
+            <div class="panel-body panel-body-custom">
 
                 <div class="row">
-
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="label-form">Fecha de Investigación</label>
+                            <label class="label-form">Fecha de investigación</label>
                             @Html.TextBoxFor(m => m.FechaInvestigacion, "{0:yyyy-MM-dd}", new
                             {
                                 @class = "form-control input-custom",
@@ -358,20 +244,18 @@
                             })
                         </div>
                     </div>
-
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="label-form">Días de Investigación</label>
+                            <label class="label-form">Días de investigación</label>
                             @Html.TextBoxFor(m => m.DiasInvestigacion, new
                             {
                                 @class = "form-control input-custom",
                                 id = "diasInvestigacion",
-                                @readonly = "readonly",
-                                style = "background-color: #f5f5f5; font-weight: 600;"
+                                @readonly = "readonly"
                             })
+                            <span class="help-block text-muted">Se calcula automáticamente.</span>
                         </div>
                     </div>
-
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="label-form">Turno</label>
@@ -387,33 +271,33 @@
                             </select>
                         </div>
                     </div>
-
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="label-form">Adjuntar / Reemplazar Investigación PDF</label>
+                            <label class="label-form">Adjuntar / reemplazar investigación (PDF)</label>
                             <input type="file"
                                    name="archivoInvestigacion"
                                    accept=".pdf"
                                    class="form-control input-custom" />
                             @if (!string.IsNullOrEmpty(Model.NombreArchivoInvestigacion))
                             {
-                                <p class="text-muted" style="margin-top: 8px; font-size: 12px;">
+                                <p class="archivo-actual">
                                     Archivo actual: <strong>@Model.NombreArchivoInvestigacion</strong>
                                 </p>
                             }
+                            <span class="help-block text-muted">
+                                @(string.IsNullOrEmpty(Model.NombreArchivoInvestigacion)
+                                    ? "Sin archivo adjunto."
+                                    : "Sube un PDF nuevo para reemplazar el actual.")
+                            </span>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="row">
-
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="label-form">Causa Principal</label>
-                            <select name="Causa"
-                                    id="selectCausa"
-                                    class="form-control input-custom">
+                            <label class="label-form">Causa principal</label>
+                            <select name="Causa" id="selectCausa" class="form-control input-custom">
                                 <option value="">-- Seleccionar causa --</option>
                                 @if (causas != null)
                                 {
@@ -423,83 +307,56 @@
                                     }
                                 }
                             </select>
+                            <span class="help-block text-muted">
+                                Si la causa no está en la lista, descríbala en observaciones.
+                            </span>
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="label-form">Subcausa Específica</label>
-                            <select name="Subcausa"
-                                    id="selectSubcausa"
-                                    class="form-control input-custom">
+                            <label class="label-form">Subcausa específica</label>
+                            <select name="Subcausa" id="selectSubcausa" class="form-control input-custom">
                                 <option value="">-- Seleccione primero una causa --</option>
                             </select>
                         </div>
                     </div>
-
                 </div>
 
             </div>
-
         </div>
 
         @* ===================================================== *@
         @* --- SECCIÓN 4: PLAN DE MEJORA --- *@
         @* ===================================================== *@
 
-        <div class="panel panel-default"
-             style="border-radius: 15px;
-                    border: none;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                    margin-bottom: 30px;">
-
-            <div class="panel-heading"
-                 style="background-color: #76b82a;
-                        color: white;
-                        border-radius: 15px 15px 0 0;
-                        padding: 15px 25px;">
-
-                <h3 class="panel-title"
-                    style="font-weight: bold;">
-
+        <div class="panel panel-seccion">
+            <div class="panel-heading panel-heading-verde">
+                <h3 class="panel-title">
                     <i class="glyphicon glyphicon-ok"></i>
-                    4. Plan de Mejora
-
+                    4. Plan de mejora
                 </h3>
-
             </div>
-
-            <div class="panel-body" style="padding: 25px;">
+            <div class="panel-body panel-body-custom">
 
                 <div class="row">
-
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="label-form-verde">Responsable</label>
-                            @Html.TextBoxFor(m => m.Responsable, new
-                            {
-                                @class = "form-control input-custom"
-                            })
+                            @Html.TextBoxFor(m => m.Responsable, new { @class = "form-control input-custom" })
                         </div>
                     </div>
-
                     <div class="col-md-8">
                         <div class="form-group">
-                            <label class="label-form-verde">Actividad a Realizar</label>
-                            @Html.TextBoxFor(m => m.ActividadARealizar, new
-                            {
-                                @class = "form-control input-custom"
-                            })
+                            <label class="label-form-verde">Actividad a realizar</label>
+                            @Html.TextBoxFor(m => m.ActividadARealizar, new { @class = "form-control input-custom" })
                         </div>
                     </div>
-
                 </div>
 
                 <div class="row">
-
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="label-form-verde">Fecha Planeada</label>
+                            <label class="label-form-verde">Fecha planeada</label>
                             @Html.TextBoxFor(m => m.FechaPlaneada, "{0:yyyy-MM-dd}", new
                             {
                                 @class = "form-control input-custom",
@@ -507,10 +364,9 @@
                             })
                         </div>
                     </div>
-
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="label-form-verde">Fecha Ejecución</label>
+                            <label class="label-form-verde">Fecha de ejecución</label>
                             @Html.TextBoxFor(m => m.FechaEjecucion, "{0:yyyy-MM-dd}", new
                             {
                                 @class = "form-control input-custom",
@@ -518,134 +374,109 @@
                             })
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="label-form-verde">Adjuntar / Reemplazar Plan de Mejora PDF</label>
+                            <label class="label-form-verde">Adjuntar / reemplazar plan de mejora (PDF)</label>
                             <input type="file"
                                    name="archivoPlan"
                                    accept=".pdf"
                                    class="form-control input-custom" />
                             @if (!string.IsNullOrEmpty(Model.NombreArchivoPlan))
                             {
-                                <p class="text-muted" style="margin-top: 8px; font-size: 12px;">
+                                <p class="archivo-actual">
                                     Archivo actual: <strong>@Model.NombreArchivoPlan</strong>
                                 </p>
                             }
+                            <span class="help-block text-muted">
+                                @(string.IsNullOrEmpty(Model.NombreArchivoPlan)
+                                    ? "Sin archivo adjunto."
+                                    : "Sube un PDF nuevo para reemplazar el actual.")
+                            </span>
                         </div>
                     </div>
-
                 </div>
 
             </div>
-
         </div>
 
         @* ===================================================== *@
         @* --- SECCIÓN 5: OBSERVACIONES FINALES --- *@
         @* ===================================================== *@
 
-        <div class="panel panel-default"
-             style="border-radius: 15px;
-                    border: none;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                    margin-bottom: 30px;">
-
-            <div class="panel-heading"
-                 style="background-color: #f39c12;
-                        color: white;
-                        border-radius: 15px 15px 0 0;
-                        padding: 15px 25px;">
-
-                <h3 class="panel-title"
-                    style="font-weight: bold;">
-
+        <div class="panel panel-seccion">
+            <div class="panel-heading panel-heading-naranja">
+                <h3 class="panel-title">
                     <i class="glyphicon glyphicon-comment"></i>
-                    5. Observaciones Generales
-
+                    5. Observaciones finales
                 </h3>
-
             </div>
-
-            <div class="panel-body" style="padding: 25px;">
-
+            <div class="panel-body panel-body-custom">
                 <div class="form-group" style="margin-bottom: 0;">
-                    <label class="label-form">Observaciones</label>
+                    <label class="label-form">Observaciones finales</label>
                     @Html.TextAreaFor(m => m.ObservacionesFinales, new
                     {
                         @class = "form-control textarea-custom",
                         rows = "4"
                     })
                 </div>
-
             </div>
-
         </div>
 
+        @* ===================================================== *@
         @* --- BOTONES --- *@
-        <div style="margin-bottom: 50px;
-                    display: flex;
-                    gap: 15px;
-                    align-items: center;">
+        @* ===================================================== *@
 
-            <button type="submit"
-                    class="btn btn-success btn-lg btn-guardar-custom">
+        <div class="botones-form-wrapper">
+            <button type="submit" class="btn btn-guardar-custom">
                 <i class="glyphicon glyphicon-floppy-disk"></i>
                 Actualizar
             </button>
-
             <a href="@Url.Action("Index", "ReporteIncidente")"
-               class="btn btn-default btn-cancelar-custom">
+               class="btn btn-cancelar-custom">
                 <i class="glyphicon glyphicon-remove"></i>
                 Cancelar
             </a>
-
         </div>
     }
 
 </div>
 
-@section Scripts {
+@* ===================================================== *@
+@* --- SCRIPTS --- *@
+@* ===================================================== *@
 
+@section Scripts {
     <script>
 
+        // ── Causas y subcausas ────────────────────────────────────────
         var causasSubcausas =
-            @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(causas));
+            @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(causas ?? new Dictionary<string, string[]>()));
 
-        var subcausaActual = '@Html.Raw(Model.Subcausa)';
+        var subcausaActual =
+            '@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(Model.Subcausa ?? ""))';
 
-        function cargarSubcausas(causaSeleccionada, seleccionada) {
+        function cargarSubcausas(causaSeleccionada, subcausaPreseleccionada) {
+            var selSubcausa = document.getElementById('selectSubcausa');
+            selSubcausa.innerHTML = '<option value="">-- Seleccionar subcausa --</option>';
 
-            var sel = document.getElementById('selectSubcausa');
+            if (!causaSeleccionada || !causasSubcausas[causaSeleccionada]) return;
 
-            sel.innerHTML =
-                '<option value="">-- Seleccionar subcausa --</option>';
-
-            if (causaSeleccionada && causasSubcausas && causasSubcausas[causaSeleccionada]) {
-
-                causasSubcausas[causaSeleccionada].forEach(function (sub) {
-
-                    var o = document.createElement('option');
-                    o.value = sub;
-                    o.text = sub;
-
-                    if (seleccionada && sub === seleccionada) {
-                        o.selected = true;
-                    }
-
-                    sel.appendChild(o);
-                });
-            }
+            causasSubcausas[causaSeleccionada].forEach(function (sub) {
+                var option   = document.createElement('option');
+                option.value = sub;
+                option.text  = sub;
+                if (subcausaPreseleccionada && sub === subcausaPreseleccionada)
+                    option.selected = true;
+                selSubcausa.appendChild(option);
+            });
         }
 
+        // ── Al cargar la página ───────────────────────────────────────
         document.addEventListener('DOMContentLoaded', function () {
 
+            // Precargar subcausas de la causa guardada
             var selCausa = document.getElementById('selectCausa');
-            var fechaInvestigacion = document.getElementById('fechaInvestigacion');
-
             if (selCausa) {
-
-                // Cargar subcausas con la guardada al iniciar
                 cargarSubcausas(selCausa.value, subcausaActual);
 
                 selCausa.addEventListener('change', function () {
@@ -653,51 +484,118 @@
                 });
             }
 
+            // Cálculo automático de días de investigación
+            var fechaInvestigacion = document.getElementById('fechaInvestigacion');
             if (fechaInvestigacion) {
-
                 fechaInvestigacion.addEventListener('change', function () {
+                    var fIncidente     = document.getElementById('fechaIncidente').value;
+                    var fInvestigacion = this.value;
 
-                    var fInc =
-                        document.querySelector('[name="FechaIncidente"]').value;
-
-                    var fInv = this.value;
-
-                    if (fInc && fInv) {
-
-                        var f1 = new Date(fInc);
-                        var f2 = new Date(fInv);
-
-                        var diff = Math.floor(
-                            (f2 - f1) / (1000 * 60 * 60 * 24)
-                        );
-
+                    if (fIncidente && fInvestigacion) {
+                        var f1   = new Date(fIncidente);
+                        var f2   = new Date(fInvestigacion);
+                        var diff = Math.floor((f2 - f1) / (1000 * 60 * 60 * 24));
                         document.getElementById('diasInvestigacion').value =
                             diff >= 0 ? diff : 0;
                     }
                 });
             }
-
         });
 
     </script>
 }
 
+@* ===================================================== *@
+@* --- ESTILOS --- *@
+@* ===================================================== *@
+
 <style>
 
+    /* ── Página ──────────────────────────────────────────────────── */
+    .page-wrapper {
+        padding: 20px;
+    }
+
+    .page-title {
+        color: #29235c;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .icon-accent {
+        color: #76b82a;
+    }
+
+    .separator {
+        border-top: 1px solid #eee;
+        margin-bottom: 25px;
+    }
+
+    /* ── Paneles ─────────────────────────────────────────────────── */
+    .panel-seccion {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .panel-heading-morado {
+        background-color: #29235c;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-verde {
+        background-color: #76b82a;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-naranja {
+        background-color: #f39c12;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-seccion .panel-title {
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .panel-body-custom {
+        padding: 25px;
+    }
+
+    /* ── Alertas ─────────────────────────────────────────────────── */
+    .alert-error {
+        background-color: #f2dede;
+        border-color: #d9534f;
+        color: #a94442;
+        border-radius: 10px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    /* ── Labels ──────────────────────────────────────────────────── */
     .label-form {
-        color: #000 !important;
+        color: #000;
         font-weight: 600;
         margin-bottom: 6px;
         display: block;
     }
 
     .label-form-verde {
-        color: #000 !important;
+        color: #000;
         font-weight: 600;
         margin-bottom: 6px;
         display: block;
     }
 
+    /* ── Inputs ──────────────────────────────────────────────────── */
     .input-custom {
         border-radius: 12px !important;
         border: 1px solid #ddd !important;
@@ -721,8 +619,37 @@
             box-shadow: 0 0 5px rgba(118,184,42,0.3) !important;
         }
 
+    /* ── Datos de solo lectura ───────────────────────────────────── */
+    .dato-readonly {
+        font-size: 14px;
+        margin-top: 5px;
+        margin-bottom: 0;
+        color: #333;
+    }
+
+    .dato-destacado {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    /* ── Archivo actual ──────────────────────────────────────────── */
+    .archivo-actual {
+        margin-top: 6px;
+        font-size: 12px;
+        color: #888;
+    }
+
+    /* ── Botones ─────────────────────────────────────────────────── */
+    .botones-form-wrapper {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        margin-bottom: 50px;
+    }
+
     .btn-guardar-custom {
         background-color: #76b82a;
+        color: white;
         border: none;
         border-radius: 12px;
         font-weight: bold;
@@ -738,17 +665,17 @@
         }
 
     .btn-cancelar-custom {
-        border: 2px solid #29235c !important;
-        background: transparent !important;
-        border-radius: 12px !important;
-        color: #29235c !important;
-        font-weight: bold !important;
-        padding: 10px 25px !important;
+        background-color: transparent;
+        color: #29235c;
+        border: 2px solid #29235c;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 10px 25px;
         transition: all 0.3s;
     }
 
         .btn-cancelar-custom:hover {
-            background-color: #29235c !important;
-            color: white !important;
+            background-color: #29235c;
+            color: white;
         }
 </style>

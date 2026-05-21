@@ -2,560 +2,639 @@
 
 @{
     ViewBag.Title = "Registrar Inspección de Bioseguridad";
-
-    var procesos = ViewBag.Procesos as List<ModuloSST_HSLV.Models.Proceso>;
-    var subprocesos = ViewBag.Subprocesos as List<ModuloSST_HSLV.Models.Subproceso>;
 }
 
-<div class="container-fluid">
+<div class="container-fluid page-wrapper">
 
+    @* ===================================================== *@
     @* --- ENCABEZADO --- *@
-    <div style="margin-top: 20px; margin-bottom: 25px;">
+    @* ===================================================== *@
 
-        <h2 style="color: #29235c;
-                   font-weight: bold;
-                   margin-bottom: 5px;">
+    <h2 class="page-title">
+        <i class="glyphicon glyphicon-eye-open icon-accent"></i>
+        Registrar inspección de bioseguridad
+    </h2>
 
-            <i class="glyphicon glyphicon-edit"></i>
-            Registrar Inspección de Bioseguridad
+    <hr class="separator" />
 
-        </h2>
-
-        <hr style="border-top: 1px solid #eee;" />
-
-    </div>
+    @* ===================================================== *@
+    @* --- ERRORES DE VALIDACIÓN --- *@
+    @* ===================================================== *@
 
     @if (!ViewData.ModelState.IsValid)
     {
-        <div class="alert alert-danger"
-             style="border-radius: 15px;
-                    box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-
+        <div class="alert alert-error alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+            </button>
             <i class="glyphicon glyphicon-exclamation-sign"></i>
-
-            <strong>
-                Corrija los siguientes errores antes de guardar:
-            </strong>
-
-            <ul style="margin-top: 10px;">
-
-                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                {
-                    <li>@error.ErrorMessage</li>
-                }
-
-            </ul>
-
+            <strong>Corrija los siguientes errores antes de guardar:</strong>
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
         </div>
     }
 
-    @using (Html.BeginForm("Registrar", "InspeccionBioseguridad", FormMethod.Post))
+    @using (Html.BeginForm(
+        "Registrar",
+        "InspeccionBioseguridad",
+        FormMethod.Post,
+        new { id = "formRegistrar" }))
     {
         @Html.AntiForgeryToken()
-
         @Html.HiddenFor(m => m.IdEmpleado)
 
+        @* ===================================================== *@
         @* --- SECCIÓN 1: DATOS DEL COLABORADOR --- *@
-        <div class="panel panel-default"
-             style="border-radius: 15px;
-            border: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            margin-bottom: 30px;">
+        @* ===================================================== *@
 
-            <div class="panel-heading"
-                 style="background-color: #29235c;
-                color: white;
-                border-radius: 15px 15px 0 0;
-                padding: 15px 25px;">
-
-                <h3 class="panel-title" style="font-weight: bold;">
+        <div class="panel panel-seccion">
+            <div class="panel-heading panel-heading-morado">
+                <h3 class="panel-title">
                     <i class="glyphicon glyphicon-user"></i>
-                    1. Información del Colaborador
+                    1. Datos del colaborador
                 </h3>
             </div>
+            <div class="panel-body panel-body-custom">
 
-            <div class="panel-body" style="padding: 25px;">
-
-                @* --- FILA 1 --- *@
                 <div class="row">
-
                     <div class="col-md-2">
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Cédula
-                            </label>
-
+                            <label class="label-form">Cédula</label>
                             @Html.TextBoxFor(m => m.Cedula, new
                             {
-                                @class = "form-control",
-                                style = "border-radius: 10px; border: 1px solid #ddd;"
+                                @class = "form-control input-custom",
+                                id = "inputCedula",
+                                placeholder = "Ingrese la cédula y presione Tab"
                             })
-
+                            @Html.ValidationMessageFor(m => m.Cedula, "", new { @class = "text-danger" })
+                            <span id="spnEstadoBusqueda" class="help-block" style="display:none;"></span>
                         </div>
                     </div>
-
                     <div class="col-md-4">
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Nombre Completo
-                            </label>
-
+                            <label class="label-form">Apellidos y nombre</label>
                             @Html.TextBoxFor(m => m.NombreCompleto, new
                             {
-                                @class = "form-control",
-                                style = "border-radius: 10px; border: 1px solid #ddd;"
+                                @class = "form-control input-custom input-autocompletado",
+                                id = "inputNombreCompleto",
+                                @readonly = "readonly"
                             })
-
+                            @Html.ValidationMessageFor(m => m.NombreCompleto, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
                     <div class="col-md-2">
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Género
-                            </label>
-
-                            <select name="Genero"
-                                    class="form-control"
-                                    style="border-radius: 10px; border: 1px solid #ddd;">
-
-                                <option value="">-- Género --</option>
-
-                                @foreach (var g in ViewBag.Generos as string[])
-                                {
-                                    <option value="@g">@g</option>
-                                }
-
-                            </select>
-
+                            <label class="label-form">Género</label>
+                            @Html.TextBoxFor(m => m.Genero, new
+                            {
+                                @class = "form-control input-custom input-autocompletado",
+                                id = "inputGenero",
+                                @readonly = "readonly"
+                            })
+                            @Html.ValidationMessageFor(m => m.Genero, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
                     <div class="col-md-2">
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Edad
-                            </label>
-
+                            <label class="label-form">Edad</label>
                             @Html.TextBoxFor(m => m.Edad, new
                             {
-                                @class = "form-control",
-                                type = "number",
-                                min = "0",
-                                style = "border-radius: 10px; border: 1px solid #ddd;"
+                                @class = "form-control input-custom input-autocompletado",
+                                id = "inputEdad",
+                                @readonly = "readonly"
                             })
-
                         </div>
                     </div>
-
                     <div class="col-md-2">
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Fecha de Inspección
-                            </label>
-
-                            @Html.TextBoxFor(
-                                m => m.FechaInspeccion,
-                                "{0:yyyy-MM-dd}",
-                                new
-                                {
-                                    @class = "form-control",
-                                    type = "date",
-                                    style = "border-radius: 10px; border: 1px solid #ddd;"
-                                }
-                            )
-
+                            <label class="label-form">Fecha de inspección</label>
+                            @Html.TextBoxFor(m => m.FechaInspeccion, "{0:yyyy-MM-dd}", new
+                            {
+                                @class = "form-control input-custom",
+                                type = "date"
+                            })
+                            @Html.ValidationMessageFor(m => m.FechaInspeccion, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
                 </div>
 
-                @* --- FILA 2 --- *@
-                <div class="row" style="margin-top: 15px;">
-
+                <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Cargo
-                            </label>
-
+                            <label class="label-form">Cargo</label>
                             @Html.TextBoxFor(m => m.Cargo, new
                             {
-                                @class = "form-control",
-                                style = "border-radius: 10px; border: 1px solid #ddd;"
+                                @class = "form-control input-custom input-autocompletado",
+                                id = "inputCargo",
+                                @readonly = "readonly"
                             })
-
+                            @Html.ValidationMessageFor(m => m.Cargo, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
                     <div class="col-md-4">
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Contratista
-                            </label>
-
+                            <label class="label-form">Contratista</label>
                             @Html.TextBoxFor(m => m.Contratista, new
                             {
-                                @class = "form-control",
-                                style = "border-radius: 10px; border: 1px solid #ddd;"
+                                @class = "form-control input-custom input-autocompletado",
+                                id = "inputContratista",
+                                @readonly = "readonly"
                             })
-
+                            @Html.ValidationMessageFor(m => m.Contratista, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
                     <div class="col-md-4">
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Tiempo Prestación (meses)
-                            </label>
-
+                            <label class="label-form">Tiempo de prestación (meses)</label>
                             @Html.TextBoxFor(m => m.TiempoPrestacion, new
                             {
-                                @class = "form-control",
-                                style = "border-radius: 10px; border: 1px solid #ddd;"
+                                @class = "form-control input-custom input-autocompletado",
+                                id = "inputTiempoPrestacion",
+                                @readonly = "readonly"
                             })
-
+                            @Html.ValidationMessageFor(m => m.TiempoPrestacion, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
                 </div>
 
-                @* --- FILA 3 --- *@
-                <div class="row" style="margin-top: 15px;">
-
+                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Proceso
-                            </label>
-
-                            <select name="IdProceso"
-                                    class="form-control"
-                                    style="border-radius: 10px; border: 1px solid #ddd;">
-
-                                <option value="">-- Seleccionar proceso --</option>
-
-                                @foreach (var p in procesos)
-                                {
-                                    <option value="@p.IdProceso">
-                                        @p.NombreProceso
-                                    </option>
-                                }
-
+                            <label class="label-form">Proceso</label>
+                            <select id="selectProceso"
+                                    class="form-control input-custom input-autocompletado"
+                                    disabled="disabled">
+                                <option value="">-- Se autocompleta con la cédula --</option>
                             </select>
-
+                            @Html.Hidden("IdProceso", null, new { id = "hiddenIdProceso" })
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
-
-                            <label style="color: #29235c; font-weight: 600;">
-                                Subproceso
-                            </label>
-
+                            <label class="label-form">Subproceso / servicio / área</label>
                             <select name="IdSubproceso"
-                                    class="form-control"
-                                    style="border-radius: 10px; border: 1px solid #ddd;">
-
+                                    id="selectSubproceso"
+                                    class="form-control input-custom">
                                 <option value="">-- Seleccionar subproceso --</option>
-
-                                @foreach (var s in subprocesos)
-                                {
-                                    <option value="@s.IdSubproceso">
-                                        @s.NombreSubproceso
-                                    </option>
-                                }
-
                             </select>
-
                         </div>
                     </div>
-
                 </div>
 
             </div>
         </div>
 
-        @* --- SECCIÓN 2: EVALUACIÓN --- *@
-        <div class="panel panel-default"
-             style="border-radius: 15px;
-            border: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            margin-bottom: 30px;">
+        @* ===================================================== *@
+        @* --- SECCIÓN 2: EVALUACIÓN DE ÍTEMS --- *@
+        @* ===================================================== *@
 
-            <div class="panel-heading"
-                 style="background-color: #76b82a;
-                color: white;
-                border-radius: 15px 15px 0 0;
-                padding: 15px 25px;">
-
-                <h3 class="panel-title" style="font-weight: bold;">
-
+        <div class="panel panel-seccion">
+            <div class="panel-heading panel-heading-verde">
+                <h3 class="panel-title">
                     <i class="glyphicon glyphicon-check"></i>
                     2. Evaluación de ítems de bioseguridad
-
                 </h3>
-
             </div>
 
             <div class="table-responsive">
+                <table class="table table-hover tabla-items">
 
-                <table class="table table-hover" style="margin-bottom: 0;">
-
-                    <thead style="background: #f8f9fa;">
-
+                    <thead class="tabla-items-thead">
                         <tr>
-
-                            <th style="padding: 15px; padding-left: 25px;">
-                                Ítem Evaluado
-                            </th>
-
-                            <th class="text-center"
-                                style="width:120px;
-                               color: #76b82a;
-                               font-weight: bold;">
-
-                                C
-
-                            </th>
-
-                            <th class="text-center"
-                                style="width:120px;
-                               color: #d9534f;
-                               font-weight: bold;">
-
-                                NC
-
-                            </th>
-
-                            <th class="text-center"
-                                style="width:120px;
-                               color: #777;
-                               font-weight: bold;">
-
-                                NA
-
-                            </th>
-
+                            <th class="col-item">Ítem evaluado</th>
+                            <th class="text-center col-radio cumple-header">C</th>
+                            <th class="text-center col-radio no-cumple-header">NC</th>
+                            <th class="text-center col-radio na-header">NA</th>
                         </tr>
-
                     </thead>
 
                     <tbody>
-
                         @{
                             var items = new[]
                             {
-                        new { label = "Higiene de Manos", campo = "HigieneManos" },
-                        new { label = "Protección Respiratoria", campo = "ProteccionRespiratoria" },
-                        new { label = "Uso de Guantes", campo = "UsoGuantes" },
-                        new { label = "Uso de Gorro", campo = "UsoGorro" },
-                        new { label = "Uso de Bata", campo = "UsoBata" },
-                        new { label = "Protección Visual", campo = "ProteccionVisual" },
-                        new { label = "Uso Delantal/Peto", campo = "UsoDelantalPeto" },
-                        new { label = "Calzado Adecuado", campo = "CalzadoAdecuado" },
-                        new { label = "Transporte de Muestras", campo = "TransporteMuestras" },
-                        new { label = "Manejo Corto Punzantes", campo = "ManejoCorto" },
-                        new { label = "Manejo de Residuos", campo = "ManejoResiduos" },
-                    };
+                                new { label = "Higiene de manos",        campo = "HigieneManos" },
+                                new { label = "Protección respiratoria",  campo = "ProteccionRespiratoria" },
+                                new { label = "Uso de guantes",           campo = "UsoGuantes" },
+                                new { label = "Uso de gorro",             campo = "UsoGorro" },
+                                new { label = "Uso de bata",              campo = "UsoBata" },
+                                new { label = "Protección visual",        campo = "ProteccionVisual" },
+                                new { label = "Uso delantal/peto",        campo = "UsoDelantalPeto" },
+                                new { label = "Calzado adecuado",         campo = "CalzadoAdecuado" },
+                                new { label = "Transporte de muestras",   campo = "TransporteMuestras" },
+                                new { label = "Manejo corto punzantes",   campo = "ManejoCorto" },
+                                new { label = "Manejo de residuos",       campo = "ManejoResiduos" },
+                            };
                         }
 
                         @foreach (var item in items)
                         {
                             <tr>
-
-                                <td style="padding: 12px 25px;
-                                   vertical-align: middle;
-                                   font-weight: 500;">
-
+                                <td class="celda-media celda-item">
                                     @item.label
-
                                 </td>
-
-                                <td class="text-center" style="vertical-align: middle;">
-
+                                <td class="text-center celda-media">
                                     <input type="radio"
                                            name="@item.campo"
                                            value="C"
-                                           checked
-                                           style="width: 20px;
-                                          height: 20px;
-                                          cursor: pointer;" />
-
+                                           checked="checked"
+                                           class="radio-item" />
                                 </td>
-
-                                <td class="text-center" style="vertical-align: middle;">
-
+                                <td class="text-center celda-media">
                                     <input type="radio"
                                            name="@item.campo"
                                            value="NC"
-                                           style="width: 20px;
-                                          height: 20px;
-                                          cursor: pointer;" />
-
+                                           class="radio-item" />
                                 </td>
-
-                                <td class="text-center" style="vertical-align: middle;">
-
+                                <td class="text-center celda-media">
                                     <input type="radio"
                                            name="@item.campo"
                                            value="NA"
-                                           style="width: 20px;
-                                          height: 20px;
-                                          cursor: pointer;" />
-
+                                           class="radio-item" />
                                 </td>
-
                             </tr>
                         }
 
                     </tbody>
 
                 </table>
-
             </div>
 
-            <div class="panel-footer"
-                 style="background: #fdfdfd;
-                padding: 15px 25px;
-                border-radius: 0 0 15px 15px;">
-
-                <p class="text-muted"
-                   style="margin: 0;
-                  font-size: 13px;">
-
+            <div class="panel-footer convenciones-footer">
+                <p class="text-muted convenciones-texto">
                     <strong>Convenciones:</strong>
-
-                    <span class="label label-success">C</span>
-                    Cumple |
-
-                    <span class="label label-success">NC</span>
-                    No Cumple |
-
-                    <span class="label label-default">NA</span>
-                    No Aplica
-
+                    &nbsp;
+                    <span class="badge-convencion badge-cumple">C</span> Cumple
+                    &nbsp;|&nbsp;
+                    <span class="badge-convencion badge-no-cumple">NC</span> No cumple
+                    &nbsp;|&nbsp;
+                    <span class="badge-convencion badge-na">NA</span> No aplica
                 </p>
-
             </div>
 
         </div>
 
-        @* --- SECCIÓN 3: OBSERVACIONES --- *@
-        <div class="panel panel-default"
-             style="border-radius: 15px;
-            border: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            margin-bottom: 30px;">
+        @* ===================================================== *@
+        @* --- SECCIÓN 3: OBSERVACIONES FINALES --- *@
+        @* ===================================================== *@
 
-            <div class="panel-heading"
-                 style="background-color: #f39c12;
-                color: white;
-                border-radius: 15px 15px 0 0;
-                padding: 15px 25px;">
-
-                <h3 class="panel-title" style="font-weight: bold;">
-
+        <div class="panel panel-seccion">
+            <div class="panel-heading panel-heading-naranja">
+                <h3 class="panel-title">
                     <i class="glyphicon glyphicon-comment"></i>
-                    3. Observaciones Generales
-
+                    3. Observaciones finales
                 </h3>
-
             </div>
-
-            <div class="panel-body" style="padding: 25px;">
-
+            <div class="panel-body panel-body-custom">
                 <div class="form-group" style="margin-bottom: 0;">
-
-                    <label style="color: #29235c; font-weight: 600;">
-                        Observaciones
-                    </label>
-
-                    <textarea name="Observaciones"
-                              class="form-control"
-                              rows="4"
-                              placeholder="Describa hallazgos..."
-                              style="border-radius: 12px;
-                             border: 1px solid #ddd;
-                             resize: none;">
-            </textarea>
-
+                    <label class="label-form">Observaciones finales</label>
+                    @Html.TextAreaFor(m => m.ObservacionesFinales, new
+                    {
+                        @class = "form-control textarea-custom",
+                        rows = "4",
+                    })
                 </div>
-
             </div>
-
         </div>
 
-        @* --- BOTONES DE ACCIÓN --- *@
-        <div style="display: flex;
-            gap: 15px;
-            justify-content: flex-start;
-            margin-bottom: 40px;">
+        @* ===================================================== *@
+        @* --- BOTONES --- *@
+        @* ===================================================== *@
 
-            <button type="submit"
-                    class="btn-verde-claro"
-                    style="padding: 12px 30px;
-                   border-radius: 12px;
-                   font-weight: bold;
-                   border: none;
-                   font-size: 15px;">
-
+        <div class="botones-form-wrapper">
+            <button type="submit" class="btn btn-guardar-custom">
                 <i class="glyphicon glyphicon-floppy-disk"></i>
                 Guardar
-
             </button>
-
             <a href="@Url.Action("Index", "InspeccionBioseguridad")"
-               class="btn btn-default"
-               style="border: 2px solid #29235c;
-              background: transparent;
-              border-radius: 12px;
-              color: #29235c;
-              font-weight: bold;
-              padding: 10px 25px;">
-
-                <i class="glyphicon glyphicon-list"></i>
-                Volver al listado
-
+               class="btn btn-cancelar-custom">
+                <i class="glyphicon glyphicon-remove"></i>
+                Cancelar
             </a>
-
         </div>
-
     }
+
 </div>
+
+@* ===================================================== *@
+@* --- SCRIPTS --- *@
+@* ===================================================== *@
+
+@section Scripts {
+    <script>
+
+        // ── Carga dinámica de subprocesos por proceso ─────────────────
+        function cargarSubprocesos(idProceso) {
+            var sel = document.getElementById('selectSubproceso');
+            sel.innerHTML = '<option value="">Cargando...</option>';
+
+            fetch('/Empleado/SubprocesosPorProceso?idProceso=' + idProceso)
+                .then(function (r) { return r.json(); })
+                .then(function (lista) {
+                    sel.innerHTML =
+                        '<option value="">-- Seleccionar subproceso --</option>';
+                    lista.forEach(function (s) {
+                        var opt   = document.createElement('option');
+                        opt.value = s.id;
+                        opt.text  = s.nombre;
+                        sel.appendChild(opt);
+                    });
+                });
+        }
+
+        // ── Autocompletado de empleado por cédula ─────────────────────
+        document.getElementById('inputCedula')
+            .addEventListener('blur', function () {
+
+            var cedula = this.value.trim();
+            if (!cedula) return;
+
+            var spn           = document.getElementById('spnEstadoBusqueda');
+            spn.style.display = 'inline';
+            spn.style.color   = '#888';
+            spn.textContent   = 'Buscando empleado...';
+
+            fetch('/Empleado/BuscarPorCedula?cedula=' + encodeURIComponent(cedula))
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (!data.encontrado) {
+                        spn.style.color = '#d9534f';
+                        spn.textContent = '⚠ ' + data.mensaje;
+                        return;
+                    }
+
+                    var e = data.empleado;
+
+                    // ── Llenar campos del empleado ────────────────────
+                    document.getElementById('inputNombreCompleto').value   = e.NombreCompleto;
+                    document.getElementById('inputGenero').value           = e.Genero;
+                    document.getElementById('inputEdad').value             = e.Edad;
+                    document.getElementById('inputCargo').value            = e.Cargo;
+                    document.getElementById('inputContratista').value      = e.Contratista;
+                    document.getElementById('inputTiempoPrestacion').value = e.TiempoPrestacion;
+
+                    // ── Llenar proceso ────────────────────────────────
+                    document.getElementById('hiddenIdProceso').value = e.IdProceso || '';
+                    var selProceso = document.getElementById('selectProceso');
+                    selProceso.innerHTML =
+                        '<option value="' + e.IdProceso + '">' + e.NombreProceso + '</option>';
+
+                    // ── Cargar subprocesos del proceso detectado ──────
+                    if (e.IdProceso) {
+                        cargarSubprocesos(e.IdProceso);
+                    }
+
+                    spn.style.color = '#76b82a';
+                    spn.textContent = '✔ Datos del colaborador cargados correctamente.';
+                })
+                .catch(function () {
+                    spn.style.color = '#d9534f';
+                    spn.textContent = 'Error al consultar el servidor.';
+                });
+        });
+
+    </script>
+}
+
+@* ===================================================== *@
+@* --- ESTILOS --- *@
+@* ===================================================== *@
 
 <style>
 
-    /* Estilo para los inputs al enfocar */
-    .form-control:focus {
-        border-color: #76b82a !important;
-        box-shadow: 0 0 8px rgba(118, 184, 42, 0.3) !important;
+    /* ── Página ── */
+    .page-wrapper {
+        padding: 20px;
     }
 
-    /* Botón verde hospital */
-    .btn-verde-claro {
+    .page-title {
+        color: #29235c;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .icon-accent {
+        color: #76b82a;
+    }
+
+    .separator {
+        border-top: 1px solid #eee;
+        margin-bottom: 25px;
+    }
+
+    /* ── Paneles ── */
+    .panel-seccion {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .panel-heading-morado {
+        background-color: #29235c;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-verde {
         background-color: #76b82a;
         color: white;
-        transition: 0.3s all;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
     }
 
-        .btn-verde-claro:hover {
-            background-color: #659d24;
-            box-shadow: 0 4px 12px rgba(118, 184, 42, 0.4);
-            transform: translateY(-2px);
+    .panel-heading-naranja {
+        background-color: #f39c12;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-seccion .panel-title {
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .panel-body-custom {
+        padding: 25px;
+    }
+
+    /* ── Alertas ── */
+    .alert-error {
+        background-color: #f2dede;
+        border-color: #d9534f;
+        color: #a94442;
+        border-radius: 10px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    /* ── Labels ── */
+    .label-form {
+        color: #000;
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    /* ── Inputs ── */
+    .input-custom {
+        border-radius: 12px !important;
+        border: 1px solid #ddd !important;
+        height: 42px;
+        box-shadow: none !important;
+    }
+
+        .input-custom:focus {
+            border-color: #76b82a !important;
+            box-shadow: 0 0 5px rgba(118,184,42,0.3) !important;
         }
 
+    .textarea-custom {
+        border-radius: 12px !important;
+        border: 1px solid #ddd !important;
+        resize: none;
+    }
+
+        .textarea-custom:focus {
+            border-color: #76b82a !important;
+            box-shadow: 0 0 5px rgba(118,184,42,0.3) !important;
+        }
+
+    /* ── Campos autocompletados desde HOJAVIDA ───────────────────── */
+    .input-autocompletado {
+        background-color: #f8f9fa !important;
+        color: #555 !important;
+        cursor: not-allowed;
+    }
+
+    /* ── Tabla de ítems ── */
+    .tabla-items {
+        margin-bottom: 0;
+    }
+
+    .tabla-items-thead {
+        background-color: #f8f9fa;
+    }
+
+        .tabla-items-thead th {
+            padding: 15px;
+            font-weight: 700;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+    .col-item {
+        padding-left: 25px !important;
+    }
+
+    .col-radio {
+        width: 120px;
+    }
+
+    .cumple-header {
+        color: #76b82a;
+    }
+
+    .no-cumple-header {
+        color: #d9534f;
+    }
+
+    .na-header {
+        color: #777;
+    }
+
+    .celda-media {
+        vertical-align: middle !important;
+        padding: 12px 15px;
+    }
+
+    .celda-item {
+        font-weight: 500;
+        padding-left: 25px !important;
+    }
+
+    .radio-item {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    /* ── Footer de convenciones ── */
+    .convenciones-footer {
+        background-color: #fdfdfd;
+        padding: 12px 25px;
+        border-radius: 0 0 15px 15px;
+    }
+
+    .convenciones-texto {
+        margin: 0;
+        font-size: 13px;
+    }
+
+    .badge-convencion {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: bold;
+        color: white;
+    }
+
+    .badge-cumple {
+        background-color: #76b82a;
+    }
+
+    .badge-no-cumple {
+        background-color: #d9534f;
+    }
+
+    .badge-na {
+        background-color: #777;
+    }
+
+    /* ── Botones ── */
+    .botones-form-wrapper {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        margin-bottom: 50px;
+    }
+
+    .btn-guardar-custom {
+        background-color: #76b82a;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 12px 30px;
+        font-size: 15px;
+        transition: all 0.3s;
+    }
+
+        .btn-guardar-custom:hover {
+            background-color: #5f9821;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+    .btn-cancelar-custom {
+        background-color: transparent;
+        color: #29235c;
+        border: 2px solid #29235c;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 10px 25px;
+        transition: all 0.3s;
+    }
+
+        .btn-cancelar-custom:hover {
+            background-color: #29235c;
+            color: white;
+        }
+
+    /* ── Hover fila ── */
     .table-hover tbody tr:hover {
-        background-color: #f4f9f4 !important;
+        background-color: #f9f9ff !important;
+        transition: all 0.2s ease;
     }
 </style>

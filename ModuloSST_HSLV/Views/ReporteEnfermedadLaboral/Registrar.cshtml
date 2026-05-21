@@ -2,263 +2,211 @@
 
 @{
     ViewBag.Title = "Registrar Enfermedad Laboral";
-    var procesos = ViewBag.Procesos as List<ModuloSST_HSLV.Models.Proceso>;
-    var subprocesos = ViewBag.Subprocesos as List<ModuloSST_HSLV.Models.Subproceso>;
 }
 
-<div class="container-fluid" style="padding: 20px;">
+<div class="container-fluid page-wrapper">
 
-    @* --- CABECERA --- *@
-    <div class="row">
+    @* ===================================================== *@
+    @* --- ENCABEZADO --- *@
+    @* ===================================================== *@
 
-        <div class="col-md-8">
+    <h2 class="page-title">
+        <i class="glyphicon glyphicon-heart icon-accent"></i>
+        Registrar enfermedad laboral
+    </h2>
 
-            <h2 style="color: #29235c;
-                       font-weight: bold;
-                       margin-bottom: 5px;">
+    <hr class="separator" />
 
-                <i class="glyphicon glyphicon-heart"
-                   style="color: #76b82a;"></i>
-
-                Registrar Enfermedad Laboral
-
-            </h2>
-
-        </div>
-
-    </div>
-
-    <hr style="border-top: 1px solid #eee;" />
+    @* ===================================================== *@
+    @* --- ERRORES DE VALIDACIÓN --- *@
+    @* ===================================================== *@
 
     @if (!ViewData.ModelState.IsValid)
     {
-        <div class="alert alert-danger"
-             style="border-radius: 15px;
-                    border: none;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-
+        <div class="alert alert-error alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+            </button>
             <i class="glyphicon glyphicon-exclamation-sign"></i>
-
-            <strong>
-                Corrija los siguientes errores:
-            </strong>
-
-            <ul style="margin-top: 10px;">
-                @foreach (var e in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                {
-                    <li>@e.ErrorMessage</li>
-                }
-            </ul>
-
+            <strong>Corrija los siguientes errores antes de guardar:</strong>
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
         </div>
     }
 
-    @using (Html.BeginForm("Registrar", "ReporteEnfermedadLaboral", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm(
+        "Registrar",
+        "ReporteEnfermedadLaboral",
+        FormMethod.Post,
+        new { enctype = "multipart/form-data", id = "formRegistrar" }))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.IdEmpleado)
 
         @* ===================================================== *@
-        @* --- SECCIÓN 1: INFORMACIÓN GENERAL DEL EMPLEADO --- *@
+        @* --- SECCIÓN 1: DATOS DEL EMPLEADO --- *@
         @* ===================================================== *@
 
-        <div class="panel panel-default"
-             style="border-radius: 15px;
-                    border: none;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                    margin-bottom: 30px;">
-
-            <div class="panel-heading"
-                 style="background-color: #29235c;
-                        color: white;
-                        border-radius: 15px 15px 0 0;
-                        padding: 15px 25px;">
-
-                <h3 class="panel-title"
-                    style="font-weight: bold;">
-
+        <div class="panel panel-seccion">
+            <div class="panel-heading panel-heading-morado">
+                <h3 class="panel-title">
                     <i class="glyphicon glyphicon-user"></i>
-                    1. Información General del Empleado
-
+                    1. Datos del empleado
                 </h3>
-
             </div>
+            <div class="panel-body panel-body-custom">
 
-            <div class="panel-body" style="padding: 25px;">
-
-                @* --- FILA 1 --- *@
                 <div class="row">
-
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label class="label-form">Cédula</label>
                             @Html.TextBoxFor(m => m.Cedula, new
                             {
-                                @class = "form-control input-custom"
+                                @class = "form-control input-custom",
+                                id = "inputCedula",
+                                placeholder = "Ingrese la cédula y presione Tab"
                             })
                             @Html.ValidationMessageFor(m => m.Cedula, "", new { @class = "text-danger" })
+                            <span id="spnEstadoBusqueda" class="help-block" style="display:none;"></span>
                         </div>
                     </div>
-
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div class="form-group">
-                            <label class="label-form">Nombre Completo</label>
+                            <label class="label-form">Apellidos y nombre</label>
                             @Html.TextBoxFor(m => m.NombreCompleto, new
                             {
-                                @class = "form-control input-custom"
+                                @class = "form-control input-custom input-autocompletado",
+                                id = "inputNombreCompleto",
+                                @readonly = "readonly"
                             })
                             @Html.ValidationMessageFor(m => m.NombreCompleto, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
-                    @* ── GÉNERO: corregido a <select> con ViewBag.Generos ── *@
                     <div class="col-md-2">
                         <div class="form-group">
                             <label class="label-form">Género</label>
-                            <select name="Genero" class="form-control input-custom">
-                                <option value="">-- Género --</option>
-                                @if (ViewBag.Generos != null)
-                                {
-                                    foreach (string g in (string[])ViewBag.Generos)
-                                    {
-                                        <option value="@g">@g</option>
-                                    }
-                                }
-                            </select>
+                            @Html.TextBoxFor(m => m.Genero, new
+                            {
+                                @class = "form-control input-custom input-autocompletado",
+                                id = "inputGenero",
+                                @readonly = "readonly"
+                            })
                             @Html.ValidationMessageFor(m => m.Genero, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
                     <div class="col-md-2">
                         <div class="form-group">
                             <label class="label-form">Edad</label>
                             @Html.TextBoxFor(m => m.Edad, new
                             {
-                                @class = "form-control input-custom",
-                                type = "number",
-                                min = "0"
+                                @class = "form-control input-custom input-autocompletado",
+                                id = "inputEdad",
+                                @readonly = "readonly"
                             })
                         </div>
                     </div>
-
                 </div>
 
-                @* --- FILA 2 --- *@
                 <div class="row">
-
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="label-form">Cargo</label>
-                            @Html.TextBoxFor(m => m.Cargo, new { @class = "form-control input-custom" })
+                            @Html.TextBoxFor(m => m.Cargo, new
+                            {
+                                @class = "form-control input-custom input-autocompletado",
+                                id = "inputCargo",
+                                @readonly = "readonly"
+                            })
+                            @Html.ValidationMessageFor(m => m.Cargo, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="label-form">Contratista</label>
-                            @Html.TextBoxFor(m => m.Contratista, new { @class = "form-control input-custom" })
+                            @Html.TextBoxFor(m => m.Contratista, new
+                            {
+                                @class = "form-control input-custom input-autocompletado",
+                                id = "inputContratista",
+                                @readonly = "readonly"
+                            })
+                            @Html.ValidationMessageFor(m => m.Contratista, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="label-form">Tiempo Prestación (meses)</label>
-                            @Html.TextBoxFor(m => m.TiempoPrestacion, new { @class = "form-control input-custom" })
+                            <label class="label-form">Tiempo de prestación (meses)</label>
+                            @Html.TextBoxFor(m => m.TiempoPrestacion, new
+                            {
+                                @class = "form-control input-custom input-autocompletado",
+                                id = "inputTiempoPrestacion",
+                                @readonly = "readonly"
+                            })
+                            @Html.ValidationMessageFor(m => m.TiempoPrestacion, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
                 </div>
 
-                @* --- FILA 3 --- *@
                 <div class="row">
-
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="label-form">Proceso</label>
-                            <select name="IdProceso" class="form-control input-custom">
-                                <option value="">-- Seleccionar proceso --</option>
-                                @if (procesos != null)
-                                {
-                                    foreach (var p in procesos)
-                                    {
-                                        <option value="@p.IdProceso">@p.NombreProceso</option>
-                                    }
-                                }
+                            <select id="selectProceso"
+                                    class="form-control input-custom input-autocompletado"
+                                    disabled="disabled">
+                                <option value="">-- Se autocompleta con la cédula --</option>
                             </select>
+                            @Html.Hidden("IdProceso", null, new { id = "hiddenIdProceso" })
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="label-form">Subproceso</label>
-                            <select name="IdSubproceso" class="form-control input-custom">
+                            <label class="label-form">Subproceso / servicio / área</label>
+                            <select name="IdSubproceso"
+                                    id="selectSubproceso"
+                                    class="form-control input-custom">
                                 <option value="">-- Seleccionar subproceso --</option>
-                                @if (subprocesos != null)
-                                {
-                                    foreach (var s in subprocesos)
-                                    {
-                                        <option value="@s.IdSubproceso">@s.NombreSubproceso</option>
-                                    }
-                                }
                             </select>
                         </div>
                     </div>
-
                 </div>
 
             </div>
-
         </div>
 
         @* ===================================================== *@
         @* --- SECCIÓN 2: INFORMACIÓN DEL DIAGNÓSTICO --- *@
         @* ===================================================== *@
 
-        <div class="panel panel-default"
-             style="border-radius: 15px;
-                    border: none;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                    margin-bottom: 30px;">
-
-            <div class="panel-heading"
-                 style="background-color: #76b82a;
-                        color: white;
-                        border-radius: 15px 15px 0 0;
-                        padding: 15px 25px;">
-
-                <h3 class="panel-title"
-                    style="font-weight: bold;">
-
+        <div class="panel panel-seccion">
+            <div class="panel-heading panel-heading-verde">
+                <h3 class="panel-title">
                     <i class="glyphicon glyphicon-list-alt"></i>
-                    2. Información del Diagnóstico
-
+                    2. Información del diagnóstico
                 </h3>
-
             </div>
-
-            <div class="panel-body" style="padding: 25px;">
+            <div class="panel-body panel-body-custom">
 
                 <div class="row">
-
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="label-form-verde">Tipo de Enfermedad <span class="text-danger">*</span></label>
-                            <select name="TipoEnfermedad" id="tipoEnfermedad" class="form-control input-custom">
+                            <label class="label-form-verde">Tipo de enfermedad</label>
+                            <select name="TipoEnfermedad"
+                                    id="tipoEnfermedad"
+                                    class="form-control input-custom">
                                 <option value="">-- Seleccionar tipo --</option>
                                 @if (ViewBag.TiposEnfermedad != null)
                                 {
-                                    foreach (var t in ViewBag.TiposEnfermedad as string[])
+                                    foreach (string t in (string[])ViewBag.TiposEnfermedad)
                                     {
                                         <option value="@t">@t</option>
                                     }
                                 }
                             </select>
+                            @Html.ValidationMessageFor(m => m.TipoEnfermedad, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="label-form-verde">Fecha del Diagnóstico</label>
+                            <label class="label-form-verde">Fecha del diagnóstico</label>
                             @Html.TextBoxFor(m => m.FechaDiagnostico, "{0:yyyy-MM-dd}", new
                             {
                                 @class = "form-control input-custom",
@@ -267,21 +215,19 @@
                             })
                         </div>
                     </div>
-
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="label-form-verde">Código del Diagnóstico</label>
+                            <label class="label-form-verde">Código del diagnóstico</label>
                             @Html.TextBoxFor(m => m.Codigo, new
                             {
                                 @class = "form-control input-custom",
-                                placeholder = "Ej: M545"
+                                placeholder = "Ej: J06"
                             })
                         </div>
                     </div>
-
                     <div class="col-md-2">
                         <div class="form-group">
-                            <label class="label-form-verde">Días de Incapacidad</label>
+                            <label class="label-form-verde">Días de incapacidad</label>
                             @Html.TextBoxFor(m => m.DiasIncapacidad, new
                             {
                                 @class = "form-control input-custom",
@@ -290,14 +236,12 @@
                             })
                         </div>
                     </div>
-
                 </div>
 
                 <div class="row">
-
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="label-form-verde">Inicio Incapacidad</label>
+                            <label class="label-form-verde">Inicio de incapacidad</label>
                             @Html.TextBoxFor(m => m.FechaInicioIncapacidad, "{0:yyyy-MM-dd}", new
                             {
                                 @class = "form-control input-custom",
@@ -305,10 +249,9 @@
                             })
                         </div>
                     </div>
-
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="label-form-verde">Fin Incapacidad</label>
+                            <label class="label-form-verde">Fin de incapacidad</label>
                             @Html.TextBoxFor(m => m.FechaFinalIncapacidad, "{0:yyyy-MM-dd}", new
                             {
                                 @class = "form-control input-custom",
@@ -316,217 +259,271 @@
                             })
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="label-form-verde">Detalle del Diagnóstico</label>
-                            @Html.TextAreaFor(m => m.DetallesDiagnostico, new
+                            <label class="label-form-verde">Detalle del diagnóstico</label>
+                            @Html.TextBoxFor(m => m.DetallesDiagnostico, new
                             {
-                                @class = "form-control textarea-custom",
-                                rows = "2",
-                                placeholder = "Describa brevemente el diagnóstico..."
+                                @class = "form-control input-custom"
                             })
+                            @Html.ValidationMessageFor(m => m.DetallesDiagnostico, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
                 </div>
 
                 <div class="row">
-
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="label-form-verde">Adjuntar PDF Soporte Médico</label>
+                            <label class="label-form-verde">Adjuntar soporte médico (PDF)</label>
                             <input type="file"
                                    name="archivoPlan"
                                    accept=".pdf"
                                    class="form-control input-custom" />
-                            <p class="text-muted" style="margin-top: 5px; font-size: 12px;">
-                                Solo se permiten archivos PDF.
-                            </p>
+                            <span class="help-block text-muted">Solo se permiten archivos PDF.</span>
                         </div>
                     </div>
-
                 </div>
 
             </div>
-
         </div>
 
         @* ===================================================== *@
         @* --- SECCIÓN 3: INVESTIGACIÓN Y PLAN DE MEJORA --- *@
+        @* (Solo visible cuando TipoEnfermedad = Enfermedad Laboral) *@
         @* ===================================================== *@
 
-        <div id="panelInvestigacion" style="display: none;">
+        <div class="panel panel-seccion" id="panelInvestigacion" style="display: none;">
+            <div class="panel-heading panel-heading-morado">
+                <h3 class="panel-title">
+                    <i class="glyphicon glyphicon-search"></i>
+                    3. Investigación y plan de mejora
+                </h3>
+            </div>
+            <div class="panel-body panel-body-custom">
 
-            <div class="panel panel-default"
-                 style="border-radius: 15px;
-                        border: none;
-                        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                        margin-bottom: 30px;">
-
-                <div class="panel-heading"
-                     style="background-color: #29235c;
-                            color: white;
-                            border-radius: 15px 15px 0 0;
-                            padding: 15px 25px;">
-
-                    <h3 class="panel-title"
-                        style="font-weight: bold;">
-
-                        <i class="glyphicon glyphicon-search"></i>
-                        3. Investigación y Plan de Mejora
-
-                    </h3>
-
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="label-form">Fecha de investigación</label>
+                            @Html.TextBoxFor(m => m.FechaInvestigacion, "{0:yyyy-MM-dd}", new
+                            {
+                                @class = "form-control input-custom",
+                                type = "date"
+                            })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="label-form">Días de investigación</label>
+                            @Html.TextBoxFor(m => m.DiasInvestigacion, new
+                            {
+                                @class = "form-control input-custom",
+                                type = "number",
+                                min = "0"
+                            })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="label-form">Causa</label>
+                            @Html.TextBoxFor(m => m.Causa, new { @class = "form-control input-custom" })
+                        </div>
+                    </div>
                 </div>
 
-                <div class="panel-body" style="padding: 25px;">
-
-                    <div class="row">
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="label-form">Fecha de Investigación</label>
-                                @Html.TextBoxFor(m => m.FechaInvestigacion, "{0:yyyy-MM-dd}", new
-                                {
-                                    @class = "form-control input-custom",
-                                    type = "date",
-                                    id = "fechaInvestigacion"
-                                })
-                            </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="label-form">Adjuntar seguimiento (PDF)</label>
+                            <input type="file"
+                                   name="archivoSeguimiento"
+                                   accept=".pdf"
+                                   class="form-control input-custom" />
+                            <span class="help-block text-muted">Solo se permiten archivos PDF.</span>
                         </div>
-
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label class="label-form">Días de Investigación</label>
-                                <input type="number"
-                                       name="DiasInvestigacion"
-                                       id="diasInvestigacion"
-                                       class="form-control input-custom"
-                                       min="0" />
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="label-form">Causa</label>
-                                @Html.TextBoxFor(m => m.Causa, new { @class = "form-control input-custom" })
-                            </div>
-                        </div>
-
                     </div>
-
-                    <div class="row">
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="label-form">Adjuntar Seguimiento PDF</label>
-                                <input type="file"
-                                       name="archivoSeguimiento"
-                                       accept=".pdf"
-                                       class="form-control input-custom" />
-                            </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="label-form">Adjuntar FUREL (PDF)</label>
+                            <input type="file"
+                                   name="archivoFurel"
+                                   accept=".pdf"
+                                   class="form-control input-custom" />
+                            <span class="help-block text-muted">Solo se permiten archivos PDF.</span>
                         </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="label-form">Adjuntar FUREL PDF</label>
-                                <input type="file"
-                                       name="archivoFurel"
-                                       accept=".pdf"
-                                       class="form-control input-custom" />
-                            </div>
-                        </div>
-
                     </div>
+                </div>
 
-                    <hr style="border-top: 1px solid #eee;" />
+                <hr class="separator" />
 
-                    <div class="row">
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="label-form">Responsable</label>
-                                @Html.TextBoxFor(m => m.Responsable, new { @class = "form-control input-custom" })
-                            </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="label-form">Responsable</label>
+                            @Html.TextBoxFor(m => m.Responsable, new { @class = "form-control input-custom" })
                         </div>
-
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label class="label-form">Actividad a Realizar</label>
-                                @Html.TextBoxFor(m => m.ActividadARealizar, new { @class = "form-control input-custom" })
-                            </div>
-                        </div>
-
                     </div>
-
-                    <div class="row">
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="label-form">Fecha Planeada</label>
-                                <input type="date"
-                                       name="FechaPlaneada"
-                                       class="form-control input-custom" />
-                            </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="label-form">Actividad a realizar</label>
+                            @Html.TextBoxFor(m => m.ActividadARealizar, new { @class = "form-control input-custom" })
                         </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="label-form">Fecha Ejecución</label>
-                                <input type="date"
-                                       name="FechaEjecucion"
-                                       class="form-control input-custom" />
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="label-form">Observaciones</label>
-                                <textarea name="Observaciones"
-                                          class="form-control textarea-custom"
-                                          rows="2"></textarea>
-                            </div>
-                        </div>
-
                     </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="label-form">Fecha planeada</label>
+                            @Html.TextBoxFor(m => m.FechaPlaneada, "{0:yyyy-MM-dd}", new
+                            {
+                                @class = "form-control input-custom",
+                                type = "date"
+                            })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="label-form">Fecha de ejecución</label>
+                            @Html.TextBoxFor(m => m.FechaEjecucion, "{0:yyyy-MM-dd}", new
+                            {
+                                @class = "form-control input-custom",
+                                type = "date"
+                            })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="label-form">Observaciones</label>
+                            @Html.TextAreaFor(m => m.Observaciones, new
+                            {
+                                @class = "form-control textarea-custom",
+                                rows = "2"
+                            })
+                        </div>
+                    </div>
                 </div>
 
             </div>
+        </div>
 
+        @* ===================================================== *@
+        @* --- SECCIÓN 4: OBSERVACIONES FINALES --- *@
+        @* ===================================================== *@
+
+        <div class="panel panel-seccion">
+            <div class="panel-heading panel-heading-naranja">
+                <h3 class="panel-title">
+                    <i class="glyphicon glyphicon-comment"></i>
+                    4. Observaciones finales
+                </h3>
+            </div>
+            <div class="panel-body panel-body-custom">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="label-form">Observaciones finales</label>
+                    @Html.TextAreaFor(m => m.ObservacionesFinales, new
+                    {
+                        @class = "form-control textarea-custom",
+                        rows = "4"
+                    })
+                </div>
+            </div>
         </div>
 
         @* ===================================================== *@
         @* --- BOTONES --- *@
         @* ===================================================== *@
 
-        <div style="margin-bottom: 50px;
-                    display: flex;
-                    gap: 15px;
-                    align-items: center;">
-
-            <button type="submit"
-                    class="btn btn-success btn-lg btn-guardar-custom">
+        <div class="botones-form-wrapper">
+            <button type="submit" class="btn btn-guardar-custom">
                 <i class="glyphicon glyphicon-floppy-disk"></i>
                 Guardar
             </button>
-
             <a href="@Url.Action("Index", "ReporteEnfermedadLaboral")"
-               class="btn btn-default btn-cancelar-custom">
+               class="btn btn-cancelar-custom">
                 <i class="glyphicon glyphicon-remove"></i>
                 Cancelar
             </a>
-
         </div>
     }
 
 </div>
 
-@section Scripts {
+@* ===================================================== *@
+@* --- SCRIPTS --- *@
+@* ===================================================== *@
 
+@section Scripts {
     <script>
 
+        // ── Carga dinámica de subprocesos por proceso ─────────────────
+        function cargarSubprocesos(idProceso) {
+            var sel = document.getElementById('selectSubproceso');
+            sel.innerHTML = '<option value="">Cargando...</option>';
+
+            fetch('/Empleado/SubprocesosPorProceso?idProceso=' + idProceso)
+                .then(function (r) { return r.json(); })
+                .then(function (lista) {
+                    sel.innerHTML =
+                        '<option value="">-- Seleccionar subproceso --</option>';
+                    lista.forEach(function (s) {
+                        var opt = document.createElement('option');
+                        opt.value = s.id;
+                        opt.text = s.nombre;
+                        sel.appendChild(opt);
+                    });
+                });
+        }
+
+        // ── Autocompletado de empleado por cédula ─────────────────────
+        document.getElementById('inputCedula')
+            .addEventListener('blur', function () {
+
+                var cedula = this.value.trim();
+                if (!cedula) return;
+
+                var spn = document.getElementById('spnEstadoBusqueda');
+                spn.style.display = 'inline';
+                spn.style.color = '#888';
+                spn.textContent = 'Buscando empleado...';
+
+                fetch('/Empleado/BuscarPorCedula?cedula=' + encodeURIComponent(cedula))
+                    .then(function (r) { return r.json(); })
+                    .then(function (data) {
+                        if (!data.encontrado) {
+                            spn.style.color = '#d9534f';
+                            spn.textContent = '⚠ ' + data.mensaje;
+                            return;
+                        }
+
+                        var e = data.empleado;
+
+                        document.getElementById('inputNombreCompleto').value = e.NombreCompleto;
+                        document.getElementById('inputGenero').value = e.Genero;
+                        document.getElementById('inputEdad').value = e.Edad;
+                        document.getElementById('inputCargo').value = e.Cargo;
+                        document.getElementById('inputContratista').value = e.Contratista;
+                        document.getElementById('inputTiempoPrestacion').value = e.TiempoPrestacion;
+
+                        document.getElementById('hiddenIdProceso').value = e.IdProceso || '';
+                        var selProceso = document.getElementById('selectProceso');
+                        selProceso.innerHTML =
+                            '<option value="' + e.IdProceso + '">' + e.NombreProceso + '</option>';
+
+                        if (e.IdProceso) {
+                            cargarSubprocesos(e.IdProceso);
+                        }
+
+                        spn.style.color = '#76b82a';
+                        spn.textContent = '✔ Datos del empleado cargados correctamente.';
+                    })
+                    .catch(function () {
+                        spn.style.color = '#d9534f';
+                        spn.textContent = 'Error al consultar el servidor.';
+                    });
+            });
+
+        // ── Mostrar/ocultar panel de investigación ────────────────────
         document.addEventListener('DOMContentLoaded', function () {
 
             var tipoEnfermedad = document.getElementById('tipoEnfermedad');
@@ -554,22 +551,97 @@
     </script>
 }
 
+@* ===================================================== *@
+@* --- ESTILOS --- *@
+@* ===================================================== *@
+
 <style>
 
+    /* ── Página ── */
+    .page-wrapper {
+        padding: 20px;
+    }
+
+    .page-title {
+        color: #29235c;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .icon-accent {
+        color: #76b82a;
+    }
+
+    .separator {
+        border-top: 1px solid #eee;
+        margin-bottom: 25px;
+    }
+
+    /* ── Paneles ── */
+    .panel-seccion {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .panel-heading-morado {
+        background-color: #29235c;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-verde {
+        background-color: #76b82a;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-naranja {
+        background-color: #f39c12;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-seccion .panel-title {
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .panel-body-custom {
+        padding: 25px;
+    }
+
+    /* ── Alertas ── */
+    .alert-error {
+        background-color: #f2dede;
+        border-color: #d9534f;
+        color: #a94442;
+        border-radius: 10px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    /* ── Labels ── */
     .label-form {
-        color: #000 !important;
+        color: #000;
         font-weight: 600;
         margin-bottom: 6px;
         display: block;
     }
 
     .label-form-verde {
-        color: #000 !important;
+        color: #000;
         font-weight: 600;
         margin-bottom: 6px;
         display: block;
     }
 
+    /* ── Inputs ── */
     .input-custom {
         border-radius: 12px !important;
         border: 1px solid #ddd !important;
@@ -593,8 +665,24 @@
             box-shadow: 0 0 5px rgba(118,184,42,0.3) !important;
         }
 
+    /* ── Campos autocompletados desde HOJAVIDA ───────────────────── */
+    .input-autocompletado {
+        background-color: #f8f9fa !important;
+        color: #555 !important;
+        cursor: not-allowed;
+    }
+
+    /* ── Botones ── */
+    .botones-form-wrapper {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        margin-bottom: 50px;
+    }
+
     .btn-guardar-custom {
         background-color: #76b82a;
+        color: white;
         border: none;
         border-radius: 12px;
         font-weight: bold;
@@ -610,17 +698,17 @@
         }
 
     .btn-cancelar-custom {
-        border: 2px solid #29235c !important;
-        background: transparent !important;
-        border-radius: 12px !important;
-        color: #29235c !important;
-        font-weight: bold !important;
-        padding: 10px 25px !important;
+        background-color: transparent;
+        color: #29235c;
+        border: 2px solid #29235c;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 10px 25px;
         transition: all 0.3s;
     }
 
         .btn-cancelar-custom:hover {
-            background-color: #29235c !important;
-            color: white !important;
+            background-color: #29235c;
+            color: white;
         }
 </style>

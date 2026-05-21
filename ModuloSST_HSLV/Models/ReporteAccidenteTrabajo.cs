@@ -90,7 +90,7 @@ namespace ModuloSST_HSLV.Models
         /// <summary>
         /// Tiempo de prestación del servicio.
         /// </summary>
-        //[Required(ErrorMessage = "El tiempo de prestación es obligatorio.")]
+        [Required(ErrorMessage = "El tiempo de prestación es obligatorio.")]
         [StringLength(100)]
         [Display(Name = "Tiempo de Prestación (meses)")]
         public string TiempoPrestacion { get; set; }

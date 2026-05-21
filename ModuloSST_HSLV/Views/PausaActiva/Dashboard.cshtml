@@ -1,41 +1,62 @@
 ﻿@using ModuloSST_HSLV.Controllers
+
 @{
     ViewBag.Title = "Dashboard de Pausas Activas";
 }
 
-<div class="container-fluid" style="padding: 20px;">
-    @* --- CABECERA --- *@
-    <div class="row" style="margin-bottom: 20px; display: flex; align-items: center;">
+<div class="container-fluid page-wrapper">
+
+    @* ===================================================== *@
+    @* --- ENCABEZADO --- *@
+    @* ===================================================== *@
+
+    <div class="row">
         <div class="col-md-8">
-            <h2 style="color: #29235c; font-weight: bold; margin: 0;">
-                <i class="glyphicon glyphicon-stats" style="color: #76b82a;"></i> Indicadores de Pausas Activas
+            <h2 class="page-title">
+                <i class="glyphicon glyphicon-stats icon-accent"></i>
+                Indicadores de pausas activas
             </h2>
-            <p class="text-muted" style="margin: 5px 0 0 0;">Análisis estadístico de bienestar laboral y pausas activas.</p>
         </div>
-        <div class="col-md-4 text-right">
-            @* Botón Volver con el estilo solicitado *@
-            <a href="@Url.Action("Index")" class="btn" style="background-color: #2d3661; color: white; border-radius: 8px; padding: 8px 20px; transition: 0.3s; font-weight: bold;">
-                <i class="glyphicon glyphicon-arrow-left"></i> Volver al Listado
+        <div class="col-md-4 text-right botones-encabezado">
+            <a href="@Url.Action("Index", "PausaActiva")"
+               class="btn btn-volver-custom">
+                <i class="glyphicon glyphicon-list"></i>
+                Volver al listado
             </a>
         </div>
     </div>
 
-    <hr style="border-top: 1px solid #eee;" />
+    <hr class="separator" />
 
+    @* ===================================================== *@
     @* --- FILTROS --- *@
-    <div class="panel panel-default" style="border-radius: 12px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); background-color: #fcfcfc; margin-bottom: 30px;">
-        <div class="panel-body">
+    @* ===================================================== *@
+
+    <div class="panel panel-seccion" style="margin-bottom: 25px;">
+        <div class="panel-heading panel-heading-primario">
+            <h3 class="panel-title">
+                <i class="glyphicon glyphicon-filter"></i>
+                Filtros
+            </h3>
+        </div>
+        <div class="panel-body panel-body-custom">
             @using (Html.BeginForm("Dashboard", "PausaActiva", FormMethod.Get, new { @class = "form-inline" }))
             {
-                <div class="form-group" style="margin-right: 15px;">
-                    <label style="color: #555; margin-right: 5px;">Año:</label>
-                    <input type="number" name="anio" class="form-control" value="@ViewBag.AnioActual" style="width: 100px; border-radius: 8px;" />
+                <div class="form-group filtro-grupo">
+                    <label for="anio" class="label-form filtro-label">Año fiscal</label>
+                    <input type="number"
+                           id="anio"
+                           name="anio"
+                           class="form-control input-custom filtro-input-anio"
+                           value="@ViewBag.AnioActual" />
                 </div>
 
-                <div class="form-group" style="margin-right: 15px;">
-                    <label style="color: #555; margin-right: 5px;">Mes:</label>
-                    <select name="mes" class="form-control" style="border-radius: 8px; min-width: 130px;">
-                        <option value="">-- Todos --</option>
+                <div class="form-group filtro-grupo">
+                    <label for="mes" class="label-form filtro-label">Mes</label>
+                    <select id="mes"
+                            name="mes"
+                            class="form-control input-custom filtro-select">
+                        <option value="">Todos los meses</option>
                         @for (int i = 1; i <= 12; i++)
                         {
                             <option value="@i" @(ViewBag.MesActual == i ? "selected" : "")>
@@ -45,10 +66,12 @@
                     </select>
                 </div>
 
-                <div class="form-group" style="margin-right: 15px;">
-                    <label style="color: #555; margin-right: 5px;">Trimestre:</label>
-                    <select name="trimestre" class="form-control" style="border-radius: 8px;">
-                        <option value="">-- Todos --</option>
+                <div class="form-group filtro-grupo">
+                    <label for="trimestre" class="label-form filtro-label">Periodo (trimestre)</label>
+                    <select id="trimestre"
+                            name="trimestre"
+                            class="form-control input-custom filtro-select">
+                        <option value="">Todos los trimestres</option>
                         <option value="1" @(ViewBag.TrimestreActual == 1 ? "selected" : "")>T1 (Ene-Mar)</option>
                         <option value="2" @(ViewBag.TrimestreActual == 2 ? "selected" : "")>T2 (Abr-Jun)</option>
                         <option value="3" @(ViewBag.TrimestreActual == 3 ? "selected" : "")>T3 (Jul-Sep)</option>
@@ -56,136 +79,397 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-success" style="background-color: #76b82a; border: none; border-radius: 8px; font-weight: bold; padding: 7px 20px;">
-                    <i class="glyphicon glyphicon-filter"></i> Filtrar Indicadores
-                </button>
+                <div class="form-group filtro-grupo filtro-boton-wrapper">
+                    <button type="submit" class="btn btn-guardar-custom">
+                        <i class="glyphicon glyphicon-filter"></i>
+                        Aplicar filtros
+                    </button>
+                </div>
             }
         </div>
     </div>
 
-    @* --- TOTALIZADOR --- *@
-    <div class="row" style="margin-bottom: 30px;">
-        <div class="col-md-12 text-center">
-            <div style="background: white; padding: 25px; border-radius: 15px; border-bottom: 5px solid #76b82a; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-                <p style="text-transform: uppercase; letter-spacing: 2px; color: #777; margin-bottom: 0; font-weight: bold;">Pausas Activas Registradas</p>
-                <h1 style="font-size: 70px; font-weight: 800; margin: 0; color: #29235c;">
-                    @ViewBag.TotalPausas
-                </h1>
+    @* ===================================================== *@
+    @* --- TARJETA KPI --- *@
+    @* ===================================================== *@
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="kpi-card kpi-card-verde">
+                <p class="kpi-etiqueta">Frecuencia total</p>
+                <div class="kpi-contenido">
+                    <h2 class="kpi-numero">@ViewBag.TotalPausas</h2>
+                    <i class="glyphicon glyphicon-hourglass kpi-icono kpi-icono-verde"></i>
+                </div>
+                <p class="kpi-descripcion kpi-descripcion-verde">Total pausas activas registradas</p>
             </div>
         </div>
     </div>
 
-    @* --- GRÁFICAS --- *@
-    <div class="row">
+    @* ===================================================== *@
+    @* --- GRÁFICAS FILA 1: PROCESO Y CARGO --- *@
+    @* ===================================================== *@
+
+    <div class="row" style="margin-top: 10px;">
+
         <div class="col-md-6">
-            <div class="panel panel-default" style="border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                <div class="panel-heading" style="background: #29235c; color: white; font-weight: bold; border: none; padding: 12px;">
-                    <i class="glyphicon glyphicon-adjust"></i> Pausas por Proceso
+            <div class="panel panel-seccion">
+                <div class="panel-heading panel-heading-primario">
+                    <h3 class="panel-title">
+                        <i class="glyphicon glyphicon-adjust"></i>
+                        Pausas activas por proceso
+                    </h3>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body panel-body-custom">
                     <canvas id="chartProceso" height="250"></canvas>
                 </div>
             </div>
         </div>
 
         <div class="col-md-6">
-            <div class="panel panel-default" style="border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                <div class="panel-heading" style="background: #29235c; color: white; font-weight: bold; border: none; padding: 12px;">
-                    <i class="glyphicon glyphicon-user"></i> Pausas por Tipo de Cargo
+            <div class="panel panel-seccion">
+                <div class="panel-heading panel-heading-primario">
+                    <h3 class="panel-title">
+                        <i class="glyphicon glyphicon-user"></i>
+                        Pausas activas por tipo de cargo
+                    </h3>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body panel-body-custom">
                     <canvas id="chartCargo" height="250"></canvas>
                 </div>
             </div>
         </div>
+
     </div>
 
-    <div class="row">
+    @* ===================================================== *@
+    @* --- GRÁFICA FILA 2: SUBPROCESO --- *@
+    @* ===================================================== *@
+
+    <div class="row" style="margin-top: 10px;">
+
         <div class="col-md-12">
-            <div class="panel panel-default" style="border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                <div class="panel-heading" style="background: #76b82a; color: white; font-weight: bold; border: none; padding: 12px;">
-                    <i class="glyphicon glyphicon-align-left"></i> Distribución por Subproceso
+            <div class="panel panel-seccion">
+                <div class="panel-heading panel-heading-secundario">
+                    <h3 class="panel-title">
+                        <i class="glyphicon glyphicon-align-left"></i>
+                        Distribución por subproceso
+                    </h3>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body panel-body-custom">
                     <canvas id="chartSubproceso" height="120"></canvas>
                 </div>
             </div>
         </div>
+
     </div>
+
 </div>
 
-@* Chart.js *@
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@* ===================================================== *@
+@* --- SCRIPTS --- *@
+@* ===================================================== *@
 
-<script>
-    // Paleta de colores institucional
-    const colores = ['#29235c', '#76b82a', '#3182ce', '#dd6b20', '#e53e3e', '#805ad5', '#38a169'];
+@section Scripts {
 
-    // ===== PROCESO (Doughnut) =====
-    var dataProc = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.EstadisticasProceso));
-    new Chart(document.getElementById('chartProceso'), {
-        type: 'doughnut',
-        data: {
-            labels: dataProc.map(x => x.Nombre),
-            datasets: [{
-                data: dataProc.map(x => x.Cantidad),
-                backgroundColor: colores,
-                hoverOffset: 10
-            }]
-        },
-        options: { responsive: true, maintainAspectRatio: false }
-    });
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    // ===== CARGO (Barra Horizontal) =====
-    var dataCargo = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.EstadisticasCargo));
-    new Chart(document.getElementById('chartCargo'), {
-        type: 'bar',
-        data: {
-            labels: dataCargo.map(x => x.Nombre),
-            datasets: [{
-                label: 'Cantidad',
-                data: dataCargo.map(x => x.Cantidad),
-                backgroundColor: '#3182ce',
-                borderRadius: 5
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            indexAxis: 'y',
-            scales: { x: { beginAtZero: true } }
-        }
-    });
+    <script>
 
-    // ===== SUBPROCESO (Barra Horizontal Larga) =====
-    var dataSub = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.EstadisticasSubproceso));
-    new Chart(document.getElementById('chartSubproceso'), {
-        type: 'bar',
-        data: {
-            labels: dataSub.map(x => x.Nombre),
-            datasets: [{
-                label: 'Pausas Realizadas',
-                data: dataSub.map(x => x.Cantidad),
-                backgroundColor: '#76b82a',
-                borderRadius: 5
-            }]
-        },
-        options: {
-            responsive: true,
-            indexAxis: 'y',
-            scales: { x: { beginAtZero: true } }
-        }
-    });
-</script>
+        // ── Gráfico de procesos (Doughnut) ────────────────────────────
+        var dataProc = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.EstadisticasProceso));
+
+        new Chart(document.getElementById('chartProceso'), {
+            type: 'doughnut',
+            data: {
+                labels: dataProc.map(function (x) { return x.Nombre; }),
+                datasets: [{
+                    data: dataProc.map(function (x) { return x.Cantidad; }),
+                    backgroundColor: ['#29235c', '#76b82a', '#d9534f', '#f39c12', '#3a86ff', '#7f8c8d'],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#333',
+                            font: { size: 12 },
+                            padding: 16,
+                            boxWidth: 14
+                        }
+                    }
+                },
+                cutout: '62%'
+            }
+        });
+
+        // ── Gráfico de cargo (Barra horizontal) ───────────────────────
+        var dataCargo = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.EstadisticasCargo));
+
+        new Chart(document.getElementById('chartCargo'), {
+            type: 'bar',
+            data: {
+                labels: dataCargo.map(function (x) { return x.Nombre; }),
+                datasets: [{
+                    label: 'Cantidad',
+                    data: dataCargo.map(function (x) { return x.Cantidad; }),
+                    backgroundColor: '#3182ce',
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: { color: '#666', font: { size: 12 } },
+                        grid: { color: '#f0f0f0', drawBorder: false }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: { color: '#333', font: { size: 12, weight: '600' } }
+                    }
+                }
+            }
+        });
+
+        // ── Gráfico de subproceso (Barra horizontal larga) ────────────
+        var dataSub = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.EstadisticasSubproceso));
+
+        new Chart(document.getElementById('chartSubproceso'), {
+            type: 'bar',
+            data: {
+                labels: dataSub.map(function (x) { return x.Nombre; }),
+                datasets: [{
+                    label: 'Pausas realizadas',
+                    data: dataSub.map(function (x) { return x.Cantidad; }),
+                    backgroundColor: '#76b82a',
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: { color: '#666', font: { size: 12 } },
+                        grid: { color: '#f0f0f0', drawBorder: false }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: { color: '#333', font: { size: 12, weight: '600' } }
+                    }
+                }
+            }
+        });
+
+    </script>
+}
 
 <style>
-    .panel-heading {
-        font-size: 1.1em;
-        letter-spacing: 0.5px;
+
+    /* ── Página ──────────────────────────────────────────────────── */
+    .page-wrapper {
+        padding: 20px;
     }
 
-    .form-control:focus {
-        border-color: #76b82a;
-        box-shadow: none;
+    .page-title {
+        color: #29235c;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .icon-accent {
+        color: #76b82a;
+    }
+
+    .separator {
+        border-top: 1px solid #eee;
+        margin-bottom: 25px;
+    }
+
+    /* ── Botones encabezado ──────────────────────────────────────── */
+    .botones-encabezado {
+        padding-top: 8px;
+    }
+
+    .btn-volver-custom {
+        background-color: transparent;
+        color: #29235c;
+        border: 2px solid #29235c;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 8px 20px;
+        transition: all 0.3s;
+    }
+
+        .btn-volver-custom:hover {
+            background-color: #29235c;
+            color: white;
+        }
+
+    /* ── Paneles ─────────────────────────────────────────────────── */
+    .panel-seccion {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .panel-heading-primario {
+        background-color: #29235c;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-heading-secundario {
+        background-color: #76b82a;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .panel-seccion .panel-title {
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .panel-body-custom {
+        padding: 25px;
+    }
+
+    /* ── Filtros ─────────────────────────────────────────────────── */
+    .filtro-grupo {
+        margin-right: 20px;
+        display: inline-flex;
+        flex-direction: column;
+        vertical-align: top;
+    }
+
+    .filtro-label {
+        margin-bottom: 6px;
+        font-size: 13px;
+    }
+
+    .filtro-input-anio {
+        width: 110px;
+    }
+
+    .filtro-select {
+        min-width: 180px;
+    }
+
+    .filtro-boton-wrapper {
+        justify-content: flex-end;
+        padding-top: 23px;
+    }
+
+    /* ── Inputs ──────────────────────────────────────────────────── */
+    .input-custom {
+        border-radius: 12px !important;
+        border: 1px solid #ddd !important;
+        height: 42px;
+        box-shadow: none !important;
+    }
+
+        .input-custom:focus {
+            border-color: #76b82a !important;
+            box-shadow: 0 0 5px rgba(118,184,42,0.3) !important;
+        }
+
+    /* ── Botón aplicar filtros ───────────────────────────────────── */
+    .btn-guardar-custom {
+        background-color: #76b82a;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: bold;
+        padding: 12px 30px;
+        font-size: 15px;
+        transition: all 0.3s;
+    }
+
+        .btn-guardar-custom:hover {
+            background-color: #5f9821;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+    /* ── Tarjeta KPI ─────────────────────────────────────────────── */
+    .kpi-card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        margin-bottom: 25px;
+        border-left: 8px solid transparent;
+    }
+
+    .kpi-card-verde {
+        border-left-color: #d9534f;
+    }
+
+    .kpi-etiqueta {
+        color: #888;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+        font-size: 12px;
+        letter-spacing: 1px;
+    }
+
+    .kpi-contenido {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .kpi-numero {
+        margin: 0;
+        font-weight: 800;
+        color: #333;
+        font-size: 40px;
+    }
+
+    .kpi-icono {
+        font-size: 35px;
+        opacity: 0.25;
+    }
+
+    .kpi-icono-verde {
+        color: #76b82a;
+    }
+
+    .kpi-descripcion {
+        margin-top: 10px;
+        font-weight: 600;
+        margin-bottom: 0;
+        font-size: 14px;
+    }
+
+    .kpi-descripcion-verde {
+        color: #d9534f;
+    }
+
+    /* ── Hover filas tabla ───────────────────────────────────────── */
+    .table-hover tbody tr:hover {
+        background-color: #f9f9ff !important;
+        transition: all 0.2s ease;
     }
 </style>

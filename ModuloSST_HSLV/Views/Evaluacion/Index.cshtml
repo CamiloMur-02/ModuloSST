@@ -1,116 +1,325 @@
 ﻿@model IEnumerable<ModuloSST_HSLV.Models.Evaluacion>
+
 @{
     ViewBag.Title = "Evaluaciones";
 }
 
-<div class="row">
-    <div class="col-md-12">
+<div class="container-fluid page-wrapper">
 
-        <h2 style="color: #29235c; font-weight: bold; margin-bottom: 5px;">
-            Evaluaciones Cargadas
-        </h2>
+    @* ===================================================== *@
+    @* --- MENSAJES DE NOTIFICACIÓN --- *@
+    @* ===================================================== *@
 
-        <hr />
-
-        @* --- BOTONES DE CABECERA --- *@
-        <div style="margin-bottom: 15px; display: flex; gap: 10px;">
-
-            <a href="@Url.Action("Crear", "Evaluacion")"
-               class="btn"
-               style="background-color: #76b82a; color: white; border-radius: 10px; font-weight: bold; padding: 8px 20px; border: none;">
-                + Cargar nueva evaluación
-            </a>
-
+    @if (TempData["Exito"] != null)
+    {
+        <div class="alert alert-exito alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <i class="glyphicon glyphicon-ok-circle"></i>
+            @TempData["Exito"]
         </div>
+    }
 
-        <hr style="border-top: 1px solid #eee;" />
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-error alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <i class="glyphicon glyphicon-exclamation-sign"></i>
+            @TempData["Error"]
+        </div>
+    }
 
-        @* --- TABLA --- *@
-        <div class="panel panel-default"
-             style="border-radius: 15px;
-                    border: none;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                    overflow: hidden;">
+    @* ===================================================== *@
+    @* --- ENCABEZADO --- *@
+    @* ===================================================== *@
 
-            <div class="table-responsive">
-                <table class="table table-hover" style="margin-bottom: 0;">
+    <div class="row">
+        <div class="col-md-12">
 
-                    <thead style="background: #29235c; color: white;">
-                        <tr>
-                            <th class="text-center" style="padding: 15px;">#</th>
-                            <th style="padding: 15px;">Tipo de Evaluación</th>
-                            <th style="padding: 15px;">Nombre del Archivo</th>
-                            <th class="text-center" style="padding: 15px;">Fecha de Carga</th>
-                            <th class="text-center" style="padding: 15px;">Acciones</th>
-                        </tr>
-                    </thead>
+            <h2 class="page-title">
+                <i class="glyphicon glyphicon-file icon-accent"></i>
+                Evaluaciones Cargadas
+            </h2>
 
-                    <tbody>
-                        @if (!Model.Any())
-                        {
+            <hr class="separator" />
+
+            @* ===================================================== *@
+            @* --- BOTONES DE ACCIÓN --- *@
+            @* ===================================================== *@
+
+            <div class="botones-wrapper">
+
+                <a href="@Url.Action("Crear", "Evaluacion")"
+                   class="btn btn-guardar-custom">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    Cargar evaluación
+                </a>
+
+            </div>
+
+            <hr class="separator" />
+
+            @* ===================================================== *@
+            @* --- TABLA DE REGISTROS --- *@
+            @* ===================================================== *@
+
+            <div class="panel panel-seccion tabla-wrapper">
+
+                <div class="table-responsive">
+                    <table class="table table-hover tabla-custom">
+
+                        <thead class="tabla-thead">
                             <tr>
-                                <td colspan="5" class="text-center" style="padding: 40px;">
-                                    <i class="glyphicon glyphicon-folder-open"
-                                       style="font-size: 30px; color: #ccc; margin-bottom: 10px;"></i><br />
-                                    <span class="text-muted">No hay evaluaciones cargadas todavía.</span>
-                                </td>
+                                <th class="text-center col-num">#</th>
+                                <th>Tipo de Evaluación</th>
+                                <th>Nombre del Archivo</th>
+                                <th class="text-center">Fecha de Carga</th>
+                                <th class="text-center">Acciones</th>
                             </tr>
-                        }
-                        else
-                        {
-                            int i = 1;
-                            foreach (var item in Model)
+                        </thead>
+
+                        <tbody>
+
+                            @if (!Model.Any())
                             {
                                 <tr>
-
-                                    <td class="text-center"
-                                        style="vertical-align: middle; font-weight: bold; color: #666;">
-                                        @i
+                                    <td colspan="5" class="text-center celda-vacia">
+                                        <i class="glyphicon glyphicon-folder-open icono-vacio"></i><br />
+                                        <span class="text-muted">No hay evaluaciones cargadas todavía.</span>
                                     </td>
-
-                                    <td style="vertical-align: middle; font-weight: bold;">
-                                        @item.TipoEvaluacion
-                                    </td>
-
-                                    <td style="vertical-align: middle;">
-                                        @item.NombreArchivo
-                                    </td>
-
-                                    <td class="text-center" style="vertical-align: middle;">
-                                        @item.FechaCarga.ToString("dd/MM/yyyy HH:mm")
-                                    </td>
-
-                                    <td class="text-center" style="vertical-align: middle;">
-                                        <a href="@Url.Action("VerArchivo", "Evaluacion", new { id = item.IdEvaluacion })"
-                                           class="btn btn-sm"
-                                           style="background-color: #76b82a; color: white; border-radius: 15px; font-weight: bold; width: 95px;"
-                                           target="_blank">
-                                            Descargar
-                                        </a>
-                                    </td>
-
                                 </tr>
-                                i++;
                             }
-                        }
-                    </tbody>
+                            else
+                            {
+                                int i = 1;
 
-                </table>
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+
+                                        @* ── Numeral ── *@
+                                        <td class="text-center celda-media col-num">
+                                            @i
+                                        </td>
+
+                                        @* ── Tipo Evaluación ── *@
+                                        <td class="celda-media celda-nombre">
+                                            @if (item.TipoEvaluacion == "Inspeccion de areas y/o puesto de trabajo")
+                                            {
+                                                <span>Inspección de áreas y/o puesto de trabajo</span>
+                                            }
+                                            else if (item.TipoEvaluacion == "Evaluacion de Riesgo Psicosocial")
+                                            {
+                                                <span>Evaluación de Riesgo Psicosocial</span>
+                                            }
+                                            else if (item.TipoEvaluacion == "Analisis de puesto de trabajo")
+                                            {
+                                                <span>Análisis de puesto de trabajo</span>
+                                            }
+                                            else if (item.TipoEvaluacion == "Registro de inspeccion de bioseguridad")
+                                            {
+                                                <span>Registro de inspección de bioseguridad</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@item.TipoEvaluacion</span>
+                                            }
+                                        </td>
+
+                                        @* ── Nombre Archivo ── *@
+                                        <td class="celda-media">
+                                            @item.NombreArchivo
+                                        </td>
+
+                                        @* ── Fecha Carga ── *@
+                                        <td class="text-center celda-media">
+                                            @item.FechaCarga.ToString("dd/MM/yyyy HH:mm")
+                                        </td>
+
+                                        @* ── Acciones ── *@
+                                        <td class="text-center celda-media">
+                                            <div class="acciones-wrapper">
+                                                <a href="@Url.Action("VerArchivo", "Evaluacion", new { id = item.IdEvaluacion })"
+                                                   class="btn btn-sm btn-accion btn-ver"
+                                                   target="_blank">
+                                                    <i class="glyphicon glyphicon-download-alt"></i>
+                                                    Descargar
+                                                </a>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+
+                                    i++;
+                                }
+                            }
+
+                        </tbody>
+
+                    </table>
+                </div>
+
             </div>
-        </div>
 
+        </div>
     </div>
+
 </div>
 
 <style>
 
+    /* ── Alertas ── */
+    .alert-exito {
+        background-color: #dff0d8;
+        border-color: #76b82a;
+        color: #3c763d;
+        border-radius: 10px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    .alert-error {
+        background-color: #f2dede;
+        border-color: #d9534f;
+        color: #a94442;
+        border-radius: 10px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    /* ── Página ── */
+    .page-wrapper {
+        padding: 20px;
+    }
+
+    .page-title {
+        color: #29235c;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .icon-accent {
+        color: #76b82a;
+    }
+
+    .separator {
+        border-top: 1px solid #eee;
+    }
+
+    /* ── Botones de acción superiores ── */
+    .botones-wrapper {
+        margin-bottom: 15px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .btn-guardar-custom {
+        background-color: #76b82a;
+        color: white;
+        border-radius: 10px;
+        font-weight: bold;
+        padding: 8px 20px;
+        border: none;
+        transition: all 0.3s;
+    }
+
+        .btn-guardar-custom:hover {
+            background-color: #5f9821;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+    /* ── Panel tabla ── */
+    .panel-seccion {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+    }
+
+    .tabla-wrapper {
+        overflow: hidden;
+    }
+
+    /* ── Tabla ── */
+    .tabla-custom {
+        margin-bottom: 0;
+    }
+
+    .tabla-thead {
+        background-color: #29235c;
+        color: white;
+    }
+
+        .tabla-thead th {
+            padding: 15px;
+            font-weight: 600;
+            border: none;
+        }
+
+    /* ── Celdas ── */
+    .celda-media {
+        vertical-align: middle !important;
+    }
+
+    .col-num {
+        color: #333;
+        font-weight: 600;
+        width: 40px;
+    }
+
+    .celda-nombre {
+        font-weight: bold;
+    }
+
+    /* ── Estado vacío ── */
+    .celda-vacia {
+        padding: 40px !important;
+    }
+
+    .icono-vacio {
+        font-size: 30px;
+        color: #ccc;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    /* ── Acciones ── */
+    .acciones-wrapper {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .btn-accion {
+        height: 30px;
+        line-height: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        border-radius: 15px;
+        padding: 4px 12px;
+        border: none;
+        white-space: nowrap;
+        transition: all 0.3s;
+    }
+
+    .btn-ver {
+        background-color: #76b82a;
+        color: white;
+    }
+
+        .btn-ver:hover {
+            background-color: #5f9821;
+            color: white;
+        }
+
+    /* ── Hover fila ── */
     .table-hover tbody tr:hover {
         background-color: #f9f9ff !important;
         transition: all 0.2s ease;
-    }
-
-    .btn:hover {
-        opacity: 0.9;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 </style>
